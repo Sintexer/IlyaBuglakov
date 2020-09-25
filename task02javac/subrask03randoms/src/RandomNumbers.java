@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 public class RandomNumbers{
 
     private static final String NEW_LINE_OPTION = "-n";
-    private static final String ARGS_FORMAT = "[-n - new line] (positive int - amount of random numbers)";
+    private static final String ARGS_FORMAT = "Use pattern: java RandomNumbers [-n - new line] (positive int - amount of random numbers)";
     private static final String NUMBER_PATTERN = "[+]?\\d+";
 
     public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class RandomNumbers{
         } else if (args.length==1){
             if(args[0].matches(NUMBER_PATTERN))
                 return true;
-        }   
+        }
         return false;
     }
 
