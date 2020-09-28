@@ -57,6 +57,7 @@ public class ViewController {
 
         Consumer<IntConsumer> basketMenuAction = action -> {
             List<Basket> baskets = basketController.getBaskets();
+            System.out.println("Choose basket:");
             OutputDecorator.showEnumeratedList(baskets);
             int inp = checkedInput.checkedInt(1, baskets.size() + 1);
             action.accept(inp - 1);
@@ -117,17 +118,21 @@ public class ViewController {
      * the index of basket to work with.
      */
     private void initRemoveBallMenu(Consumer<IntConsumer> basketMenuAction) {
+
+        Consumer<Basket> removeBallMenuAction = basket -> {
+            List<Ball> balls = basket.getBalls();
+            if (!balls.isEmpty()) {
+                System.out.println("What ball to remove?");
+                OutputDecorator.showEnumeratedList(balls);
+                int i = checkedInput.checkedInt(1, balls.size() + 1);
+                balls.remove(i - 1);
+            } else System.out.println("This basket is empty");
+        };
+
         removeBallMenu.addOption("Remove from the basket №", () ->
                 basketMenuAction.accept(ind -> {
                     Basket basket = basketController.getBaskets().get(ind);
-                    removeBallSubMenu.addOption("Remove by index", () -> {
-                        List<Ball> balls = basket.getBalls();
-                        if (!balls.isEmpty()) {
-                            OutputDecorator.showEnumeratedList(balls);
-                            int i = checkedInput.checkedInt(1, balls.size() + 1);
-                            balls.remove(i - 1);
-                        } else System.out.println("This basket is empty");
-                    });
+                    removeBallMenuAction.accept(basket);
                 }));
         removeBallMenu.addOption("Remove from all baskets", () -> {
             Ball ball = inputBall.getBall();
@@ -156,6 +161,7 @@ public class ViewController {
 
         Consumer<Consumer<BallColor>> colorMenuAction = consumer -> {
             List<BallColor> colors = new ArrayList<>(Arrays.asList(BallColor.values()));
+            System.out.println("What list to operate with?");
             OutputDecorator.showEnumeratedList(colors);
             int index = checkedInput.checkedInt(1, colors.size() + 1);
             consumer.accept(colors.get(index - 1));
