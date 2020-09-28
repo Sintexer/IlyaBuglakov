@@ -7,6 +7,7 @@ import java.util.Objects;
  * Ball is a class, which represents the real ball.
  * Ball is immutable class. Class instances must be created via Constructor.
  * It has such characteristics, as weight, cost and color.
+ * Cost and weight are positive or zero numbers. Color is non null field.
  * Class Ball overrides equals() and hashCode().
  * Class implements Comparable<Ball>
  *
@@ -22,11 +23,15 @@ public class Ball implements Comparable<Ball> {
 
     /**
      * Single existing Constructor of Ball
-     * @param color - BallColor - represents the color of ball
-     * @param weight - weight of ball as double
-     * @param cost - the cost of ball
+     * @param color - NonNull BallColor - represents the color of ball
+     * @param weight - weight of ball as double, greater than zero
+     * @param cost - the cost of ball, greater than zero
      */
     public Ball(BallColor color, double weight, int cost) {
+        if(cost<0 || weight<0 || Objects.isNull(color)) {
+            throw new IllegalArgumentException("Ball constructors arguments" +
+                    " must be greater than zero and not null");
+        }
         this.color = color;
         this.weight = weight;
         this.cost = cost;

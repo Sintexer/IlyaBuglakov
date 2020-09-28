@@ -12,8 +12,7 @@ import main.java.com.ilyabuglakov.ballmanipulator.controller.BasketController;
 public class Runner {
 
     /**
-     * This method runs the basket controller
-     *
+     * This method creates and runs the basket controller
      * @param args - unused
      */
     public static void main(String[] args) {

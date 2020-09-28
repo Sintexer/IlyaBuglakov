@@ -39,7 +39,7 @@ public class ViewController {
     private Menu serviceOperationsMenu = new Menu();
     private Scanner input = new Scanner(System.in);
     private CheckedInput checkedInput = new CheckedInput(input);
-    private InputBall inputBall = new InputBall(input);
+    private InputBall inputBall = new InputBall();
 
     /**
      * ViewController constructor initialises reference to the parent BasketController and
