@@ -4,6 +4,14 @@ import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Implements the methods of repetitive input from user via console.
+ * If inputted information is wrong, another input will be requested from user.
+ *
+ * @author Ilya Buglakov
+ * @version 1.0
+ * @since 2020-09-28
+ */
 public class CheckedInput {
 
     private final Scanner input;

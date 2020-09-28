@@ -16,6 +16,17 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 
+
+/**
+ * ViewController class manufacture dialog with user and handles
+ * user input. ViewController initialise and run various menu's and submenu's.
+ * ViewController delegates input to CheckedInput and InputBall classes.
+ * Has a reference to the parent BasketController.
+ *
+ * @author Ilya Buglakov
+ * @version 1.0
+ * @since 2020-09-28
+ */
 public class ViewController {
 
     private final BasketController basketController;
@@ -30,6 +41,11 @@ public class ViewController {
     private CheckedInput checkedInput = new CheckedInput(input);
     private InputBall inputBall = new InputBall(input);
 
+    /**
+     * ViewController constructor initialises reference to the parent BasketController and
+     * initialises various menu's.
+     * @param basketController - parent BasketController.
+     */
     public ViewController(BasketController basketController) {
 
         Consumer<Runnable> mainMenuAction = action -> {
@@ -43,7 +59,7 @@ public class ViewController {
             List<Basket> baskets = basketController.getBaskets();
             OutputDecorator.showEnumeratedList(baskets);
             int inp = checkedInput.checkedInt(1, baskets.size() + 1);
-            action.accept(inp-1);
+            action.accept(inp - 1);
         };
 
         initAddBallMenu(basketMenuAction);
@@ -74,11 +90,18 @@ public class ViewController {
 
     }
 
+    /**
+     * operateMainMenu() - starts mainMenu dialog with user
+     */
     public void operateMainMenu() {
         mainMenu.run();
     }
 
-
+    /**
+     * Initialises addBallMenu
+     * @param basketMenuAction - reference to the before init lambda, that ask's user about
+     * the index of basket to work with.
+     */
     private void initAddBallMenu(Consumer<IntConsumer> basketMenuAction) {
         addBallMenu.addOption("Add to basket №", () ->
                 basketMenuAction.accept(ind -> basketController.getBaskets().get(ind).add(inputBall.getBall())));
@@ -88,6 +111,11 @@ public class ViewController {
         });
     }
 
+    /**
+     * Initialises removeBallMenu
+     * @param basketMenuAction - reference to the before init lambda, that ask's user about
+     * the index of basket to work with.
+     */
     private void initRemoveBallMenu(Consumer<IntConsumer> basketMenuAction) {
         removeBallMenu.addOption("Remove from the basket №", () ->
                 basketMenuAction.accept(ind -> {
@@ -107,6 +135,11 @@ public class ViewController {
         });
     }
 
+    /**
+     * Initialises removeBasketMenu
+     * @param basketMenuAction - reference to the before init lambda, that ask's user about
+     * the index of basket to work with.
+     */
     private void initRemoveBasketMenu(Consumer<IntConsumer> basketMenuAction) {
         removeBasketMenu.addOption("Remove basket №", () ->
                 basketMenuAction.accept(ind -> basketController.getBaskets().remove(ind)));
@@ -114,30 +147,35 @@ public class ViewController {
                 basketController.getBaskets().clear());
     }
 
+    /**
+     * Initialises serviceOperationsMenu
+     * @param basketMenuAction - reference to the before init lambda, that ask's user about
+     * the index of basket to work with.
+     */
     private void initServiceOperationsMenu(Consumer<IntConsumer> basketMenuAction) {
 
         Consumer<Consumer<BallColor>> colorMenuAction = consumer -> {
             List<BallColor> colors = new ArrayList<>(Arrays.asList(BallColor.values()));
             OutputDecorator.showEnumeratedList(colors);
-            int index = checkedInput.checkedInt(1, colors.size()+1);
-            consumer.accept(colors.get(index-1));
+            int index = checkedInput.checkedInt(1, colors.size() + 1);
+            consumer.accept(colors.get(index - 1));
         };
 
         serviceOperationsMenu.addOption("Count weight", () ->
                 basketMenuAction.accept(index ->
                         System.out.println("The weight is "
-                                +service.calculateBasketWeight(basketController.getBaskets().get(index)))));
+                                + service.calculateBasketWeight(basketController.getBaskets().get(index)))));
         serviceOperationsMenu.addOption("Count color", () ->
                 basketMenuAction.accept(index ->
                         colorMenuAction.accept(color ->
                                 System.out.println("There are "
                                         + service.countColor(basketController.getBaskets().get(index),
                                         color) + " " + color + " colors "))));
-        serviceOperationsMenu.addOption("Amount of same", ()->
+        serviceOperationsMenu.addOption("Amount of same", () ->
                 basketMenuAction.accept(index ->
                         System.out.println("There are "
-                        + service.amountOfSameBalls(basketController.getBaskets().get(index))
-                        + " same balls")));
+                                + service.amountOfSameBalls(basketController.getBaskets().get(index))
+                                + " same balls")));
         serviceOperationsMenu.addOption("Show by ascending cost", () ->
                 basketMenuAction.accept(index ->
                         System.out.println("Sorted: "

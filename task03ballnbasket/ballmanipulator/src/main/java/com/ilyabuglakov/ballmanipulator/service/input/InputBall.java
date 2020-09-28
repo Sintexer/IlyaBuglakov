@@ -14,15 +14,15 @@ import java.util.stream.Collectors;
 public class InputBall {
     private final Scanner input;
 
-    public InputBall(Scanner input){
+    public InputBall(Scanner input) {
         this.input = input;
     }
 
-    public Ball getBall(){
-        return getBall(0,0);
+    public Ball getBall() {
+        return getBall(0, 0);
     }
 
-    public Ball getBall(double weightBound, int costBound){
+    public Ball getBall(double weightBound, int costBound) {
         double weight;
         int cost;
         String color;
@@ -42,11 +42,11 @@ public class InputBall {
         cost = checkedInput.checkedInt(0);
 
         System.out.println("Input color index: ");
-        for(int i = 0; i<colors.size();++i){
-            System.out.println((i+1)+". "+ colors.get(i));
+        for (int i = 0; i < colors.size(); ++i) {
+            System.out.println((i + 1) + ". " + colors.get(i));
         }
-        int index = checkedInput.checkedInt(0, colors.size()+1);
-        color = colors.get(index-1);
+        int index = checkedInput.checkedInt(0, colors.size() + 1);
+        color = colors.get(index - 1);
         return new Ball(colorMap.get(color), weight, cost);
     }
 

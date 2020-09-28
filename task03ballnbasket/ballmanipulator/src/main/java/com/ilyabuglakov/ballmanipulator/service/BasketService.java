@@ -11,19 +11,19 @@ import java.util.stream.Collectors;
 
 public class BasketService {
 
-    public double calculateBasketWeight(Basket basket){
+    public double calculateBasketWeight(Basket basket) {
         return basket.getBalls().stream()
                 .map(Ball::getWeight)
                 .reduce(0.0, Double::sum);
     }
 
-    public long countColor(Basket basket, BallColor color){
+    public long countColor(Basket basket, BallColor color) {
         return basket.getBalls().stream()
                 .filter(ball -> ball.getColor().equals(color))
                 .count();
     }
 
-    public long amountOfSameBalls(Basket basket){
+    public long amountOfSameBalls(Basket basket) {
         return basket.getBalls().stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .values()
@@ -32,16 +32,16 @@ public class BasketService {
                 .reduce(0L, Long::sum);
     }
 
-    public Basket sortedByCost(Basket basket){
+    public Basket sortedByCost(Basket basket) {
         Basket sorted = new Basket();
         sorted.getBalls()
                 .addAll(basket.getBalls().stream()
-                    .sorted(Comparator.comparing(Ball::getCost))
-                    .collect(Collectors.toList()));
+                        .sorted(Comparator.comparing(Ball::getCost))
+                        .collect(Collectors.toList()));
         return sorted;
     }
 
-    public long amountOfSameBaskets(List<Basket> baskets){
+    public long amountOfSameBaskets(List<Basket> baskets) {
         return baskets.stream()
                 .map(basket -> basket.getBalls().stream()
                         .sorted()
@@ -49,7 +49,7 @@ public class BasketService {
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .values()
                 .stream()
-                .filter(val -> val>1)
+                .filter(val -> val > 1)
                 .reduce(0L, Long::sum);
     }
 

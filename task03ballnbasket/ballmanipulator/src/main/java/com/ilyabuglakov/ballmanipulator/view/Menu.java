@@ -17,15 +17,15 @@ public class Menu {
 
     Map<String, Runnable> optionsMap = new LinkedHashMap<>();
 
-    public Menu(){
-        checkedInput.setOnWrongInput(()-> System.out.println("Wrong input"));
+    public Menu() {
+        checkedInput.setOnWrongInput(() -> System.out.println("Wrong input"));
     }
 
-    public void addOption(String option, Runnable action){
+    public void addOption(String option, Runnable action) {
         optionsMap.put(option, action);
     }
 
-    public void run(){
+    public void run() {
         List<String> options = new ArrayList<>(optionsMap.keySet());
         int index;
         do {
@@ -33,12 +33,12 @@ public class Menu {
             OutputDecorator.showEnumeratedList(options);
             System.out.println(EXIT_OPTION);
 
-            index = checkedInput.checkedInt(0, options.size()+1);
+            index = checkedInput.checkedInt(0, options.size() + 1);
 
             if (index != 0) {
                 optionsMap.get(options.get(index - 1)).run();
             }
-        } while (continuous && index!=0);
+        } while (continuous && index != 0);
     }
 
     public void setContinuous(boolean continuous) {
