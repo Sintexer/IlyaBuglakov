@@ -1,5 +1,6 @@
 package main.java.com.ilyabuglakov.ballmanipulator.service.input;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -112,5 +113,45 @@ public class CheckedInput {
     public double checkedDouble(double leftBound) {
         return checkedDouble(leftBound, Double.MAX_VALUE);
     }
+
+    /**
+     * Tries to read double from Scanner input field. If the information is out of bounds
+     * or different type, onWrongInput action will be launched and
+     * another input operation from Scanner input field will be requested.
+     * @param leftBound - the BigDecimal value, inputted BigDecimal is must be greater than.
+     * @param rightBound - the BigDecimal value, inputted BigDecimal must be lesser than.
+     * @return BigDecimal - correct requested BigDecimal.
+     */
+    public BigDecimal checkedBigDecimal(BigDecimal leftBound, BigDecimal rightBound) {
+        boolean correct = false;
+        BigDecimal inputtedDecimal = BigDecimal.ZERO;
+        while (!correct) {
+            try {
+                inputtedDecimal = BigDecimal.valueOf(input.nextDouble());
+                if (inputtedDecimal.compareTo(leftBound)>=0 &&  inputtedDecimal.compareTo(rightBound)<=0) {
+                    correct = true;
+                }
+            } catch (InputMismatchException e) {
+                input.nextLine(); //Skips wrong input information
+            }
+            if (!correct && !Objects.isNull(onWrongInput)) {
+                onWrongInput.run();
+            }
+        }
+        return inputtedDecimal;
+    }
+
+    /**
+     * Clarification of checkedBigDecimal(BigDecimal leftBound, BigDecimal rightBound) method.
+     * Calls checkedBigDecimal(BigDecimal leftBound, BigDecimal rightBound)
+     * and specifies the right bound as Double.MAX_VALUE.
+     * @param leftBound - the BigDecimal value, inputted BigDecimal is must be greater than.
+     * @return BigDecimal - correct requested BigDecimal.
+     */
+    public BigDecimal checkedBigDecimal(BigDecimal leftBound) {
+        return checkedBigDecimal(leftBound, BigDecimal.valueOf(Double.MAX_VALUE));
+    }
+
+
 
 }

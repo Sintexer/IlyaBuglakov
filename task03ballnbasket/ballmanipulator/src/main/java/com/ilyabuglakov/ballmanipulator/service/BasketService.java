@@ -4,6 +4,7 @@ import main.java.com.ilyabuglakov.ballmanipulator.model.ball.Ball;
 import main.java.com.ilyabuglakov.ballmanipulator.model.ball.BallColor;
 import main.java.com.ilyabuglakov.ballmanipulator.repository.Basket;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
@@ -24,10 +25,10 @@ public class BasketService {
      * @param basket - basket, weight of what balls to find.
      * @return double - weight of all balls in basket.
      */
-    public double calculateBasketWeight(Basket basket) {
+    public BigDecimal calculateBasketWeight(Basket basket) {
         return basket.getBalls().stream()
                 .map(Ball::getWeight)
-                .reduce(0.0, Double::sum);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**

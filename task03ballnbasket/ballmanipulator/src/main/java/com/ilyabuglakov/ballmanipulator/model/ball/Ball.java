@@ -1,5 +1,6 @@
 package main.java.com.ilyabuglakov.ballmanipulator.model.ball;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -7,7 +8,7 @@ import java.util.Objects;
  * Ball is a class, which represents the real ball.
  * Ball is immutable class. Class instances must be created via Constructor.
  * It has such characteristics, as weight, cost and color.
- * Cost and weight are positive or zero numbers. Color is non null field.
+ * Cost and weight are positive numbers. Color is non null field.
  * Class Ball overrides equals() and hashCode().
  * Class implements Comparable<Ball>
  *
@@ -18,17 +19,19 @@ import java.util.Objects;
 public class Ball implements Comparable<Ball> {
 
     private final BallColor color;
-    private final double weight;
-    private final int cost;
+    private final BigDecimal weight;
+    private final BigDecimal cost;
 
     /**
      * Single existing Constructor of Ball
      * @param color - NonNull BallColor - represents the color of ball
-     * @param weight - weight of ball as double, greater than zero
-     * @param cost - the cost of ball, greater than zero
+     * @param weight - weight of ball as BigDecimal, greater than zero
+     * @param cost - the cost of ball as BigDecimal, greater than zero
      */
-    public Ball(BallColor color, double weight, int cost) {
-        if(cost<0 || weight<0 || Objects.isNull(color)) {
+    public Ball(BallColor color, BigDecimal weight, BigDecimal cost) {
+        if(cost.compareTo(BigDecimal.ZERO)<=0
+                || weight.compareTo(BigDecimal.ZERO)<=0
+                || Objects.isNull(color)) {
             throw new IllegalArgumentException("Ball constructors arguments" +
                     " must be greater than zero and not null");
         }
@@ -47,8 +50,8 @@ public class Ball implements Comparable<Ball> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ball ball = (Ball) o;
-        return Double.compare(ball.weight, weight) == 0 &&
-                cost == ball.cost &&
+        return weight.compareTo(ball.weight) == 0 &&
+                cost.compareTo(ball.cost) == 0 &&
                 color == ball.color;
     }
 
@@ -82,8 +85,8 @@ public class Ball implements Comparable<Ball> {
      */
     @Override
     public int compareTo(Ball o) {
-        return Comparator.comparingDouble(Ball::getWeight)
-                .thenComparingInt(Ball::getCost)
+        return Comparator.comparing(Ball::getWeight)
+                .thenComparing(Ball::getCost)
                 .thenComparing(Ball::getColor)
                 .compare(this, o);
     }
@@ -92,11 +95,11 @@ public class Ball implements Comparable<Ball> {
         return color;
     }
 
-    public double getWeight() {
+    public BigDecimal getWeight() {
         return weight;
     }
 
-    public int getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 

@@ -3,6 +3,7 @@ package main.java.com.ilyabuglakov.ballmanipulator.service.input;
 import main.java.com.ilyabuglakov.ballmanipulator.model.ball.Ball;
 import main.java.com.ilyabuglakov.ballmanipulator.model.ball.BallColor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +48,8 @@ public class InputBall {
         if(weightBound<0 || costBound<0) {
             throw new IllegalArgumentException("Input bounds must be greater than zero");
         }
-        double weight;
-        int cost;
+        BigDecimal weight;
+        BigDecimal cost;
         String color;
 
         Map<String, BallColor> colorMap = Arrays.stream(BallColor.values())
@@ -60,10 +61,10 @@ public class InputBall {
         checkedInput.setOnWrongInput(() -> System.out.println("Wrong input"));
 
         System.out.println("Input ball weight (greater " + weightBound + "): ");
-        weight = checkedInput.checkedDouble(0);
+        weight = checkedInput.checkedBigDecimal(BigDecimal.ZERO);
 
         System.out.println("Input ball cost (greater " + costBound + "): ");
-        cost = checkedInput.checkedInt(0);
+        cost = checkedInput.checkedBigDecimal(BigDecimal.ZERO);
 
         System.out.println("Input color index: ");
         for (int i = 0; i < colors.size(); ++i) {
