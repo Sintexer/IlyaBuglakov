@@ -8,6 +8,9 @@ import src.com.ilyabuglakov.arraymanipulator.controller.command.IndexOfCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.InputArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.RandomArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.ShowArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToJuggedArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchTypeCommand;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,6 +28,10 @@ public class CommandController {
         commands.put(CommandName.INDEX_OF, new IndexOfCommand());
         commands.put(CommandName.FIND_MAX, new FindMaxCommand());
         commands.put(CommandName.FIND_MIN, new FindMinCommand());
+        commands.put(CommandName.SWITCH_TYPE, new SwitchTypeCommand());
+        commands.put(CommandName.SWITCH_TO_ARRAY, new SwitchToArrayCommand());
+        commands.put(CommandName.SWITCH_TO_JUGGED_ARRAY, new SwitchToJuggedArrayCommand());
+
     }
 
     public static CommandController getInstance(){

@@ -7,4 +7,7 @@ public enum MessageId {
     FILL_ARRAY,
     INPUT_ARRAY,
     INT_RANDOM_BOUND,
+    SWITCH_TYPE_CAPTURE,
+    ARRAY,
+    JUGGED_ARRAY
 }

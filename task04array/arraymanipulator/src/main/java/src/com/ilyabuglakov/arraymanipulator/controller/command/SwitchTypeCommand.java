@@ -4,6 +4,7 @@ import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.controller.CommandController;
 import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.repository.ArrayType;
 import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
 import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
@@ -12,18 +13,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FillArrayCommand implements Command {
+public class SwitchTypeCommand implements Command {
     @Override
     public void execute() {
         ConsoleView view = ApplicationController.getInstance().getView();
-        List<CommandName> commandNames = new ArrayList<>(
-                Arrays.asList(CommandName.INPUT_ARRAY,
-                        CommandName.RANDOM_ARRAY));
-        view.showMessage(MessageId.FILL_ARRAY);
-        view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(commandNames)));
-        int choice = view.readInt(1, commandNames.size());
-        CommandController.getInstance().getCommand(commandNames.get(choice-1)).execute();
-
+        List<CommandName> types = new ArrayList<>(Arrays.asList(CommandName.SWITCH_TO_ARRAY, CommandName.SWITCH_TO_JUGGED_ARRAY));
+        view.showMessage(MessageId.SWITCH_TYPE_CAPTURE);
+        view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(types)));
+        int choice = view.readInt(1, types.size());
+        CommandController.getInstance().getCommand(types.get(choice-1)).execute();
     }
 
     @Override

@@ -25,6 +25,7 @@ public class MessagesRepository {
         messages.put(MessageId.FILL_ARRAY, "menu.command.fillarray.capture");
         messages.put(MessageId.INPUT_ARRAY, "console.input.intarray");
         messages.put(MessageId.INT_RANDOM_BOUND, "console.input.int.randombound");
+        messages.put(MessageId.SWITCH_TYPE_CAPTURE, "menu.command.switchtype.capture");
 
         commandMessages.put(CommandName.FILL_ARRAY, "menu.command.fillarray");
         commandMessages.put(CommandName.INPUT_ARRAY, "menu.command.fillarray.inputarray");
@@ -33,6 +34,9 @@ public class MessagesRepository {
         commandMessages.put(CommandName.INDEX_OF, "menu.command.indexof");
         commandMessages.put(CommandName.FIND_MAX, "menu.command.findmax");
         commandMessages.put(CommandName.FIND_MIN, "menu.command.findmin");
+        commandMessages.put(CommandName.SWITCH_TYPE, "menu.command.switchtype");
+        commandMessages.put(CommandName.SWITCH_TO_ARRAY, "menu.command.switchtype.array");
+        commandMessages.put(CommandName.SWITCH_TO_JUGGED_ARRAY, "menu.command.switchtype.juggedarray");
         commandMessages.put(CommandName.EXIT, "menu.command.exit");
     }
 
@@ -52,10 +56,17 @@ public class MessagesRepository {
         return rb.getString(commandMessages.get(id));
     }
 
-    public List<String> getMessageList(Collection<? extends CommandName> commands){
+    public List<String> getCommandList(Collection<? extends CommandName> commands){
         List<String> messageList = new ArrayList<>(commands.size());
         for(var command: commands)
             messageList.add(getMessage(command));
+        return messageList;
+    }
+
+    public List<String> getMessageList(Collection<? extends MessageId> messages){
+        List<String> messageList = new ArrayList<>(messages.size());
+        for(var message: messages)
+            messageList.add(getMessage(message));
         return messageList;
     }
 

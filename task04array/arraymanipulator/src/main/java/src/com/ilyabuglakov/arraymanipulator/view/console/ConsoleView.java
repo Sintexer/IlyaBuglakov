@@ -1,9 +1,10 @@
 package src.com.ilyabuglakov.arraymanipulator.view.console;
 
 import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
-import src.com.ilyabuglakov.arraymanipulator.repository.Array;
+import src.com.ilyabuglakov.arraymanipulator.repository.ArrayType;
 import src.com.ilyabuglakov.arraymanipulator.service.IntValidator;
 import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
+import src.com.ilyabuglakov.arraymanipulator.view.OptionsRepository;
 import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
 import src.com.ilyabuglakov.arraymanipulator.view.message.MessagesRepository;
 import src.com.ilyabuglakov.arraymanipulator.view.printer.ConsolePrinter;
@@ -14,36 +15,42 @@ import src.com.ilyabuglakov.arraymanipulator.view.reader.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ConsoleView {
     private Reader in = ConsoleReader.getInstance();
     private Printer out = ConsolePrinter.getInstance();
 
-    private List<CommandName> options = new ArrayList<>();
+    private OptionsRepository optionsRepository = new OptionsRepository();
     private MessagesRepository messagesRepository = MessagesRepository.getInstance();
+    private ArrayType currentType = ArrayType.ARRAY;
 
     private Locale locale = Locale.US;
     private ResourceBundle rb = ResourceBundle.getBundle("property.text", locale);
 
     public ConsoleView(){
-        options.add(CommandName.FILL_ARRAY);
-        options.add(CommandName.SHOW_ARRAY);
-        options.add(CommandName.INDEX_OF);
-        options.add(CommandName.FIND_MAX);
-        options.add(CommandName.FIND_MIN);
-        options.add(CommandName.EXIT);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FILL_ARRAY);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.SHOW_ARRAY);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.INDEX_OF);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_MAX);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_MIN);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.SWITCH_TYPE);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.EXIT);
 
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SWITCH_TYPE);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.EXIT);
     }
 
     public CommandName getCommand(){
         out.print(rb.getString("console.input.choose"));
         int choice = readInt(1, CommandName.values().length);
-        return options.get(choice-1);
+        return getOptions(currentType).get(choice-1);
+    }
+
+    private List<CommandName> getOptions(ArrayType type){
+        return optionsRepository.getOptionsForType(type);
     }
 
 
@@ -123,11 +130,16 @@ public class ConsoleView {
     }
 
     public List<String> getMessageList(Collection<? extends CommandName> ids){
-        return messagesRepository.getMessageList(ids);
+        return messagesRepository.getCommandList(ids);
+    }
+
+    public void setCurrentType(ArrayType currentType) {
+        this.currentType = currentType;
     }
 
     public void showMenu() {
-        out.print(CollectionDecorator.toEnumeratedList(messagesRepository.getMessageList(options)));
+        List<CommandName> options = optionsRepository.getOptionsForType(currentType);
+        out.print(CollectionDecorator.toEnumeratedList(messagesRepository.getCommandList(options)));
     }
 
 }

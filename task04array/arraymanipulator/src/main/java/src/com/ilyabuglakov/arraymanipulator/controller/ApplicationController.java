@@ -26,10 +26,11 @@ public class ApplicationController {
         do{
             view.showMenu();
             choice = view.getCommand();
-            if(array == null &&  choice!=CommandName.EXIT && choice!=CommandName.FILL_ARRAY)
-                view.showMessage(MessageId.NO_ARRAY);
+            Command command = commandController.getCommand(choice);
+            if(command.canBeAppliedWhenArrayIsNull())
+                command.execute();
             else
-                commandController.getCommand(choice).execute();
+                view.showMessage(MessageId.NO_ARRAY);
         }while (choice!=CommandName.EXIT);
     }
 

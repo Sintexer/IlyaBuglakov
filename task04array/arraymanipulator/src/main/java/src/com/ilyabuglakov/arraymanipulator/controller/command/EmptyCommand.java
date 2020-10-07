@@ -8,4 +8,9 @@ public class EmptyCommand implements Command {
     public void execute() {
 
     }
+
+    @Override
+    public boolean canBeAppliedWhenArrayIsNull() {
+        return true;
+    }
 }

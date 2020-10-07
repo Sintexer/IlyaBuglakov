@@ -5,4 +5,7 @@ public interface Command {
     default boolean isNullApplicationArray(){
         return ApplicationController.getInstance().getArray() == null;
     }
+    default boolean canBeAppliedWhenArrayIsNull(){
+        return false;
+    }
 }
