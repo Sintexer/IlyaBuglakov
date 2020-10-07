@@ -1,7 +1,10 @@
 package main.java.com.ilyabuglakov.ballmanipulator.service.input;
 
+import main.java.com.ilyabuglakov.ballmanipulator.exception.BallCreationException;
 import main.java.com.ilyabuglakov.ballmanipulator.model.ball.Ball;
 import main.java.com.ilyabuglakov.ballmanipulator.model.ball.BallColor;
+import main.java.com.ilyabuglakov.ballmanipulator.service.BallCreator;
+import main.java.com.ilyabuglakov.ballmanipulator.service.BallCreatorValidator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class InputBall {
      * both parameters as zeros.
      * @return ball - Ball class entity, created by user.
      */
-    public Ball getBall() {
+    public Ball getBall() throws BallCreationException {
         return getBall(0, 0);
     }
 
@@ -44,13 +47,15 @@ public class InputBall {
      *                   Must be greater or equal to zero.
      * @return ball - Ball class entity, created by user.
      */
-    public Ball getBall(double weightBound, int costBound) {
+    public Ball getBall(double weightBound, int costBound) throws BallCreationException {
         if(weightBound<0 || costBound<0) {
             throw new IllegalArgumentException("Input bounds must be greater than zero");
         }
         BigDecimal weight;
         BigDecimal cost;
-        String color;
+        String colorName;
+        BallCreatorValidator validator = new BallCreatorValidator();
+        BallCreator creator = new BallCreator();
 
         Map<String, BallColor> colorMap = Arrays.stream(BallColor.values())
                 .collect(Collectors.toMap(String::valueOf, Function.identity()));
@@ -71,8 +76,11 @@ public class InputBall {
             System.out.println((i + 1) + ". " + colors.get(i));
         }
         int index = checkedInput.checkedInt(0, colors.size() + 1);
-        color = colors.get(index - 1);
-        return new Ball(colorMap.get(color), weight, cost);
+        colorName = colors.get(index - 1);
+        BallColor color = colorMap.get(colorName);
+        if(!validator.areValidArgs(weight, cost, color))
+            throw new BallCreationException();
+        return new Ball(color, weight, cost);
     }
 
 }

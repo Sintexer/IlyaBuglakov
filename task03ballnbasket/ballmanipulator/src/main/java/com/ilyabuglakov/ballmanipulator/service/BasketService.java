@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+//TO DO pattern command
+
 /**
  * BasketService produces information on base of Baskets.
  *
@@ -56,20 +58,6 @@ public class BasketService {
                 .stream()
                 .filter(val -> val > 1)
                 .reduce(0L, Long::sum);
-    }
-
-    /**
-     * Creates a new basket, balls of which are sorted by the cost.
-     * @param basket - initial basket.
-     * @return nwe basket with sorted by cost balls.
-     */
-    public Basket sortedByCost(Basket basket) {
-        Basket sorted = new Basket();
-        sorted.getBalls()
-                .addAll(basket.getBalls().stream()
-                        .sorted(Comparator.comparing(Ball::getCost))
-                        .collect(Collectors.toList()));
-        return sorted;
     }
 
     /**

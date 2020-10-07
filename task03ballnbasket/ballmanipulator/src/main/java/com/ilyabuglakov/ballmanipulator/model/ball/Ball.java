@@ -29,12 +29,6 @@ public class Ball implements Comparable<Ball> {
      * @param cost - the cost of ball as BigDecimal, greater than zero
      */
     public Ball(BallColor color, BigDecimal weight, BigDecimal cost) {
-        if(cost.compareTo(BigDecimal.ZERO)<=0
-                || weight.compareTo(BigDecimal.ZERO)<=0
-                || Objects.isNull(color)) {
-            throw new IllegalArgumentException("Ball constructors arguments" +
-                    " must be greater than zero and not null");
-        }
         this.color = color;
         this.weight = weight;
         this.cost = cost;

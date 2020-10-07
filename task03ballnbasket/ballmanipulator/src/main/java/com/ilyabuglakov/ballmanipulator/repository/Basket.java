@@ -4,6 +4,7 @@ import main.java.com.ilyabuglakov.ballmanipulator.model.ball.Ball;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,12 +27,18 @@ public class Basket {
      */
     public static Basket of(List<Ball> balls) {
         Basket basket = new Basket();
-        basket.getBalls().addAll(balls);
+        List<Ball> ballsList = basket.getBalls();
+        ballsList.addAll(balls);
+        basket.setBalls(ballsList);
         return basket;
     }
 
     public List<Ball> getBalls() {
-        return balls;
+        return new ArrayList<>(balls);
+    }
+
+    public void setBalls(List<Ball> balls) {
+        this.balls = new ArrayList<>(balls);
     }
 
     /**
@@ -68,6 +75,11 @@ public class Basket {
         Basket basket = (Basket) o;
         if (balls.size() != basket.getBalls().size())
             return false;
+        //TODO equals not by order
+        List<Ball> sortedBalls = getBalls();
+        sortedBalls.sort(Comparator.naturalOrder());
+        List<Ball> sortedBallsOther = basket.getBalls();
+        sortedBallsOther.sort(Comparator.naturalOrder());
         for (int i = 0; i < balls.size(); ++i) {
             if (balls.get(i) != basket.getBalls().get(i)) {
                 return false;
