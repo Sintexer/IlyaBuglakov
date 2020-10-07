@@ -26,6 +26,10 @@ public class MessagesRepository {
         messages.put(MessageId.INPUT_ARRAY, "console.input.intarray");
         messages.put(MessageId.INT_RANDOM_BOUND, "console.input.int.randombound");
         messages.put(MessageId.SWITCH_TYPE_CAPTURE, "menu.command.switchtype.capture");
+        messages.put(MessageId.SORT_ARRAY, "menu.command.sortarray.capture");
+        messages.put(MessageId.ARRAY_IS_NOT_SORTED, "console.info.array.notsorted");
+        messages.put(MessageId.FILL_JUGGED_ARRAY, "menu.command.filljuggedarray.caption");
+
 
         commandMessages.put(CommandName.FILL_ARRAY, "menu.command.fillarray");
         commandMessages.put(CommandName.INPUT_ARRAY, "menu.command.fillarray.inputarray");
@@ -37,6 +41,17 @@ public class MessagesRepository {
         commandMessages.put(CommandName.SWITCH_TYPE, "menu.command.switchtype");
         commandMessages.put(CommandName.SWITCH_TO_ARRAY, "menu.command.switchtype.array");
         commandMessages.put(CommandName.SWITCH_TO_JUGGED_ARRAY, "menu.command.switchtype.juggedarray");
+        commandMessages.put(CommandName.SORT_ARRAY, "menu.command.sortarray");
+        commandMessages.put(CommandName.SORT_ARRAY_SHELL, "menu.command.sortarray.shell");
+        commandMessages.put(CommandName.SORT_ARRAY_MERGE, "menu.command.sortarray.merge");
+        commandMessages.put(CommandName.SORT_ARRAY_INSERTION, "menu.command.sortarray.insertion");
+        commandMessages.put(CommandName.BINARY_SEARCH, "menu.command.binarysearch");
+        commandMessages.put(CommandName.FIND_FIB_NUMBERS, "menu.command.findfib");
+        commandMessages.put(CommandName.FIND_SIMPLE_NUMBERS, "menu.command.findsimplenumbers");
+        commandMessages.put(CommandName.FIND_THREE_DIGITS_UNIQUE, "menu.command.findthreedigit");
+        commandMessages.put(CommandName.FILL_JUGGED_ARRAY, "menu.command.filljuggedarray");
+        commandMessages.put(CommandName.INPUT_JUGGED_ARRAY, "menu.command.fillarray.inputarray");
+        commandMessages.put(CommandName.RANDOM_JUGGED_ARRAY, "menu.command.fillarray.random");
         commandMessages.put(CommandName.EXIT, "menu.command.exit");
     }
 

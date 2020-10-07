@@ -36,6 +36,19 @@ public class Array<T> implements ArrayInterface<T>, Iterable<T> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Array<?> array = (Array<?>) o;
+        return Arrays.equals(content, array.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(content);
+    }
+
+    @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private T[] iteratorContent = getContent();

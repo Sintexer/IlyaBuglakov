@@ -12,16 +12,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SwitchTypeCommand implements Command {
+public class FillJuggedArrayCommand implements Command {
     @Override
     public void execute() {
         ConsoleView view = ApplicationController.getInstance().getView();
-        List<CommandName> types = new ArrayList<>(Arrays.asList(CommandName.SWITCH_TO_ARRAY, CommandName.SWITCH_TO_JUGGED_ARRAY));
-        view.showMessage(MessageId.SWITCH_TYPE_CAPTURE);
-        view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(types)));
-        int choice = view.readInt(1, types.size());
-        ApplicationController.getInstance().setArray(null);
-        CommandController.getInstance().getCommand(types.get(choice-1)).execute();
+        List<CommandName> commandNames = new ArrayList<>(
+                Arrays.asList(CommandName.INPUT_JUGGED_ARRAY,
+                        CommandName.RANDOM_JUGGED_ARRAY));
+        view.showMessage(MessageId.FILL_JUGGED_ARRAY);
+        view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(commandNames)));
+        int choice = view.readInt(1, commandNames.size());
+        CommandController.getInstance().getCommand(commandNames.get(choice-1)).execute();
+
     }
 
     @Override

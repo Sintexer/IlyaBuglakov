@@ -33,12 +33,20 @@ public class ConsoleView {
     public ConsoleView(){
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FILL_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SHOW_ARRAY);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.SORT_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.INDEX_OF);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_MAX);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_MIN);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.BINARY_SEARCH);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_SIMPLE_NUMBERS);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_FIB_NUMBERS);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_THREE_DIGITS_UNIQUE);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SWITCH_TYPE);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.EXIT);
 
+
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.FILL_JUGGED_ARRAY);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SHOW_ARRAY);
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SWITCH_TYPE);
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.EXIT);
     }
