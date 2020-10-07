@@ -21,7 +21,7 @@ public class SwitchTypeCommand implements Command {
         view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(types)));
         int choice = view.readInt(1, types.size());
         ApplicationController.getInstance().setArray(null);
-        CommandController.getInstance().getCommand(types.get(choice-1)).execute();
+        CommandController.getInstance().getCommand(types.get(choice - 1)).execute();
     }
 
     @Override

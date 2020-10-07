@@ -13,9 +13,9 @@ public class ArraySorter<T extends Comparable<T>> {
         Array<T> sorted = creator.createArray(array);
         for (int i = 0; i < sorted.size(); ++i) {
             for (int j = i; j > 0; --j) {
-                if (sorted.get(j).compareTo(sorted.get(j-1)) > 0)
+                if (sorted.get(j).compareTo(sorted.get(j - 1)) > 0)
                     break;
-                modificator.swapValues(sorted, j, j-1);
+                modificator.swapValues(sorted, j, j - 1);
             }
         }
         return sorted;

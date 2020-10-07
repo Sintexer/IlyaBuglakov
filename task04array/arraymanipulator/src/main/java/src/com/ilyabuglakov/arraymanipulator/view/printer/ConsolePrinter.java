@@ -4,15 +4,16 @@ public class ConsolePrinter implements Printer {
 
     private static ConsolePrinter printer;
 
-    private ConsolePrinter(){}
+    private ConsolePrinter() {
+    }
 
-    public static ConsolePrinter getInstance(){
-        if(printer == null)
+    public static ConsolePrinter getInstance() {
+        if (printer == null)
             printer = new ConsolePrinter();
         return printer;
     }
 
-    public void print(String message){
+    public void print(String message) {
         System.out.println(message);
     }
 

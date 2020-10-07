@@ -1,24 +1,33 @@
 package src.com.ilyabuglakov.arraymanipulator.controller;
 
+import src.com.ilyabuglakov.arraymanipulator.controller.command.AddToEachCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.BinarySearchCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.CompareDimensionsCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.EmptyCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.FillArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.FillJuggedArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.FindFibNumbersCommand;
-import src.com.ilyabuglakov.arraymanipulator.controller.command.FindSimpleNumbersCommand;
-import src.com.ilyabuglakov.arraymanipulator.controller.command.FillArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.FindMaxCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.FindMinCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.FindSimpleNumbersCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.FindThreeDigitsUniqueCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.IndexOfCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.InputArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.InputJuggedArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.IsSquareMatrixCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.JuggedSortCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.MultiplyEachCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.RandomArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.RandomJuggedArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.ReadArrayFileCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.ReadFileJuggedArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.ShowArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SortArrayCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.SubtractFromEachCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToJuggedArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchTypeCommand;
+import src.com.ilyabuglakov.arraymanipulator.controller.command.TransposeCommand;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,7 +36,7 @@ public class CommandController {
     private static CommandController controller = new CommandController();
     private Map<CommandName, Command> commands = new LinkedHashMap<>();
 
-    private CommandController(){
+    private CommandController() {
         commands.put(CommandName.EXIT, new EmptyCommand());
         commands.put(CommandName.SHOW_ARRAY, new ShowArrayCommand());
         commands.put(CommandName.FILL_ARRAY, new FillArrayCommand());
@@ -47,14 +56,23 @@ public class CommandController {
         commands.put(CommandName.FILL_JUGGED_ARRAY, new FillJuggedArrayCommand());
         commands.put(CommandName.INPUT_JUGGED_ARRAY, new InputJuggedArrayCommand());
         commands.put(CommandName.RANDOM_JUGGED_ARRAY, new RandomJuggedArrayCommand());
+        commands.put(CommandName.IS_SQUARE_MATRIX, new IsSquareMatrixCommand());
+        commands.put(CommandName.ADD_TO_EACH, new AddToEachCommand());
+        commands.put(CommandName.SUBTRACT_FROM_EACH, new SubtractFromEachCommand());
+        commands.put(CommandName.MULTIPLY_EACH, new MultiplyEachCommand());
+        commands.put(CommandName.COMPARE_DIMENSIONS, new CompareDimensionsCommand());
+        commands.put(CommandName.TRANSPOSE, new TransposeCommand());
+        commands.put(CommandName.JUGGED_SORT, new JuggedSortCommand());
+        commands.put(CommandName.FILE_ARRAY, new ReadArrayFileCommand());
+        commands.put(CommandName.FILE_JUGGED_ARRAY, new ReadFileJuggedArrayCommand());
 
     }
 
-    public static CommandController getInstance(){
+    public static CommandController getInstance() {
         return controller;
     }
 
-    public Command getCommand(CommandName commandName){
+    public Command getCommand(CommandName commandName) {
         return commands.get(commandName);
     }
 }

@@ -6,7 +6,7 @@ public class IntValidator {
         return val >= leftBound && val < rightBound;
     }
 
-    public boolean isValidSize(int val){
+    public boolean isValidSize(int val) {
         return isInBounds(val, 1, Integer.MAX_VALUE);
     }
 

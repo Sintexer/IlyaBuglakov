@@ -18,11 +18,12 @@ public class FillArrayCommand implements Command {
         ConsoleView view = ApplicationController.getInstance().getView();
         List<CommandName> commandNames = new ArrayList<>(
                 Arrays.asList(CommandName.INPUT_ARRAY,
-                        CommandName.RANDOM_ARRAY));
+                        CommandName.RANDOM_ARRAY,
+                        CommandName.FILE_ARRAY));
         view.showMessage(MessageId.FILL_ARRAY);
         view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(commandNames)));
         int choice = view.readInt(1, commandNames.size());
-        CommandController.getInstance().getCommand(commandNames.get(choice-1)).execute();
+        CommandController.getInstance().getCommand(commandNames.get(choice - 1)).execute();
 
     }
 

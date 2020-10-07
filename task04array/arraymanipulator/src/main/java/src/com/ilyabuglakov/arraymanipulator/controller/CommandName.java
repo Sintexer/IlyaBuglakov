@@ -6,7 +6,7 @@ public enum CommandName {
     INPUT_ARRAY,
     SHOW_ARRAY,
     RANDOM_ARRAY,
-    //File array
+    FILE_ARRAY,
     INDEX_OF,
     INDEX_OF_ARRAY,
     INDEX_OF_JUGGED_ARRAY,
@@ -26,5 +26,15 @@ public enum CommandName {
     FILL_JUGGED_ARRAY,
     INPUT_JUGGED_ARRAY,
     RANDOM_JUGGED_ARRAY,
-    //File juggedArray
+    FILE_JUGGED_ARRAY,
+    IS_SQUARE_MATRIX,
+    ADD_TO_EACH,
+    SUBTRACT_FROM_EACH,
+    MULTIPLY_EACH,
+    COMPARE_DIMENSIONS,
+    TRANSPOSE,
+    JUGGED_SORT,
+    JUGGED_SORT_BY_SUM,
+    JUGGED_SORT_BY_MAX,
+    JUGGED_SORT_BY_MIN,
 }

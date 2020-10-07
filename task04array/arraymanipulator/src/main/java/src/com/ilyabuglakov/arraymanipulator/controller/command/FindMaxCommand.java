@@ -2,10 +2,10 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
+import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 import src.com.ilyabuglakov.arraymanipulator.repository.ArrayInterface;
 import src.com.ilyabuglakov.arraymanipulator.service.array.ArraySearcher;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
 
 public class FindMaxCommand implements Command {
     @Override
@@ -13,6 +13,6 @@ public class FindMaxCommand implements Command {
         ConsoleView view = ApplicationController.getInstance().getView();
         ArrayInterface<Integer> array = ApplicationController.getInstance().getArray();
         ArraySearcher<Integer> searcher = new ArraySearcher<>();
-        view.show(searcher.findMax(array));
+        view.show(searcher.findMax((Array<Integer>) array));
     }
 }

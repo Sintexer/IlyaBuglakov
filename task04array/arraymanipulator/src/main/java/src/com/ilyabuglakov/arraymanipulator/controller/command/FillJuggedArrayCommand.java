@@ -18,11 +18,12 @@ public class FillJuggedArrayCommand implements Command {
         ConsoleView view = ApplicationController.getInstance().getView();
         List<CommandName> commandNames = new ArrayList<>(
                 Arrays.asList(CommandName.INPUT_JUGGED_ARRAY,
-                        CommandName.RANDOM_JUGGED_ARRAY));
+                        CommandName.RANDOM_JUGGED_ARRAY,
+                        CommandName.FILE_JUGGED_ARRAY));
         view.showMessage(MessageId.FILL_JUGGED_ARRAY);
         view.show(CollectionDecorator.toEnumeratedList(view.getMessageList(commandNames)));
         int choice = view.readInt(1, commandNames.size());
-        CommandController.getInstance().getCommand(commandNames.get(choice-1)).execute();
+        CommandController.getInstance().getCommand(commandNames.get(choice - 1)).execute();
 
     }
 

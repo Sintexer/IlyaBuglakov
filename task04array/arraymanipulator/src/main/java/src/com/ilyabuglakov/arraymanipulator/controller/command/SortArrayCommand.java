@@ -4,11 +4,11 @@ import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
 import src.com.ilyabuglakov.arraymanipulator.controller.SortController;
+import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 import src.com.ilyabuglakov.arraymanipulator.service.array.ArraySorter;
 import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
 import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
-import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,8 @@ public class SortArrayCommand implements Command {
         int choice = view.readInt(1, commandNames.size());
         controller.setArray(sortController
                 .getSort(commandNames
-                        .get(choice-1))
-                .apply((Array<Integer>)controller.getArray()));
+                        .get(choice - 1))
+                .apply((Array<Integer>) controller.getArray()));
 
     }
 }

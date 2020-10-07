@@ -4,15 +4,17 @@ import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
 import src.com.ilyabuglakov.arraymanipulator.service.JuggedArrayCreator;
+import src.com.ilyabuglakov.arraymanipulator.service.JuggedArrayService;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
 
-public class InputJuggedArrayCommand implements Command {
+public class CompareDimensionsCommand implements Command {
     @Override
     public void execute() {
         JuggedArrayCreator<Integer> arrayCreator = new JuggedArrayCreator<>();
-        ConsoleView view = ApplicationController.getInstance().getView();
-
+        JuggedArrayService<Integer> service = new JuggedArrayService<>();
+        ApplicationController controller = ApplicationController.getInstance();
+        ConsoleView view = controller.getView();
         JuggedArray<Integer> array = arrayCreator.createJuggedArray(view.readIntMatrix());
-        ApplicationController.getInstance().setArray(array);
+        controller.getView().show(service.sameSize(array, (JuggedArray<Integer>) controller.getArray()));
     }
 }

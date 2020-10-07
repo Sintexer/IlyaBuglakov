@@ -6,27 +6,27 @@ import java.util.Iterator;
 public class Array<T> implements ArrayInterface<T>, Iterable<T> {
     private T[] content;
 
-    public Array(int size){
-        content = (T[])new Object[size];
+    public Array(int size) {
+        content = (T[]) new Object[size];
     }
 
-    public T[] getContent(){
+    public T[] getContent() {
         return Arrays.copyOf(content, content.length);
     }
 
-    public void setContent(T[] content){
+    public void setContent(T[] content) {
         this.content = Arrays.copyOf(content, content.length);
     }
 
-    public void set(int index, T value){
+    public void set(int index, T value) {
         content[index] = value;
     }
 
-    public T get(int index){
+    public T get(int index) {
         return content[index];
     }
 
-    public int size(){
+    public int size() {
         return content.length;
     }
 
@@ -53,9 +53,10 @@ public class Array<T> implements ArrayInterface<T>, Iterable<T> {
         return new Iterator<T>() {
             private T[] iteratorContent = getContent();
             private int index = 0;
+
             @Override
             public boolean hasNext() {
-                return index<iteratorContent.length;
+                return index < iteratorContent.length;
             }
 
             @Override

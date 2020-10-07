@@ -15,6 +15,6 @@ public class FindThreeDigitsUniqueCommand implements Command {
         ArrayInterface<Integer> array = ApplicationController.getInstance().getArray();
         ArraySearcher<Integer> searcher = new ArraySearcher<>();
         NumberService service = new NumberService();
-        view.show(searcher.findByPredicate((Array<Integer>)array, service::isThreeDigitUnique));
+        view.show(searcher.findByPredicate((Array<Integer>) array, service::isThreeDigitUnique));
     }
 }

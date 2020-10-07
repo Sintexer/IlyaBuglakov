@@ -18,7 +18,7 @@ public class MessagesRepository {
 
     private ResourceBundle rb = ResourceBundle.getBundle(PROPERTY_PATH, Locale.US);
 
-    private MessagesRepository(){
+    private MessagesRepository() {
         messages.put(MessageId.NO_ARRAY, "console.info.noarray");
         messages.put(MessageId.INPUT_INT, "console.input.int");
         messages.put(MessageId.INPUT_ARRAY_SIZE, "console.input.arraysize");
@@ -29,6 +29,9 @@ public class MessagesRepository {
         messages.put(MessageId.SORT_ARRAY, "menu.command.sortarray.capture");
         messages.put(MessageId.ARRAY_IS_NOT_SORTED, "console.info.array.notsorted");
         messages.put(MessageId.FILL_JUGGED_ARRAY, "menu.command.filljuggedarray.caption");
+        messages.put(MessageId.CANT_TRANSPOSE, "console.info.canttranspose");
+        messages.put(MessageId.JUGGED_SORT, "menu.command.juggedsort.capture");
+        messages.put(MessageId.WRONG_PATH, "console.info.array.wrongpath");
 
 
         commandMessages.put(CommandName.FILL_ARRAY, "menu.command.fillarray");
@@ -52,35 +55,47 @@ public class MessagesRepository {
         commandMessages.put(CommandName.FILL_JUGGED_ARRAY, "menu.command.filljuggedarray");
         commandMessages.put(CommandName.INPUT_JUGGED_ARRAY, "menu.command.fillarray.inputarray");
         commandMessages.put(CommandName.RANDOM_JUGGED_ARRAY, "menu.command.fillarray.random");
+        commandMessages.put(CommandName.IS_SQUARE_MATRIX, "menu.command.issquare");
+        commandMessages.put(CommandName.ADD_TO_EACH, "menu.command.addtoeach");
+        commandMessages.put(CommandName.SUBTRACT_FROM_EACH, "menu.command.subtracteach");
+        commandMessages.put(CommandName.MULTIPLY_EACH, "menu.command.multiplyeach");
+        commandMessages.put(CommandName.COMPARE_DIMENSIONS, "menu.command.comparedimensions");
+        commandMessages.put(CommandName.TRANSPOSE, "menu.command.transpose");
+        commandMessages.put(CommandName.JUGGED_SORT, "menu.command.juggedsort");
+        commandMessages.put(CommandName.JUGGED_SORT_BY_SUM, "menu.command.juggedsort.bysum");
+        commandMessages.put(CommandName.JUGGED_SORT_BY_MAX, "menu.command.juggedsort.bymax");
+        commandMessages.put(CommandName.JUGGED_SORT_BY_MIN, "menu.command.juggedsort.bymin");
+        commandMessages.put(CommandName.FILE_ARRAY, "menu.command.readfile");
+        commandMessages.put(CommandName.FILE_JUGGED_ARRAY, "menu.command.readfile");
         commandMessages.put(CommandName.EXIT, "menu.command.exit");
     }
 
-    public void setLocale(Locale locale){
+    public void setLocale(Locale locale) {
         rb = ResourceBundle.getBundle(PROPERTY_PATH, locale);
     }
 
-    public static MessagesRepository getInstance(){
+    public static MessagesRepository getInstance() {
         return repository;
     }
 
-    public String getMessage(MessageId id){
+    public String getMessage(MessageId id) {
         return rb.getString(messages.get(id));
     }
 
-    public String getMessage(CommandName id){
+    public String getMessage(CommandName id) {
         return rb.getString(commandMessages.get(id));
     }
 
-    public List<String> getCommandList(Collection<? extends CommandName> commands){
+    public List<String> getCommandList(Collection<? extends CommandName> commands) {
         List<String> messageList = new ArrayList<>(commands.size());
-        for(var command: commands)
+        for (var command : commands)
             messageList.add(getMessage(command));
         return messageList;
     }
 
-    public List<String> getMessageList(Collection<? extends MessageId> messages){
+    public List<String> getMessageList(Collection<? extends MessageId> messages) {
         List<String> messageList = new ArrayList<>(messages.size());
-        for(var message: messages)
+        for (var message : messages)
             messageList.add(getMessage(message));
         return messageList;
     }

@@ -2,15 +2,9 @@ package src.com.ilyabuglakov.arraymanipulator.view.menu;
 
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
-import src.com.ilyabuglakov.arraymanipulator.controller.command.EmptyCommand;
-import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class CommandMenu {
 

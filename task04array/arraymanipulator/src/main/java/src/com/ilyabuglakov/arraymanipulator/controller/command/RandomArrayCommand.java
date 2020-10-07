@@ -20,7 +20,7 @@ public class RandomArrayCommand implements Command {
         int bound = view.readInt();
         Integer[] intArray = new Integer[size];
         Random rand = new Random();
-        for(int i = 0; i<size;++i){
+        for (int i = 0; i < size; ++i) {
             intArray[i] = rand.nextInt(bound);
         }
         Array<Integer> array = arrayCreator.createArray(intArray);

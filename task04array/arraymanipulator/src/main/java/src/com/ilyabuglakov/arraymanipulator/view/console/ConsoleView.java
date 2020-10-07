@@ -12,7 +12,6 @@ import src.com.ilyabuglakov.arraymanipulator.view.printer.Printer;
 import src.com.ilyabuglakov.arraymanipulator.view.reader.ConsoleReader;
 import src.com.ilyabuglakov.arraymanipulator.view.reader.Reader;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +29,7 @@ public class ConsoleView {
     private Locale locale = Locale.US;
     private ResourceBundle rb = ResourceBundle.getBundle("property.text", locale);
 
-    public ConsoleView(){
+    public ConsoleView() {
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FILL_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SHOW_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SORT_ARRAY);
@@ -48,29 +47,24 @@ public class ConsoleView {
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.FILL_JUGGED_ARRAY);
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SHOW_ARRAY);
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SWITCH_TYPE);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.IS_SQUARE_MATRIX);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.ADD_TO_EACH);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.SUBTRACT_FROM_EACH);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.MULTIPLY_EACH);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.COMPARE_DIMENSIONS);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.TRANSPOSE);
+        optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.JUGGED_SORT);
         optionsRepository.addOption(ArrayType.JUGGED_ARRAY, CommandName.EXIT);
     }
 
-    public CommandName getCommand(){
+    public CommandName getCommand() {
         out.print(rb.getString("console.input.choose"));
         int choice = readInt(1, CommandName.values().length);
-        return getOptions(currentType).get(choice-1);
+        return getOptions(currentType).get(choice - 1);
     }
 
-    private List<CommandName> getOptions(ArrayType type){
+    private List<CommandName> getOptions(ArrayType type) {
         return optionsRepository.getOptionsForType(type);
-    }
-
-
-    public Integer[] readIntArray() {
-        int size = readSize();
-        String readIntArray = rb.getString("console.input.intarray");
-        Integer[] array = new Integer[size];
-        out.print(readIntArray);
-        for (int i = 0; i < size; ++i) {
-            array[i] = readInt();
-        }
-        return array;
     }
 
     public int readSize() {
@@ -86,11 +80,11 @@ public class ConsoleView {
         return size;
     }
 
-    public int readInt(){
+    public int readInt() {
         return readInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public  int readInt(int leftBound){
+    public int readInt(int leftBound) {
         return readInt(leftBound, Integer.MAX_VALUE);
     }
 
@@ -105,7 +99,7 @@ public class ConsoleView {
                 out.print(wrongInt);
                 continue;
             }
-            if(val >=leftBound && val<=rightBound) {
+            if (val >= leftBound && val <= rightBound) {
                 break;
             }
             out.print(wrongInt);
@@ -113,31 +107,52 @@ public class ConsoleView {
         return val;
     }
 
-    public <T> void  show(T val){
+    public Integer[] readIntArray() {
+        showMessage(MessageId.INPUT_ARRAY_SIZE);
+        int size = readInt(1);
+        Integer[] intArray = new Integer[size];
+        showMessage(MessageId.INPUT_ARRAY);
+        for (int i = 0; i < size; ++i) {
+            intArray[i] = readInt();
+        }
+        return intArray;
+    }
+
+    public Integer[][] readIntMatrix() {
+        showMessage(MessageId.INPUT_ARRAY_SIZE);
+        int size = readInt(1);
+        Integer[][] intArray = new Integer[size][];
+        for (int i = 0; i < size; ++i) {
+            intArray[i] = readIntArray();
+        }
+        return intArray;
+    }
+
+    public <T> void show(T val) {
         out.print(val.toString());
     }
 
-    public String getMessage(MessageId id){
+    public String getMessage(MessageId id) {
         return messagesRepository.getMessage(id);
     }
 
-    public void showMessage(MessageId id){
+    public void showMessage(MessageId id) {
         show(getMessage(id));
     }
 
-    public String getMessage(CommandName id){
+    public String getMessage(CommandName id) {
         return messagesRepository.getMessage(id);
     }
 
-    public void showMessage(CommandName id){
+    public void showMessage(CommandName id) {
         show(getMessage(id));
     }
 
-    public List<String> getMessageList(CommandName... ids){
+    public List<String> getMessageList(CommandName... ids) {
         return getMessageList(Arrays.asList(ids));
     }
 
-    public List<String> getMessageList(Collection<? extends CommandName> ids){
+    public List<String> getMessageList(Collection<? extends CommandName> ids) {
         return messagesRepository.getCommandList(ids);
     }
 
