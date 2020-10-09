@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SortArrayCommand implements Command {
-    private src.com.ilyabuglakov.arraymanipulator.repository.Array<Integer> Array;
 
     @Override
     public void execute() {
