@@ -4,8 +4,11 @@ import com.ilyabuglakov.stringmanipulator.beans.CommandName;
 import com.ilyabuglakov.stringmanipulator.beans.MessageId;
 import com.ilyabuglakov.stringmanipulator.repository.MessageRepository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MessageController {
 
@@ -20,6 +23,12 @@ public class MessageController {
 
     public String getMessage(Enum<?> id){
         return rb.getString(messageRepository.getPropertyName(id));
+    }
+
+    public List<String> getMessages(Collection<? extends Enum<?>> properties){
+        return properties.stream()
+                .map(this::getMessage)
+                .collect(Collectors.toList());
     }
 
     public void setLocale(Locale locale){
