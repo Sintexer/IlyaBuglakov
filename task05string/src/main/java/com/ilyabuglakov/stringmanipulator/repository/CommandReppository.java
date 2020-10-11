@@ -11,13 +11,17 @@ public class CommandReppository {
     private static Map<CommandName, Command> commands = new HashMap<>();
 
     static {
-        
+
     }
 
     private CommandReppository(){}
 
-    public CommandReppository getInstance(){
+    public static CommandReppository getInstance(){
         return instance;
+    }
+
+    public Command getCommand(CommandName commandName){
+        return commands.get(commandName);
     }
 
 }
