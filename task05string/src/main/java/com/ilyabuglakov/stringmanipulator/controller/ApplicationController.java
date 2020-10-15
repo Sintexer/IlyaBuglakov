@@ -1,38 +1,63 @@
 package com.ilyabuglakov.stringmanipulator.controller;
 
 import com.ilyabuglakov.stringmanipulator.beans.CommandName;
-import com.ilyabuglakov.stringmanipulator.beans.MessageId;
 import com.ilyabuglakov.stringmanipulator.view.ConsoleView;
 
+/**
+ * ApllicationController
+ * Main controller class. Contains view and String content.
+ * Implemented as Singleton. Method start() runs the work of application menu
+ */
 public class ApplicationController {
 
     private static ApplicationController instance = new ApplicationController();
+    public static String INIT_PATH = "init.txt";
+    public static String INPUT = "input.txt";
+    public static String OUTPUT = "output.txt";
+
     private CommandController commandController = CommandController.getInstance();
     private ConsoleView view = ConsoleView.getInstance();
     private String content = "";
 
-    private ApplicationController(){}
 
-    public static ApplicationController getInstance(){
+    private ApplicationController() {
+    }
+
+    /**
+     * @return instance of singleton class ApplicationController
+     */
+    public static ApplicationController getInstance() {
         return instance;
     }
 
-    public void start(){
+    /**
+     * Runs the main menu of application
+     */
+    public void start() {
         CommandName choice;
-        do{
+        do {
             choice = view.getCommand();
             commandController.executeCommand(choice);
-        }while (!choice.equals(CommandName.EXIT));
+        } while (!choice.equals(CommandName.EXIT));
     }
 
+    /**
+     * @return ConsoleView - view of application
+     */
     public ConsoleView getView() {
         return view;
     }
 
+    /**
+     * @return content String
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * @param content new content of the application
+     */
     public void setContent(String content) {
         this.content = content;
     }

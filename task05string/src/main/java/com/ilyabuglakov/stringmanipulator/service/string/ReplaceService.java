@@ -24,11 +24,7 @@ public class ReplaceService {
         return source.replaceAll(pattern, replacement);
     }
 
-    public String deleteAllNotLetters(String source){
-        return replaceAllMatched(source, "[\\W\\d_]", " ");
-    }
-
-    public String replaceAllMatched(String source, String pattern, String replacement){
+    public String replaceAllMatched(String source, String pattern, String replacement) {
         return source.replaceAll(pattern, replacement);
     }
 

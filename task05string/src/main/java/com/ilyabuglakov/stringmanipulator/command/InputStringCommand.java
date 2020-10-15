@@ -12,10 +12,11 @@ public class InputStringCommand implements Command {
     public void execute() {
         ApplicationController controller = ApplicationController.getInstance();
         List<CommandName> options = Arrays.asList(
-            CommandName.INPUT_STRING_CONSOLE
+                CommandName.INPUT_STRING_CONSOLE,
+                CommandName.INPUT_STRING_FILE
         );
         controller.getView().showEnumeratedMessages(options);
         int choice = controller.getView().getInt(1, options.size());
-        CommandController.getInstance().executeCommand(options.get(choice-1));
+        CommandController.getInstance().executeCommand(options.get(choice - 1));
     }
 }
