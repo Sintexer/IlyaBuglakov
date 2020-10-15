@@ -11,7 +11,7 @@ public class ReplaceWordsCommand implements Command {
         ApplicationController controller = ApplicationController.getInstance();
         ConsoleView view = controller.getView();
 
-        view.showMessage(MessageId.ENTER_POSITION);
+        view.showMessage(MessageId.ENTER_LENGTH);
         int length = view.getInt();
         view.showMessage(MessageId.ENTER_REPLACEMENT);
         String replacement = view.getString();
