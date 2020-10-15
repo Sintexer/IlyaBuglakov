@@ -13,9 +13,9 @@ public class FileReader {
     public String readString(String path) throws IOException, ReadException {
         String result;
         try (Stream<String> lines = Files.lines(Path.of(path))) {
-            if(lines.count() == 0)
-                throw new ReadException("File is empty");
             result = lines.collect(Collectors.joining("\n"));
+            if(result.isEmpty())
+                throw new ReadException("File is empty");
         }
         return result;
     }

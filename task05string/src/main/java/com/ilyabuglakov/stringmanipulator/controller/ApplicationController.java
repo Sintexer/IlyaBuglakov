@@ -17,7 +17,7 @@ public class ApplicationController {
 
     private CommandController commandController = CommandController.getInstance();
     private ConsoleView view = ConsoleView.getInstance();
-    private String content = "";
+    private String applicationString = "";
 
 
     private ApplicationController() {
@@ -51,14 +51,14 @@ public class ApplicationController {
     /**
      * @return content String
      */
-    public String getContent() {
-        return content;
+    public String getApplicationString() {
+        return applicationString;
     }
 
     /**
-     * @param content new content of the application
+     * @param applicationString new content of the application
      */
-    public void setContent(String content) {
-        this.content = content;
+    public void setApplicationString(String applicationString) {
+        this.applicationString = applicationString;
     }
 }

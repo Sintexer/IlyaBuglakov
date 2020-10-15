@@ -73,4 +73,14 @@ public class IOController {
         return val;
     }
 
+    public char readChar(){
+        String input = in.readString();
+        while(input.length()>1) {
+            ConsoleView.getInstance().showMessage(MessageId.WRONG_CHAR_INPUT);
+            ConsoleView.getInstance().showMessage(MessageId.TRY_AGAIN);
+            input = in.readString();
+        }
+        return input.charAt(0);
+    }
+
 }

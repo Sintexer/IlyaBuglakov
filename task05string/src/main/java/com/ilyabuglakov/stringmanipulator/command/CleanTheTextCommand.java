@@ -14,6 +14,11 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * This command allows user to clean the text from characters, that are not letters or spaces.
+ * Input file path comes up from ApplicationController INPUT field,
+ * output from OUTPUT field.
+ */
 public class CleanTheTextCommand implements Command {
 
     @Override

@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This command allows user to choose application locale
+ */
 public class ChooseLocaleCommand implements Command {
     @Override
     public void execute() {

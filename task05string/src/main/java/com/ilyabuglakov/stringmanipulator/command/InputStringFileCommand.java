@@ -8,6 +8,9 @@ import com.ilyabuglakov.stringmanipulator.view.reader.FileReader;
 
 import java.io.IOException;
 
+/**
+ * This command allows user to read applicationString from file
+ */
 public class InputStringFileCommand implements Command {
     @Override
     public void execute() {
@@ -16,7 +19,7 @@ public class InputStringFileCommand implements Command {
         try {
             FileReader reader = new FileReader();
             String info = reader.readString(ApplicationController.INIT_PATH);
-            ApplicationController.getInstance().setContent(info);
+            ApplicationController.getInstance().setApplicationString(info);
         } catch (ReadException e) {
             view.showMessage(MessageId.FILE_IS_EMPTY);
         } catch (IOException e) {

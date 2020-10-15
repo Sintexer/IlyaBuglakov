@@ -7,6 +7,9 @@ import com.ilyabuglakov.stringmanipulator.controller.CommandController;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This command allows user to choose input source of applicationString
+ */
 public class InputStringCommand implements Command {
     @Override
     public void execute() {

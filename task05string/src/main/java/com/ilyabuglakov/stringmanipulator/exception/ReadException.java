@@ -1,5 +1,8 @@
 package com.ilyabuglakov.stringmanipulator.exception;
 
+/**
+ * This Exception will be thrown away, when file, that is used for input, is empty
+ */
 public class ReadException extends Exception {
     public ReadException() {
     }
