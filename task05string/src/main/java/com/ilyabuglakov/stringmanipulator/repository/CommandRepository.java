@@ -43,6 +43,7 @@ public class CommandRepository {
 
     /**
      * Returns instance of singleton class
+     *
      * @return CommandRepository instance
      */
     public static CommandRepository getInstance() {
@@ -51,6 +52,7 @@ public class CommandRepository {
 
     /**
      * Returns Command entity associated with CommandName
+     *
      * @param commandName enum name of command
      * @return Command entity, associated with enum name
      */

@@ -19,8 +19,9 @@ public class IOController {
 
     /**
      * Outputs object to output destination
+     *
      * @param object - object to show
-     * @param <T> - any object
+     * @param <T>    - any object
      */
     public <T> void show(T object) {
         out.show(object);
@@ -28,6 +29,7 @@ public class IOController {
 
     /**
      * Reads String from input and returns it
+     *
      * @return String from input source
      */
     public String readString() {
@@ -36,6 +38,7 @@ public class IOController {
 
     /**
      * Reads Integer from input and returns it
+     *
      * @return Integer from input source
      */
     public int readInt() {
@@ -45,6 +48,7 @@ public class IOController {
     /**
      * Reads Integer from input and returns it.
      * You can specify left bound of int number
+     *
      * @return Integer from input source greater or equal leftBound.
      */
     public int readInt(int leftBound) {
@@ -54,6 +58,7 @@ public class IOController {
     /**
      * Reads Integer from input and returns it.
      * You can specify left and right bounds of int number
+     *
      * @return Integer from input source greater or equal leftBound
      * and lesser or equal rightBound.
      */
@@ -73,9 +78,9 @@ public class IOController {
         return val;
     }
 
-    public char readChar(){
+    public char readChar() {
         String input = in.readString();
-        while(input.length()>1) {
+        while (input.length() > 1) {
             ConsoleView.getInstance().showMessage(MessageId.WRONG_CHAR_INPUT);
             ConsoleView.getInstance().showMessage(MessageId.TRY_AGAIN);
             input = in.readString();

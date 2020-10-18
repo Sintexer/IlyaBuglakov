@@ -21,6 +21,7 @@ public class MessageController {
 
     /**
      * Returns String from resource bundle associated with Enum<?> id
+     *
      * @param id - Enum<?> identification of string
      * @return String from resource bundle for current locale
      */
@@ -30,6 +31,7 @@ public class MessageController {
 
     /**
      * Returns List of Strings from resource bundle, each associated with Enum<?> id
+     *
      * @param properties - Collection of Enum<?> identifications of strings
      * @return List<String> from resource bundle for current locale
      */
@@ -41,6 +43,7 @@ public class MessageController {
 
     /**
      * Sets current application locale
+     *
      * @param locale new application locale
      */
     public void setLocale(Locale locale) {

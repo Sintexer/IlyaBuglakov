@@ -34,6 +34,7 @@ public class CommandController {
     /**
      * Same as getCommand(), but instead of returning command
      * this method runs it.
+     *
      * @param commandName - name of command to execute
      */
     public void executeCommand(CommandName commandName) {

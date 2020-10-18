@@ -1,9 +1,1 @@
-Simple input yet text
-har far mar фы 
-ыва
-ыва
-ываыва
-ывааавы
-выа 
- 
-ав
+Simple input yet text har far mar фы ыва ыва ываыва ывааавы выа ав 

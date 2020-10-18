@@ -15,7 +15,8 @@ public class ExcludeService {
 
     /**
      * Deletes al patterns from source String
-     * @param source - String to operate with
+     *
+     * @param source  - String to operate with
      * @param pattern - pattern of char sequences to delete
      * @return source String without patterns
      */
@@ -26,8 +27,9 @@ public class ExcludeService {
     /**
      * Deletes al patterns from source String, if detected match
      * falls into Predicate condition
-     * @param source - String to operate with
-     * @param pattern - pattern of char sequences to delete
+     *
+     * @param source    - String to operate with
+     * @param pattern   - pattern of char sequences to delete
      * @param predicate - Predicate, used for matches
      * @return source String without certain patterns
      */

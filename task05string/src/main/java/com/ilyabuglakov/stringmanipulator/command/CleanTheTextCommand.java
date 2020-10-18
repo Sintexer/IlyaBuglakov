@@ -2,16 +2,15 @@ package com.ilyabuglakov.stringmanipulator.command;
 
 import com.ilyabuglakov.stringmanipulator.beans.MessageId;
 import com.ilyabuglakov.stringmanipulator.controller.ApplicationController;
+import com.ilyabuglakov.stringmanipulator.exception.ReadException;
+import com.ilyabuglakov.stringmanipulator.file.FileBufferedIterator;
 import com.ilyabuglakov.stringmanipulator.service.string.ExcludeService;
 import com.ilyabuglakov.stringmanipulator.service.string.StringService;
 import com.ilyabuglakov.stringmanipulator.view.ConsoleView;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
@@ -25,30 +24,33 @@ public class CleanTheTextCommand implements Command {
     public void execute() {
         String inputPath = ApplicationController.INPUT;
         String outputPath = ApplicationController.OUTPUT;
-        ConsoleView view =ApplicationController.getInstance().getView();
+        final int BUFFER_SIZE = 256;
+        ConsoleView view = ApplicationController.getInstance().getView();
         String previous = "";
-        try ( Scanner in = new Scanner(new FileInputStream(new File(inputPath)));
-              FileWriter out = new FileWriter(outputPath)){
+        try (FileBufferedIterator in = new FileBufferedIterator(inputPath, BUFFER_SIZE);
+             FileWriter out = new FileWriter(outputPath)) {
 
-            while (in.hasNextLine()){
-                String line = in.nextLine();
-                line = ExcludeService.deleteAllByPattern(line,
+            while (in.hasNext()) {
+                String chunk = in.next();
+                chunk = ExcludeService.deleteAllByPattern(chunk,
                         Pattern.compile("[^a-zа-я\\s]", Pattern.CASE_INSENSITIVE));
-                line = StringService.innerTrim(line);
-                if(!line.isEmpty() && line.charAt(0)==' ') {
+                chunk = StringService.innerTrim(chunk);
+                if (!chunk.isEmpty() && chunk.charAt(0) == ' ') {
                     if (!previous.isEmpty() && previous.charAt(0) == ' ')
-                        line = line.substring(1);
+                        chunk = chunk.substring(1);
                 }
-                if(!line.isEmpty()) {
-                    previous = line;
-                    out.write(line + '\n');
-                    view.show(line);
+                if (!chunk.isEmpty()) {
+                    previous = chunk;
+                    out.write(chunk + '\n');
+                    view.show(chunk);
                 }
             }
         } catch (FileNotFoundException e) {
             view.showMessage(MessageId.CANT_OPEN_FILE);
         } catch (IOException e) {
             view.showMessage(MessageId.CANT_CREATE_FILE);
+        } catch (ReadException e) {
+            view.showMessage(MessageId.NOTHING_TO_READ);
         }
     }
 }

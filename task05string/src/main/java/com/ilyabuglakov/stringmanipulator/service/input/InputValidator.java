@@ -5,11 +5,12 @@ package com.ilyabuglakov.stringmanipulator.service.input;
  */
 public class InputValidator {
 
-    private InputValidator(){
+    private InputValidator() {
     }
 
     /**
      * Checks, if int in String valid or not
+     *
      * @param source String with int
      * @return true, if int in String can be parsed
      */

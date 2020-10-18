@@ -1,7 +1,6 @@
 package com.ilyabuglakov.stringmanipulator.view;
 
 import com.ilyabuglakov.stringmanipulator.beans.CommandName;
-import com.ilyabuglakov.stringmanipulator.beans.LocaleName;
 import com.ilyabuglakov.stringmanipulator.controller.IOController;
 import com.ilyabuglakov.stringmanipulator.controller.MessageController;
 import com.ilyabuglakov.stringmanipulator.service.OutputDecorator;
@@ -29,6 +28,7 @@ public class ConsoleView {
 
     /**
      * Returns instance of singleton class
+     *
      * @return ConsoleView instance
      */
     public static ConsoleView getInstance() {
@@ -38,6 +38,7 @@ public class ConsoleView {
     /**
      * Shows String, associated with Enum id in Message repository to
      * IOController output
+     *
      * @param id - enum identification of message
      */
     public void showMessage(Enum<?> id) {
@@ -54,6 +55,7 @@ public class ConsoleView {
 
     /**
      * Shows object to IOController output
+     *
      * @param o - object to show
      */
     public <T> void show(T o) {
@@ -63,7 +65,7 @@ public class ConsoleView {
     /**
      * @return char, inputted to IOController's input
      */
-    public char getChar(){
+    public char getChar() {
         return ioController.readChar();
     }
 
@@ -76,6 +78,7 @@ public class ConsoleView {
 
     /**
      * You can specify the left bound of inputted int
+     *
      * @return int, higher or equal leftBound, inputted to IOController's input
      */
     public int getInt(int leftBound) {
@@ -84,6 +87,7 @@ public class ConsoleView {
 
     /**
      * You can specify the left and right bounds of inputted int
+     *
      * @return int, higher or equal leftBound and lesser or equal rightBound,
      * inputted to IOController's input
      */
@@ -101,6 +105,7 @@ public class ConsoleView {
     /**
      * Returns CommandName, that is associated with menu option,
      * chosen by the user.
+     *
      * @return CommandName - chosen menu option
      */
     public CommandName getCommand() {
@@ -112,7 +117,6 @@ public class ConsoleView {
 
 
     /**
-     *
      * @param ids - identifications of messages enum
      * @return List of current application locale Strings,
      * associated with provided enum id's
@@ -123,6 +127,7 @@ public class ConsoleView {
 
     /**
      * Shows provided collection as enumerated list to IOController's output
+     *
      * @param ids - identifications of messages to show
      */
     public void showEnumeratedMessages(Collection<? extends Enum<?>> ids) {
@@ -131,9 +136,10 @@ public class ConsoleView {
 
     /**
      * Sets the application current locale
+     *
      * @param locale - new current locale
      */
-    public void setLocale(Locale locale){
+    public void setLocale(Locale locale) {
         messageController.setLocale(locale);
     }
 }

@@ -11,8 +11,9 @@ public class ReplaceService {
 
     /**
      * Replaces char's at certain positions in all words in String
+     *
      * @param source - source String to operate with
-     * @param index - index of character in word to replace
+     * @param index  - index of character in word to replace
      * @param symbol - character to replace with
      * @return source String with replaced characters in it
      */
@@ -27,9 +28,10 @@ public class ReplaceService {
 
     /**
      * Replaces each mistake in all words
-     * @param source - source String to operate with
-     * @param indicator - the correct character before the wrong character
-     * @param mistake - the wrong character
+     *
+     * @param source     - source String to operate with
+     * @param indicator  - the correct character before the wrong character
+     * @param mistake    - the wrong character
      * @param correction - the character to replace with
      * @return source String with corrected mistakes
      */
@@ -40,8 +42,9 @@ public class ReplaceService {
 
     /**
      * Replace all words with certain length in String with the word
-     * @param source - source String to operate with
-     * @param wordLength - the int length of the word to replace
+     *
+     * @param source      - source String to operate with
+     * @param wordLength  - the int length of the word to replace
      * @param replacement - the word to replace with
      * @return source String with replaced words
      */

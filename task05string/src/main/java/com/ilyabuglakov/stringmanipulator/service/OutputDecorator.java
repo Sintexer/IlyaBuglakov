@@ -7,11 +7,12 @@ import java.util.Collection;
  */
 public class OutputDecorator {
 
-    private OutputDecorator(){
+    private OutputDecorator() {
     }
 
     /**
      * Creates enumerated list as String from each collection element
+     *
      * @param collection - elements to build list with
      * @return String with enumerated elements from collection
      */

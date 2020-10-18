@@ -14,7 +14,7 @@ public class FileReader {
         String result;
         try (Stream<String> lines = Files.lines(Path.of(path))) {
             result = lines.collect(Collectors.joining("\n"));
-            if(result.isEmpty())
+            if (result.isEmpty())
                 throw new ReadException("File is empty");
         }
         return result;

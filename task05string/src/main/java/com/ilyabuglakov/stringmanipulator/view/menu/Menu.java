@@ -36,6 +36,7 @@ public class Menu {
 
     /**
      * Returns instance of singleton class
+     *
      * @return Menu instance
      */
     public static Menu getInstance() {
@@ -44,6 +45,7 @@ public class Menu {
 
     /**
      * Sets current menu page
+     *
      * @param currentPage - new current page
      */
     public void setCurrentPage(MenuPage currentPage) {

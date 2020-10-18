@@ -23,6 +23,6 @@ public class ChooseLocaleCommand implements Command {
 
         view.showEnumeratedMessages(locales);
         int choice = controller.getView().getInt(1, locales.size());
-        view.setLocale(LocaleRepository.getInstance().getLocaleForName(locales.get(choice-1)));
+        view.setLocale(LocaleRepository.getInstance().getLocaleForName(locales.get(choice - 1)));
     }
 }
