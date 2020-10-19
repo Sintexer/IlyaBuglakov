@@ -11,6 +11,7 @@ import com.ilyabuglakov.stringmanipulator.view.ConsoleView;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.regex.Pattern;
 
 /**
@@ -22,13 +23,17 @@ public class CleanTheTextCommand implements Command {
 
     @Override
     public void execute() {
-        String inputPath = ApplicationController.INPUT;
-        String outputPath = ApplicationController.OUTPUT;
+        ClassLoader loader = this.getClass().getClassLoader();
+
+        final String INPUT_PATH = "data/input.txt";
+        final String OUTPUT_PATH = "data/output.txt";
+        URL inputUrl = loader.getResource(INPUT_PATH);
+        URL outputUrl = loader.getResource(OUTPUT_PATH);
         final int BUFFER_SIZE = 256;
         ConsoleView view = ApplicationController.getInstance().getView();
         String previous = "";
-        try (FileBufferedIterator in = new FileBufferedIterator(inputPath, BUFFER_SIZE);
-             FileWriter out = new FileWriter(outputPath)) {
+        try (FileBufferedIterator in = new FileBufferedIterator(inputUrl.getPath(), BUFFER_SIZE);
+             FileWriter out = new FileWriter(outputUrl.getPath())) {
 
             while (in.hasNext()) {
                 String chunk = in.next();

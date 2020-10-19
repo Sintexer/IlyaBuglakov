@@ -17,7 +17,8 @@ public class InputStringFileCommand implements Command {
 
         ConsoleView view = ApplicationController.getInstance().getView();
         final int BUFFER_SIZE = 256;
-        try (FileBufferedIterator input = new FileBufferedIterator(ApplicationController.INIT_PATH, BUFFER_SIZE)) {
+        final String INIT_PATH = "init.txt";
+        try (FileBufferedIterator input = new FileBufferedIterator(INIT_PATH, BUFFER_SIZE)) {
             StringBuilder fileContent = new StringBuilder();
             while (input.hasNext())
                 fileContent.append(input.next());

@@ -11,9 +11,6 @@ import com.ilyabuglakov.stringmanipulator.view.ConsoleView;
 public class ApplicationController {
 
     private static ApplicationController instance = new ApplicationController();
-    public static String INIT_PATH = "init.txt";
-    public static String INPUT = "input.txt";
-    public static String OUTPUT = "output.txt";
 
     private CommandController commandController = CommandController.getInstance();
     private ConsoleView view = ConsoleView.getInstance();
