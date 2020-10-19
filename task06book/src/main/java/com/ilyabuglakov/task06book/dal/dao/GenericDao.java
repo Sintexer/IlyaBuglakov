@@ -1,10 +1,16 @@
 package com.ilyabuglakov.task06book.dal.dao;
 
-import java.io.Serializable;
+import com.ilyabuglakov.task06book.dal.specification.Specification;
+import com.ilyabuglakov.task06book.exception.DaoRemoveException;
 
-public interface GenericDao<T, S extends Sp> {
+import java.util.List;
 
-    void create(T newInstance);
-    void delete(T existingObject);
+public interface GenericDao<T> {
+
+    void add(T newInstance);
+    void remove(T existingObject) throws DaoRemoveException;
+    List<T> getAll();
+    <S extends Specification<T>> T findByCriteria(S criteria);
+    <S extends Specification<T>> List<T> findAllByCriteria(S criteria);
 
 }
