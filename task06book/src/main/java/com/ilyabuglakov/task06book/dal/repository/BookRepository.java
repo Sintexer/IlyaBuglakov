@@ -1,18 +1,19 @@
 package com.ilyabuglakov.task06book.dal.repository;
 
-import com.ilyabuglakov.task06book.dal.dao.BookSetDao;
+import com.ilyabuglakov.task06book.dal.dao.BookListDao;
 import com.ilyabuglakov.task06book.dal.specification.Specification;
 import com.ilyabuglakov.task06book.model.book.Book;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 public class BookRepository {
     private static BookRepository instance = new BookRepository();
-    private BookSetDao dao;
+    private BookListDao dao;
     
     private BookRepository(){
-        dao = new BookSetDao();
+        dao = new BookListDao();
     }
 
     public static BookRepository getInstance() {
@@ -33,5 +34,9 @@ public class BookRepository {
 
     public List<Book> getBooksByCriteria(Specification<Book> criteria){
         return dao.findAllByCriteria(criteria);
+    }
+
+    public void sortBy(Comparator<Book> comparator){
+        dao.sortBy(comparator);
     }
 }
