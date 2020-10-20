@@ -14,11 +14,11 @@ public class FileBookWriter implements AutoCloseable {
     }
 
     public void writeBook(Book book) throws IOException {
-        writer.write(book.toString());
+        writer.write(book.toString() + "\n");
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         writer.close();
     }
 

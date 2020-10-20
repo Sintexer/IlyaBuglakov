@@ -1,11 +1,13 @@
 package com.ilyabuglakov.task06book.service.file;
 
+import com.ilyabuglakov.task06book.exception.BookParseException;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.service.BookParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -31,12 +33,12 @@ public class FileBookReader implements AutoCloseable {
         return reader.hasNextLine();
     }
 
-    public Book readBook(){
+    public Book readBook() throws BookParseException {
         return parser.parse(reader.nextLine());
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         reader.close();
     }
 }
