@@ -5,15 +5,13 @@ import com.ilyabuglakov.task06book.exception.DaoRemoveException;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.storage.BookList;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BookListDao implements GenericDao<Book> {
-    private BookList bookList;
+    private BookList bookList = new BookList();
 
     @Override
     public void add(Book book) {
@@ -22,7 +20,7 @@ public class BookListDao implements GenericDao<Book> {
 
     @Override
     public void remove(Book book) throws DaoRemoveException {
-        if(!bookList.removeBook(book))
+        if (!bookList.removeBook(book))
             throw new DaoRemoveException("Cant remove book from BookSet");
     }
 
@@ -45,9 +43,9 @@ public class BookListDao implements GenericDao<Book> {
                 .collect(Collectors.toList());
     }
 
-    public void sortBy(Comparator<Book> comparator){
+    public void sortBy(Comparator<Book> comparator) {
         bookList.setBooks(bookList.getBooks().stream()
-        .sorted(comparator)
-        .collect(Collectors.toList()));
+                .sorted(comparator)
+                .collect(Collectors.toList()));
     }
 }
