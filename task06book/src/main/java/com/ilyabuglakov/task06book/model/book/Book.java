@@ -4,6 +4,7 @@ import java.time.Year;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Book {
 
@@ -19,6 +20,17 @@ public class Book {
         this.authors = authors;
         this.publishingHouse = publishingHouse;
         this.yearOfPublishing = yearOfPublishing;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder("[").append(name)
+                .append("|").append(numberOfPages)
+                .append("|").append(String.join(",", authors))
+                .append("|").append(publishingHouse)
+                .append("|").append(yearOfPublishing)
+                .append("]")
+                .toString();
     }
 
     @Override
