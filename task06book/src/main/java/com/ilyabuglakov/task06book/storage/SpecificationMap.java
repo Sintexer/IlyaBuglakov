@@ -5,6 +5,9 @@ import com.ilyabuglakov.task06book.dal.specification.Specification;
 import com.ilyabuglakov.task06book.dal.specification.book.SameAuthorsSpecification;
 import com.ilyabuglakov.task06book.dal.specification.book.SameBookSpecification;
 import com.ilyabuglakov.task06book.dal.specification.book.SameNameSpecification;
+import com.ilyabuglakov.task06book.dal.specification.book.SameNumberOfPagesSpecification;
+import com.ilyabuglakov.task06book.dal.specification.book.SamePublishingHouseSpecification;
+import com.ilyabuglakov.task06book.dal.specification.book.SamePublishingYear;
 import com.ilyabuglakov.task06book.model.book.Book;
 
 import java.util.Collection;
@@ -19,9 +22,9 @@ public class SpecificationMap {
     private SpecificationMap(){
         add(SpecificationName.BY_NAME, new SameNameSpecification());
         add(SpecificationName.BY_AUTHORS, new SameAuthorsSpecification());
-        add(SpecificationName.BY_NAME, new SameNameSpecification());
-        add(SpecificationName.BY_NAME, new SameNameSpecification());
-        add(SpecificationName.BY_NAME, new SameNameSpecification());
+        add(SpecificationName.BY_NUMBER_OF_PAGES, new SameNumberOfPagesSpecification());
+        add(SpecificationName.BY_PUBLISHING_HOUSE, new SamePublishingHouseSpecification());
+        add(SpecificationName.BY_YEAR_OF_PUBLISHING, new SamePublishingYear());
         add(SpecificationName.BY_ALL, new SameBookSpecification());
     }
 

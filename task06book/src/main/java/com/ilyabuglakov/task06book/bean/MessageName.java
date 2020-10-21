@@ -16,4 +16,5 @@ public enum MessageName {
     BOOK_DUPLICATES_IN_FILE,
     BOOK_IS_MISSING,
     CANT_OPEN_FILE,
+    CHOOSE_SORT_TYPE
 }

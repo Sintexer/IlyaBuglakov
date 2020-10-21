@@ -2,7 +2,6 @@ package com.ilyabuglakov.task06book.controller;
 
 import com.ilyabuglakov.task06book.bean.CommandName;
 import com.ilyabuglakov.task06book.bean.MessageName;
-import com.ilyabuglakov.task06book.dal.repository.BookRepository;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.model.book.BookBuilder;
 import com.ilyabuglakov.task06book.service.file.FileBookWriter;
@@ -94,32 +93,32 @@ public class ApplicationController {
                 .build();
     }
 
-    public String getInputName(){
+    public String getInputName() {
         view.showMessage(MessageName.ENTER_BOOK_NAME);
-        return  view.getString();
+        return view.getString();
     }
 
-    public int getInputNumberOfPages(){
+    public int getInputNumberOfPages() {
         view.showMessage(MessageName.ENTER_NUMBER_OF_PAGES);
         return view.getInt(1);
     }
 
-    public Set<String> getInputAuthors(){
+    public Set<String> getInputAuthors() {
         view.showMessage(MessageName.ENTER_AUTHORS);
         return new HashSet<>(Arrays.asList(view.getString().split(" ")));
     }
 
-    public String getInputPublishingHouse(){
+    public String getInputPublishingHouse() {
         view.showMessage(MessageName.ENTER_PUBLISHING_HOUSE);
         return view.getString();
     }
 
-    public Year getInputYearOfPublishing(){
+    public Year getInputYearOfPublishing() {
         view.showMessage(MessageName.ENTER_YEAR_OF_PUBLISHING);
         return Year.of(view.getInt(0, Integer.parseInt(Year.now().toString())));
     }
 
-    public void writeToFile(Collection<Book> books, String path){
+    public void writeToFile(Collection<Book> books, String path) {
         try (FileBookWriter writer = new FileBookWriter(path)) {
             for (Book book : books)
                 writer.writeBook(book);

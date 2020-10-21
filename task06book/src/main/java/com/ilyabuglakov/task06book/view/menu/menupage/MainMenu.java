@@ -13,6 +13,7 @@ public class MainMenu extends MenuPage {
         options.add(CommandName.READ_BOOKS_FILE);
         options.add(CommandName.FLUSH_TO_FILE);
         options.add(CommandName.FIND_BY_TAG);
+        options.add(CommandName.SORT_BOOKS);
         options.add(CommandName.EXIT);
     }
 }

@@ -11,6 +11,7 @@ import com.ilyabuglakov.task06book.exception.DaoAddException;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.service.file.FileBookReader;
 import com.ilyabuglakov.task06book.view.ConsoleView;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ReadBookFileCommand implements Command {
 
     private final String FILE_NAME = "input.txt";
+    Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public void execute() {
@@ -31,12 +33,16 @@ public class ReadBookFileCommand implements Command {
             while (reader.hasNext())
                 repository.add(reader.readBook());
         } catch (IOException e) {
+            logger.error(e.getMessage());
+            logger.error("ReadBook IOException");
             view.showMessage(MessageName.CANT_OPEN_FILE);
         } catch (BookParseException e) {
+            logger.error(e.getMessage());
             view.showMessage(MessageName.WRONG_INPUT_FILE_FORMAT);
             view.showMessage(MessageName.INPUT_FILE_FORMAT);
             repository.setBooks(backup);
         } catch (DaoAddException e) {
+            logger.error(e.getMessage());
             view.showMessage(MessageName.WRONG_INPUT_FILE_FORMAT);
             view.showMessage(MessageName.BOOK_DUPLICATES_IN_FILE);
             repository.setBooks(backup);

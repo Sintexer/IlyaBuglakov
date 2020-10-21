@@ -64,5 +64,6 @@ public class FindByTagCommand implements Command {
         List<Book> result = BookRepository.getInstance().getBooksByCriteria(specification);
         String path = PathController.getInstance().getResourcePath(FILENAME);
         controller.writeToFile(result, path);
+        view.show(result);
     }
 }

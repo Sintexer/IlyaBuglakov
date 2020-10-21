@@ -9,6 +9,7 @@ import com.ilyabuglakov.task06book.controller.comand.FlushToFileCommand;
 import com.ilyabuglakov.task06book.controller.comand.ReadBookFileCommand;
 import com.ilyabuglakov.task06book.controller.comand.RemoveBookCommand;
 import com.ilyabuglakov.task06book.controller.comand.ShowBookRepositoryCommand;
+import com.ilyabuglakov.task06book.controller.comand.SortCommand;
 
 import java.util.EnumMap;
 
@@ -23,6 +24,7 @@ public class CommandMap {
         commands.put(CommandName.READ_BOOKS_FILE, new ReadBookFileCommand());
         commands.put(CommandName.REMOVE_BOOK, new RemoveBookCommand());
         commands.put(CommandName.FIND_BY_TAG, new FindByTagCommand());
+        commands.put(CommandName.SORT_BOOKS, new SortCommand());
         commands.put(CommandName.EXIT, new EmptyCommand());
 //        commands.put(CommandName.SHOW_STRING, new ShowStringCommand());
 //        commands.put(CommandName.INPUT_STRING, new InputStringCommand());

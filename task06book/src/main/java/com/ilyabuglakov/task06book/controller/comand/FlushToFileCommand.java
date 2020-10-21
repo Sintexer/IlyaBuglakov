@@ -9,12 +9,14 @@ import com.ilyabuglakov.task06book.dal.repository.BookRepository;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.service.file.FileBookWriter;
 import com.ilyabuglakov.task06book.view.ConsoleView;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 public class FlushToFileCommand implements Command {
 
     private final String fileName = "bookRepositoryContent.txt";
+    Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public void execute() {
@@ -25,6 +27,8 @@ public class FlushToFileCommand implements Command {
             for (Book book : BookRepository.getInstance().getBooks())
                 writer.writeBook(book);
         } catch (IOException e) {
+            logger.error(e.getMessage());
+            logger.error("FlushToFile Exception");
             view.showMessage(MessageName.FILE_INIT_ERROR);
         }
         CommandController.getInstance().executeCommand(CommandName.SHOW_BOOK_REPOSITORY);
