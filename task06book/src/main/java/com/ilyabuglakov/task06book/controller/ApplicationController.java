@@ -2,12 +2,16 @@ package com.ilyabuglakov.task06book.controller;
 
 import com.ilyabuglakov.task06book.bean.CommandName;
 import com.ilyabuglakov.task06book.bean.MessageName;
+import com.ilyabuglakov.task06book.dal.repository.BookRepository;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.model.book.BookBuilder;
+import com.ilyabuglakov.task06book.service.file.FileBookWriter;
 import com.ilyabuglakov.task06book.view.ConsoleView;
 
+import java.io.IOException;
 import java.time.Year;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -88,6 +92,40 @@ public class ApplicationController {
                 .setPublishingHouse(publishingHouse)
                 .setYearOfPublishing(Year.of(yearOfPublishing))
                 .build();
+    }
+
+    public String getInputName(){
+        view.showMessage(MessageName.ENTER_BOOK_NAME);
+        return  view.getString();
+    }
+
+    public int getInputNumberOfPages(){
+        view.showMessage(MessageName.ENTER_NUMBER_OF_PAGES);
+        return view.getInt(1);
+    }
+
+    public Set<String> getInputAuthors(){
+        view.showMessage(MessageName.ENTER_AUTHORS);
+        return new HashSet<>(Arrays.asList(view.getString().split(" ")));
+    }
+
+    public String getInputPublishingHouse(){
+        view.showMessage(MessageName.ENTER_PUBLISHING_HOUSE);
+        return view.getString();
+    }
+
+    public Year getInputYearOfPublishing(){
+        view.showMessage(MessageName.ENTER_YEAR_OF_PUBLISHING);
+        return Year.of(view.getInt(0, Integer.parseInt(Year.now().toString())));
+    }
+
+    public void writeToFile(Collection<Book> books, String path){
+        try (FileBookWriter writer = new FileBookWriter(path)) {
+            for (Book book : books)
+                writer.writeBook(book);
+        } catch (IOException e) {
+            view.showMessage(MessageName.FILE_INIT_ERROR);
+        }
     }
 
 }

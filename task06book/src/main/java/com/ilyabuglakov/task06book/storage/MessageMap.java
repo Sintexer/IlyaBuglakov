@@ -3,6 +3,7 @@ package com.ilyabuglakov.task06book.storage;
 import com.ilyabuglakov.task06book.bean.CommandName;
 import com.ilyabuglakov.task06book.bean.LocaleName;
 import com.ilyabuglakov.task06book.bean.MessageName;
+import com.ilyabuglakov.task06book.bean.SpecificationName;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class MessageMap {
         addEnum(MessageName.class, "message");
         addEnum(CommandName.class, "command");
         addEnum(LocaleName.class, "locale");
+        addEnum(SpecificationName.class, "specification");
     }
 
     /**

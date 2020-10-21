@@ -12,6 +12,6 @@ public class SameNameSpecification implements Specification<Book> {
 
     @Override
     public boolean isSatisfiedBy(Book criteria) {
-        return book.getName().equals(criteria.getName());
+        return name.equals(criteria.getName());
     }
 }
