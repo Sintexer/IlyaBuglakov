@@ -2,17 +2,19 @@ package com.ilyabuglakov.task06book.controller;
 
 public class PathController {
     private static PathController instance = new PathController();
-    private ClassLoader classLoader;
+    private String RESOURCE_PATH = "data/";
+    private String FULL_PATH;
+    private ClassLoader classLoader = this.getClass().getClassLoader();
     
     private PathController(){
-       classLoader = this.getClass().getClassLoader();
+        FULL_PATH =  classLoader.getResource(RESOURCE_PATH).getPath()+"/";
     }
 
     public static PathController getInstance() {
         return instance;
     }
 
-    public String getResourcePath(String relativePath){
-        return classLoader.getResource(relativePath).getPath();
+    public String getResourcePath(String fileName){
+        return FULL_PATH + fileName;
     }
 }

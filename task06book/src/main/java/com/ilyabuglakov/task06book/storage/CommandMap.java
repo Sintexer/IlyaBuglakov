@@ -4,6 +4,7 @@ import com.ilyabuglakov.task06book.bean.CommandName;
 import com.ilyabuglakov.task06book.controller.comand.AddBookCommand;
 import com.ilyabuglakov.task06book.controller.comand.Command;
 import com.ilyabuglakov.task06book.controller.comand.EmptyCommand;
+import com.ilyabuglakov.task06book.controller.comand.FlushToFileCommand;
 import com.ilyabuglakov.task06book.controller.comand.ShowBookRepositoryCommand;
 
 import java.util.EnumMap;
@@ -14,6 +15,7 @@ public class CommandMap {
 
     static {
         commands.put(CommandName.ADD_BOOK, new AddBookCommand());
+        commands.put(CommandName.FLUSH_TO_FILE, new FlushToFileCommand());
         commands.put(CommandName.SHOW_BOOK_REPOSITORY, new ShowBookRepositoryCommand());
         commands.put(CommandName.EXIT, new EmptyCommand());
 //        commands.put(CommandName.SHOW_STRING, new ShowStringCommand());
