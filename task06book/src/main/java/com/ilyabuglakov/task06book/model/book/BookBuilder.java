@@ -6,14 +6,14 @@ import java.util.Set;
 
 public class BookBuilder {
 
-    private String name = "NaN";
+    private String name = "None";
     private int numberOfPages = 0;
     private Set<String> authors = new HashSet<>();
-    private String publishingHouse = "NaN";
+    private String publishingHouse = "None";
     private Year yearOfPublishing = Year.of(0);
 
-    public Book build(){
-        return new Book(name, numberOfPages, authors,publishingHouse, yearOfPublishing);
+    public Book build() {
+        return new Book(name, numberOfPages, authors, publishingHouse, yearOfPublishing);
     }
 
     public BookBuilder setName(String name) {
@@ -26,7 +26,7 @@ public class BookBuilder {
         return this;
     }
 
-    public BookBuilder addAuthor(String author){
+    public BookBuilder addAuthor(String author) {
         authors.add(author);
         return this;
     }
