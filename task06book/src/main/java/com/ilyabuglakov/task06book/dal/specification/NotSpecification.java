@@ -9,7 +9,7 @@ public class NotSpecification<T> implements Specification<T> {
     }
 
     @Override
-    public boolean isSatisfiedBy(T criteria){
+    public boolean isSatisfiedBy(T criteria) {
         return !specification.isSatisfiedBy(criteria);
     }
 }

@@ -11,7 +11,7 @@ public class OrSpecification<T> implements Specification<T> {
     }
 
     @Override
-    public boolean isSatisfiedBy(T criteria){
+    public boolean isSatisfiedBy(T criteria) {
         return first.isSatisfiedBy(criteria) || second.isSatisfiedBy(criteria);
     }
 
