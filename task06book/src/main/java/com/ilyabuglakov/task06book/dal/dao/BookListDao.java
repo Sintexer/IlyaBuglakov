@@ -1,10 +1,12 @@
 package com.ilyabuglakov.task06book.dal.dao;
 
 import com.ilyabuglakov.task06book.dal.specification.Specification;
+import com.ilyabuglakov.task06book.exception.DaoAddException;
 import com.ilyabuglakov.task06book.exception.DaoRemoveException;
 import com.ilyabuglakov.task06book.model.book.Book;
 import com.ilyabuglakov.task06book.storage.BookList;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,14 @@ public class BookListDao implements GenericDao<Book> {
     private BookList bookList = new BookList();
 
     @Override
-    public void add(Book book) {
+    public void clear() {
+        bookList.setBooks(new ArrayList<>());
+    }
+
+    @Override
+    public void add(Book book) throws DaoAddException {
+        if (bookList.getBooks().contains(book))
+            throw new DaoAddException("Book is already in BookList");
         bookList.addBook(book);
     }
 
@@ -27,6 +36,11 @@ public class BookListDao implements GenericDao<Book> {
     @Override
     public List<Book> getAll() {
         return bookList.getBooks();
+    }
+
+    @Override
+    public void setAll(List<Book> content) {
+        bookList.setBooks(new ArrayList<>(content));
     }
 
     @Override

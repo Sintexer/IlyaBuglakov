@@ -11,17 +11,17 @@ public abstract class MenuPage {
     private final MenuPageName name;
 
 
-    public MenuPage(MenuPageName name){
+    public MenuPage(MenuPageName name) {
         this.name = name;
         options = new ArrayList<>();
     }
 
 
-    List<CommandName> getOptions(){
+    List<CommandName> getOptions() {
         return new ArrayList<>(options);
     }
 
-    public MenuPageName getName(){
+    public MenuPageName getName() {
         return name;
     }
 

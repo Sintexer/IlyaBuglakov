@@ -19,7 +19,7 @@ public class IOController {
      * Outputs object to output destination
      *
      * @param object - object to show
-     * @param <T> - any object
+     * @param <T>    - any object
      */
     public <T> void show(T object) {
         out.show(object);

@@ -29,7 +29,7 @@ public class FileBookReader implements AutoCloseable {
         reader = new Scanner(new FileReader(new File(path)));
     }
 
-    public boolean hasNext(){
+    public boolean hasNext() {
         return reader.hasNextLine();
     }
 

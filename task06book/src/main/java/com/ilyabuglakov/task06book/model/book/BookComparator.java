@@ -4,23 +4,23 @@ import java.util.Comparator;
 
 public class BookComparator implements Comparator<Book> {
 
-    public static Comparator<Book> comparingName(){
+    public static Comparator<Book> comparingName() {
         return Comparator.comparing(Book::getName);
     }
 
-    public static Comparator<Book> comparingYearOfPublishing(){
+    public static Comparator<Book> comparingYearOfPublishing() {
         return Comparator.comparing(Book::getYearOfPublishing);
     }
 
-    public static Comparator<Book> comparingNumberOfPages(){
+    public static Comparator<Book> comparingNumberOfPages() {
         return Comparator.comparing(Book::getNumberOfPages);
     }
 
-    public static Comparator<Book> comparingPublishingHouse(){
+    public static Comparator<Book> comparingPublishingHouse() {
         return Comparator.comparing(Book::getPublishingHouse);
     }
 
-    public static Comparator<Book> comparingAuthors(){
+    public static Comparator<Book> comparingAuthors() {
         return Comparator.comparing(book -> book.getAuthors().stream()
                 .sorted()
                 .findFirst().orElse(""));

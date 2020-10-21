@@ -21,10 +21,10 @@ public class FlushToFileCommand implements Command {
         ApplicationController controller = ApplicationController.getInstance();
         ConsoleView view = controller.getView();
         String path = PathController.getInstance().getResourcePath(fileName);
-        try(FileBookWriter writer = new FileBookWriter(path)){
-            for(Book book: BookRepository.getInstance().getBooks())
+        try (FileBookWriter writer = new FileBookWriter(path)) {
+            for (Book book : BookRepository.getInstance().getBooks())
                 writer.writeBook(book);
-        } catch (IOException e){
+        } catch (IOException e) {
             view.showMessage(MessageName.FILE_INIT_ERROR);
         }
         CommandController.getInstance().executeCommand(CommandName.SHOW_BOOK_REPOSITORY);

@@ -2,6 +2,8 @@ package com.ilyabuglakov.task06book.dal.repository;
 
 import com.ilyabuglakov.task06book.dal.dao.BookListDao;
 import com.ilyabuglakov.task06book.dal.specification.Specification;
+import com.ilyabuglakov.task06book.exception.DaoAddException;
+import com.ilyabuglakov.task06book.exception.DaoRemoveException;
 import com.ilyabuglakov.task06book.model.book.Book;
 
 import java.util.Comparator;
@@ -11,8 +13,8 @@ import java.util.Optional;
 public class BookRepository {
     private static BookRepository instance = new BookRepository();
     private BookListDao dao;
-    
-    private BookRepository(){
+
+    private BookRepository() {
         dao = new BookListDao();
     }
 
@@ -20,23 +22,35 @@ public class BookRepository {
         return instance;
     }
 
-    public void add(Book book){
+    public void add(Book book) throws DaoAddException {
         dao.add(book);
     }
 
-    public List<Book> getBooks(){
+    public void remove(Book book) throws DaoRemoveException {
+        dao.remove(book);
+    }
+
+    public List<Book> getBooks() {
         return dao.getAll();
     }
 
-    public Optional<Book> getBookByCriteria(Specification<Book> criteria){
+    public void setBooks(List<Book> books) {
+        dao.setAll(books);
+    }
+
+    public void clear() {
+        dao.clear();
+    }
+
+    public Optional<Book> getBookByCriteria(Specification<Book> criteria) {
         return dao.findByCriteria(criteria);
     }
 
-    public List<Book> getBooksByCriteria(Specification<Book> criteria){
+    public List<Book> getBooksByCriteria(Specification<Book> criteria) {
         return dao.findAllByCriteria(criteria);
     }
 
-    public void sortBy(Comparator<Book> comparator){
+    public void sortBy(Comparator<Book> comparator) {
         dao.sortBy(comparator);
     }
 }

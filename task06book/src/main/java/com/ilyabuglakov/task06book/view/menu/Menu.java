@@ -4,7 +4,6 @@ import com.ilyabuglakov.task06book.bean.CommandName;
 import com.ilyabuglakov.task06book.bean.MenuPageName;
 import com.ilyabuglakov.task06book.view.menu.menupage.MainMenu;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;

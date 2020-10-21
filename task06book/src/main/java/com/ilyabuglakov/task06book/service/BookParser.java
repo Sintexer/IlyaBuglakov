@@ -21,7 +21,7 @@ public class BookParser {
     private final int MIN_BOOKSTRING_LENGTH = 6;
 
     public Book parse(String bookString) throws BookParseException {
-        if(bookString.length()<MIN_BOOKSTRING_LENGTH){
+        if (bookString.length() < MIN_BOOKSTRING_LENGTH) {
             throw new BookParseException("Wrong Book String pattern");
         }
         BookBuilder bookBuilder = new BookBuilder();
@@ -33,7 +33,7 @@ public class BookParser {
             bookBuilder.setAuthors(new HashSet<>(Arrays.asList(fields.get(2).split(","))));
             bookBuilder.setPublishingHouse(fields.get(3));
             bookBuilder.setYearOfPublishing(Year.of(Integer.parseInt(fields.get(4))));
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new BookParseException(e);
         }
         return bookBuilder.build();

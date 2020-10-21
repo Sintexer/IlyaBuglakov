@@ -9,6 +9,8 @@ public class MainMenu extends MenuPage {
     public MainMenu() {
         super(MenuPageName.MAIN_MENU);
         options.add(CommandName.ADD_BOOK);
+        options.add(CommandName.REMOVE_BOOK);
+        options.add(CommandName.READ_BOOKS_FILE);
         options.add(CommandName.FLUSH_TO_FILE);
         options.add(CommandName.EXIT);
     }

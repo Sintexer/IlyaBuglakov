@@ -21,7 +21,7 @@ public class BookList {
         books.add(book);
     }
 
-    public boolean removeBook(Book book){
+    public boolean removeBook(Book book) {
         return books.remove(book);
     }
 

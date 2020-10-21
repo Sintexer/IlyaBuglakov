@@ -22,9 +22,10 @@ public class MessageMap {
     /**
      * Adds another enum to map, qnd fills it with property Strings,
      * associated with enum
-     * @param enumeration - enum to add
+     *
+     * @param enumeration     - enum to add
      * @param propertySubName - substring, that precede property String
-     * @param <E> - class of enum
+     * @param <E>             - class of enum
      */
     public <E extends Enum<E>> void addEnum(Class<E> enumeration, String propertySubName) {
         Map<Enum<?>, String> properties = new HashMap<>();
