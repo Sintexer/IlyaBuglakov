@@ -25,13 +25,17 @@ public class BookParser {
             throw new BookParseException("Wrong Book String pattern");
         }
         BookBuilder bookBuilder = new BookBuilder();
-        bookString = bookString.substring(1, bookString.length()-1);
-        List<String> fields = new ArrayList<>(Arrays.asList(bookString.split("\\|")));
-        bookBuilder.setName(fields.get(0));
-        bookBuilder.setNumberOfPages(Integer.parseInt(fields.get(1)));
-        bookBuilder.setAuthors(new HashSet<>(Arrays.asList(fields.get(2).split(","))));
-        bookBuilder.setPublishingHouse(fields.get(3));
-        bookBuilder.setYearOfPublishing(Year.of(Integer.parseInt(fields.get(4))));
+        try {
+            bookString = bookString.substring(1, bookString.length() - 1);
+            List<String> fields = new ArrayList<>(Arrays.asList(bookString.split("\\|")));
+            bookBuilder.setName(fields.get(0));
+            bookBuilder.setNumberOfPages(Integer.parseInt(fields.get(1)));
+            bookBuilder.setAuthors(new HashSet<>(Arrays.asList(fields.get(2).split(","))));
+            bookBuilder.setPublishingHouse(fields.get(3));
+            bookBuilder.setYearOfPublishing(Year.of(Integer.parseInt(fields.get(4))));
+        } catch (NumberFormatException e){
+            throw new BookParseException(e);
+        }
         return bookBuilder.build();
     }
 

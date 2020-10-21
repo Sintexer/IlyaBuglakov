@@ -1,7 +1,10 @@
 package com.ilyabuglakov.task06book.storage;
 
 import com.ilyabuglakov.task06book.bean.CommandName;
+import com.ilyabuglakov.task06book.controller.comand.AddBookCommand;
 import com.ilyabuglakov.task06book.controller.comand.Command;
+import com.ilyabuglakov.task06book.controller.comand.EmptyCommand;
+import com.ilyabuglakov.task06book.controller.comand.ShowBookRepositoryCommand;
 
 import java.util.EnumMap;
 
@@ -10,7 +13,9 @@ public class CommandMap {
     private static EnumMap<CommandName, Command> commands = new EnumMap<>(CommandName.class);
 
     static {
-//        commands.put(CommandName.EXIT, new EmptyCommand());
+        commands.put(CommandName.ADD_BOOK, new AddBookCommand());
+        commands.put(CommandName.SHOW_BOOK_REPOSITORY, new ShowBookRepositoryCommand());
+        commands.put(CommandName.EXIT, new EmptyCommand());
 //        commands.put(CommandName.SHOW_STRING, new ShowStringCommand());
 //        commands.put(CommandName.INPUT_STRING, new InputStringCommand());
 //        commands.put(CommandName.INPUT_STRING_CONSOLE, new InputStringConsoleCommand());

@@ -1,5 +1,8 @@
 package com.ilyabuglakov.task06book.controller;
 
+import com.ilyabuglakov.task06book.bean.CommandName;
+import com.ilyabuglakov.task06book.view.ConsoleView;
+
 public class ApplicationController {
 
     private static ApplicationController instance = new ApplicationController();
