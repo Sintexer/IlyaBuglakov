@@ -1,0 +1,46 @@
+package com.ilyabuglakov.task0201books.storage;
+
+import com.ilyabuglakov.task0201books.bean.SpecificationName;
+import com.ilyabuglakov.task0201books.dal.specification.Specification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SameAuthorsSpecification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SameBookSpecification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SameNameSpecification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SameNumberOfPagesSpecification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SamePublishingHouseSpecification;
+import com.ilyabuglakov.task0201books.dal.specification.book.SamePublishingYear;
+import com.ilyabuglakov.task0201books.model.book.Book;
+
+import java.util.Collection;
+import java.util.EnumMap;
+
+public class SpecificationMap {
+    private static final SpecificationMap INSTANCE = new SpecificationMap();
+    private EnumMap<SpecificationName, Specification<Book>> specifications =
+            new EnumMap<>(SpecificationName.class);
+
+
+    private SpecificationMap(){
+        add(SpecificationName.BY_NAME, new SameNameSpecification());
+        add(SpecificationName.BY_AUTHORS, new SameAuthorsSpecification());
+        add(SpecificationName.BY_NUMBER_OF_PAGES, new SameNumberOfPagesSpecification());
+        add(SpecificationName.BY_PUBLISHING_HOUSE, new SamePublishingHouseSpecification());
+        add(SpecificationName.BY_YEAR_OF_PUBLISHING, new SamePublishingYear());
+        add(SpecificationName.BY_ALL, new SameBookSpecification());
+    }
+
+    public static SpecificationMap getInstance() {
+        return INSTANCE;
+    }
+
+    private void add(SpecificationName specificationName, Specification<Book> specification){
+        specifications.put(specificationName, specification);
+    }
+
+    public Collection<SpecificationName> getSpecificationsNames(){
+        return specifications.keySet();
+    }
+
+    public Specification<Book> get(SpecificationName name){
+        return specifications.get(name);
+    }
+}
