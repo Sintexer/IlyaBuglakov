@@ -1,9 +1,6 @@
 package com.ilyabuglakov.task0201books.service.file;
 
-import com.ilyabuglakov.task0201books.exception.ParseException;
-import com.ilyabuglakov.task0201books.model.book.Book;
 import com.ilyabuglakov.task0201books.model.publication.Publication;
-import com.ilyabuglakov.task0201books.service.parser.BookParser;
 import com.ilyabuglakov.task0201books.service.parser.PublicationParser;
 
 import java.io.File;
@@ -32,14 +29,31 @@ public class FilePublicationReader implements AutoCloseable {
         reader = new Scanner(new FileReader(new File(path)));
     }
 
+    /**
+     * Returns true, if there is something left in the file to read.
+     *
+     * @return true, if can read next object.
+     */
     public boolean hasNext() {
         return reader.hasNextLine();
     }
 
+    /**
+     * Can return any Publication subclass as Publication reference.
+     * Will return Optional.empty(), if line in the file contains wrong
+     * parameters and object can be created from provided info.
+     *
+     * @return Optional of next Publication in the file.
+     */
     public Optional<? extends Publication> next() {
         return parser.parse(reader.nextLine());
     }
 
+    /**
+     * Closes file.
+     *
+     * @throws IOException if file cannot be closed.
+     */
     @Override
     public void close() throws IOException {
         reader.close();

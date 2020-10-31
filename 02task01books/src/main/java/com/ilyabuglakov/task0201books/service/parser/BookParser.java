@@ -12,15 +12,22 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * BookParser class used to create Book object from its String representation
  * Example of String, containing book:
- * Book[voyna i mir|253|ilya,vasya bul, petya|Kamilfo|2020]
+ * Book[voyna i mir|253|Kamilfo|2020|ilya,leonid bul, petril]
  * pattern:
- * getPrefix()[name|pages|authors|publishingHouse|year]
+ * getPrefix()[name|pages|publishingHouse|year|authors]
  */
 public class BookParser {
 
     private final int MIN_BOOKSTRING_LENGTH = 12;
 
+    /**
+     * This method will return Optional.empty() if information is wrong or corrupted and
+     * information in String can't be used to create Book object.
+     * @param bookString - String, containing information, used for Book object creation
+     * @return Book, created from info in given String
+     */
     public Optional<Book> parse(String bookString) {
         if (bookString.length() < MIN_BOOKSTRING_LENGTH) {
             return Optional.empty();

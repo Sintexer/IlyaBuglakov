@@ -14,10 +14,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * MagazineParser class used to create Magazine object from its String representation
+ * Example of String, containing magazine:
+ * Magazine[nauka i tech|16|defen|2020|science]
+ * pattern:
+ * getPrefix()[name|pages|publishingHouse|type]
+ */
 public class MagazineParser {
 
     private final int MIN_MAGAZINESTRING_LENGTH = 16;
 
+    /**
+     * This method will return Optional.empty() if information is wrong or corrupted and
+     * information in String can't be used to create Book object.
+     * @param magazineString - String, containing information, used for Magazine object creation
+     * @return Magazine, created from info in given String
+     */
     public Optional<Magazine> parse(String magazineString) {
         if (magazineString.length() < MIN_MAGAZINESTRING_LENGTH) {;
             return Optional.empty();
