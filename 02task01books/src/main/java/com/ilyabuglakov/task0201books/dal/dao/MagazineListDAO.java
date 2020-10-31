@@ -62,7 +62,7 @@ public class MagazineListDAO implements GenericDao<Magazine> {
 
     @Override
     public List<Magazine> getAll() {
-        return null;
+        return magazineList.getMagazines();
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.ilyabuglakov.task0201books.storage;
 
 import com.ilyabuglakov.task0201books.bean.CommandName;
-import com.ilyabuglakov.task0201books.controller.comand.AddBookCommand;
 import com.ilyabuglakov.task0201books.controller.comand.Command;
 import com.ilyabuglakov.task0201books.controller.comand.EmptyCommand;
 import com.ilyabuglakov.task0201books.controller.comand.FindByTagCommand;
 import com.ilyabuglakov.task0201books.controller.comand.FlushToFileCommand;
-import com.ilyabuglakov.task0201books.controller.comand.ReadBookFileCommand;
+import com.ilyabuglakov.task0201books.controller.comand.ReadPublicationFileCommand;
 import com.ilyabuglakov.task0201books.controller.comand.RemoveBookCommand;
 import com.ilyabuglakov.task0201books.controller.comand.ShowBookRepositoryCommand;
 import com.ilyabuglakov.task0201books.controller.comand.SortCommand;
@@ -18,24 +17,13 @@ public class CommandMap {
     private static EnumMap<CommandName, Command> commands = new EnumMap<>(CommandName.class);
 
     static {
-        commands.put(CommandName.ADD_BOOK, new AddBookCommand());
         commands.put(CommandName.FLUSH_TO_FILE, new FlushToFileCommand());
-        commands.put(CommandName.SHOW_BOOK_REPOSITORY, new ShowBookRepositoryCommand());
-        commands.put(CommandName.READ_BOOKS_FILE, new ReadBookFileCommand());
+        commands.put(CommandName.SHOW_REPOSITORY, new ShowBookRepositoryCommand());
+        commands.put(CommandName.READ_BOOKS_FILE, new ReadPublicationFileCommand());
         commands.put(CommandName.REMOVE_BOOK, new RemoveBookCommand());
         commands.put(CommandName.FIND_BY_TAG, new FindByTagCommand());
         commands.put(CommandName.SORT_BOOKS, new SortCommand());
         commands.put(CommandName.EXIT, new EmptyCommand());
-//        commands.put(CommandName.SHOW_STRING, new ShowStringCommand());
-//        commands.put(CommandName.INPUT_STRING, new InputStringCommand());
-//        commands.put(CommandName.INPUT_STRING_CONSOLE, new InputStringConsoleCommand());
-//        commands.put(CommandName.INPUT_STRING_FILE, new InputStringFileCommand());
-//        commands.put(CommandName.REPLACE_POSITION, new ReplaceAllLettersInPositionCommand());
-//        commands.put(CommandName.CORRECT_MISTAKES, new CorrectMistakesCommand());
-//        commands.put(CommandName.REPLACE_WORDS, new ReplaceWordsCommand());
-//        commands.put(CommandName.CLEAN_THE_TEXT, new CleanTheTextCommand());
-//        commands.put(CommandName.DELETE_CONSONANT_WORDS, new DeleteConsonantWordsCommand());
-//        commands.put(CommandName.CHOOSE_LOCALE, new ChooseLocaleCommand());
     }
 
     private CommandMap() {

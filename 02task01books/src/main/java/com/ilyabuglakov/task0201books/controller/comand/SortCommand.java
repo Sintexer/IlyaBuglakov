@@ -22,6 +22,6 @@ public class SortCommand implements Command {
         view.showEnumeratedMessages(sortTypes);
         int choice = view.getInt(1, sortTypes.size());
         BookRepository.getInstance().sortBy(BookComparatorMap.getInstance().get(sortTypes.get(choice - 1)));
-        CommandController.getInstance().executeCommand(CommandName.SHOW_BOOK_REPOSITORY);
+        CommandController.getInstance().executeCommand(CommandName.SHOW_REPOSITORY);
     }
 }

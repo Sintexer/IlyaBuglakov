@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,9 +65,19 @@ public class PublicationRepository {
         }
     }
 
+    public List<Publication> getAll(){
+        return daosMap.values().stream()
+                .map(GenericDao::getAll)
+                .peek(System.out::println)
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
     public List<Publication> getAllSorted() {
         return daosMap.values().stream()
                 .map(GenericDao::getAll)
+                .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
                 .sorted()
                 .collect(Collectors.toList());
@@ -75,6 +86,7 @@ public class PublicationRepository {
     public List<Publication> getAllSorted(Comparator<Publication> comparator) {
         return daosMap.values().stream()
                 .map(GenericDao::getAll)
+                .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
                 .sorted(comparator)
                 .collect(Collectors.toList());
@@ -102,6 +114,12 @@ public class PublicationRepository {
 
     public void sort(PublicationComparator comparator) {
         ((MagazineListDAO) daosMap.get(Magazine.class)).sortBy(comparator);
+    }
+
+    public void clear(){
+        for(Class<? extends Publication> key:  daosMap.keySet()){
+            daosMap.get(key).clear();
+        }
     }
 //TODO Tests
 }

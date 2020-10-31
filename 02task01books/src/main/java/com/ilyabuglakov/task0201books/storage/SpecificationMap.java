@@ -13,6 +13,9 @@ import com.ilyabuglakov.task0201books.model.book.Book;
 import java.util.Collection;
 import java.util.EnumMap;
 
+/**
+ * Stores Book specifications
+ */
 public class SpecificationMap {
     private static final SpecificationMap INSTANCE = new SpecificationMap();
     private EnumMap<SpecificationName, Specification<Book>> specifications =

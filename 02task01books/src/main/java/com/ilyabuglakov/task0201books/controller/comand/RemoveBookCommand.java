@@ -15,11 +15,11 @@ public class RemoveBookCommand implements Command {
     public void execute() {
         ApplicationController controller = ApplicationController.getInstance();
         ConsoleView view = controller.getView();
-        try {
-            BookRepository.getInstance().remove(controller.getInputBook());
-        } catch (DaoRemoveException e) {
-            logger.error(e.getMessage());
-            view.showMessage(MessageName.BOOK_IS_MISSING);
-        }
+//        try {
+//            BookRepository.getInstance().remove(controller.getInputBook());
+//        } catch (DaoRemoveException e) {
+//            logger.error(e.getMessage());
+//            view.showMessage(MessageName.BOOK_IS_MISSING);
+//        }
     }
 }

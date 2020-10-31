@@ -5,6 +5,9 @@ import com.ilyabuglakov.task0201books.model.book.Book;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Returns true if given Book has all adjusted authors
+ */
 public class SameAuthorsSpecification implements BookSpecification {
     private Set<String> authors;
 

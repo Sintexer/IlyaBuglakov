@@ -4,6 +4,9 @@ import com.ilyabuglakov.task0201books.model.book.Book;
 
 import java.time.Year;
 
+/**
+ * Returns true if given Book has adjusted publishingYear
+ */
 public class SamePublishingYear implements BookSpecification {
     private Year yearOfPublishing;
 

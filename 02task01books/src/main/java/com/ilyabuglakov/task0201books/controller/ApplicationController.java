@@ -4,6 +4,7 @@ import com.ilyabuglakov.task0201books.bean.CommandName;
 import com.ilyabuglakov.task0201books.bean.MessageName;
 import com.ilyabuglakov.task0201books.model.book.Book;
 import com.ilyabuglakov.task0201books.model.book.BookBuilder;
+import com.ilyabuglakov.task0201books.model.publication.Publication;
 import com.ilyabuglakov.task0201books.service.file.FilePublicationWriter;
 import com.ilyabuglakov.task0201books.view.ConsoleView;
 
@@ -65,34 +66,6 @@ public class ApplicationController {
         this.applicationString = applicationString;
     }
 
-    /**
-     * Creates a book via view dialog with user
-     *
-     * @return inputted book
-     */
-    public Book getInputBook() {
-        ApplicationController controller = ApplicationController.getInstance();
-        ConsoleView view = controller.getView();
-        view.showMessage(MessageName.ENTER_BOOK);
-        view.showMessage(MessageName.ENTER_BOOK_NAME);
-        String bookName = view.getString();
-        view.showMessage(MessageName.ENTER_NUMBER_OF_PAGES);
-        int numberOfPages = view.getInt(1);
-        view.showMessage(MessageName.ENTER_AUTHORS);
-        Set<String> authors = new HashSet<>(Arrays.asList(view.getString().split(" ")));
-        view.showMessage(MessageName.ENTER_PUBLISHING_HOUSE);
-        String publishingHouse = view.getString();
-        view.showMessage(MessageName.ENTER_YEAR_OF_PUBLISHING);
-        int yearOfPublishing = view.getInt(0, Integer.parseInt(Year.now().toString()));
-
-        return new BookBuilder().setName(bookName)
-                .setAuthors(authors)
-                .setNumberOfPages(numberOfPages)
-                .setPublishingHouse(publishingHouse)
-                .setYearOfPublishing(Year.of(yearOfPublishing))
-                .build();
-    }
-
     public String getInputName() {
         view.showMessage(MessageName.ENTER_BOOK_NAME);
         return view.getString();
@@ -118,10 +91,10 @@ public class ApplicationController {
         return Year.of(view.getInt(0, Integer.parseInt(Year.now().toString())));
     }
 
-    public void writeToFile(Collection<Book> books, String path) {
+    public void writeToFile(Collection<? extends Publication> publications, String path) {
         try (FilePublicationWriter writer = new FilePublicationWriter(path)) {
-            for (Book book : books)
-                writer.writeBook(book);
+            for (var publication : publications)
+                writer.write(publication);
         } catch (IOException e) {
             view.showMessage(MessageName.FILE_INIT_ERROR);
         }

@@ -6,7 +6,6 @@ import com.ilyabuglakov.task0201books.controller.PathController;
 import com.ilyabuglakov.task0201books.dal.repository.BookRepository;
 import com.ilyabuglakov.task0201books.dal.specification.Specification;
 import com.ilyabuglakov.task0201books.dal.specification.book.SameAuthorsSpecification;
-import com.ilyabuglakov.task0201books.dal.specification.book.SameBookSpecification;
 import com.ilyabuglakov.task0201books.dal.specification.book.SameNameSpecification;
 import com.ilyabuglakov.task0201books.dal.specification.book.SameNumberOfPagesSpecification;
 import com.ilyabuglakov.task0201books.dal.specification.book.SamePublishingHouseSpecification;
@@ -56,14 +55,15 @@ public class FindByTagCommand implements Command {
         } else if (choice == 4) {
             Year year = controller.getInputYearOfPublishing();
             ((SamePublishingYear) specification).setYearOfPublishing(year);
-        } else if (choice == 5) {
-            Book book = controller.getInputBook();
-            ((SameBookSpecification) specification).setBook(book);
         }
+//        } else if (choice == 5) {
+//            Book book = controller.getInputBook();
+//            ((SameBookSpecification) specification).setBook(book);
+//        }
 
-        List<Book> result = BookRepository.getInstance().getBooksByCriteria(specification);
-        String path = PathController.getInstance().getResourcePath(FILENAME);
-        controller.writeToFile(result, path);
-        view.show(result);
+            List<Book> result = BookRepository.getInstance().getBooksByCriteria(specification);
+            String path = PathController.getInstance().getResourcePath(FILENAME);
+            controller.writeToFile(result, path);
+            view.show(result);
+        }
     }
-}

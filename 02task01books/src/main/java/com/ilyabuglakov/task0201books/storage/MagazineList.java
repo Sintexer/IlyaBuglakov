@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Stores Magazine objects.
+ */
 public class MagazineList {
     private List<Magazine> magazines;
 

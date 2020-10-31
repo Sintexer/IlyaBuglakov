@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Stores Book objects.
+ */
 public class BookList {
     private List<Book> books;
 

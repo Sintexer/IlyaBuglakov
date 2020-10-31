@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
 
+/**
+ * BookComparatorMap stores all comparators for books
+ */
 public class BookComparatorMap {
     private static final BookComparatorMap INSTANCE = new BookComparatorMap();
     private EnumMap<SpecificationName, Comparator<Book>> comparators =
