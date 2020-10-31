@@ -3,6 +3,11 @@ package com.ilyabuglakov.task0201books.model.publication;
 import java.time.Year;
 import java.util.Objects;
 
+/**
+ * Publication is abstract class used for representation of different print editions.
+ *
+ * Each deriving class should also override getPrefix() method.
+ */
 public abstract class Publication implements Comparable<Publication> {
     protected final String name;
     protected final int numberOfPages;

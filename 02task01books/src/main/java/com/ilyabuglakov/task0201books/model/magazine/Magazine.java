@@ -6,6 +6,10 @@ import com.ilyabuglakov.task0201books.model.publication.Publication;
 import java.time.Year;
 import java.util.Objects;
 
+/**
+ * Magazine is the subclass realisation of the Publication class.
+ * Represents a magazine with one of the magazine type's, which are defined in MagazineType enumeration.
+ */
 public final class Magazine extends Publication {
 
     private final MagazineType type;
@@ -15,11 +19,24 @@ public final class Magazine extends Publication {
         this.type = type;
     }
 
+    /**
+     * Creates Magazine object from given parameters, where
+     * @param name - name of the Magazine.
+     * @param numberOfPages - number of magazine pages.
+     * @param publishingHouse - the magazine publishing house.
+     * @param yearOfPublishing - the magazine publishing year.
+     * @param type - the type of the magazine,
+     * @return Magazine object from given parameters.
+     */
     public static Magazine of(String name, int numberOfPages, String publishingHouse,
                               Year yearOfPublishing, MagazineType type){
         return new Magazine(name, numberOfPages, publishingHouse, yearOfPublishing, type);
     }
 
+    /**
+     * Return the class prefix, used in toString Method.
+     * @return class prefix as String.
+     */
     public static String getPrefix() {
         return "Magazine";
     }

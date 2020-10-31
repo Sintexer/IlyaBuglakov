@@ -4,6 +4,10 @@ import com.ilyabuglakov.task0201books.bean.MagazineType;
 
 import java.time.Year;
 
+/**
+ * MagazineBuilder is implementation of the Builder pattern, specified for Magazine class.
+ * Used for convenient creation of Magazine object.
+ */
 public class MagazineBuilder {
     private String name = "None";
     private int numberOfPages = 0;
@@ -11,6 +15,9 @@ public class MagazineBuilder {
     private String publishingHouse = "None";
     private Year yearOfPublishing = Year.of(0);
 
+    /**
+     * @return Magazine from given parameters.
+     */
     public Magazine build() {
         return Magazine.of(name, numberOfPages, publishingHouse, yearOfPublishing, type);
     }

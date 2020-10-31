@@ -4,6 +4,10 @@ import java.time.Year;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * BookBuilder is implementation of the Builder pattern, specified for Book class.
+ * Used for convenient creation of Book object.
+ */
 public class BookBuilder {
 
     private String name = "None";
@@ -12,6 +16,9 @@ public class BookBuilder {
     private String publishingHouse = "None";
     private Year yearOfPublishing = Year.of(0);
 
+    /**
+     * @return Book from given parameters.
+     */
     public Book build() {
         return Book.of(name, numberOfPages, publishingHouse, yearOfPublishing, authors);
     }
@@ -23,11 +30,6 @@ public class BookBuilder {
 
     public BookBuilder setNumberOfPages(int numberOfPages) {
         this.numberOfPages = numberOfPages;
-        return this;
-    }
-
-    public BookBuilder addAuthor(String author) {
-        authors.add(author);
         return this;
     }
 

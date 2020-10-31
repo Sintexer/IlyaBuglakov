@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Book is subclass of Publication. It overrides getPrefix() method and changes behaviour of methods,
+ * such as toString(), equals() and hashCode().
+ * Also, Book class implements Factory method pattern.
+ */
 public final class Book extends Publication {
 
     private final Set<String> authors;
@@ -16,9 +21,18 @@ public final class Book extends Publication {
         this.authors = authors;
     }
 
+    /**
+     * Creates Book from parameters.
+     * @param name - name of the book.
+     * @param numberOfPages - number of pages.
+     * @param publishingHouse - the publishing house of the book.
+     * @param yearOfPublishing - the book publishing year.
+     * @param authors - authors of the book;
+     * @return book from parameters.
+     */
     public static Book of(String name, int numberOfPages, String publishingHouse,
-                          Year yearOfPublishing, Set<String> author){
-        return  new Book(name, numberOfPages, publishingHouse, yearOfPublishing, author);
+                          Year yearOfPublishing, Set<String> authors){
+        return  new Book(name, numberOfPages, publishingHouse, yearOfPublishing, authors);
     }
 
     @Override

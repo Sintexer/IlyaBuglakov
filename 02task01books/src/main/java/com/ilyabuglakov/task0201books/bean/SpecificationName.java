@@ -1,5 +1,8 @@
 package com.ilyabuglakov.task0201books.bean;
 
+/**
+ * Defines the name of Specification
+ */
 public enum SpecificationName {
     BY_NAME,
     BY_NUMBER_OF_PAGES,
