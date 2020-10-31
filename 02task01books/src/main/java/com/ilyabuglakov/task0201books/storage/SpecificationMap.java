@@ -19,7 +19,7 @@ public class SpecificationMap {
             new EnumMap<>(SpecificationName.class);
 
 
-    private SpecificationMap(){
+    private SpecificationMap() {
         add(SpecificationName.BY_NAME, new SameNameSpecification());
         add(SpecificationName.BY_AUTHORS, new SameAuthorsSpecification());
         add(SpecificationName.BY_NUMBER_OF_PAGES, new SameNumberOfPagesSpecification());
@@ -32,15 +32,15 @@ public class SpecificationMap {
         return INSTANCE;
     }
 
-    private void add(SpecificationName specificationName, Specification<Book> specification){
+    private void add(SpecificationName specificationName, Specification<Book> specification) {
         specifications.put(specificationName, specification);
     }
 
-    public Collection<SpecificationName> getSpecificationsNames(){
+    public Collection<SpecificationName> getSpecificationsNames() {
         return specifications.keySet();
     }
 
-    public Specification<Book> get(SpecificationName name){
+    public Specification<Book> get(SpecificationName name) {
         return specifications.get(name);
     }
 }

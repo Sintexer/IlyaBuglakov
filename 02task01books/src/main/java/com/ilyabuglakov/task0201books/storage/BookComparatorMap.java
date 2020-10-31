@@ -20,7 +20,7 @@ public class BookComparatorMap {
         add(SpecificationName.BY_NUMBER_OF_PAGES, BookComparator.comparingNumberOfPages());
         add(SpecificationName.BY_PUBLISHING_HOUSE, BookComparator.comparingPublishingHouse());
         add(SpecificationName.BY_YEAR_OF_PUBLISHING, BookComparator.comparingYearOfPublishing());
-        add(SpecificationName.BY_ALL,  new BookComparator());
+        add(SpecificationName.BY_ALL, new BookComparator());
     }
 
     public static BookComparatorMap getInstance() {

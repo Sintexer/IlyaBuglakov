@@ -1,5 +1,8 @@
 package com.ilyabuglakov.task0201books.bean;
 
+/**
+ * Defines the name of the message
+ */
 public enum MessageName {
     WRONG_INT_INPUT,
     TRY_AGAIN,

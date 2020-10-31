@@ -5,11 +5,11 @@ import com.ilyabuglakov.task0201books.model.book.Book;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileBookWriter implements AutoCloseable {
+public class FilePublicationWriter implements AutoCloseable {
 
     private FileWriter writer;
 
-    public FileBookWriter(String path) throws IOException {
+    public FilePublicationWriter(String path) throws IOException {
         writer = new FileWriter(path);
     }
 

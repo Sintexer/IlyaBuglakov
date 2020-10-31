@@ -1,4 +1,7 @@
-{voina i mir|10295|l.n.tolstoy|ssdgfsd|2}
-{voinr|295|olstoy|dsf|2}
-{mir|10295|lstoy|srtgre|2}
-{voiir|195|ly|2rse|2}
+Book{voina i mir|10295|ssdgfsd|2|l.n.tolstoy,l,n d}
+Book{voinr|295|dsf|2|l.tols,y}
+Book{mir|10295|srtgre|2|ol st,oy}
+Book{voiir|a|lgdfy|2|sda,e fsdf s}
+Magazine{voiir|195|lgdfy|2|science}
+Magazine{voiir|195|lgdfy|2|medicine}
+Magazine{voiir|195|lgdfy|2|medicdine}

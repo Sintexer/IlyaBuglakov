@@ -4,7 +4,7 @@ import com.ilyabuglakov.task0201books.bean.CommandName;
 import com.ilyabuglakov.task0201books.bean.MessageName;
 import com.ilyabuglakov.task0201books.model.book.Book;
 import com.ilyabuglakov.task0201books.model.book.BookBuilder;
-import com.ilyabuglakov.task0201books.service.file.FileBookWriter;
+import com.ilyabuglakov.task0201books.service.file.FilePublicationWriter;
 import com.ilyabuglakov.task0201books.view.ConsoleView;
 
 import java.io.IOException;
@@ -119,7 +119,7 @@ public class ApplicationController {
     }
 
     public void writeToFile(Collection<Book> books, String path) {
-        try (FileBookWriter writer = new FileBookWriter(path)) {
+        try (FilePublicationWriter writer = new FilePublicationWriter(path)) {
             for (Book book : books)
                 writer.writeBook(book);
         } catch (IOException e) {

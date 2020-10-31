@@ -1,13 +1,16 @@
 package com.ilyabuglakov.task0201books.service.file;
 
-import com.ilyabuglakov.task0201books.exception.BookParseException;
+import com.ilyabuglakov.task0201books.exception.ParseException;
 import com.ilyabuglakov.task0201books.model.book.Book;
-import com.ilyabuglakov.task0201books.service.BookParser;
+import com.ilyabuglakov.task0201books.model.publication.Publication;
+import com.ilyabuglakov.task0201books.service.parser.BookParser;
+import com.ilyabuglakov.task0201books.service.parser.PublicationParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -20,12 +23,12 @@ import java.util.Scanner;
  * Book.toString() pattern:
  * [name|numberOfPages|author,author,...,author|publishingHouse|yearOfPublishing]
  */
-public class FileBookReader implements AutoCloseable {
+public class FilePublicationReader implements AutoCloseable {
 
     Scanner reader;
-    BookParser parser = new BookParser();
+    PublicationParser parser = new PublicationParser();
 
-    public FileBookReader(String path) throws FileNotFoundException {
+    public FilePublicationReader(String path) throws FileNotFoundException {
         reader = new Scanner(new FileReader(new File(path)));
     }
 
@@ -33,7 +36,7 @@ public class FileBookReader implements AutoCloseable {
         return reader.hasNextLine();
     }
 
-    public Book readBook() throws BookParseException {
+    public Optional<? extends Publication> next() {
         return parser.parse(reader.nextLine());
     }
 

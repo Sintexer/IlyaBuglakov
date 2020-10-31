@@ -1,5 +1,8 @@
 package com.ilyabuglakov.task0201books.bean;
 
+/**
+ * Defines the name of the Command
+ */
 public enum CommandName {
     EXIT,
     ADD_BOOK,

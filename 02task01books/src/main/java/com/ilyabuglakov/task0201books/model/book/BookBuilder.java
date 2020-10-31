@@ -13,7 +13,7 @@ public class BookBuilder {
     private Year yearOfPublishing = Year.of(0);
 
     public Book build() {
-        return new Book(name, numberOfPages, authors, publishingHouse, yearOfPublishing);
+        return Book.of(name, numberOfPages, publishingHouse, yearOfPublishing, authors);
     }
 
     public BookBuilder setName(String name) {

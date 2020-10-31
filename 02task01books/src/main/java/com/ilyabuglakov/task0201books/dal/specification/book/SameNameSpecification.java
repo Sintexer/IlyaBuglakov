@@ -1,9 +1,8 @@
 package com.ilyabuglakov.task0201books.dal.specification.book;
 
-import com.ilyabuglakov.task0201books.dal.specification.Specification;
 import com.ilyabuglakov.task0201books.model.book.Book;
 
-public class SameNameSpecification implements Specification<Book> {
+public class SameNameSpecification implements BookSpecification {
     private String name;
 
     public void setName(String name) {

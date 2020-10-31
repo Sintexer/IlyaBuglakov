@@ -1,12 +1,11 @@
 package com.ilyabuglakov.task0201books.dal.specification.book;
 
-import com.ilyabuglakov.task0201books.dal.specification.Specification;
 import com.ilyabuglakov.task0201books.model.book.Book;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SameAuthorsSpecification implements Specification<Book> {
+public class SameAuthorsSpecification implements BookSpecification {
     private Set<String> authors;
 
     public void setAuthors(Set<String> authors) {

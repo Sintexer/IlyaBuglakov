@@ -7,7 +7,7 @@ import com.ilyabuglakov.task0201books.controller.CommandController;
 import com.ilyabuglakov.task0201books.controller.PathController;
 import com.ilyabuglakov.task0201books.dal.repository.BookRepository;
 import com.ilyabuglakov.task0201books.model.book.Book;
-import com.ilyabuglakov.task0201books.service.file.FileBookWriter;
+import com.ilyabuglakov.task0201books.service.file.FilePublicationWriter;
 import com.ilyabuglakov.task0201books.view.ConsoleView;
 import org.apache.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class FlushToFileCommand implements Command {
         ApplicationController controller = ApplicationController.getInstance();
         ConsoleView view = controller.getView();
         String path = PathController.getInstance().getResourcePath(fileName);
-        try (FileBookWriter writer = new FileBookWriter(path)) {
+        try (FilePublicationWriter writer = new FilePublicationWriter(path)) {
             for (Book book : BookRepository.getInstance().getBooks())
                 writer.writeBook(book);
         } catch (IOException e) {

@@ -1,35 +1,40 @@
 package com.ilyabuglakov.task0201books.model.book;
 
+import com.ilyabuglakov.task0201books.model.publication.Publication;
+
 import java.time.Year;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Book {
+public final class Book extends Publication {
 
-    private final String name;
-    private final int numberOfPages;
     private final Set<String> authors;
-    private final String publishingHouse;
-    private final Year yearOfPublishing;
 
-    public Book(String name, int numberOfPages, Set<String> authors, String publishingHouse, Year yearOfPublishing) {
-        this.name = name;
-        this.numberOfPages = numberOfPages;
+    private Book(String name, int numberOfPages, String publishingHouse, Year yearOfPublishing, Set<String> authors) {
+        super(name, numberOfPages, publishingHouse, yearOfPublishing);
         this.authors = authors;
-        this.publishingHouse = publishingHouse;
-        this.yearOfPublishing = yearOfPublishing;
+    }
+
+    public static Book of(String name, int numberOfPages, String publishingHouse,
+                          Year yearOfPublishing, Set<String> author){
+        return  new Book(name, numberOfPages, publishingHouse, yearOfPublishing, author);
     }
 
     @Override
     public String toString() {
-        return new StringBuilder("{").append(name)
+        return new StringBuilder(getPrefix())
+                .append("{").append(name)
                 .append("|").append(numberOfPages)
-                .append("|").append(String.join(",", authors))
                 .append("|").append(publishingHouse)
                 .append("|").append(yearOfPublishing)
+                .append("|").append(String.join(",", authors))
                 .append("}")
                 .toString();
+    }
+
+    public static String getPrefix() {
+        return "Book";
     }
 
     @Override
@@ -49,24 +54,8 @@ public class Book {
         return Objects.hash(name, numberOfPages, authors, publishingHouse, yearOfPublishing);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getNumberOfPages() {
-        return numberOfPages;
-    }
-
     public Set<String> getAuthors() {
         return new HashSet<>(authors);
-    }
-
-    public String getPublishingHouse() {
-        return publishingHouse;
-    }
-
-    public Year getYearOfPublishing() {
-        return yearOfPublishing;
     }
 
 }
