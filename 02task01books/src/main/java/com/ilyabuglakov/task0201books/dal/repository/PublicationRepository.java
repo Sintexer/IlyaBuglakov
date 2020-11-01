@@ -56,19 +56,28 @@ public class PublicationRepository {
         daosMap.get(publication.getClass()).remove(publication);
     }
 
+    public boolean remove(long id) throws DaoRemoveException {
+        Optional<? extends Publication> p = get(id);
+        if (p.isPresent()) {
+            Publication old = p.get();
+            daosMap.get(old.getClass()).remove(p.get());
+            return true;
+        }
+        return false;
+    }
+
     public void update(long id, Publication publication) throws DaoWrongTypeException {
         Optional<? extends Publication> p = get(id);
         if (p.isPresent()) {
             Publication old = p.get();
-            int index = daosMap.get(p.getClass()).indexOf(old);
-            daosMap.get(p.getClass()).set(index, p.get());
+            int index = daosMap.get(old.getClass()).indexOf(old);
+            daosMap.get(old.getClass()).set(index, p.get());
         }
     }
 
     public List<Publication> getAll(){
         return daosMap.values().stream()
                 .map(GenericDao::getAll)
-                .peek(System.out::println)
                 .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
