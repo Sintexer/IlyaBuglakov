@@ -1,15 +1,19 @@
 package com.ilyabuglakov.task0201books.model.magazine;
 
+import com.ilyabuglakov.task0201books.model.publication.PublicationComparator;
+
 import java.util.Comparator;
 
 public class MagazineComparator implements Comparator<Magazine> {
+
+    public static Comparator<Magazine> comparingMagazineType() {
+        return Comparator.comparing(Magazine::getType);
+    }
+
     @Override
     public int compare(Magazine o1, Magazine o2) {
-        return Comparator.comparing(Magazine::getType)
-                .thenComparing(Magazine::getName)
-                .thenComparing(Magazine::getYearOfPublishing)
-                .thenComparing(Magazine::getPublishingHouse)
-                .thenComparing(Magazine::getNumberOfPages)
+        return comparingMagazineType()
+                .thenComparing(PublicationComparator.getComparator())
                 .compare(o1, o2);
     }
 }

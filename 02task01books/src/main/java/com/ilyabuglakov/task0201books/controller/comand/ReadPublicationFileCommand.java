@@ -15,6 +15,10 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * This command read's repositories content from input file.
+ * If file is empty or all entries are wrong,repository will be empty.
+ */
 public class ReadPublicationFileCommand implements Command {
 
     private final String FILE_NAME = "input.txt";
@@ -22,7 +26,6 @@ public class ReadPublicationFileCommand implements Command {
 
     @Override
     public void execute() {
-        //TODO
         ApplicationController controller = ApplicationController.getInstance();
         ConsoleView view = controller.getView();
         String path = PathController.getInstance().getResourcePath(FILE_NAME);
@@ -35,8 +38,8 @@ public class ReadPublicationFileCommand implements Command {
                 if (publication.isPresent())
                     try {
                         repository.add(publication.get());
-                    }catch (DaoAddException e){
-                        if(!duplicatesMessageShown) {
+                    } catch (DaoAddException e) {
+                        if (!duplicatesMessageShown) {
                             view.showMessage(MessageName.BOOK_DUPLICATES_IN_FILE);
                             duplicatesMessageShown = true;
                         }

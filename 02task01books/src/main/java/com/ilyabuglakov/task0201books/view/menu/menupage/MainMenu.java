@@ -12,7 +12,8 @@ public class MainMenu extends MenuPage {
         options.add(CommandName.FLUSH_TO_FILE);
         options.add(CommandName.REMOVE_PUBLICATION);
         options.add(CommandName.FIND_BY_TAG);
-        options.add(CommandName.SORT_BOOKS);
+        options.add(CommandName.SORT);
+        options.add(CommandName.CHANGE_LOCALE);
         options.add(CommandName.EXIT);
     }
 }

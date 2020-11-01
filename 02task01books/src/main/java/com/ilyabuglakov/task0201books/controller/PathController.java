@@ -1,5 +1,9 @@
 package com.ilyabuglakov.task0201books.controller;
 
+/**
+ * Path controller is used to simply generate path for output and input files
+ * at the runtime.
+ */
 public class PathController {
     private static PathController instance = new PathController();
     private String RESOURCE_PATH = "data/";

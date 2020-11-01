@@ -18,11 +18,7 @@ public class BookComparatorMap {
 
 
     private BookComparatorMap() {
-        add(SpecificationName.BY_NAME, BookComparator.comparingName());
         add(SpecificationName.BY_AUTHORS, BookComparator.comparingAuthors());
-        add(SpecificationName.BY_NUMBER_OF_PAGES, BookComparator.comparingNumberOfPages());
-        add(SpecificationName.BY_PUBLISHING_HOUSE, BookComparator.comparingPublishingHouse());
-        add(SpecificationName.BY_YEAR_OF_PUBLISHING, BookComparator.comparingYearOfPublishing());
         add(SpecificationName.BY_ALL, new BookComparator());
     }
 

@@ -1,2 +1,1 @@
-Magazine{voiir|195|lgdfy|2|science}
 Magazine{voiir|195|lgdfy|2|medicine}

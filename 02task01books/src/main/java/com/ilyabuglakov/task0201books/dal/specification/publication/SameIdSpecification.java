@@ -2,16 +2,16 @@ package com.ilyabuglakov.task0201books.dal.specification.publication;
 
 import com.ilyabuglakov.task0201books.model.publication.Publication;
 
-public class SameNameSpecification implements PublicationSpecification {
+public class SameIdSpecification implements PublicationSpecification {
 
-    private String name;
+    private long id;
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
     public boolean isSatisfiedBy(Publication criteria) {
-        return name.equals(criteria.getName());
+        return id == criteria.getId();
     }
 }

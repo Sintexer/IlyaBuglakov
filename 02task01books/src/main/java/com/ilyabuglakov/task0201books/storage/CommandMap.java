@@ -1,6 +1,7 @@
 package com.ilyabuglakov.task0201books.storage;
 
 import com.ilyabuglakov.task0201books.bean.CommandName;
+import com.ilyabuglakov.task0201books.controller.comand.ChangeLocaleCommand;
 import com.ilyabuglakov.task0201books.controller.comand.Command;
 import com.ilyabuglakov.task0201books.controller.comand.EmptyCommand;
 import com.ilyabuglakov.task0201books.controller.comand.FindByTagCommand;
@@ -8,7 +9,10 @@ import com.ilyabuglakov.task0201books.controller.comand.FlushToFileCommand;
 import com.ilyabuglakov.task0201books.controller.comand.ReadPublicationFileCommand;
 import com.ilyabuglakov.task0201books.controller.comand.RemovePublicationCommand;
 import com.ilyabuglakov.task0201books.controller.comand.ShowPublicationRepositoryCommand;
+import com.ilyabuglakov.task0201books.controller.comand.SortBooksCommand;
 import com.ilyabuglakov.task0201books.controller.comand.SortCommand;
+import com.ilyabuglakov.task0201books.controller.comand.SortMagazinesCommand;
+import com.ilyabuglakov.task0201books.controller.comand.SortPublicationsCommand;
 
 import java.util.EnumMap;
 
@@ -22,7 +26,11 @@ public class CommandMap {
         commands.put(CommandName.READ_PUBLICATIONS_FILE, new ReadPublicationFileCommand());
         commands.put(CommandName.REMOVE_PUBLICATION, new RemovePublicationCommand());
         commands.put(CommandName.FIND_BY_TAG, new FindByTagCommand());
-        commands.put(CommandName.SORT_BOOKS, new SortCommand());
+        commands.put(CommandName.SORT_BOOKS, new SortBooksCommand());
+        commands.put(CommandName.SORT_MAGAZINES, new SortMagazinesCommand());
+        commands.put(CommandName.SORT_PUBLICATIONS, new SortPublicationsCommand());
+        commands.put(CommandName.SORT, new SortCommand());
+        commands.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
         commands.put(CommandName.EXIT, new EmptyCommand());
     }
 

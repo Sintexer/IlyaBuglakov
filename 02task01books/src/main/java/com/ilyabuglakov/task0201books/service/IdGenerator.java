@@ -17,7 +17,7 @@ public class IdGenerator {
     /**
      * Resets counter.
      */
-    public void reset(){
+    public void reset() {
         current = 0;
     }
 

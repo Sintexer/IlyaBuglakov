@@ -1,6 +1,5 @@
 package com.ilyabuglakov.task0201books.service.parser;
 
-import com.ilyabuglakov.task0201books.exception.ParseException;
 import com.ilyabuglakov.task0201books.model.book.Book;
 import com.ilyabuglakov.task0201books.model.book.BookBuilder;
 
@@ -25,6 +24,7 @@ public class BookParser {
     /**
      * This method will return Optional.empty() if information is wrong or corrupted and
      * information in String can't be used to create Book object.
+     *
      * @param bookString - String, containing information, used for Book object creation
      * @return Book, created from info in given String
      */
@@ -34,9 +34,9 @@ public class BookParser {
         }
         BookBuilder bookBuilder = new BookBuilder();
         try {
-            bookString = bookString.substring(Book.getPrefix().length()+1, bookString.length() - 1);
+            bookString = bookString.substring(Book.getPrefix().length() + 1, bookString.length() - 1);
             List<String> fields = new ArrayList<>(Arrays.asList(bookString.split("\\|")));
-            if(fields.size()<5)
+            if (fields.size() < 5)
                 return Optional.empty();
             bookBuilder.setName(fields.get(0));
             bookBuilder.setNumberOfPages(Integer.parseInt(fields.get(1)));

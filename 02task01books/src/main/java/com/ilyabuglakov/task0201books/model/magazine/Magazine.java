@@ -21,20 +21,22 @@ public final class Magazine extends Publication {
 
     /**
      * Creates Magazine object from given parameters, where
-     * @param name - name of the Magazine.
-     * @param numberOfPages - number of magazine pages.
-     * @param publishingHouse - the magazine publishing house.
+     *
+     * @param name             - name of the Magazine.
+     * @param numberOfPages    - number of magazine pages.
+     * @param publishingHouse  - the magazine publishing house.
      * @param yearOfPublishing - the magazine publishing year.
-     * @param type - the type of the magazine,
+     * @param type             - the type of the magazine,
      * @return Magazine object from given parameters.
      */
     public static Magazine of(String name, int numberOfPages, String publishingHouse,
-                              Year yearOfPublishing, MagazineType type){
+                              Year yearOfPublishing, MagazineType type) {
         return new Magazine(name, numberOfPages, publishingHouse, yearOfPublishing, type);
     }
 
     /**
      * Return the class prefix, used in toString Method.
+     *
      * @return class prefix as String.
      */
     public static String getPrefix() {

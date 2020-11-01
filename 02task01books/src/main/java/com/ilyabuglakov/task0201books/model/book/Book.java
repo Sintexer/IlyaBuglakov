@@ -23,16 +23,17 @@ public final class Book extends Publication {
 
     /**
      * Creates Book from parameters.
-     * @param name - name of the book.
-     * @param numberOfPages - number of pages.
-     * @param publishingHouse - the publishing house of the book.
+     *
+     * @param name             - name of the book.
+     * @param numberOfPages    - number of pages.
+     * @param publishingHouse  - the publishing house of the book.
      * @param yearOfPublishing - the book publishing year.
-     * @param authors - authors of the book;
+     * @param authors          - authors of the book;
      * @return book from parameters.
      */
     public static Book of(String name, int numberOfPages, String publishingHouse,
-                          Year yearOfPublishing, Set<String> authors){
-        return  new Book(name, numberOfPages, publishingHouse, yearOfPublishing, authors);
+                          Year yearOfPublishing, Set<String> authors) {
+        return new Book(name, numberOfPages, publishingHouse, yearOfPublishing, authors);
     }
 
     @Override

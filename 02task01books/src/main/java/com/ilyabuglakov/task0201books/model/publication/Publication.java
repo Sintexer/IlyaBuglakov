@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Publication is abstract class used for representation of different print editions.
- *
+ * <p>
  * Each deriving class should also override getPrefix() method.
  */
 public abstract class Publication implements Comparable<Publication> {
@@ -69,7 +69,7 @@ public abstract class Publication implements Comparable<Publication> {
         return new PublicationComparator().compare(this, o);
     }
 
-    public static String getPrefix(){
+    public static String getPrefix() {
         return "Publication";
     }
 

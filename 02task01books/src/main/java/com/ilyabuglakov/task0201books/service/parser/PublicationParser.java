@@ -15,9 +15,9 @@ public class PublicationParser {
     private MagazineParser magazineParser = new MagazineParser();
 
     public Optional<? extends Publication> parse(String info) {
-        if(info.startsWith(Book.getPrefix()))
+        if (info.startsWith(Book.getPrefix()))
             return bookParser.parse(info);
-        else if(info.startsWith(Magazine.getPrefix()))
+        else if (info.startsWith(Magazine.getPrefix()))
             return magazineParser.parse(info);
         return Optional.empty();
     }
