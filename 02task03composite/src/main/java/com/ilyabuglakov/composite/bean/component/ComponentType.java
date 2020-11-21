@@ -8,9 +8,9 @@ package com.ilyabuglakov.composite.bean.component;
 public enum ComponentType {
     //TODO delete delimiter
     TEXT("", ""),
-    PARAGRAPH("(?ms)(\\t+)([^\\t]+)($)", "\n"),
-    SENTENCE("(?m)(\\s*)(([^.?!]+)([.?!]|$)+)?", "."),
-    LEXEME("(.*?[\\s!?.,]+)"," "),
+    PARAGRAPH("(?m)(\\s+[^\\t]+$)", "\n"),
+    SENTENCE("(?m)(\\s*[^.?!]+[.?!]+)", "."),
+    LEXEME("(\\s*.*?[\\s!?.,]+)"," "),
     WORD("([\\s!?.,]*)(.*?)([\\s!?.,]+)", " "),
     SYMBOL("(.)", ""),
     DELIMITER("[\\t!?\\-,. ]+", "");
