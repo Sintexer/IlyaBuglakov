@@ -38,6 +38,7 @@ public class PreparedThread extends Thread {
      */
     @Override
     public void run() {
+        //TODO add final check thread
         final int matrixSize = Matrix.getInstance().size();
         for (int i = startIndex; i < matrixSize; i += threadsAmount) {
             try {

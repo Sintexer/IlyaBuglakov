@@ -1,8 +1,19 @@
 package com.ilyabuglakov.composite.bean.component;
 
+/**
+ * ComponentType is enum used to represent various types of Component's
+ * Each enum value stores regex pattern, which is used to parse text and get word, sentence etc.
+
+ */
 public enum ComponentType {
-    PARAGRAPH("\n", "\n"),
-    SENTENCE(".", ".");
+    //TODO delete delimiter
+    TEXT("", ""),
+    PARAGRAPH("(?ms)(\\t+)([^\\t]+)($)", "\n"),
+    SENTENCE("(?m)(\\s*)(([^.?!]+)([.?!]|$)+)?", "."),
+    LEXEME("(.*?[\\s!?.,]+)"," "),
+    WORD("([\\s!?.,]*)(.*?)([\\s!?.,]+)", " "),
+    SYMBOL("(.)", ""),
+    DELIMITER("[\\t!?\\-,. ]+", "");
 
     private final String delimiterPattern;
     private final String delimiter;

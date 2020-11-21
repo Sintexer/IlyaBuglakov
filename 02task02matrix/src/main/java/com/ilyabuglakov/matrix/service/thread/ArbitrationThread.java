@@ -25,6 +25,7 @@ public class ArbitrationThread extends Thread {
      */
     @Override
     public void run() {
+        //TODO return index to collection if error
         final int matrixSize = Matrix.getInstance().size();
         Integer index;
         do {
