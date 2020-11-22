@@ -37,15 +37,16 @@ public class ComponentParserTest {
                         ComponentType.PARAGRAPH,
                         Arrays.asList("\t\tSome test text. To parse for various, cases etc. Not at all\n" +
                                         "and yet smth good, now! good luck.",
-                                "\n\t\tNew Paragraph, test is going on. Sentence\n" +
+                                "\n",
+                                "\t\tNew Paragraph, test is going on. Sentence\n" +
                                         "Broken time sequence, end of text.")
                 },
                 {
                         new ComponentParser(ComponentType.TEXT, ComponentType.SENTENCE),
                         ComponentType.SENTENCE,
-                        Arrays.asList("\t\tSome test text.", " To parse for various, cases etc.", " Not at all\n" +
-                                        "and yet smth good, now!", " good luck.",
-                                "\n\t\tNew Paragraph, test is going on.", " Sentence\n" +
+                        Arrays.asList("\t\t", "Some test text.", " ", "To parse for various, cases etc.", " ", "Not at all\n" +
+                                        "and yet smth good, now!", " ", "good luck.",
+                                "\n\t\t", "New Paragraph, test is going on.", " ", "Sentence\n" +
                                         "Broken time sequence, end of text.")
                 },
                 {
@@ -74,7 +75,7 @@ public class ComponentParserTest {
                         Arrays.asList("\t\t", "Some", " ", "test", " ", "text", ".", " ", "To", " ", "parse", " ", "for",
                                 " ", "various", ", ", "cases", " ", "etc", ".", " ", "Not", " ", "at", " ", "all", "\n",
                                 "and", " ", "yet", " ", "smth", " ", "good", ", ", "now", "!", " ", "good",
-                                " ", "luck", ".", "\n\t\t", "New", " ", "Paragraph", ", ", "test", " ", "is", " ",
+                                " ", "luck", ".", "\n", "\t\t", "New", " ", "Paragraph", ", ", "test", " ", "is", " ",
                                 "going", " ", "on", ".", " ", "Sentence", "\n", "Broken", " ", "time", " ", "sequence",
                                 ", ", "end", " ", "of", " ", "text", ".")
                 },
@@ -86,8 +87,8 @@ public class ComponentParserTest {
         List<String> result = parser.parse(text).collectChildren(type).stream()
                 .map(Component::collect)
                 .collect(Collectors.toList());
-        Assert.assertEquals(result.size(), expected.size());
-        Assert.assertTrue(result.containsAll(expected));
+        Assert.assertEquals(result.size(), expected.size(), result.toString());
+        Assert.assertTrue(result.containsAll(expected), result.toString());
     }
 
     @Test

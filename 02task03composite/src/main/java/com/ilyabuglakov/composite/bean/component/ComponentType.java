@@ -8,12 +8,12 @@ package com.ilyabuglakov.composite.bean.component;
 public enum ComponentType {
     //TODO delete delimiter
     TEXT("", ""),
-    PARAGRAPH("(?m)(\\s+[^\\t]+$)", "\n"),
-    SENTENCE("(?m)(\\s*[^.?!]+[.?!]+)", "."),
+    PARAGRAPH("(?m)(\\n*)(\\t*[^\\t]+[.?!]+)", "\n"),
+    SENTENCE("(?m)(\\s*)([^.?!]+[.?!]+)?", "."),
     LEXEME("(\\s*.*?[\\s!?.,]+)"," "),
-    WORD("([\\s!?.,]*)(.*?)([\\s!?.,]+)", " "),
+    WORD("([\\s!?.,]*)([^\\s.,!?]+)?([\\s!?.,]*)", " "),
     SYMBOL("(.)", ""),
-    DELIMITER("[\\t!?\\-,. ]+", "");
+    DELIMITER("[!?\\-,.\\s]+", "");
 
     private final String delimiterPattern;
     private final String delimiter;
