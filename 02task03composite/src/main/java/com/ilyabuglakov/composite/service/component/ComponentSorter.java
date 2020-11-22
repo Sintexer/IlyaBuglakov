@@ -3,6 +3,7 @@ package com.ilyabuglakov.composite.service.component;
 import com.ilyabuglakov.composite.bean.component.Component;
 import com.ilyabuglakov.composite.bean.component.ComponentType;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,12 @@ public class ComponentSorter {
         Map<Boolean, List<Integer>> indexes = IntStream.range(0, nodes.size())
                 .boxed()
                 .collect(Collectors.groupingBy(i -> nodes.get(i).collect().matches(ComponentType.DELIMITER.getDelimiterPattern())));
-        List<Component<String>> contentNodes = indexes.get(false).stream()
-                .map(nodes::get)
-                .collect(Collectors.toList());
+        List<Component<String>> contentNodes = new ArrayList<>();
+        if(indexes.containsKey(false)) {
+            contentNodes = indexes.get(false).stream()
+                    .map(nodes::get)
+                    .collect(Collectors.toList());
+        }
         List<Component<String>> sorted = contentNodes.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());

@@ -8,7 +8,10 @@ import java.util.Comparator;
 public class ComponentStringComparator implements Comparator<Component<String>> {
 
     public static Comparator<Component<String>> comparingParagraphs(){
-        return Comparator.comparing(component -> component.collectChildren(ComponentType.SENTENCE).size());
+        return Comparator.comparing(component -> component.collectChildren(ComponentType.SENTENCE)
+                .stream()
+                .filter(sent -> !sent.collect().matches(ComponentType.DELIMITER.getDelimiterPattern()))
+                .count());
     }
 
     public static Comparator<Component<String>> comparingWords(){

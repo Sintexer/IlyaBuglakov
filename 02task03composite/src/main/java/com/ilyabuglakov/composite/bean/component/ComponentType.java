@@ -10,9 +10,9 @@ public enum ComponentType {
     TEXT("", ""),
     PARAGRAPH("(?m)(\\n*)(\\t*[^\\t]+[.?!]+)", "\n"),
     SENTENCE("(?m)(\\s*)([^.?!]+[.?!]+)?", "."),
-    LEXEME("(\\s*.*?[\\s!?.,]+)"," "),
+    LEXEME("(?m)(\\s*)(.*?)(\\s+|$)"," "),
     WORD("([\\s!?.,]*)([^\\s.,!?]+)?([\\s!?.,]*)", " "),
-    SYMBOL("(.)", ""),
+    SYMBOL("(?s)(.)", ""),
     DELIMITER("[!?\\-,.\\s]+", "");
 
     private final String delimiterPattern;
