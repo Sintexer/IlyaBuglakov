@@ -3,13 +3,15 @@ package com.ilyabuglakov.xmltask.model.gem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class VisualParameters {
     private Color color;
-    private short transparency;
+    private int transparency;
     ///Optional parameter, default value zero
-    private short facesNumber;
+    private int facesNumber;
 }

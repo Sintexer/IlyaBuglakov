@@ -1,6 +1,7 @@
 package com.ilyabuglakov.xmltask.storage;
 
 import com.ilyabuglakov.xmltask.controller.command.Command;
+import com.ilyabuglakov.xmltask.controller.command.DomParseCommand;
 import com.ilyabuglakov.xmltask.controller.command.EmptyCommand;
 import com.ilyabuglakov.xmltask.model.CommandName;
 
@@ -12,6 +13,7 @@ public class CommandMap {
 
     static {
         commands.put(CommandName.EXIT, new EmptyCommand());
+        commands.put(CommandName.DOM, new DomParseCommand());
     }
 
     private CommandMap() {

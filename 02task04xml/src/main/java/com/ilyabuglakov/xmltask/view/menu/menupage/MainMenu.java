@@ -9,6 +9,7 @@ public class MainMenu extends MenuPage {
 
     public MainMenu() {
         super(MenuPageName.MAIN_MENU);
+        options.add(CommandName.DOM);
         options.add(CommandName.EXIT);
     }
 }

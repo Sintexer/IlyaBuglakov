@@ -1,4 +1,4 @@
-package com.ilyabuglakov.xmltask.service.validator;
+package com.ilyabuglakov.xmltask.service.primitives.validator;
 
 public class IntValidator {
     private IntValidator() {

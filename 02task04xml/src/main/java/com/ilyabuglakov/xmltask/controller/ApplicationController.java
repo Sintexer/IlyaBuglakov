@@ -30,7 +30,7 @@ public class ApplicationController {
         CommandName choice;
         do {
             choice = view.getCommand();
-            //TODO command execution
+            commandController.executeCommand(choice);
         } while (!choice.equals(CommandName.EXIT));
     }
 

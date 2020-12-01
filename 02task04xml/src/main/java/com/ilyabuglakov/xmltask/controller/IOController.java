@@ -3,7 +3,7 @@ package com.ilyabuglakov.xmltask.controller;
 import com.ilyabuglakov.xmltask.model.MessageName;
 import com.ilyabuglakov.xmltask.service.console.ConsolePrinter;
 import com.ilyabuglakov.xmltask.service.console.ConsoleReader;
-import com.ilyabuglakov.xmltask.service.validator.IntValidator;
+import com.ilyabuglakov.xmltask.service.primitives.validator.IntValidator;
 import com.ilyabuglakov.xmltask.view.ConsoleView;
 
 /**

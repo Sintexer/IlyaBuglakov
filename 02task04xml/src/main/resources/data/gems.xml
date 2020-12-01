@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gems xmlns="http://ilyabuglacov.com/gems"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://ilyabuglacov.com/gems gems.xsd">
+    <gem mineral="DIAMOND">
+        <name>Zalorel02</name>
+        <visualParameters facesNumber="8">
+            <color>BLUE</color>
+            <transparency>90</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>GERMANY</origin>
+        <minedDate>1912-02-03</minedDate>
+        <specialCertificate>
+            <certificateId>ad626234erl</certificateId>
+            <organization>DiamondGroup</organization>
+            <receivingDate>1960-04-04</receivingDate>
+            <specialReason>The diamond of Queen Elizabeth</specialReason>
+        </specialCertificate>
+        <weight>2</weight>
+    </gem>
+    <gem mineral="RUBY">
+        <name>Alore00</name>
+        <visualParameters facesNumber="13">
+            <color>YELLOW</color>
+            <transparency>98</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>BELARUS</origin>
+        <minedDate>1813-12-03</minedDate>
+        <certificate>
+            <certificateId>aa636334ggl</certificateId>
+            <organization>NapoleonFlavour</organization>
+            <receivingDate>1999-12-25</receivingDate>
+        </certificate>
+        <weight>5</weight>
+    </gem>
+</gems>

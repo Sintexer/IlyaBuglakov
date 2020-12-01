@@ -1,86 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://daryazalevskaya.by/medicines"
-        xmlns:tns="http://daryazalevskaya.by/medicines"
+        targetNamespace="http://ilyabuglacov.com/gems"
+        xmlns:tns="http://ilyabuglacov.com/gems"
         attributeFormDefault="unqualified"
         elementFormDefault="qualified">
-        <element name="gems">
-          <complexType>
+    <element name="gems">
+        <complexType>
             <sequence>
-              <element name="gem" type="Gem" minOccurs="1" maxOccurs="unbounded"/>
+                <element name="gem" type="tns:Gem" minOccurs="1" maxOccurs="unbounded"/>
             </sequence>
-          </complexType>
-        </element>
+        </complexType>
+    </element>
 
-        <element name="certificate" type="tns:Certificate" abstract="false"/>
-        <element name="special_sertificate" type="tns:SpecialCertificate" substitutionGroup="tns:certificate"/>
+    <element name="certificate" type="tns:Certificate" abstract="false"/>
+    <element name="specialCertificate" type="tns:SpecialCertificate" substitutionGroup="tns:certificate"/>
 
 
-        <complexType name="Gem">
-          <sequence>
+    <complexType name="Gem">
+        <sequence>
             <element name="name" type="tns:Name"/>
+            <element name="visualParameters" type="tns:VisualParameters"/>
             <element name="preciousness" type="tns:Preciousness"/>
             <element name="origin" type="tns:Origin"/>
             <element name="minedDate" type="date"/>
-            <element ref="certificate"/>
-            <element name="weight" type="int" minOccurs="1"/>
+            <element ref="tns:certificate"/>
+            <element name="weight" type="tns:Weight"/>
 
-          </sequence>
-          <attribute name="mineral" use="required">
+        </sequence>
+        <attribute name="mineral" use="required">
             <simpleType>
-              <restriction base="string">
-                <enumeration value="DIAMOND"/>
-                <enumeration value="DIAMOND"/>
-                <enumeration value="EMERALD"/>
-                <enumeration value="SAPPHIRE"/>
-                <enumeration value="RUBY"/>
-              </restriction>
+                <restriction base="string">
+                    <enumeration value="DIAMOND"/>
+                    <enumeration value="DIAMOND"/>
+                    <enumeration value="EMERALD"/>
+                    <enumeration value="SAPPHIRE"/>
+                    <enumeration value="RUBY"/>
+                </restriction>
             </simpleType>
-          </attribute>
+        </attribute>
 
-        </complexType>
+    </complexType>
 
-        <simpleType name="Name">
-          <restriction base="ID">
+    <simpleType name="Name">
+        <restriction base="ID">
             <pattern value="[\w]{3,16}[\d]{2}"/>
-          </restriction>
-        </simpleType>
+        </restriction>
+    </simpleType>
 
-        <simpleType name="Preciousness">
-          <restriction base="string">
+    <simpleType name="Preciousness">
+        <restriction base="string">
             <enumeration value="PRECIOUS"/>
             <enumeration value="SEMIPRECIOUS"/>
-          </restriction>
-        </simpleType>
+        </restriction>
+    </simpleType>
 
-        <simpleType name="Origin">
-          <restriction base="string">
+    <simpleType name="Origin">
+        <restriction base="string">
             <enumeration value="BELARUS"/>
             <enumeration value="GERMANY"/>
             <enumeration value="USA"/>
             <enumeration value="MEXICO"/>
             <enumeration value="FRANCE"/>
-          </restriction>
-        </simpleType>
+        </restriction>
+    </simpleType>
 
-        <complexType name="Certificate">
-          <simpleType name="certificate_id" type="string">
-            <restriction base="ID">
-              <pattern value="[\w]{2}[\d}{6}[\w]{3,16}"/>
-            </restriction>
-          </simpleType>
-          <simpleType name="organization" type="string">
-            <pattern value="[\w]{3,}"/>
-          </simpleType>
-          <simpleType name="receiving_date" type="date"/>
-        </complexType>
+    <complexType name="Certificate">
+        <sequence>
+            <element name="certificateId" type="tns:CertificateID"/>
+            <element name="organization" type="string"/>
+            <element name="receivingDate" type="date"/>
+        </sequence>
+    </complexType>
 
-        <complexType name="SpecialCertificate">
-            <complexContent>
-                <extension base="tns:Certificate">
-                    <sequence>
-                        <element name="special_reason" type="string"/>
-                    </sequence>
-                </extension>
-            </complexContent>
-        </complexType>
+    <simpleType name="CertificateID">
+        <restriction base="ID">
+            <pattern value="\w{2}\d{6}\w{3,16}"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="SpecialCertificate">
+        <complexContent>
+            <extension base="tns:Certificate">
+                <sequence>
+                    <element name="specialReason" type="string"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <simpleType name="Color">
+        <restriction base="string">
+            <enumeration value="RED"/>
+            <enumeration value="GREEN"/>
+            <enumeration value="BLUE"/>
+            <enumeration value="YELLOW"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="Size">
+        <restriction base="int">
+            <minInclusive value="0"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="Weight">
+        <restriction base="int">
+            <minInclusive value="1"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="VisualParameters">
+        <sequence>
+            <element name="color" type="tns:Color"/>
+            <element name="transparency" type="int"/>
+        </sequence>
+        <attribute name="facesNumber" type="tns:Size"  use="optional" default="0"/>
+    </complexType>
+
+</schema>

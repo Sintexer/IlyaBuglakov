@@ -131,6 +131,15 @@ public class ConsoleView {
     }
 
     /**
+     * Shows provided collection as enumerated list to IOController's output
+     *
+     * @param elements - elements of collection to show
+     */
+    public void showEnumerated(Collection<?> elements) {
+        show(OutputDecorator.toEnumeratedString(elements));
+    }
+
+    /**
      * Sets the application current locale
      *
      * @param locale - new current locale
