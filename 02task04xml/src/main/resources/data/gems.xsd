@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://daryazalevskaya.by/medicines"
+        xmlns:tns="http://daryazalevskaya.by/medicines"
+        attributeFormDefault="unqualified"
+        elementFormDefault="qualified">
+        <element name="gems">
+          <complexType>
+            <sequence>
+              <element name="gem" type="Gem" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+          </complexType>
+        </element>
+
+        <element name="certificate" type="tns:Certificate" abstract="false"/>
+        <element name="special_sertificate" type="tns:SpecialCertificate" substitutionGroup="tns:certificate"/>
+
+
+        <complexType name="Gem">
+          <sequence>
+            <element name="name" type="tns:Name"/>
+            <element name="preciousness" type="tns:Preciousness"/>
+            <element name="origin" type="tns:Origin"/>
+            <element name="minedDate" type="date"/>
+            <element ref="certificate"/>
+            <element name="weight" type="int" minOccurs="1"/>
+
+          </sequence>
+          <attribute name="mineral" use="required">
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="DIAMOND"/>
+                <enumeration value="DIAMOND"/>
+                <enumeration value="EMERALD"/>
+                <enumeration value="SAPPHIRE"/>
+                <enumeration value="RUBY"/>
+              </restriction>
+            </simpleType>
+          </attribute>
+
+        </complexType>
+
+        <simpleType name="Name">
+          <restriction base="ID">
+            <pattern value="[\w]{3,16}[\d]{2}"/>
+          </restriction>
+        </simpleType>
+
+        <simpleType name="Preciousness">
+          <restriction base="string">
+            <enumeration value="PRECIOUS"/>
+            <enumeration value="SEMIPRECIOUS"/>
+          </restriction>
+        </simpleType>
+
+        <simpleType name="Origin">
+          <restriction base="string">
+            <enumeration value="BELARUS"/>
+            <enumeration value="GERMANY"/>
+            <enumeration value="USA"/>
+            <enumeration value="MEXICO"/>
+            <enumeration value="FRANCE"/>
+          </restriction>
+        </simpleType>
+
+        <complexType name="Certificate">
+          <simpleType name="certificate_id" type="string">
+            <restriction base="ID">
+              <pattern value="[\w]{2}[\d}{6}[\w]{3,16}"/>
+            </restriction>
+          </simpleType>
+          <simpleType name="organization" type="string">
+            <pattern value="[\w]{3,}"/>
+          </simpleType>
+          <simpleType name="receiving_date" type="date"/>
+        </complexType>
+
+        <complexType name="SpecialCertificate">
+            <complexContent>
+                <extension base="tns:Certificate">
+                    <sequence>
+                        <element name="special_reason" type="string"/>
+                    </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
