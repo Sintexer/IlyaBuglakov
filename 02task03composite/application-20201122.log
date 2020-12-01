@@ -1,0 +1,55 @@
+2020-11-22 19:29:51.433 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Expected: [		Some test text. To parse for various, cases etc. Not at all
+and yet smth good, now! good luck., 
+, 		New Paragraph, test is going on. Sentence
+Broken time sequence, end of text.]
+2020-11-22 19:29:51.443 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: [		Some test text. To parse for various, cases etc. Not at all
+and yet smth good, now! good luck., 
+, 		New Paragraph, test is going on. Sentence
+Broken time sequence, end of text.]
+2020-11-22 19:29:51.446 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Expected: [		, Some test text.,  , To parse for various, cases etc.,  , Not at all
+and yet smth good, now!,  , good luck., 
+		, New Paragraph, test is going on.,  , Sentence
+Broken time sequence, end of text.]
+2020-11-22 19:29:51.447 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: [		, Some test text.,  , To parse for various, cases etc.,  , Not at all
+and yet smth good, now!,  , good luck., 
+		, New Paragraph, test is going on.,  , Sentence
+Broken time sequence, end of text.]
+2020-11-22 19:29:51.455 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Expected: [		, Some,  , test,  , text.,  , To,  , parse,  , for,  , various,,  , cases,  , etc.,  , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good,,  , now!,  , good,  , luck., 
+		, New,  , Paragraph,,  , test,  , is,  , going,  , on.,  , Sentence, 
+, Broken,  , time,  , sequence,,  , end,  , of,  , text.]
+2020-11-22 19:29:51.455 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: [		, Some,  , test,  , text.,  , To,  , parse,  , for,  , various,,  , cases,  , etc.,  , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good,,  , now!,  , good,  , luck., 
+		, New,  , Paragraph,,  , test,  , is,  , going,  , on.,  , Sentence, 
+, Broken,  , time,  , sequence,,  , end,  , of,  , text.]
+2020-11-22 19:29:51.459 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Expected: [		, Some,  , test,  , text, . , To,  , parse,  , for,  , various, , , cases,  , etc, . , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good, , , now, ! , good,  , luck, .
+		, New,  , Paragraph, , , test,  , is,  , going,  , on, . , Sentence, 
+, Broken,  , time,  , sequence, , , end,  , of,  , text, .]
+2020-11-22 19:29:51.459 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: [		, Some,  , test,  , text, . , To,  , parse,  , for,  , various, , , cases,  , etc, . , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good, , , now, ! , good,  , luck, .
+		, New,  , Paragraph, , , test,  , is,  , going,  , on, . , Sentence, 
+, Broken,  , time,  , sequence, , , end,  , of,  , text, .]
+2020-11-22 19:29:51.475 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Expected: [		, Some,  , test,  , text, .,  , To,  , parse,  , for,  , various, ,,  , cases,  , etc, .,  , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good, ,,  , now, !,  , good,  , luck, ., 
+, 		, New,  , Paragraph, ,,  , test,  , is,  , going,  , on, .,  , Sentence, 
+, Broken,  , time,  , sequence, ,,  , end,  , of,  , text, .]
+2020-11-22 19:29:51.477 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: [		, Some,  , test,  , text, .,  , To,  , parse,  , for,  , various, ,,  , cases,  , etc, .,  , Not,  , at,  , all, 
+, and,  , yet,  , smth,  , good, ,,  , now, !,  , good,  , luck, ., 
+, 		, New,  , Paragraph, ,,  , test,  , is,  , going,  , on, .,  , Sentence, 
+, Broken,  , time,  , sequence, ,,  , end,  , of,  , text, .]
+2020-11-22 19:29:51.537 [main] INFO  com.ilyabuglakov.composite.controller.command.SortLexemeCommandTest - 		Paragraph, all and at cases parse various, Broken end etc. for going
+good good, is luck. New Not now!
+		of on. Sentence sequence, smth Some test
+test text. text. time To yet
+2020-11-22 19:29:51.555 [main] INFO  com.ilyabuglakov.composite.controller.command.SortParagraphsCommandTest - 		a.
+		abcd. efg.
+		a. b. c.
+2020-11-22 19:29:51.565 [main] INFO  com.ilyabuglakov.composite.controller.command.SortSentenceCommandTest - 		Some test text. To for etc parse, cases various. at Not all
+and yet now smth, good! good luck.
+		is on, New test going Paragraph. of
+end time text, Broken Sentence sequence.
+2020-11-22 19:36:39.743 [main] INFO  com.ilyabuglakov.composite.service.component.ComponentParserTest - Actual: 		Some test text. To parse for various, cases etc. Not at all
+and yet smth good, now! good luck.
+		New Paragraph, test is going on. Sentence
+Broken time sequence, end of text.

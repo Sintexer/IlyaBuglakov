@@ -1,0 +1,51 @@
+
+2020-10-21 23:17:20 ERROR AddBookCommand:21 - Book is already in BookList
+2020-10-21 23:17:20 ERROR AddBookCommand:22 - Exception when trying to add book
+2020-10-21 23:17:54 ERROR RemoveBookCommand:21 - Cant remove book from BookSet
+2020-10-21 23:19:31 ERROR RemoveBookCommand:21 - Cant remove book from BookSet
+2020-10-31 22:47:26 INFO  ShowBookRepositoryCommand:12 - [Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, Book{voinr|295|dsf|2|y,l.tols}, Book{mir|10295|srtgre|2|ol st,oy}]
+2020-10-31 22:48:07 INFO  ShowBookRepositoryCommand:12 - [Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, Book{voinr|295|dsf|2|y,l.tols}, Book{mir|10295|srtgre|2|ol st,oy}]
+2020-10-31 22:50:37 INFO  ShowBookRepositoryCommand:12 - [Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, Book{voinr|295|dsf|2|y,l.tols}, Book{mir|10295|srtgre|2|ol st,oy}]
+2020-10-31 22:55:22 INFO  ShowBookRepositoryCommand:12 - [Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, Book{voinr|295|dsf|2|y,l.tols}, Book{mir|10295|srtgre|2|ol st,oy}]
+2020-10-31 22:57:56 INFO  ShowBookRepositoryCommand:12 - [Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, Book{voinr|295|dsf|2|y,l.tols}, Book{mir|10295|srtgre|2|ol st,oy}]
+2020-11-01 12:10:51 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 12:11:42 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 12:12:21 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 12:12:37 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 12:13:49 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 12:14:09 INFO  ShowPublicationRepositoryCommand:16 - {3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 19:41:41 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 19:43:26 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 19:43:50 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 19:44:03 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 20:42:57 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 20:45:05 DEBUG PublicationYearObserver:18 - {2=1}
+2020-11-01 20:45:05 DEBUG PublicationYearObserver:18 - {2=2}
+2020-11-01 20:45:05 DEBUG PublicationYearObserver:18 - {2=3}
+2020-11-01 20:45:05 DEBUG PublicationYearObserver:18 - {2=4}
+2020-11-01 20:45:05 DEBUG PublicationYearObserver:18 - {2=5}
+2020-11-01 20:45:05 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 20:45:16 DEBUG PublicationYearObserver:24 - {2=4}
+2020-11-01 20:45:53 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 20:58:29 DEBUG PublicationYearObserver:18 - {1=1}
+2020-11-01 20:58:50 DEBUG PublicationYearObserver:18 - {1=1}
+2020-11-01 21:44:34 DEBUG PublicationYearObserver:18 - {2=1}
+2020-11-01 21:44:34 DEBUG PublicationYearObserver:18 - {2=2}
+2020-11-01 21:44:34 DEBUG PublicationYearObserver:18 - {2=3}
+2020-11-01 21:44:34 DEBUG PublicationYearObserver:18 - {2=4}
+2020-11-01 21:44:34 DEBUG PublicationYearObserver:18 - {2=5}
+2020-11-01 21:44:34 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:45:57 DEBUG PublicationYearObserver:18 - {2=1}
+2020-11-01 21:45:57 DEBUG PublicationYearObserver:18 - {2=2}
+2020-11-01 21:45:57 DEBUG PublicationYearObserver:18 - {2=3}
+2020-11-01 21:45:57 DEBUG PublicationYearObserver:18 - {2=4}
+2020-11-01 21:45:57 DEBUG PublicationYearObserver:18 - {2=5}
+2020-11-01 21:45:57 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:46:03 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:46:12 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:46:23 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:47:21 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:47:47 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:47:51 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:48:37 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}
+2020-11-01 21:48:39 INFO  ShowPublicationRepositoryCommand:16 - {0=Book{voina i mir|10295|ssdgfsd|2|n d,l.n.tolstoy,l}, 1=Book{voinr|295|dsf|2|y,l.tols}, 2=Book{mir|10295|srtgre|2|ol st,oy}, 3=Magazine{voiir|195|lgdfy|2|science}, 4=Magazine{voiir|195|lgdfy|2|medicine}}

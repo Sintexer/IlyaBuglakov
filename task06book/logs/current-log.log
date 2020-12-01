@@ -1,0 +1,5 @@
+
+2020-10-21 23:17:20 ERROR AddBookCommand:21 - Book is already in BookList
+2020-10-21 23:17:20 ERROR AddBookCommand:22 - Exception when trying to add book
+2020-10-21 23:17:54 ERROR RemoveBookCommand:21 - Cant remove book from BookSet
+2020-10-21 23:19:31 ERROR RemoveBookCommand:21 - Cant remove book from BookSet
