@@ -6,5 +6,7 @@ package com.ilyabuglakov.xmltask.model;
 public enum CommandName {
     DOM,
     SAX,
+    STAX,
+    CHANGE_LOCALE,
     EXIT
 }

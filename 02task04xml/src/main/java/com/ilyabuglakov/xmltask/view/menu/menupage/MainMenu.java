@@ -11,6 +11,8 @@ public class MainMenu extends MenuPage {
         super(MenuPageName.MAIN_MENU);
         options.add(CommandName.DOM);
         options.add(CommandName.SAX);
+        options.add(CommandName.STAX);
+        options.add(CommandName.CHANGE_LOCALE);
         options.add(CommandName.EXIT);
     }
 }

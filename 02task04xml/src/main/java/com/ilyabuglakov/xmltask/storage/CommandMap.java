@@ -1,9 +1,11 @@
 package com.ilyabuglakov.xmltask.storage;
 
+import com.ilyabuglakov.xmltask.controller.command.ChangeLocaleCommand;
 import com.ilyabuglakov.xmltask.controller.command.Command;
 import com.ilyabuglakov.xmltask.controller.command.DomParseCommand;
 import com.ilyabuglakov.xmltask.controller.command.EmptyCommand;
 import com.ilyabuglakov.xmltask.controller.command.SaxParseCommand;
+import com.ilyabuglakov.xmltask.controller.command.StaxParseCommand;
 import com.ilyabuglakov.xmltask.model.CommandName;
 
 import java.util.EnumMap;
@@ -16,6 +18,8 @@ public class CommandMap {
         commands.put(CommandName.EXIT, new EmptyCommand());
         commands.put(CommandName.DOM, new DomParseCommand());
         commands.put(CommandName.SAX, new SaxParseCommand());
+        commands.put(CommandName.STAX, new StaxParseCommand());
+        commands.put(CommandName.CHANGE_LOCALE, new ChangeLocaleCommand());
     }
 
     private CommandMap() {
