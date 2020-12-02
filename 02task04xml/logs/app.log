@@ -9,3 +9,40 @@
 2020-12-02 00:12:08.393 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
 2020-12-02 00:13:12.532 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
 2020-12-02 00:14:22.756 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:04:04.404 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:05:55.209 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:06:03.956 ERROR [main] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand] [execute] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:68)] - Bad input file, or it wasn't found
+java.io.FileNotFoundException: gems.xml (Не удается найти указанный файл)
+	at java.io.FileInputStream.open0(Native Method) ~[?:?]
+	at java.io.FileInputStream.open(FileInputStream.java:219) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:157) ~[?:?]
+	at com.ilyabuglakov.xmltask.service.gem.builder.SAXBuilder.buildGemSet(SAXBuilder.java:33) ~[classes/:?]
+	at com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:59) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.CommandController.executeCommand(CommandController.java:37) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.ApplicationController.start(ApplicationController.java:33) [classes/:?]
+	at com.ilyabuglakov.xmltask.Runner.main(Runner.java:13) [classes/:?]
+2020-12-02 13:06:37.523 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:07:18.181 ERROR [main] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand] [execute] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:68)] - Bad input file, or it wasn't found
+java.io.FileNotFoundException: gems.xml (Не удается найти указанный файл)
+	at java.io.FileInputStream.open0(Native Method) ~[?:?]
+	at java.io.FileInputStream.open(FileInputStream.java:219) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:157) ~[?:?]
+	at com.ilyabuglakov.xmltask.service.gem.builder.SAXBuilder.buildGemSet(SAXBuilder.java:33) ~[classes/:?]
+	at com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:59) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.CommandController.executeCommand(CommandController.java:37) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.ApplicationController.start(ApplicationController.java:33) [classes/:?]
+	at com.ilyabuglakov.xmltask.Runner.main(Runner.java:13) [classes/:?]
+2020-12-02 13:07:34.667 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:07:58.576 ERROR [main] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand] [execute] [com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:68)] - Bad input file, or it wasn't found
+java.io.FileNotFoundException: gems.xml (Не удается найти указанный файл)
+	at java.io.FileInputStream.open0(Native Method) ~[?:?]
+	at java.io.FileInputStream.open(FileInputStream.java:219) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:157) ~[?:?]
+	at com.ilyabuglakov.xmltask.service.gem.builder.SAXBuilder.buildGemSet(SAXBuilder.java:33) ~[classes/:?]
+	at com.ilyabuglakov.xmltask.controller.command.SaxParseCommand.execute(SaxParseCommand.java:59) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.CommandController.executeCommand(CommandController.java:37) [classes/:?]
+	at com.ilyabuglakov.xmltask.controller.ApplicationController.start(ApplicationController.java:33) [classes/:?]
+	at com.ilyabuglakov.xmltask.Runner.main(Runner.java:13) [classes/:?]
+2020-12-02 13:08:18.984 INFO [main] [com.ilyabuglakov.xmltask.Runner] [main] [com.ilyabuglakov.xmltask.Runner.main(Runner.java:12)] - Application started
+2020-12-02 13:08:44.919 INFO [main] [com.ilyabuglakov.xmltask.service.xml.parser.SAXHandler] [startDocument] [com.ilyabuglakov.xmltask.service.xml.parser.SAXHandler.startDocument(SAXHandler.java:35)] - SAX document started
+2020-12-02 13:08:44.995 INFO [main] [com.ilyabuglakov.xmltask.service.xml.parser.SAXHandler] [endDocument] [com.ilyabuglakov.xmltask.service.xml.parser.SAXHandler.endDocument(SAXHandler.java:40)] - SAX document ended

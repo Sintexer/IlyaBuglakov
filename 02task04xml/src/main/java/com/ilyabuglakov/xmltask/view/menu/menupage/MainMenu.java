@@ -10,6 +10,7 @@ public class MainMenu extends MenuPage {
     public MainMenu() {
         super(MenuPageName.MAIN_MENU);
         options.add(CommandName.DOM);
+        options.add(CommandName.SAX);
         options.add(CommandName.EXIT);
     }
 }

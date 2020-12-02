@@ -19,11 +19,11 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class DomBuilder {
+public class DOMBuilder {
 
     private Document document;
 
-    public DomBuilder(Document document) {
+    public DOMBuilder(Document document) {
         this.document = document;
     }
 

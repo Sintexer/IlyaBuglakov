@@ -5,5 +5,6 @@ package com.ilyabuglakov.xmltask.model;
  */
 public enum CommandName {
     DOM,
+    SAX,
     EXIT
 }
