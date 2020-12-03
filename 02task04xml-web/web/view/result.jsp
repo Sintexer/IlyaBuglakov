@@ -12,6 +12,8 @@
     <title>Parsing result</title>
 </head>
 <body>
+<a href="">Home</a>
+<a href="./">Back</a>
 
 <h4>Gems</h4>
 <table>

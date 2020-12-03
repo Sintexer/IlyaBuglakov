@@ -34,5 +34,248 @@
             <receivingDate>1999-12-25</receivingDate>
         </certificate>
         <weight>5</weight>
+    </gem><gem mineral="EMERALD">
+        <name>Emasy01</name>
+        <visualParameters facesNumber="2">
+            <color>RED</color>
+            <transparency>50</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>GERMANY</origin>
+        <minedDate>1913-12-03</minedDate>
+        <certificate>
+            <certificateId>aA333334fgl</certificateId>
+            <organization>NewLabel</organization>
+            <receivingDate>2001-02-22</receivingDate>
+        </certificate>
+        <weight>6</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>STlgena99</name>
+        <visualParameters facesNumber="13">
+            <color>BLUE</color>
+            <transparency>65</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>FRANCE</origin>
+        <minedDate>1919-02-03</minedDate>
+        <certificate>
+            <certificateId>tt656567rpe</certificateId>
+            <organization>Fransua</organization>
+            <receivingDate>1956-11-02</receivingDate>
+        </certificate>
+        <weight>8</weight>
+    </gem><gem mineral="RUBY">
+        <name>Alore01</name>
+        <visualParameters facesNumber="17">
+            <color>RED</color>
+            <transparency>99</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>GERMANY</origin>
+        <minedDate>2020-02-02</minedDate>
+        <certificate>
+            <certificateId>se939495perre</certificateId>
+            <organization>GermanHeinse</organization>
+            <receivingDate>2020-02-29</receivingDate>
+        </certificate>
+        <weight>7</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Spert90</name>
+        <visualParameters>
+            <color>YELLOW</color>
+            <transparency>32</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>BELARUS</origin>
+        <minedDate>1913-11-04</minedDate>
+        <certificate>
+            <certificateId>cs341232ler</certificateId>
+            <organization>RodniyaKuti</organization>
+            <receivingDate>2020-01-01</receivingDate>
+        </certificate>
+        <weight>1</weight>
+    </gem><gem mineral="EMERALD">
+        <name>Esera21</name>
+        <visualParameters facesNumber="6">
+            <color>GREEN</color>
+            <transparency>76</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>MEXICO</origin>
+        <minedDate>2000-04-12</minedDate>
+        <certificate>
+            <certificateId>er345412rtr</certificateId>
+            <organization>MexicoCorp</organization>
+            <receivingDate>2015-10-06</receivingDate>
+        </certificate>
+        <weight>2</weight>
+    </gem><gem mineral="RUBY">
+        <name>Ruben12</name>
+        <visualParameters facesNumber="3">
+            <color>RED</color>
+            <transparency>57</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>MEXICO</origin>
+        <minedDate>1965-04-13</minedDate>
+        <certificate>
+            <certificateId>pe858560pre</certificateId>
+            <organization>MexicoCorp</organization>
+            <receivingDate>1988-11-15</receivingDate>
+        </certificate>
+        <weight>12</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Sappa22</name>
+        <visualParameters facesNumber="22">
+            <color>YELLOW</color>
+            <transparency>87</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>FRANCE</origin>
+        <minedDate>2002-07-17</minedDate>
+        <certificate>
+            <certificateId>rg332344tre</certificateId>
+            <organization>NapoleonFlavour</organization>
+            <receivingDate>2003-07-17</receivingDate>
+        </certificate>
+        <weight>7</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Sappa23</name>
+        <visualParameters facesNumber="23">
+            <color>YELLOW</color>
+            <transparency>100</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>FRANCE</origin>
+        <minedDate>2013-11-13</minedDate>
+        <certificate>
+            <certificateId>sa232342dsf</certificateId>
+            <organization>NapoleonFlavour</organization>
+            <receivingDate>2020-02-05</receivingDate>
+        </certificate>
+        <weight>1</weight>
+    </gem><gem mineral="EMERALD">
+        <name>Emanu15</name>
+        <visualParameters>
+            <color>GREEN</color>
+            <transparency>2</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>BELARUS</origin>
+        <minedDate>2004-09-21</minedDate>
+        <certificate>
+            <certificateId>be345409lrr</certificateId>
+            <organization>RodniyaCuti</organization>
+            <receivingDate>2007-09-16</receivingDate>
+        </certificate>
+        <weight>2</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Sappa02</name>
+        <visualParameters>
+            <color>YELLOW</color>
+            <transparency>3</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>FRANCE</origin>
+        <minedDate>1967-04-05</minedDate>
+        <certificate>
+            <certificateId>sf434545gfg</certificateId>
+            <organization>NapoleonFlavour</organization>
+            <receivingDate>1999-04-05</receivingDate>
+        </certificate>
+        <weight>2</weight>
+    </gem><gem mineral="DIAMOND">
+        <name>Yunky14</name>
+        <visualParameters facesNumber="8">
+            <color>BLUE</color>
+            <transparency>99</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>BELARUS</origin>
+        <minedDate>2004-05-05</minedDate>
+        <certificate>
+            <certificateId>be233554gfgrt</certificateId>
+            <organization>BlrDiamondis</organization>
+            <receivingDate>2006-08-18</receivingDate>
+        </certificate>
+        <weight>5</weight>
+    </gem><gem mineral="DIAMOND">
+        <name>Dio12</name>
+        <visualParameters facesNumber="12">
+            <color>RED</color>
+            <transparency>99</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>MEXICO</origin>
+        <minedDate>1913-04-27</minedDate>
+        <specialCertificate>
+            <certificateId>sd454656fgh</certificateId>
+            <organization>LoveloMiner</organization>
+            <receivingDate>1966-01-22</receivingDate>
+            <specialReason>Cleanest diamond</specialReason>
+        </specialCertificate>
+        <weight>6</weight>
+    </gem><gem mineral="RUBY">
+        <name>Alore02</name>
+        <visualParameters facesNumber="11">
+            <color>RED</color>
+            <transparency>43</transparency>
+        </visualParameters>
+        <preciousness>SEMIPRECIOUS</preciousness>
+        <origin>GERMANY</origin>
+        <minedDate>2000-04-03</minedDate>
+        <certificate>
+            <certificateId>re342546fgr</certificateId>
+            <organization>MineroTilero</organization>
+            <receivingDate>2002-03-04</receivingDate>
+        </certificate>
+        <weight>1</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Sapper01</name>
+        <visualParameters facesNumber="22">
+            <color>YELLOW</color>
+            <transparency>100</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>FRANCE</origin>
+        <minedDate>1988-03-05</minedDate>
+        <certificate>
+            <certificateId>as985959rre</certificateId>
+            <organization>NapoleonFlavour</organization>
+            <receivingDate>1999-12-25</receivingDate>
+        </certificate>
+        <weight>2</weight>
+    </gem><gem mineral="RUBY">
+        <name>Tabasso06</name>
+        <visualParameters facesNumber="6">
+            <color>YELLOW</color>
+            <transparency>98</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>BELARUS</origin>
+        <minedDate>2020-03-04</minedDate>
+        <specialCertificate>
+            <certificateId>fd434334ere</certificateId>
+            <organization>YareNfe</organization>
+            <receivingDate>2020-05-06</receivingDate>
+            <specialReason>Cleanest Belarus ruby</specialReason>
+        </specialCertificate>
+        <weight>7</weight>
+    </gem><gem mineral="SAPPHIRE">
+        <name>Enumo222</name>
+        <visualParameters facesNumber="222">
+            <color>BLUE</color>
+            <transparency>32</transparency>
+        </visualParameters>
+        <preciousness>PRECIOUS</preciousness>
+        <origin>MEXICO</origin>
+        <minedDate>2008-12-06</minedDate>
+        <specialCertificate>
+            <certificateId>re345355frf</certificateId>
+            <organization>MexicoCorp</organization>
+            <receivingDate>2020-04-05</receivingDate>
+            <specialReason>The world largest faces amount</specialReason>
+        </specialCertificate>
+        <weight>13</weight>
     </gem>
 </gems>
