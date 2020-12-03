@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gems xmlns="http://ilyabuglacov.com/gems"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://ilyabuglacov.com/gems gems.xsd">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://ilyabuglacov.com/gems gems.xsd">
     <gem mineral="DIAMOND">
         <name>Zalorel02</name>
         <visualParameters facesNumber="8">

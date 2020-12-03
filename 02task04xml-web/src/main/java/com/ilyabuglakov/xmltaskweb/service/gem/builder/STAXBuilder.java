@@ -1,14 +1,15 @@
-package com.ilyabuglakov.xmltask.service.gem.builder;
+package com.ilyabuglakov.xmltaskweb.service.gem.builder;
 
-import com.ilyabuglakov.xmltask.exception.XMLFileContentException;
-import com.ilyabuglakov.xmltask.model.gem.Color;
-import com.ilyabuglakov.xmltask.model.gem.Gem;
-import com.ilyabuglakov.xmltask.model.gem.Mineral;
-import com.ilyabuglakov.xmltask.model.gem.Origin;
-import com.ilyabuglakov.xmltask.model.gem.Preciousness;
-import com.ilyabuglakov.xmltask.model.gem.VisualParameters;
-import com.ilyabuglakov.xmltask.model.gem.certificate.Certificate;
-import com.ilyabuglakov.xmltask.model.gem.certificate.SpecialCertificate;
+
+import com.ilyabuglakov.xmltaskweb.exception.XMLFileContentException;
+import com.ilyabuglakov.xmltaskweb.model.gem.Color;
+import com.ilyabuglakov.xmltaskweb.model.gem.Gem;
+import com.ilyabuglakov.xmltaskweb.model.gem.Mineral;
+import com.ilyabuglakov.xmltaskweb.model.gem.Origin;
+import com.ilyabuglakov.xmltaskweb.model.gem.Preciousness;
+import com.ilyabuglakov.xmltaskweb.model.gem.VisualParameters;
+import com.ilyabuglakov.xmltaskweb.model.gem.certificate.Certificate;
+import com.ilyabuglakov.xmltaskweb.model.gem.certificate.SpecialCertificate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;

@@ -1,7 +1,7 @@
-package com.ilyabuglakov.xmltask.service.gem.builder;
+package com.ilyabuglakov.xmltaskweb.service.gem.builder;
 
-import com.ilyabuglakov.xmltask.model.gem.Gem;
-import com.ilyabuglakov.xmltask.service.xml.parser.SAXHandler;
+import com.ilyabuglakov.xmltaskweb.model.gem.Gem;
+import com.ilyabuglakov.xmltaskweb.service.xml.parser.SAXHandler;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

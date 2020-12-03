@@ -8,6 +8,7 @@ import com.ilyabuglakov.xmltask.service.PathService;
 import com.ilyabuglakov.xmltask.service.gem.builder.DOMBuilder;
 import com.ilyabuglakov.xmltask.service.xml.XMLSchemaFactory;
 import com.ilyabuglakov.xmltask.service.xml.parser.DomParser;
+import com.ilyabuglakov.xmltask.storage.PathStorage;
 import com.ilyabuglakov.xmltask.view.ConsoleView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,30 +16,31 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.validation.Schema;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Set;
 
 public class DomParseCommand implements Command {
 
     private static Logger logger = LogManager.getLogger(DomParseCommand.class);
 
-    //TODO вынести путь в другое мессто
-    private String inputFileName = "gems.xml";
-    private String xsdFileName = "gems.xsd";
-
     @Override
     public void execute() {
         ConsoleView view = ApplicationController.getInstance().getView();
-        String xsdPath = PathService.getInstance().getResourcePath(xsdFileName);
-        String inputPath = PathService.getInstance().getResourcePath(inputFileName);
+        String xsdPath = PathStorage.getInstance().getXsdPath();
+        String inputPath = PathStorage.getInstance().getInputPath();
         Schema schema;
 
         try {
             schema = XMLSchemaFactory.getSchema(xsdPath);
         } catch (SAXException e) {
             view.showMessage(MessageName.INVALID_SCHEMA);
-            logger.error( () -> "Invalid schema", e);
+            logger.error(() -> "Invalid schema", e);
             return;
         }
+
 
         ValidateFileCommand validateCommand = new ValidateFileCommand(schema, inputPath);
         validateCommand.execute();
@@ -53,13 +55,18 @@ public class DomParseCommand implements Command {
         try {
             DomParser parser = new DomParser();
             parser.setSchema(schema);
-            builder = new DOMBuilder(parser.getDocument(inputPath));
+            InputStream inputStream = new FileInputStream(new File(inputPath));
+            builder = new DOMBuilder(parser.getDocument(inputStream));
         } catch (ParserConfigurationException e) {
             logger.error(() -> "Bad DOM parser configuration", e);
             view.showMessage(MessageName.BAD_PARSER_CONFIGURATION);
             return;
         } catch (ParserException e) {
             logger.error(() -> "Error while parsing", e);
+            view.showMessage(MessageName.INVALID_FILE);
+            return;
+        } catch (FileNotFoundException e) {
+            logger.error(() -> "File not found", e);
             view.showMessage(MessageName.INVALID_FILE);
             return;
         }

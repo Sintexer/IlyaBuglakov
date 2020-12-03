@@ -2,7 +2,6 @@ package com.ilyabuglakov.xmltask.controller;
 
 
 import com.ilyabuglakov.xmltask.model.CommandName;
-import com.ilyabuglakov.xmltask.model.MessageName;
 import com.ilyabuglakov.xmltask.view.ConsoleView;
 
 public class ApplicationController {

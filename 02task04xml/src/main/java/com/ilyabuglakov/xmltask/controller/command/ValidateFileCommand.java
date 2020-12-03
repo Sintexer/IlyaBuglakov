@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.xml.sax.SAXException;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -37,16 +36,16 @@ public class ValidateFileCommand implements Command {
         isValid = false;
         XSDValidator validator = new XSDValidator();
         validator.setSchema(schema);
-        try{
+        try {
             StreamSource source = new StreamSource(new FileInputStream(new File(inputPath)));
-            if(!validator.isValidXml(source)){
+            if (!validator.isValidXml(source)) {
                 message = MessageName.INVALID_FILE;
-                logger.error( () -> "Invalid xml file " + inputPath);
+                logger.error(() -> "Invalid xml file " + inputPath);
                 return;
             }
         } catch (FileNotFoundException e) {
             message = MessageName.FILE_NOT_FOUND;
-            logger.error( () -> "File not found", e);
+            logger.error(() -> "File not found", e);
             return;
         }
 

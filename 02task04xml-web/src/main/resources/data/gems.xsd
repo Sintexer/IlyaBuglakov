@@ -31,7 +31,6 @@
             <simpleType>
                 <restriction base="string">
                     <enumeration value="DIAMOND"/>
-                    <enumeration value="DIAMOND"/>
                     <enumeration value="EMERALD"/>
                     <enumeration value="SAPPHIRE"/>
                     <enumeration value="RUBY"/>

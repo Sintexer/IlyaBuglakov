@@ -1,6 +1,6 @@
-package com.ilyabuglakov.xmltask.service.xml.parser;
+package com.ilyabuglakov.xmltaskweb.service.xml.parser;
 
-import com.ilyabuglakov.xmltask.exception.ParserException;
+import com.ilyabuglakov.xmltaskweb.exception.ParserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
