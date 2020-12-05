@@ -1,7 +1,8 @@
-package src.com.ilyabuglakov.arraymanipulator.service;
+package src.com.ilyabuglakov.arraymanipulator.service.juggedarray;
 
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
+import src.com.ilyabuglakov.arraymanipulator.service.array.ArrayCreator;
 
 import java.util.ArrayList;
 import java.util.List;

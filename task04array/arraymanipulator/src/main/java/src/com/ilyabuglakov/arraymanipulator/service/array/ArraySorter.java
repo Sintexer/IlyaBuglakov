@@ -1,8 +1,6 @@
 package src.com.ilyabuglakov.arraymanipulator.service.array;
 
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
-import src.com.ilyabuglakov.arraymanipulator.service.ArrayCreator;
-import src.com.ilyabuglakov.arraymanipulator.service.ArrayModificator;
 
 public class ArraySorter<T extends Comparable<T>> {
 

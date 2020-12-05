@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
+import src.com.ilyabuglakov.arraymanipulator.service.array.ArrayCreator;
+import src.com.ilyabuglakov.arraymanipulator.service.array.ArrayModificator;
 
 public class ArrayModificatorTest {
     

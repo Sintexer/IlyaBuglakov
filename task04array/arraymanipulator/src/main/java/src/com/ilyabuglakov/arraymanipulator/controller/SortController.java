@@ -1,5 +1,6 @@
 package src.com.ilyabuglakov.arraymanipulator.controller;
 
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 
 import java.util.HashMap;

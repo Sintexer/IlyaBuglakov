@@ -3,8 +3,8 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
-import src.com.ilyabuglakov.arraymanipulator.service.JuggedArrayService;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.JuggedArrayService;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 public class AddToEachCommand implements Command {
     @Override

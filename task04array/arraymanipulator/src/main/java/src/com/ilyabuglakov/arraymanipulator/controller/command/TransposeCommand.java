@@ -3,9 +3,9 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
-import src.com.ilyabuglakov.arraymanipulator.service.MatrixTransposer;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.MatrixTransposer;
 import src.com.ilyabuglakov.arraymanipulator.service.validator.JuggedArrayValidator;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 public class TransposeCommand implements Command {
     @Override

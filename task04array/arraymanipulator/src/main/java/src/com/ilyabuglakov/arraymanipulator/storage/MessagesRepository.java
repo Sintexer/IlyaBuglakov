@@ -1,6 +1,7 @@
-package src.com.ilyabuglakov.arraymanipulator.view.message;
+package src.com.ilyabuglakov.arraymanipulator.storage;
 
-import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 import java.util.ArrayList;
 import java.util.Collection;

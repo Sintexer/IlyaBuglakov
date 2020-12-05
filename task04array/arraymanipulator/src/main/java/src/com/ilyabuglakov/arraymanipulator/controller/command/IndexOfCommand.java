@@ -5,7 +5,7 @@ import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.ArrayInterface;
 import src.com.ilyabuglakov.arraymanipulator.service.array.ArraySearcher;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 public class IndexOfCommand implements Command {
     @Override

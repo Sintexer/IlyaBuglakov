@@ -3,7 +3,7 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
-import src.com.ilyabuglakov.arraymanipulator.service.JuggedArrayCreator;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.JuggedArrayCreator;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
 
 public class InputJuggedArrayCommand implements Command {

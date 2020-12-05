@@ -1,8 +1,9 @@
 package src.com.ilyabuglakov.arraymanipulator.controller;
 
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
 import src.com.ilyabuglakov.arraymanipulator.repository.ArrayInterface;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 public class ApplicationController {
     private static ApplicationController controller;

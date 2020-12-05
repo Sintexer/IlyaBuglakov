@@ -1,4 +1,4 @@
-package src.com.ilyabuglakov.arraymanipulator.service;
+package src.com.ilyabuglakov.arraymanipulator.service.array;
 
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 import src.com.ilyabuglakov.arraymanipulator.repository.ArrayInterface;

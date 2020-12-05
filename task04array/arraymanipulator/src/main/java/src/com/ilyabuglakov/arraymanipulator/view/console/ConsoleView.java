@@ -1,16 +1,16 @@
 package src.com.ilyabuglakov.arraymanipulator.view.console;
 
-import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
-import src.com.ilyabuglakov.arraymanipulator.repository.ArrayType;
-import src.com.ilyabuglakov.arraymanipulator.service.IntValidator;
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.model.ArrayType;
+import src.com.ilyabuglakov.arraymanipulator.service.input.IntValidator;
 import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
-import src.com.ilyabuglakov.arraymanipulator.view.OptionsRepository;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessagesRepository;
-import src.com.ilyabuglakov.arraymanipulator.view.printer.ConsolePrinter;
-import src.com.ilyabuglakov.arraymanipulator.view.printer.Printer;
-import src.com.ilyabuglakov.arraymanipulator.view.reader.ConsoleReader;
-import src.com.ilyabuglakov.arraymanipulator.view.reader.Reader;
+import src.com.ilyabuglakov.arraymanipulator.storage.OptionsRepository;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.storage.MessagesRepository;
+import src.com.ilyabuglakov.arraymanipulator.service.console.printer.ConsolePrinter;
+import src.com.ilyabuglakov.arraymanipulator.service.console.printer.Printer;
+import src.com.ilyabuglakov.arraymanipulator.service.console.reader.ConsoleReader;
+import src.com.ilyabuglakov.arraymanipulator.service.console.reader.Reader;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,6 +32,7 @@ public class ConsoleView {
     public ConsoleView() {
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FILL_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SHOW_ARRAY);
+        optionsRepository.addOption(ArrayType.ARRAY, CommandName.SWITCH_TYPE);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.SORT_ARRAY);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.INDEX_OF);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_MAX);
@@ -40,7 +41,6 @@ public class ConsoleView {
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_SIMPLE_NUMBERS);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_FIB_NUMBERS);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.FIND_THREE_DIGITS_UNIQUE);
-        optionsRepository.addOption(ArrayType.ARRAY, CommandName.SWITCH_TYPE);
         optionsRepository.addOption(ArrayType.ARRAY, CommandName.EXIT);
 
 

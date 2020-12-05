@@ -28,6 +28,7 @@ import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToArrayCom
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchToJuggedArrayCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.SwitchTypeCommand;
 import src.com.ilyabuglakov.arraymanipulator.controller.command.TransposeCommand;
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

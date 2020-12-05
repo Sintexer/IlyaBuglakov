@@ -1,6 +1,9 @@
-package src.com.ilyabuglakov.arraymanipulator.service;
+package src.com.ilyabuglakov.arraymanipulator.service.juggedarray;
 
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
+import src.com.ilyabuglakov.arraymanipulator.service.array.ArrayCreator;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.JuggedArrayCreator;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.JuggedArrayService;
 
 public class MatrixTransposer<T> {
 

@@ -1,4 +1,4 @@
-package src.com.ilyabuglakov.arraymanipulator.view.printer;
+package src.com.ilyabuglakov.arraymanipulator.service.console.printer;
 
 public class ConsolePrinter implements Printer {
 

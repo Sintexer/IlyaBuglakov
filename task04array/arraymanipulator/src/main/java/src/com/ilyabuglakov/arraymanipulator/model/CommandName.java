@@ -1,4 +1,4 @@
-package src.com.ilyabuglakov.arraymanipulator.controller;
+package src.com.ilyabuglakov.arraymanipulator.model;
 
 public enum CommandName {
     EXIT,

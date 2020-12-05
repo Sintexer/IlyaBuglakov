@@ -3,7 +3,7 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
-import src.com.ilyabuglakov.arraymanipulator.service.JuggedArrayService;
+import src.com.ilyabuglakov.arraymanipulator.service.juggedarray.JuggedArrayService;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
 
 public class IsSquareMatrixCommand implements Command {

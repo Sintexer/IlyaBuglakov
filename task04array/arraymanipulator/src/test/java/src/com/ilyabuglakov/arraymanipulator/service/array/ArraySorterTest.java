@@ -3,9 +3,6 @@ package src.com.ilyabuglakov.arraymanipulator.service.array;
 import org.junit.Before;
 import org.junit.Test;
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
-import src.com.ilyabuglakov.arraymanipulator.service.ArrayCreator;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 

@@ -2,13 +2,13 @@ package src.com.ilyabuglakov.arraymanipulator.controller.command;
 
 import src.com.ilyabuglakov.arraymanipulator.controller.ApplicationController;
 import src.com.ilyabuglakov.arraymanipulator.controller.Command;
-import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
 import src.com.ilyabuglakov.arraymanipulator.controller.SortController;
 import src.com.ilyabuglakov.arraymanipulator.repository.Array;
 import src.com.ilyabuglakov.arraymanipulator.service.array.ArraySorter;
 import src.com.ilyabuglakov.arraymanipulator.service.decorator.CollectionDecorator;
 import src.com.ilyabuglakov.arraymanipulator.view.console.ConsoleView;
-import src.com.ilyabuglakov.arraymanipulator.view.message.MessageId;
+import src.com.ilyabuglakov.arraymanipulator.model.MessageId;
 
 import java.util.ArrayList;
 import java.util.List;

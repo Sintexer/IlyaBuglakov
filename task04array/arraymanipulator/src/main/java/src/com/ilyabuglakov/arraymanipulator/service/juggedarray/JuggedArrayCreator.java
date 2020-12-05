@@ -1,6 +1,7 @@
-package src.com.ilyabuglakov.arraymanipulator.service;
+package src.com.ilyabuglakov.arraymanipulator.service.juggedarray;
 
 import src.com.ilyabuglakov.arraymanipulator.repository.JuggedArray;
+import src.com.ilyabuglakov.arraymanipulator.service.array.ArrayCreator;
 
 public class JuggedArrayCreator<T> {
     //TODO singleton

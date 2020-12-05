@@ -1,4 +1,4 @@
-package src.com.ilyabuglakov.arraymanipulator.view.message;
+package src.com.ilyabuglakov.arraymanipulator.model;
 
 public enum MessageId {
     NO_ARRAY,

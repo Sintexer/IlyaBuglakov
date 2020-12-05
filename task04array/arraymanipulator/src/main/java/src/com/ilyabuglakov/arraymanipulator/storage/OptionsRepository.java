@@ -1,7 +1,7 @@
-package src.com.ilyabuglakov.arraymanipulator.view;
+package src.com.ilyabuglakov.arraymanipulator.storage;
 
-import src.com.ilyabuglakov.arraymanipulator.controller.CommandName;
-import src.com.ilyabuglakov.arraymanipulator.repository.ArrayType;
+import src.com.ilyabuglakov.arraymanipulator.model.CommandName;
+import src.com.ilyabuglakov.arraymanipulator.model.ArrayType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

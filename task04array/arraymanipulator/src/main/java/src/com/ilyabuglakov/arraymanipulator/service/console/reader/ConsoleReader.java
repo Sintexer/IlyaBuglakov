@@ -1,4 +1,4 @@
-package src.com.ilyabuglakov.arraymanipulator.view.reader;
+package src.com.ilyabuglakov.arraymanipulator.service.console.reader;
 
 import java.util.Scanner;
 
