@@ -3,7 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://ilyabuglacov.com/gems gems.xsd">
     <gem mineral="DIAMOND">
-        <name>Zalorel02</name>
+        <name>12Zalorel02</name>
         <visualParameters facesNumber="8">
             <color>BLUE</color>
             <transparency>90</transparency>
