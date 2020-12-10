@@ -1,11 +1,11 @@
-create database raise_db default charactr set utf8;
+create database raise_db;
 
--- grant select, insert, update, delete
--- on `raise_db`.*
--- to raise_user@localhost
--- identified by 'raise_password'
+create user raise_user with password 'hash25';
 
--- grant select, insert, update, delete
--- on `raise_db`.*
--- to raise_user@'%'
--- identified by 'raise_password'
+revoke connect on database raise_db from public;
+
+grant connect on database raise_db to raise_user;
+
+revoke all on all tables in schema public;
+
+grant select, insert, update, delete on all tables in schema public to raise_user;
