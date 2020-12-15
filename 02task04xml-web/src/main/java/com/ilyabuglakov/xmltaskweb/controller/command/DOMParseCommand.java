@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.Set;
 
 public class DOMParseCommand implements Command {
