@@ -13,10 +13,19 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <log4j2.version>2.7</log4j2.version>
         <disruptor.version>3.3.6</disruptor.version>
+        <postgres.version>9.1-901-1.jdbc4</postgres.version>
     </properties>
 
 
     <dependencies>
+        <!--    PostgreSQL    -->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
+        </dependency>
+
+
         <!--    Java EE    -->
         <dependency>
             <groupId>javax.servlet</groupId>
