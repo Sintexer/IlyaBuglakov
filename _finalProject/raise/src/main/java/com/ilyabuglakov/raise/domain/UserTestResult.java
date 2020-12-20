@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode
-public class UserTestResult {
+@EqualsAndHashCode(callSuper = false)
+public class UserTestResult extends Entity {
     private long userId;
     private long testId;
     private int result;
