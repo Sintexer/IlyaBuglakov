@@ -1,95 +1,21 @@
-[36m2020-12-19 21:55:09.226 DEBUG [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:14)] - DebugMessage
-[m[32m2020-12-19 21:55:09.246 INFO [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:16)] - InfoMessage
-[m[33m2020-12-19 21:55:09.247 WARN [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:17)] - WarnMessage
-[m[1;31m2020-12-19 21:55:09.248 ERROR [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:18)] - ErrorMessage
-[m[1;31m2020-12-19 21:55:09.249 FATAL [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:19)] - FatalMessage
-[m[36m2020-12-19 21:56:01.025 DEBUG [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:14)] - DebugMessage
-[m[32m2020-12-19 21:56:01.036 INFO [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:16)] - InfoMessage
-[m[33m2020-12-19 21:56:01.038 WARN [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:17)] - WarnMessage
-[m[1;31m2020-12-19 21:56:01.038 ERROR [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:18)] - ErrorMessage
-[m[1;31m2020-12-19 21:56:01.039 FATAL [main] [com.ilyabuglakov.raise.logger.LoggerTest] [writeSomeLogs] [com.ilyabuglakov.raise.logger.LoggerTest.writeSomeLogs(LoggerTest.java:19)] - FatalMessage
-[m[1;31m2020-12-19 22:51:19.862 ERROR [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:91)] - Cant close invalid connection from pool
-[m java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc4.Jdbc4Connection.isValid(int) is not yet implemented.
-	at org.postgresql.Driver.notImplemented(Driver.java:753) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at org.postgresql.jdbc4.AbstractJdbc4Connection.isValid(AbstractJdbc4Connection.java:120) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at org.postgresql.jdbc4.Jdbc4Connection.isValid(Jdbc4Connection.java:21) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at com.ilyabuglakov.raise.dal.connection.ConnectionProxy.isValid(ConnectionProxy.java:176) ~[classes/:?]
-	at com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:84) ~[classes/:?]
-	at com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest.testConnection(StandardConnectionPoolTest.java:21) ~[test-classes/:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
-	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
-	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:132) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:599) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:174) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:822) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:147) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128) ~[testng-7.3.0.jar:?]
-	at java.util.ArrayList.forEach(ArrayList.java:1540) [?:?]
-	at org.testng.TestRunner.privateRun(TestRunner.java:764) [testng-7.3.0.jar:?]
-	at org.testng.TestRunner.run(TestRunner.java:585) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.run(SuiteRunner.java:286) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1218) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1140) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuites(TestNG.java:1069) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.run(TestNG.java:1037) [testng-7.3.0.jar:?]
-	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66) [testng-rt.jar:?]
-	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:110) [testng-rt.jar:?]
-[1;31m2020-12-19 22:51:25.508 ERROR [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:121)] - Error while releasing connection
-[m java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc4.Jdbc4Connection.isValid(int) is not yet implemented.
-	at org.postgresql.Driver.notImplemented(Driver.java:753) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at org.postgresql.jdbc4.AbstractJdbc4Connection.isValid(AbstractJdbc4Connection.java:120) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at org.postgresql.jdbc4.Jdbc4Connection.isValid(Jdbc4Connection.java:21) ~[postgresql-9.1-901-1.jdbc4.jar:?]
-	at com.ilyabuglakov.raise.dal.connection.ConnectionProxy.isValid(ConnectionProxy.java:176) ~[classes/:?]
-	at com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:112) ~[classes/:?]
-	at com.ilyabuglakov.raise.dal.connection.ConnectionProxy.close(ConnectionProxy.java:56) ~[classes/:?]
-	at com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest.testConnection(StandardConnectionPoolTest.java:24) ~[test-classes/:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
-	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
-	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
-	at java.lang.reflect.Method.invoke(Method.java:566) ~[?:?]
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:132) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:599) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:174) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:822) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:147) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146) ~[testng-7.3.0.jar:?]
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128) ~[testng-7.3.0.jar:?]
-	at java.util.ArrayList.forEach(ArrayList.java:1540) [?:?]
-	at org.testng.TestRunner.privateRun(TestRunner.java:764) [testng-7.3.0.jar:?]
-	at org.testng.TestRunner.run(TestRunner.java:585) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:384) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:378) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:337) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunner.run(SuiteRunner.java:286) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53) [testng-7.3.0.jar:?]
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1218) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1140) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.runSuites(TestNG.java:1069) [testng-7.3.0.jar:?]
-	at org.testng.TestNG.run(TestNG.java:1037) [testng-7.3.0.jar:?]
-	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66) [testng-rt.jar:?]
-	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:110) [testng-rt.jar:?]
-[32m2020-12-19 22:53:21.940 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:116)] - Connection released, freeConnections: 2, busyConnections: 0
-[m[32m2020-12-19 22:59:00.228 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:94)] - Connection taken, freeConnections: 1, busyConnections: 1
-[m[32m2020-12-19 23:00:07.867 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:94)] - Connection taken, freeConnections: 1, busyConnections: 1
-[m[32m2020-12-19 23:00:07.915 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest] [testConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest.testConnection(StandardConnectionPoolTest.java:30)] - org.postgresql.jdbc4.Jdbc4ResultSet@5af3a0f
-[m[32m2020-12-19 23:00:07.916 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:108)] - Connection released, freeConnections: 2, busyConnections: 0
-[m[32m2020-12-19 23:02:00.177 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:94)] - Connection taken, freeConnections: 1, busyConnections: 1
-[m[32m2020-12-19 23:02:00.231 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:108)] - Connection released, freeConnections: 2, busyConnections: 0
-[m[32m2020-12-19 23:05:06.628 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:94)] - Connection taken, freeConnections: 1, busyConnections: 1
-[m[32m2020-12-19 23:05:06.677 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest] [testConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest.testConnection(StandardConnectionPoolTest.java:31)] - [B@42e3ede4
-[m[32m2020-12-19 23:05:06.678 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:108)] - Connection released, freeConnections: 2, busyConnections: 0
-[m[32m2020-12-19 23:06:16.600 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [getConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.getConnection(StandardConnectionPool.java:94)] - Connection taken, freeConnections: 1, busyConnections: 1
-[m[32m2020-12-19 23:06:16.651 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest] [testConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPoolTest.testConnection(StandardConnectionPoolTest.java:31)] - user
-[m[32m2020-12-19 23:06:16.652 INFO [main] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool] [releaseConnection] [com.ilyabuglakov.raise.dal.connection.StandardConnectionPool.releaseConnection(StandardConnectionPool.java:108)] - Connection released, freeConnections: 2, busyConnections: 0
+[32m2020-12-21 00:12:11.290 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:14:16.111 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:15:50.025 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:16:46.829 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:20:27.286 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:22:35.452 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:23:25.573 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:23:54.038 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 00:24:34.721 INFO [main] [com.ilyabuglakov.raise.service.property.ApplicationProperties] [<clinit>] [com.ilyabuglakov.raise.service.property.ApplicationProperties$InstanceHolder.<clinit>(ApplicationProperties.java:16)] - Application works without initialisation from property file
+[m[32m2020-12-21 01:12:53.748 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testInsert] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testInsert(SqlQueryBuilderTest.java:26)] - INSERT INTO usr (name, surname, email) VALUES ('Ilya', 'Buglakov', 'ilboogl@gmail.com')
+[m[32m2020-12-21 01:12:53.771 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectAll] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectAll(SqlQueryBuilderTest.java:36)] - SELECT (name, surname, email) FROM usr WHERE id='0', name='Ilya'
+[m[32m2020-12-21 01:12:53.789 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectId] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectId(SqlQueryBuilderTest.java:47)] - SELECT (name, surname, email, id) FROM usr WHERE id='0', name='Ilya'
+[m[32m2020-12-21 01:14:02.143 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testInsert] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testInsert(SqlQueryBuilderTest.java:27)] - INSERT INTO usr (name, surname, email) VALUES ('Ilya', 'Buglakov', 'ilboogl@gmail.com')
+[m[32m2020-12-21 01:14:02.193 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectAll] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectAll(SqlQueryBuilderTest.java:37)] - SELECT * FROM usr WHERE id='0', name='Ilya'
+[m[32m2020-12-21 01:14:02.197 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectId] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectId(SqlQueryBuilderTest.java:48)] - SELECT (id) FROM usr WHERE id='0', name='Ilya'
+[m[32m2020-12-21 01:37:46.336 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testUpdate] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testUpdate(SqlQueryBuilderTest.java:59)] - UPDATE usr SET name, surname WHERE id='0'
+[m[32m2020-12-21 01:43:16.194 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testUpdate] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testUpdate(SqlQueryBuilderTest.java:59)] - UPDATE usr SET name='i', surname='blabla' WHERE id='0'
+[m[32m2020-12-21 02:05:27.393 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectAll] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectAll(SqlQueryBuilderTest.java:35)] - SELECT * FROM usr 
+[m[32m2020-12-21 02:06:25.405 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest] [testSelectAll] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectAll(SqlQueryBuilderTest.java:35)] - SELECT * FROM usr
+[m[32m2020-12-21 02:07:39.042 INFO [main] [com.ilyabuglakov.raise.service.SqlQueryBuilderTest.testSelectAll(SqlQueryBuilderTest.java:35)] - SELECT * FROM usr
 [m
