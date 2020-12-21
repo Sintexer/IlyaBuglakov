@@ -4,7 +4,9 @@ import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class ApplicationProperties extends PropertyParser {
+public class ApplicationProperties {
+
+    private PropertyParser propertyParser;
 
     private static class InstanceHolder{
         public static ApplicationProperties INSTANCE;
@@ -19,11 +21,15 @@ public class ApplicationProperties extends PropertyParser {
     }
 
     private ApplicationProperties() throws PropertyFileException {
-        super("application.properties");
+        propertyParser = new PropertyParser("application.properties");
     }
 
     public static ApplicationProperties getInstance(){
         return InstanceHolder.INSTANCE;
+    }
+
+    public static String getProperty(String propertyName){
+        return getInstance().propertyParser.getProperty(propertyName);
     }
 
 }
