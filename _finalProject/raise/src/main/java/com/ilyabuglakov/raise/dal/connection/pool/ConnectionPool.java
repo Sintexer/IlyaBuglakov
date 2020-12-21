@@ -1,4 +1,6 @@
-package com.ilyabuglakov.raise.dal.connection;
+package com.ilyabuglakov.raise.dal.connection.pool;
+
+import com.ilyabuglakov.raise.dal.connection.ConnectionProxy;
 
 public interface ConnectionPool {
 
@@ -10,12 +12,5 @@ public interface ConnectionPool {
     boolean releaseConnection(ConnectionProxy connection);
 
     void destroy();
-
-    String getUrl();
-
-    String getUser();
-
-    String getPassword();
-
 
 }

@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.connection;
+package com.ilyabuglakov.raise.dal.connection.pool;
 
+import com.ilyabuglakov.raise.dal.connection.ConnectionProxy;
 import com.ilyabuglakov.raise.dal.connection.exception.ThreadPoolLimitException;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,11 +18,8 @@ public class StandardConnectionPool implements ConnectionPool {
 
     private static Logger logger = LogManager.getLogger(StandardConnectionPool.class);
 
-    @Getter
     private String url;
-    @Getter
     private String user;
-    @Getter
     private String password;
     private int maxPoolSize;
     private int checkConnectionTimeout;

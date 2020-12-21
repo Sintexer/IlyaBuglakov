@@ -16,8 +16,8 @@ public class SqlQueryBuilder {
     private String stringQuoteType;
 
     public SqlQueryBuilder(String tableName) {
-        fieldQuoteType = ApplicationProperties.getInstance().getProperty("db.field.quoteType");
-        stringQuoteType = ApplicationProperties.getInstance().getProperty("db.string.quoteType");
+        fieldQuoteType = ApplicationProperties.getProperty("db.field.quoteType");
+        stringQuoteType = ApplicationProperties.getProperty("db.string.quoteType");
         this.tableName = surroundWith(tableName, fieldQuoteType);
     }
 

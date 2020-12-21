@@ -1,5 +1,7 @@
 package com.ilyabuglakov.raise.dal.connection;
 
+import com.ilyabuglakov.raise.dal.connection.pool.StandardConnectionPool;
+
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.CallableStatement;

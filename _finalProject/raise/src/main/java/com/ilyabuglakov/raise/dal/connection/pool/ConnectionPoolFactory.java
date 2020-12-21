@@ -1,6 +1,4 @@
-package com.ilyabuglakov.raise.dal.connection;
-
-import lombok.Getter;
+package com.ilyabuglakov.raise.dal.connection.pool;
 
 public class ConnectionPoolFactory {
 
