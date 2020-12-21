@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.dal.connection;
 
+import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPoolFactory;
 import com.ilyabuglakov.raise.dal.connection.pool.StandardConnectionPool;
 
 import java.sql.Array;
@@ -55,7 +56,7 @@ public class ConnectionProxy implements Connection {
 
     @Override
     public void close() throws SQLException {
-        StandardConnectionPool.getInstance().releaseConnection(this);
+        ConnectionPoolFactory.getConnectionPool().releaseConnection(this);
     }
 
     @Override

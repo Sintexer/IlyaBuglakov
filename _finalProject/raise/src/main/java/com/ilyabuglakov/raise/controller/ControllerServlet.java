@@ -1,7 +1,5 @@
 package com.ilyabuglakov.raise.controller;
 
-import jdk.jfr.internal.SecuritySupport;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -18,7 +16,6 @@ public class ControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/template/web.jsp").forward(req, resp);
     }
-
 
 
 }

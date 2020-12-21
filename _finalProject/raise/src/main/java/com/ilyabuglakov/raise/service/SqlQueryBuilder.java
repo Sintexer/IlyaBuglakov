@@ -25,7 +25,7 @@ public class SqlQueryBuilder {
         this.tableName = surroundWith(tableName, fieldQuoteType);
     }
 
-    public void addField(String field){
+    public void addField(String field) {
         fieldValues.put(field, null);
     }
 
@@ -52,20 +52,20 @@ public class SqlQueryBuilder {
         return String.join(" ", "SELECT", generateFieldsString(true), "FROM", tableName, generateWhereString()).trim();
     }
 
-    public String buildUpdateQuery(){
+    public String buildUpdateQuery() {
         return String.join(" ", "UPDATE", tableName, generateSetString(), generateWhereString()).trim();
     }
 
-    public String buildDeleteQuery(){
+    public String buildDeleteQuery() {
         return String.join(" ", "DELETE FROM", tableName, generateWhereString()).trim();
     }
 
     private String generateFieldsString(boolean brackets) {
         if (fieldValues.isEmpty())
             return "*";
-        String leftBracket="";
-        String rightBracket="";
-        if(brackets){
+        String leftBracket = "";
+        String rightBracket = "";
+        if (brackets) {
             leftBracket = "(";
             rightBracket = ")";
         }
@@ -92,7 +92,7 @@ public class SqlQueryBuilder {
                 .collect(Collectors.joining(", "));
     }
 
-    private String generateSetString(){
+    private String generateSetString() {
         return "SET " + fieldValues.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + surroundWith(entry.getValue(), stringQuoteType))
                 .collect(Collectors.joining(", "));

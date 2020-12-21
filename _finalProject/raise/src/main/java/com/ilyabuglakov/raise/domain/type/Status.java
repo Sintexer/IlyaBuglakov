@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.domain.type;
 
-public enum  Status {
+public enum Status {
     ACTIVE,
     BANNED;
 }

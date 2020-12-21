@@ -4,11 +4,11 @@ public class ConnectionPoolFactory {
 
     private ConnectionPool connectionPool;
 
-    private ConnectionPoolFactory(){
+    private ConnectionPoolFactory() {
         connectionPool = new StandardConnectionPool();
     }
 
-    private static class InstanceHolder{
+    private static class InstanceHolder {
         public static ConnectionPoolFactory INSTANCE = new ConnectionPoolFactory();
     }
 
@@ -16,7 +16,7 @@ public class ConnectionPoolFactory {
         return InstanceHolder.INSTANCE;
     }
 
-    public static ConnectionPool getConnectionPool(){
+    public static ConnectionPool getConnectionPool() {
         return getInstance().connectionPool;
     }
 

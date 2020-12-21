@@ -8,7 +8,7 @@ public class ApplicationProperties {
 
     private PropertyParser propertyParser;
 
-    private static class InstanceHolder{
+    private static class InstanceHolder {
         public static ApplicationProperties INSTANCE;
 
         static {
@@ -24,11 +24,11 @@ public class ApplicationProperties {
         propertyParser = new PropertyParser("application.properties");
     }
 
-    public static ApplicationProperties getInstance(){
+    public static ApplicationProperties getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
-    public static String getProperty(String propertyName){
+    public static String getProperty(String propertyName) {
         return getInstance().propertyParser.getProperty(propertyName);
     }
 
