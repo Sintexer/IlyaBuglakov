@@ -18,17 +18,6 @@ public class StandardConnectionPool implements ConnectionPool {
 
     private static Logger logger = LogManager.getLogger(StandardConnectionPool.class);
 
-    private StandardConnectionPool() {
-    }
-
-    private static class InstanceHolder {
-        public static StandardConnectionPool INSTANCE = new StandardConnectionPool();
-    }
-
-    public static ConnectionPool getInstance() {
-        return InstanceHolder.INSTANCE;
-    }
-
     @Getter
     private String url;
     @Getter
@@ -44,7 +33,8 @@ public class StandardConnectionPool implements ConnectionPool {
     private Lock lock = new ReentrantLock();
 
     @Override
-    public void init(String driverClass, String url, String user, String password, int initPoolSize, int maxPoolSize, int checkConnectionTimeout) {
+    public void init(String driverClass, String url, String user, String password, int initPoolSize, int maxPoolSize,
+                     int checkConnectionTimeout) {
         lock.lock();
         try {
             Class.forName(driverClass);
