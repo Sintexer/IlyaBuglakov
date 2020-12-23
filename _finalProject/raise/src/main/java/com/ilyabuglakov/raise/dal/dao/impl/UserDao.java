@@ -5,7 +5,7 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
-import com.ilyabuglakov.raise.service.SqlQueryBuilder;
+import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.ResultSet;

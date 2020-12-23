@@ -10,8 +10,6 @@ public interface Dao<T extends Entity> {
 
     T read(long id) throws DaoOperationException;
 
-    List<T> readAll() throws DaoOperationException;
-
     void update(T entity) throws DaoOperationException;
 
     void delete(T entity) throws DaoOperationException;

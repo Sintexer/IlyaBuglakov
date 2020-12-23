@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.service;
+package com.ilyabuglakov.raise.service.sql.builder;
 
 import com.ilyabuglakov.raise.service.property.ApplicationProperties;
 
