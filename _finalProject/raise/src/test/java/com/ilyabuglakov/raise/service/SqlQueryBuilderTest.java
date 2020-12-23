@@ -1,8 +1,8 @@
 package com.ilyabuglakov.raise.service;
 
+import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
