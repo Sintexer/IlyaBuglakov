@@ -5,7 +5,11 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
+import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
+import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
+import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
+import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.ResultSet;
@@ -15,35 +19,28 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j2
+/**
+ * UserDao is the Dao implementation specifically for User class
+ */
 public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public long create(User entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder("usr");
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("usr");
         sqlQueryBuilder.addField("email", entity.getEmail());
         sqlQueryBuilder.addField("name", entity.getName());
         sqlQueryBuilder.addField("surname", entity.getSurname());
         sqlQueryBuilder.addField("role", entity.getRole());
         sqlQueryBuilder.addField("status", entity.getStatus());
         sqlQueryBuilder.addField("registration_date", entity.getRegistrationDate());
-        String insertQuery = sqlQueryBuilder.buildInsertQuery();
+        String insertQuery = sqlQueryBuilder.build();
 
-
-        Statement statement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
         try {
-            statement = connection.createStatement();
-            statement.executeUpdate(insertQuery, Statement.RETURN_GENERATED_KEYS);
-            resultSet = statement.getResultSet();
-            if (resultSet.next())
-                return resultSet.getLong(1);
-            else
-                throw new DaoOperationException("Index wasn't returned after insert into usr table operation");
+            return resultSet.getLong(1);
         } catch (SQLException e) {
-            throw new DaoOperationException(e);
+            throw new DaoOperationException("Index wasn't found in INSERT result set");
         } finally {
-            closeStatement(statement);
             closeResultSet(resultSet);
         }
 
@@ -51,78 +48,39 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public User read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder("usr");
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
         sqlQueryBuilder.addWhere("id", id);
-        String selectQuery = sqlQueryBuilder.buildSelectQuery();
+        String selectQuery = sqlQueryBuilder.build();
 
-
-        Statement statement = null;
-        ResultSet resultSet = null;
-        try {
-            statement = connection.createStatement();
-            statement.execute(selectQuery);
-            resultSet = statement.getResultSet();
-            User user = null;
-            if (resultSet.next()) {
-                user = User.builder()
-                        .name(resultSet.getString("name"))
-                        .surname(resultSet.getString("surname"))
-                        .email(resultSet.getString("email"))
-                        .password(resultSet.getString("password"))
-                        .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-                        .role(Role.valueOf(resultSet.getString("role")))
-                        .status(Status.valueOf(resultSet.getString("status")))
-                        .build();
-                user.setId(resultSet.getLong("id"));
-            }
-            return user;
-        } catch (SQLException e) {
-            throw new DaoOperationException(e);
-        } finally {
-            closeStatement(statement);
-            closeResultSet(resultSet);
-        }
-
+        ResultSet resultSet = createResultSet(selectQuery);
+        User user = buildUser(resultSet);
+        closeResultSet(resultSet);
+        return user;
     }
 
     @Override
     public List<User> readAll() throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder("usr");
-        String selectQuery = sqlQueryBuilder.buildSelectQuery();
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
+        String selectQuery = sqlQueryBuilder.build();
 
-
-        Statement statement = null;
-        ResultSet resultSet = null;
+        List<User> users = new ArrayList<>();
+        ResultSet resultSet = createResultSet(selectQuery);
         try {
-            statement = connection.createStatement();
-            statement.execute(selectQuery);
-            resultSet = statement.getResultSet();
-            List<User> users = new ArrayList<>();
             while (resultSet.next()) {
-                User user = User.builder()
-                        .name(resultSet.getString("name"))
-                        .surname(resultSet.getString("surname"))
-                        .email(resultSet.getString("email"))
-                        .password(resultSet.getString("password"))
-                        .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-                        .role(Role.valueOf(resultSet.getString("role")))
-                        .status(Status.valueOf(resultSet.getString("status")))
-                        .build();
-                user.setId(resultSet.getLong("id"));
+                User user = buildUser(resultSet);
                 users.add(user);
             }
             return users;
         } catch (SQLException e) {
-            throw new DaoOperationException(e);
+            throw new DaoOperationException("Bad result set after executing query. Can't build entities", e);
         } finally {
-            closeStatement(statement);
             closeResultSet(resultSet);
         }
     }
 
     @Override
     public void update(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder("usr");
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("usr");
         sqlQueryBuilder.addField("name", user.getName());
         sqlQueryBuilder.addField("surname", user.getSurname());
         sqlQueryBuilder.addField("email", user.getEmail());
@@ -131,36 +89,43 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addField("status", user.getStatus());
         sqlQueryBuilder.addField("registration_date", user.getRegistrationDate());
         sqlQueryBuilder.addWhere("id", user.getId());
-        String updateQuery = sqlQueryBuilder.buildUpdateQuery();
+        String updateQuery = sqlQueryBuilder.build();
 
-
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(updateQuery);
-
-        } catch (SQLException e) {
-            throw new DaoOperationException(e);
-        } finally {
-            closeStatement(statement);
-        }
+        executeQueryWithoutResult(updateQuery);
     }
 
     @Override
     public void delete(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlQueryBuilder("usr");
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("usr");
         sqlQueryBuilder.addWhere("id", user.getId());
-        String deleteQuery = sqlQueryBuilder.buildDeleteQuery();
+        String deleteQuery = sqlQueryBuilder.build();
 
+        executeQueryWithoutResult(deleteQuery);
+    }
 
-        Statement statement = null;
+    /**
+     * This operation won't close resultSet in success case, but will
+     * in case of exception thrown
+     *
+     * @param resultSet input result set parameters, taken from sql query execution
+     * @return User from resultSet
+     */
+    private User buildUser(ResultSet resultSet) throws DaoOperationException {
         try {
-            statement = connection.createStatement();
-            statement.executeUpdate(deleteQuery);
+            User user = User.builder()
+                    .name(resultSet.getString("name"))
+                    .surname(resultSet.getString("surname"))
+                    .email(resultSet.getString("email"))
+                    .password(resultSet.getString("password"))
+                    .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
+                    .role(Role.valueOf(resultSet.getString("role")))
+                    .status(Status.valueOf(resultSet.getString("status")))
+                    .build();
+            user.setId(resultSet.getLong("id"));
+            return user;
         } catch (SQLException e) {
-            throw new DaoOperationException(e);
-        } finally {
-            closeStatement(statement);
+            closeResultSet(resultSet);
+            throw createBadResultSetException(e);
         }
     }
 }
