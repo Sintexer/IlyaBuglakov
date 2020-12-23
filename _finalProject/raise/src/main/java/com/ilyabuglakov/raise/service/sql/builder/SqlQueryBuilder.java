@@ -6,9 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SqlQueryBuilder {
+/**
+ * SqlQueryBuilder is an abstract class, used as base class for
+ * SqlBuilders. Implements helpful for its children methods.
+ */
+public abstract class SqlQueryBuilder {
 
-    private String tableName;
+    protected String tableName;
     private Map<String, String> fieldValues = new LinkedHashMap<>();
     private Map<String, String> whereValues = new LinkedHashMap<>();
 
@@ -20,6 +24,8 @@ public class SqlQueryBuilder {
         stringQuoteType = ApplicationProperties.getProperty("db.string.quoteType");
         this.tableName = surroundWith(tableName, fieldQuoteType);
     }
+
+    public abstract String build();
 
     public void setTableName(String tableName) {
         this.tableName = surroundWith(tableName, fieldQuoteType);
@@ -44,23 +50,7 @@ public class SqlQueryBuilder {
         fieldValues.remove(field);
     }
 
-    public String buildInsertQuery() {
-        return String.join(" ", "INSERT INTO", tableName, generateFieldsString(true), generateValuesString()).trim();
-    }
-
-    public String buildSelectQuery() {
-        return String.join(" ", "SELECT", generateFieldsString(true), "FROM", tableName, generateWhereString()).trim();
-    }
-
-    public String buildUpdateQuery() {
-        return String.join(" ", "UPDATE", tableName, generateSetString(), generateWhereString()).trim();
-    }
-
-    public String buildDeleteQuery() {
-        return String.join(" ", "DELETE FROM", tableName, generateWhereString()).trim();
-    }
-
-    private String generateFieldsString(boolean brackets) {
+    protected String generateFieldsString(boolean brackets) {
         if (fieldValues.isEmpty())
             return "*";
         String leftBracket = "";
@@ -76,7 +66,7 @@ public class SqlQueryBuilder {
                 + rightBracket;
     }
 
-    private String generateValuesString() {
+    protected String generateValuesString() {
         return "VALUES (" +
                 fieldValues.values().stream()
                         .map(str -> surroundWith(str, stringQuoteType))
@@ -84,7 +74,7 @@ public class SqlQueryBuilder {
                 + ")";
     }
 
-    private String generateWhereString() {
+    protected String generateWhereString() {
         if (whereValues.isEmpty())
             return "";
         return "WHERE " + whereValues.entrySet().stream()
@@ -92,15 +82,14 @@ public class SqlQueryBuilder {
                 .collect(Collectors.joining(", "));
     }
 
-    private String generateSetString() {
+    protected String generateSetString() {
         return "SET " + fieldValues.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + surroundWith(entry.getValue(), stringQuoteType))
                 .collect(Collectors.joining(", "));
     }
 
-    private String surroundWith(String source, String surrounder) {
+    protected String surroundWith(String source, String surrounder) {
         return surrounder + source + surrounder;
     }
-
 
 }
