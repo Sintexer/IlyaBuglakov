@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
  * Base class for all database entities
  */
 @Data
-@SuperBuilder
 @EqualsAndHashCode
 public class Entity {
 
