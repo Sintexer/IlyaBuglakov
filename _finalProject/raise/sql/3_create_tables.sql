@@ -1,19 +1,19 @@
 
+
 create type characteristic as enum('memory', 'reaction', 'logic', 'calculations');
 create type role as enum('user', 'admin');
 create type status as enum('active', 'banned');
 
 create table usr (
-	id bigserial not null primary key,
+	id bigserial primary key,
 	email varchar(256) not null unique,
 	name varchar(40) not null,
 	surname varchar(80) not null,
 	password varchar(256) not null,
 	role role not null,
 	status status not null,
-	registration_date date not null,
-	characteristic_id bigint not null references characteristic(id) unique
-) ;
+	registration_date date not null
+);
 
 
 create table test (
