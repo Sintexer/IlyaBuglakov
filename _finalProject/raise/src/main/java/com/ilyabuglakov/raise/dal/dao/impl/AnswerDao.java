@@ -23,6 +23,7 @@ public class AnswerDao extends BaseDao implements Dao<Answer> {
     public long create(Answer answer) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("answer");
         sqlQueryBuilder.addField("content", answer.getContent());
+        sqlQueryBuilder.addField("correct", answer.isCorrect());
         sqlQueryBuilder.addField("question_id", answer.getQuestionId());
         String insertQuery = sqlQueryBuilder.build();
 
