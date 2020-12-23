@@ -1,21 +1,13 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
-import com.ilyabuglakov.raise.domain.Entity;
-import com.ilyabuglakov.raise.domain.User;
-import com.ilyabuglakov.raise.domain.type.Role;
-import com.ilyabuglakov.raise.domain.type.Status;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
-import javax.enterprise.inject.spi.Producer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.function.Function;
 
 @Log4j2
 public abstract class BaseDao {
@@ -49,7 +41,7 @@ public abstract class BaseDao {
         }
     }
 
-    protected ResultSet createResultSet(String query, int...statementParameters) throws DaoOperationException {
+    protected ResultSet createResultSet(String query, int... statementParameters) throws DaoOperationException {
         Statement statement = null;
         ResultSet resultSet = null;
         try {
@@ -87,7 +79,7 @@ public abstract class BaseDao {
         }
     }
 
-    protected DaoOperationException createBadResultSetException(Exception parent){
+    protected DaoOperationException createBadResultSetException(Exception parent) {
         return new DaoOperationException("Bad result set after executing query. Some fields aren't present", parent);
     }
 

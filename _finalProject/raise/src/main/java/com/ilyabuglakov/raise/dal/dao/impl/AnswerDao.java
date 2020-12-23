@@ -1,10 +1,8 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
 import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.domain.Answer;
-import com.ilyabuglakov.raise.domain.Entity;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;

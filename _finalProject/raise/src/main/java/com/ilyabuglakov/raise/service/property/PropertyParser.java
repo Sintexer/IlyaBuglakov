@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.service.property;
 
 import com.ilyabuglakov.raise.service.path.PathService;
 import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -3,8 +3,6 @@ package com.ilyabuglakov.raise.dal.dao.interfaces;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.domain.Entity;
 
-import java.util.List;
-
 public interface Dao<T extends Entity> {
     long create(T entity) throws DaoOperationException;
 
