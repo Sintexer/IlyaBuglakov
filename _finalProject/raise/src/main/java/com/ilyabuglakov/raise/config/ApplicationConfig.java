@@ -16,7 +16,7 @@ public class ApplicationConfig {
     private PropertyParser linksProperties;
 
     private ApplicationConfig() throws PropertyFileException {
-        linksProperties = new PropertyParser("links.properties");
+        linksProperties = new PropertyParser("pages.properties");
     }
 
     private static class InstanceHolder {
@@ -26,7 +26,7 @@ public class ApplicationConfig {
             try {
                 INSTANCE = new ApplicationConfig();
             } catch (PropertyFileException e) {
-                log.error("Can't init links.properties parser");
+                log.error("Can't init pages.properties parser");
             }
         }
     }

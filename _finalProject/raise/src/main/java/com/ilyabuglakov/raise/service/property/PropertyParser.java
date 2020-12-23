@@ -2,6 +2,9 @@ package com.ilyabuglakov.raise.service.property;
 
 import com.ilyabuglakov.raise.service.path.PathService;
 import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +14,9 @@ import java.util.Properties;
 public class PropertyParser {
 
     private Properties properties;
+    @Getter
+    @Setter
+    private String prefix = "";
 
     public PropertyParser(String propertyFileName) throws PropertyFileException {
         try (InputStream inputStream =
@@ -23,6 +29,6 @@ public class PropertyParser {
     }
 
     public String getProperty(String propertyName) {
-        return properties.getProperty(propertyName);
+        return prefix + properties.getProperty(propertyName);
     }
 }

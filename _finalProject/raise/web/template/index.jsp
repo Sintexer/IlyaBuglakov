@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%--
   Created by IntelliJ IDEA.
   User: Neonl
@@ -15,23 +16,14 @@
 <body>
 <div class="page">
 
-    <header class="page-header">
-        <div>
-            <nav class="dec-pancake items-gap">
-                <div class="header-logo">
-                    <a href="<c:url value="/"/>">
-                        <h3>Raise</h3>
-                    </a>
-                </div>
-                <a href="<c:url value="/"/>">Home</a>
-            </nav>
-        </div>
-    </header>
+    <h:header></h:header>
 
     <main class="main">
         <div class="section">
             <div class="content centered">
-                <p>Welcome to raiser</p>
+                <p>ыыыыsssssdddds to raiser</p>
+                <h1>Generation 1 welcome</h1>
+                <a href="/registration">Registration</a>
             </div>
         </div>
     </main>
