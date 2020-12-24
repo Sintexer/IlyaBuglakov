@@ -1,4 +1,4 @@
-create database raise_db;
+CREATE DATABASE raise_db;
 --
 -- create user raise_user with password 'hash25';
 --

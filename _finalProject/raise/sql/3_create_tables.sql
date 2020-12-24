@@ -1,18 +1,18 @@
 
 
-create type characteristic as enum('memory', 'reaction', 'logic', 'calculations');
-create type role as enum('user', 'admin');
-create type status as enum('active', 'banned');
+CREATE TYPE characteristic AS enum('memory', 'reaction', 'logic', 'calculations');
+CREATE TYPE role AS enum('user', 'admin');
+CREATE TYPE status AS enum('active', 'banned');
 
-create table usr (
-	id bigserial primary key,
-	email varchar(256) not null unique,
-	name varchar(40) not null,
-	surname varchar(80) not null,
-	password varchar(256) not null,
-	role role not null,
-	status status not null,
-	registration_date date not null
+CREATE TABLE usr (
+	id bigserial PRIMARY KEY,
+	email varchar(256) NOT NULL UNIQUE,
+	name varchar(40) NOT NULL,
+	surname varchar(80) NOT NULL,
+	password varchar(256) NOT NULL,
+	role role NOT NULL,
+	status status NOT NULL,
+	registration_date DATE NOT NULL
 );
 
 
@@ -50,10 +50,10 @@ create table test_comment (
 ) ;
 
 create table user_test_result (
-    user_id bigint not null references usr(id),
-    test_id bigint not null references test(id),
+    id bigserial primary key,
+    user_id bigint not null references usr(id) unique,
+    test_id bigint not null references test(id) unique,
     result integer not null,
-    PRIMARY KEY (user_id, test_id)
 );
 
 
