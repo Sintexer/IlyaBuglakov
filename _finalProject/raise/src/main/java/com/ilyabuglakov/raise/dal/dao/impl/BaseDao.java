@@ -51,7 +51,7 @@ public abstract class BaseDao {
             if (resultSet.next())
                 return resultSet;
             else
-                throw new DaoOperationException("Index wasn't returned after " + query + " operation");
+                throw new DaoOperationException("Result set doesn't contain required information after the query: " + query);
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw new DaoOperationException(e);
