@@ -31,15 +31,17 @@ public class DispatcherServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Object commandAttribute = req.getAttribute("command");
         Command command;
+        String url;
         if (commandAttribute != null) {
             command = (Command) commandAttribute;
             log.info("Command: " + command.getClass());
             Forward forward = command.execute(req, resp, getServletContext());
             log.warn(forward.getForward());
-            getServletContext().getRequestDispatcher(forward.getForward()).forward(req, resp);
+            url = forward.getForward();
         } else {
-            getServletContext().getRequestDispatcher(req.getRequestURI()).forward(req, resp);
+            url = req.getRequestURI();
         }
+        getServletContext().getRequestDispatcher(url).forward(req, resp);
     }
 
     @Override

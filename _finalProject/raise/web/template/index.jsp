@@ -21,9 +21,8 @@
     <main class="main">
         <div class="section">
             <div class="content centered">
-                <p>ыыыыsssssdddds to raiser</p>
-                <h1>Generation 1 welcome</h1>
-                <a href="/registration">Registration</a>
+                <p>Welcome to raise</p>
+                <a href="api/registration">Registration</a>
             </div>
         </div>
     </main>

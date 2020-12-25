@@ -13,29 +13,17 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = "/" +
+        "api/*")
 @Log4j2
-public class UrlAccessFilter implements Filter {
-    //    @Override
+public class ApiAccessFilter extends AccessFilter {
+
+    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-//        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        log.info("Entered filter");
-        String contextPath = request.getContextPath();
-        String uri = request.getRequestURI();
-        log.warn(uri);
 
-        int relatedUriBegin = contextPath.length();
-        int relatedUriEnd = uri.lastIndexOf(".");
-        String link;
-        if (relatedUriBegin > 0) {
-            if (relatedUriEnd >= 0)
-                link = uri.substring(relatedUriBegin, relatedUriEnd);
-            else
-                link = uri.substring(relatedUriBegin);
-        } else
-            link = uri;
+        String link = extractLink(request);
 
         Command command = CommandStorage.getInstance().getCommand(link);
         if (command != null) {
@@ -44,8 +32,6 @@ public class UrlAccessFilter implements Filter {
         } else {
             log.warn(link);
             filterChain.doFilter(servletRequest, servletResponse);
-
-
         }
     }
 }
