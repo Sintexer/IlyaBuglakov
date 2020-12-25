@@ -10,5 +10,5 @@ import lombok.EqualsAndHashCode;
 public class Answer extends Entity {
     private String content;
     private boolean correct;
-    private Test test;
+    private Question question;
 }
