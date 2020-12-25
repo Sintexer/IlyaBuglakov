@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public class UserTestResult extends Entity {
-    private long userId;
-    private long testId;
+    private User user;
+    private Test test;
     private int result;
 }

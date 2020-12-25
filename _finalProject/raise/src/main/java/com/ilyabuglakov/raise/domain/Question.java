@@ -12,5 +12,5 @@ import java.util.Set;
 public class Question extends Entity {
     private String content;
     private Set<Answer> answers;
-    private long testId;
+    private Test test;
 }
