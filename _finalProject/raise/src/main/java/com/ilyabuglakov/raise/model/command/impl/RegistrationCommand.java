@@ -14,10 +14,11 @@ import java.io.IOException;
 @Log4j2
 public class RegistrationCommand implements Command {
     @Override
-    public Forward execute(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext)
+    public void executeGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered registration command");
 
-        return new Forward(PropertiesStorage.getInstance().getPages().getProperty("registration"));
+        request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("registration"))
+                .forward(request, response);
     }
 }

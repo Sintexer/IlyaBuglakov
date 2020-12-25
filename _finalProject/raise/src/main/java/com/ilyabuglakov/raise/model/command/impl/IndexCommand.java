@@ -14,11 +14,15 @@ import java.io.IOException;
 @Log4j2
 public class IndexCommand implements Command {
     @Override
-    public Forward execute(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext)
+    public void executeGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered index command");
         Forward forward = new Forward(PropertiesStorage.getInstance().getPages().getProperty("index"));
         //servletContext.getRequestDispatcher(forward.getForward()).forward(request, response);
-        return forward;
+    }
+
+    @Override
+    public void executePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        log.warn("Index post command");
     }
 }
