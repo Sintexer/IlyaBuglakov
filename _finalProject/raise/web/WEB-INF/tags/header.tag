@@ -4,11 +4,11 @@
     <div>
         <nav class="dec-pancake items-gap">
             <div class="header-logo">
-                <a href="<c:url value="/"/>">
+                <a href=/api/home">
                     <h3>Raise</h3>
                 </a>
             </div>
-            <a href="<c:url value="/"/>">Home</a>
+            <a href="/api/home">Home</a>
         </nav>
     </div>
 </header>

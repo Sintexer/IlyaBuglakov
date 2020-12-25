@@ -1,9 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <link th:href="@{/static/style/style.css}" rel="stylesheet" type="text/css"/>
+    <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <meta charset="UTF-8">
-    <title>404</title>
+    <title>Error has occurred</title>
 </head>
 <body>
 <div class="page">
@@ -14,9 +16,9 @@
     </div>
     <main class="main centered">
         <div class="centered error-msg">
-            <h2 class="error-code">404</h2>
-            <h2>Page not found</h2>
-            <a class="btn" href="/api/home">Вернуться на главную</a>
+            <h2 class="error-code">${response.status}</h2>
+            <h2>An error has occurred</h2>
+            <a class="btn" href="/api/home">Back to main</a>
         </div>
     </main>
     <footer>
