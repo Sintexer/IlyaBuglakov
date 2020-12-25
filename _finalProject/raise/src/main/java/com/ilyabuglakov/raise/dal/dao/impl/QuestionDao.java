@@ -22,7 +22,7 @@ public class QuestionDao extends BaseDao implements Dao<Question> {
     public long create(Question question) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("question");
         sqlQueryBuilder.addField("content", question.getContent());
-        sqlQueryBuilder.addField("test_id", question.getTestId());
+        sqlQueryBuilder.addField("test_id", question.getTest().getId());
         String insertQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
@@ -52,7 +52,7 @@ public class QuestionDao extends BaseDao implements Dao<Question> {
         SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("question");
         sqlQueryBuilder.addField("id", question.getId());
         sqlQueryBuilder.addField("content", question.getContent());
-        sqlQueryBuilder.addField("test_id", question.getTestId());
+        sqlQueryBuilder.addField("test_id", question.getTest().getId());
         String updateQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(updateQuery);
@@ -78,7 +78,6 @@ public class QuestionDao extends BaseDao implements Dao<Question> {
         try {
             Question question = Question.builder()
                     .content(resultSet.getString("content"))
-                    .testId(Long.parseLong(resultSet.getString("testId")))
                     .build();
             question.setId(resultSet.getLong("id"));
             return question;
