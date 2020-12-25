@@ -53,7 +53,7 @@ create table user_test_result (
     id bigserial primary key,
     user_id bigint not null references usr(id) unique,
     test_id bigint not null references test(id) unique,
-    result integer not null,
+    result integer not null
 );
 
 
