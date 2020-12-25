@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDaoInterface;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
-public class TestCommentDao extends BaseDao implements Dao<TestComment> {
+public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
 
     @Override
     public long create(TestComment testComment) throws DaoOperationException {

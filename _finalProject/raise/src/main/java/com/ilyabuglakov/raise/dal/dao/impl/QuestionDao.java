@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDaoInterface;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
@@ -16,7 +17,7 @@ import java.sql.Statement;
 /**
  * QuestionDao is the Dao implementation specifically for Question class
  */
-public class QuestionDao extends BaseDao implements Dao<Question> {
+public class QuestionDao extends BaseDao implements QuestionDaoInterface {
 
     @Override
     public long create(Question question) throws DaoOperationException {

@@ -1,6 +1,7 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
+import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
 import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
@@ -16,7 +17,7 @@ import java.sql.Statement;
 /**
  * AnswerDao is the Dao implementation specifically for Answer class
  */
-public class AnswerDao extends BaseDao implements Dao<Answer> {
+public class AnswerDao extends BaseDao implements AnswerDaoInterface {
     @Override
     public long create(Answer answer) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("answer");

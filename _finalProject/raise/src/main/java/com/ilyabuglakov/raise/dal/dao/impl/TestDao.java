@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDaoInterface;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
@@ -16,7 +17,7 @@ import java.sql.Statement;
 /**
  * TestDao is the Dao implementation specifically for Test class
  */
-public class TestDao extends BaseDao implements Dao<Test> {
+public class TestDao extends BaseDao implements TestDaoInterface {
     @Override
     public long create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test");
