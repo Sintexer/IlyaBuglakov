@@ -22,7 +22,7 @@ public class AnswerDao extends BaseDao implements Dao<Answer> {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("answer");
         sqlQueryBuilder.addField("content", answer.getContent());
         sqlQueryBuilder.addField("correct", answer.isCorrect());
-        sqlQueryBuilder.addField("question_id", answer.getQuestionId());
+        sqlQueryBuilder.addField("question_id", answer.getQuestion().getId());
         String insertQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
@@ -52,7 +52,7 @@ public class AnswerDao extends BaseDao implements Dao<Answer> {
         SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("answer");
         sqlQueryBuilder.addField("id", answer.getId());
         sqlQueryBuilder.addField("content", answer.getContent());
-        sqlQueryBuilder.addField("question_id", answer.getContent());
+        sqlQueryBuilder.addField("question_id", answer.getQuestion().getId());
         sqlQueryBuilder.addField("correct", answer.isCorrect());
         String updateQuery = sqlQueryBuilder.build();
 
@@ -79,7 +79,6 @@ public class AnswerDao extends BaseDao implements Dao<Answer> {
         try {
             Answer answer = Answer.builder()
                     .content(resultSet.getString("content"))
-                    .questionId(Long.parseLong(resultSet.getString("questionId")))
                     .correct(Boolean.parseBoolean(resultSet.getString("correct")))
                     .build();
             answer.setId(resultSet.getLong("id"));
