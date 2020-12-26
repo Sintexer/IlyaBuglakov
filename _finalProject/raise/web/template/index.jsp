@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+
+<fmt:setLocale value="ru_RU"/>
+<fmt:setBundle basename="/locale/page"/>
 <%--
   Created by IntelliJ IDEA.
   User: Neonl
@@ -21,7 +25,7 @@
     <main class="main">
         <div class="section">
             <div class="content centered">
-                <p>Welcome to raise</p>
+                <p><fmt:message key="home.title" /></p>
                 <a href="api/registration">Registration</a>
             </div>
         </div>
