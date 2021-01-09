@@ -1,11 +1,9 @@
 package com.ilyabuglakov.raise.model.command.impl;
 
-import com.ilyabuglakov.raise.model.Forward;
 import com.ilyabuglakov.raise.model.command.Command;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +12,7 @@ import java.io.IOException;
 @Log4j2
 public class RegistrationCommand implements Command {
     @Override
-    public void executeGet(HttpServletRequest request, HttpServletResponse response)
+    public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered registration command");
 

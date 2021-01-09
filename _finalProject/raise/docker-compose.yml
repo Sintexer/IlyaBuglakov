@@ -13,12 +13,15 @@ services:
     ports:
       - 5432:5432
 
-#  backend:
-#    build: .
-#    links:
-#      - postgres
-#    ports:
-#      - 8080:8080
+  backend:
+    build: .
+    links:
+      - postgres
+    ports:
+      - 8080:8080
+#    command: ["./wait-for-it.sh", "postgres:5432"]
+
+
 
 volumes:
   pgdata:

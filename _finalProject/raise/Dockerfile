@@ -13,6 +13,10 @@ RUN mvn package -Dmaven.test.skip=true
 
 FROM tomcat:latest as runner
 
+WORKDIR .
+
 COPY --from=build /app/target/raise.war /usr/local/tomcat/webapps/
+COPY wait-for-it.sh .
+
 RUN mv /usr/local/tomcat/webapps/raise.war /usr/local/tomcat/webapps/ROOT.war
 

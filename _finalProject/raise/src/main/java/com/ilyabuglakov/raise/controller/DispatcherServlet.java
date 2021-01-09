@@ -29,28 +29,27 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Optional<Command> command = extractCommand(req);
-        if (command.isPresent()) {
-            command.get().executeGet(req, resp);
-        } else {
-            getServletContext().getRequestDispatcher(req.getRequestURI()).forward(req, resp);
-        }
+        log.info("Entered post");
+        processCommand(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Optional<Command> command = extractCommand(req);
         log.info("Entered post");
-        if (command.isPresent()) {
-            command.get().executePost(req, resp);
-        } else {
-            getServletContext().getRequestDispatcher(req.getRequestURI()).forward(req, resp);
-        }
+        processCommand(req, resp);
     }
 
     private Optional<Command> extractCommand(HttpServletRequest request) {
         return Optional.ofNullable((Command) request.getAttribute("command"));
     }
 
+    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Optional<Command> command = extractCommand(req);
+        if (command.isPresent()) {
+            command.get().execute(req, resp);
+        } else {
+            getServletContext().getRequestDispatcher(req.getRequestURI()).forward(req, resp);
+        }
+    }
 
 }

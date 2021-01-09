@@ -1,7 +1,10 @@
 package com.ilyabuglakov.raise.controller.filter;
 
+import com.ilyabuglakov.raise.model.RequestMethod;
+
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 public abstract class AccessFilter implements Filter {
 
@@ -18,6 +21,14 @@ public abstract class AccessFilter implements Filter {
         } else
             link = uri;
         return link;
+    }
+
+    protected Optional<RequestMethod> extractMethod(HttpServletRequest request){
+        try{
+            return Optional.of(RequestMethod.valueOf(request.getMethod()));
+        } catch (IllegalArgumentException e){
+            return Optional.empty();
+        }
     }
 
 }

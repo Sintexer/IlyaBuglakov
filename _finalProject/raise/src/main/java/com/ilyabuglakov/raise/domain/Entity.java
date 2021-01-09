@@ -11,6 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class Entity {
 
-    private long id;
+    private Long id;
 
 }

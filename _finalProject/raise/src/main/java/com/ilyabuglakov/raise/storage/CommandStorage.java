@@ -1,19 +1,22 @@
 package com.ilyabuglakov.raise.storage;
 
+import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.model.command.Command;
 import com.ilyabuglakov.raise.model.command.impl.IndexCommand;
+import com.ilyabuglakov.raise.model.command.impl.IndexPostCommand;
 import com.ilyabuglakov.raise.model.command.impl.RegistrationCommand;
 import com.ilyabuglakov.raise.service.property.PropertyParser;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandStorage {
 
-    private Map<String, Command> commandMap;
+    private final EnumMap<RequestMethod, Map<String, Command>> methodMap;
 
     private static class InstanceHolder {
-        public static CommandStorage INSTANCE = new CommandStorage();
+        public static final CommandStorage INSTANCE = new CommandStorage();
     }
 
     public static CommandStorage getInstance() {
@@ -21,14 +24,25 @@ public class CommandStorage {
     }
 
     private CommandStorage() {
-        commandMap = new HashMap<>();
+        methodMap = new EnumMap<>(RequestMethod.class);
+        for (RequestMethod value : RequestMethod.values()) {
+            methodMap.put(value, new HashMap<>());
+        }
+
         PropertyParser links = PropertiesStorage.getInstance().getLinks();
-        commandMap.put(links.getProperty("index"), new IndexCommand());
-        commandMap.put(links.getProperty("registration"), new RegistrationCommand());
+        addCommand(RequestMethod.GET, "index", new IndexCommand());
+        addCommand(RequestMethod.POST, "index", new IndexPostCommand());
+        addCommand(RequestMethod.GET, "registration", new RegistrationCommand());
+
     }
 
-    public Command getCommand(String link) {
-        return commandMap.get(link);
+    private void addCommand(RequestMethod method, String property, Command command){
+        String uri = PropertiesStorage.getInstance().getLinks().getProperty(property);
+        methodMap.get(method).put(uri, command);
+    }
+
+    public Command getCommand(String link, RequestMethod method) {
+        return methodMap.get(method).get(link);
     }
 
 
