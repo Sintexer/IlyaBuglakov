@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.command.impl;
+package com.ilyabuglakov.raise.command.impl;
 
 import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
@@ -6,7 +6,7 @@ import com.ilyabuglakov.raise.dal.transaction.factory.exception.TransactionCreat
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.DaoType;
-import com.ilyabuglakov.raise.model.command.Command;
+import com.ilyabuglakov.raise.command.Command;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;

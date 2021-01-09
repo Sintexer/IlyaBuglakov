@@ -1,6 +1,6 @@
-package com.ilyabuglakov.raise.model.command.impl;
+package com.ilyabuglakov.raise.command.impl;
 
-import com.ilyabuglakov.raise.model.command.Command;
+import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 

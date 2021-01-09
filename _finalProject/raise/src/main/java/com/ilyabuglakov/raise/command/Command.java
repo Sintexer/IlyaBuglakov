@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.command;
+package com.ilyabuglakov.raise.command;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

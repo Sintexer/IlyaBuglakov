@@ -1,6 +1,6 @@
-package com.ilyabuglakov.raise.model.command;
+package com.ilyabuglakov.raise.command;
 
-import com.ilyabuglakov.raise.model.command.impl.IndexCommand;
+import com.ilyabuglakov.raise.command.impl.IndexCommand;
 import lombok.Getter;
 
 public enum CommandName {

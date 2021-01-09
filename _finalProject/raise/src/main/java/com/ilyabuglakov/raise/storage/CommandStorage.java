@@ -1,11 +1,11 @@
 package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.model.RequestMethod;
-import com.ilyabuglakov.raise.model.command.Command;
-import com.ilyabuglakov.raise.model.command.impl.IndexCommand;
-import com.ilyabuglakov.raise.model.command.impl.IndexPostCommand;
-import com.ilyabuglakov.raise.model.command.impl.RegistrationCommand;
-import com.ilyabuglakov.raise.model.command.impl.RegistrationPostCommand;
+import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.command.impl.IndexCommand;
+import com.ilyabuglakov.raise.command.impl.IndexPostCommand;
+import com.ilyabuglakov.raise.command.impl.RegistrationCommand;
+import com.ilyabuglakov.raise.command.impl.RegistrationPostCommand;
 import com.ilyabuglakov.raise.service.property.PropertyParser;
 
 import java.util.EnumMap;

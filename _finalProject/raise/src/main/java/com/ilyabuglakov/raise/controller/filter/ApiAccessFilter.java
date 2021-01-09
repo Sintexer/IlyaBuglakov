@@ -2,7 +2,7 @@ package com.ilyabuglakov.raise.controller.filter;
 
 
 import com.ilyabuglakov.raise.model.RequestMethod;
-import com.ilyabuglakov.raise.model.command.Command;
+import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.storage.CommandStorage;
 import lombok.extern.log4j.Log4j2;
 

@@ -2,7 +2,7 @@ package com.ilyabuglakov.raise.controller;
 
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
-import com.ilyabuglakov.raise.model.command.Command;
+import com.ilyabuglakov.raise.command.Command;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
