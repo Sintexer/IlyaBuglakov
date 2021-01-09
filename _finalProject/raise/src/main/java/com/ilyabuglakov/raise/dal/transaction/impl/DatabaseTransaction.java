@@ -1,0 +1,67 @@
+package com.ilyabuglakov.raise.dal.transaction.impl;
+
+import com.ilyabuglakov.raise.dal.dao.impl.AnswerDao;
+import com.ilyabuglakov.raise.dal.dao.impl.QuestionDao;
+import com.ilyabuglakov.raise.dal.dao.impl.TestCommentDao;
+import com.ilyabuglakov.raise.dal.dao.impl.TestDao;
+import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
+import com.ilyabuglakov.raise.dal.dao.impl.UserTestResultDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
+import com.ilyabuglakov.raise.dal.transaction.Transaction;
+import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
+import com.ilyabuglakov.raise.model.DaoType;
+import lombok.extern.log4j.Log4j2;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.EnumMap;
+
+/**
+ * An implementation of Transaction Interface, specified to work with database connection
+ */
+@Log4j2
+public class DatabaseTransaction implements Transaction {
+
+    private final Connection connection;
+
+    private final EnumMap<DaoType, Dao<?>> daoMap;
+
+    public DatabaseTransaction(Connection connection) {
+        this.connection = connection;
+        daoMap = new EnumMap<>(DaoType.class);
+        daoMap.put(DaoType.USER, new UserDao());
+        daoMap.put(DaoType.TEST_COMMENT, new TestCommentDao());
+        daoMap.put(DaoType.TEST, new TestDao());
+        daoMap.put(DaoType.ANSWER, new AnswerDao());
+        daoMap.put(DaoType.QUESTION, new QuestionDao());
+        daoMap.put(DaoType.USER_TEST_RESULT, new UserTestResultDao());
+    }
+
+    @Override
+    public Dao<?> createDao(DaoType daoType) {
+        return daoMap.get(daoType);
+    }
+
+    @Override
+    public void commit() throws TransactionException {
+        try {
+            connection.commit();
+        } catch (SQLException e) {
+            throw new TransactionException("Can't commit transaction", e);
+        }
+    }
+
+    @Override
+    public void rollback() throws TransactionException {
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw new TransactionException("Can't rollback transaction", e);
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
+}
