@@ -4,6 +4,8 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.model.DaoType;
 
+import java.sql.SQLException;
+
 /**
  * Transaction is interface for classes, that let you to perform
  * atomic transaction.

@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.dal.transaction.factory.exception;
 
-public class TransactionCreationException extends Exception {
+public class TransactionCreationException extends RuntimeException {
     public TransactionCreationException() {
         super();
     }

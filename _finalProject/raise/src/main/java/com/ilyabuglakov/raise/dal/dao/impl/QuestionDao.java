@@ -8,7 +8,9 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import lombok.AllArgsConstructor;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,6 +18,10 @@ import java.sql.SQLException;
  * QuestionDao is the Dao implementation specifically for Question class
  */
 public class QuestionDao extends BaseDao implements QuestionDaoInterface {
+
+    public QuestionDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public void create(Question question) throws DaoOperationException {

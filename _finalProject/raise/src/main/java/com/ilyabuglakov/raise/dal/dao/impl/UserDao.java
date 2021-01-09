@@ -11,6 +11,7 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -21,6 +22,10 @@ import java.util.List;
  * UserDao is the Dao implementation specifically for User class
  */
 public class UserDao extends BaseDao implements UserDaoInterface {
+
+    public UserDao(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public void create(User entity) throws DaoOperationException {

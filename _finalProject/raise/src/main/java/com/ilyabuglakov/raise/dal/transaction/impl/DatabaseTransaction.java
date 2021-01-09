@@ -29,12 +29,12 @@ public class DatabaseTransaction implements Transaction {
     public DatabaseTransaction(Connection connection) {
         this.connection = connection;
         daoMap = new EnumMap<>(DaoType.class);
-        daoMap.put(DaoType.USER, new UserDao());
-        daoMap.put(DaoType.TEST_COMMENT, new TestCommentDao());
-        daoMap.put(DaoType.TEST, new TestDao());
-        daoMap.put(DaoType.ANSWER, new AnswerDao());
-        daoMap.put(DaoType.QUESTION, new QuestionDao());
-        daoMap.put(DaoType.USER_TEST_RESULT, new UserTestResultDao());
+        daoMap.put(DaoType.USER, new UserDao(connection));
+        daoMap.put(DaoType.TEST_COMMENT, new TestCommentDao(connection));
+        daoMap.put(DaoType.TEST, new TestDao(connection));
+        daoMap.put(DaoType.ANSWER, new AnswerDao(connection));
+        daoMap.put(DaoType.QUESTION, new QuestionDao(connection));
+        daoMap.put(DaoType.USER_TEST_RESULT, new UserTestResultDao(connection));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class DatabaseTransaction implements Transaction {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws SQLException {
         connection.close();
     }
 }

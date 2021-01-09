@@ -13,8 +13,11 @@ import java.sql.Statement;
 @Log4j2
 public abstract class BaseDao {
 
-    @Setter
     protected Connection connection;
+
+    protected BaseDao(Connection connection){
+        this.connection = connection;
+    }
 
     protected void executeUpdateQuery(String updateQuery) throws DaoOperationException {
         Statement statement = null;

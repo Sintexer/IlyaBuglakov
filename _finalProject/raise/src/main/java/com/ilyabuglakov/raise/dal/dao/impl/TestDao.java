@@ -9,6 +9,7 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,6 +17,11 @@ import java.sql.SQLException;
  * TestDao is the Dao implementation specifically for Test class
  */
 public class TestDao extends BaseDao implements TestDaoInterface {
+
+    public TestDao(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public void create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test");
