@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDaoInterface;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
@@ -12,28 +11,20 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * TestDao is the Dao implementation specifically for Test class
  */
 public class TestDao extends BaseDao implements TestDaoInterface {
     @Override
-    public long create(Test test) throws DaoOperationException {
+    public void create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test");
         sqlQueryBuilder.addField("id", test.getId());
         sqlQueryBuilder.addField("test_name", test.getTestName());
         sqlQueryBuilder.addField("difficulty", test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
-        try {
-            return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Index wasn't found in INSERT result set");
-        } finally {
-            closeResultSet(resultSet);
-        }
+        executeQueryWithoutResult(insertQuery);
     }
 
     @Override

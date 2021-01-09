@@ -1,18 +1,17 @@
-
-
 CREATE TYPE characteristic AS enum('memory', 'reaction', 'logic', 'calculations');
-CREATE TYPE role AS enum('user', 'admin');
-CREATE TYPE status AS enum('active', 'banned');
+CREATE TYPE role AS enum('USER', 'ADMIN');
+CREATE TYPE status AS enum('ACTIVE', 'BANNED');
 
-CREATE TABLE usr (
-	id bigserial PRIMARY KEY,
-	email varchar(256) NOT NULL UNIQUE,
-	name varchar(40) NOT NULL,
-	surname varchar(80) NOT NULL,
-	password varchar(256) NOT NULL,
-	role role NOT NULL,
-	status status NOT NULL,
-	registration_date DATE NOT NULL
+CREATE TABLE usr
+(
+    id                bigserial PRIMARY KEY,
+    email             varchar(256) NOT NULL UNIQUE,
+    name              varchar(40)  NOT NULL,
+    surname           varchar(80)  NOT NULL,
+    password          varchar(256) NOT NULL,
+    role              role         NOT NULL,
+    status            status       NOT NULL,
+    registration_date DATE         NOT NULL
 );
 
 

@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,7 +34,6 @@ public abstract class BaseDao {
         try {
             statement = connection.createStatement();
             statement.executeUpdate(query);
-
         } catch (SQLException e) {
             throw new DaoOperationException("Bad query: " + query, e);
         } finally {
@@ -42,11 +42,10 @@ public abstract class BaseDao {
     }
 
     protected ResultSet createResultSet(String query, int... statementParameters) throws DaoOperationException {
-        Statement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query, statementParameters);
+            PreparedStatement statement = connection.prepareStatement(query, statementParameters);
+            statement.execute();
             resultSet = statement.getResultSet();
             if (resultSet.next())
                 return resultSet;
@@ -55,8 +54,6 @@ public abstract class BaseDao {
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw new DaoOperationException(e);
-        } finally {
-            closeStatement(statement);
         }
     }
 
@@ -72,6 +69,7 @@ public abstract class BaseDao {
     protected void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {
             try {
+                closeStatement(resultSet.getStatement());
                 resultSet.close();
             } catch (SQLException e) {
                 log.error("Exception while closing result set", e);

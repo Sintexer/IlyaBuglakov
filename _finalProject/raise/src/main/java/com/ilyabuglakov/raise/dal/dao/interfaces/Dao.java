@@ -4,7 +4,7 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.domain.Entity;
 
 public interface Dao<T extends Entity> {
-    long create(T entity) throws DaoOperationException;
+    void create(T entity) throws DaoOperationException;
 
     T read(long id) throws DaoOperationException;
 

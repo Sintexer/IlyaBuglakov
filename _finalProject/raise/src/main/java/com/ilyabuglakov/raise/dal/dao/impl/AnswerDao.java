@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
-import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
@@ -12,28 +11,20 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * AnswerDao is the Dao implementation specifically for Answer class
  */
 public class AnswerDao extends BaseDao implements AnswerDaoInterface {
     @Override
-    public long create(Answer answer) throws DaoOperationException {
+    public void create(Answer answer) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("answer");
         sqlQueryBuilder.addField("content", answer.getContent());
         sqlQueryBuilder.addField("correct", answer.isCorrect());
         sqlQueryBuilder.addField("question_id", answer.getQuestion().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
-        try {
-            return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Index wasn't found in INSERT result set");
-        } finally {
-            closeResultSet(resultSet);
-        }
+        executeQueryWithoutResult(insertQuery);
     }
 
     @Override

@@ -13,7 +13,6 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,25 +23,18 @@ import java.util.List;
 public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
-    public long create(User entity) throws DaoOperationException {
+    public void create(User entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("usr");
         sqlQueryBuilder.addField("email", entity.getEmail());
         sqlQueryBuilder.addField("name", entity.getName());
+        sqlQueryBuilder.addField("password", entity.getPassword());
         sqlQueryBuilder.addField("surname", entity.getSurname());
-        sqlQueryBuilder.addField("role", entity.getRole());
-        sqlQueryBuilder.addField("status", entity.getStatus());
+        sqlQueryBuilder.addField("role", entity.getRole().name());
+        sqlQueryBuilder.addField("status", entity.getStatus().name());
         sqlQueryBuilder.addField("registration_date", entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
-        try {
-            return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Index wasn't found in INSERT result set");
-        } finally {
-            closeResultSet(resultSet);
-        }
-
+        executeQueryWithoutResult(insertQuery);
     }
 
     @Override

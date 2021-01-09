@@ -11,28 +11,20 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * UserTestResultDao is the Dao implementation specifically for UserTestResult class
  */
 public class UserTestResultDao extends BaseDao implements UserTestResultDaoInterface {
     @Override
-    public long create(UserTestResult entity) throws DaoOperationException {
+    public void create(UserTestResult entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("user_test_result");
         sqlQueryBuilder.addField("user_id", entity.getUser().getId());
         sqlQueryBuilder.addField("test_id", entity.getTest().getId());
         sqlQueryBuilder.addField("result", entity.getResult());
         String insertQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
-        try {
-            return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Index wasn't found in INSERT result set");
-        } finally {
-            closeResultSet(resultSet);
-        }
+        executeQueryWithoutResult(insertQuery);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDaoInterface;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
@@ -12,13 +11,12 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 
 public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
 
     @Override
-    public long create(TestComment testComment) throws DaoOperationException {
+    public void create(TestComment testComment) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test_comment");
         sqlQueryBuilder.addField("user_id", testComment.getUser().getId());
         sqlQueryBuilder.addField("test_id", testComment.getTest().getId());
@@ -26,14 +24,7 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
         sqlQueryBuilder.addField("content", testComment.getContent());
         String insertQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(insertQuery, Statement.RETURN_GENERATED_KEYS);
-        try {
-            return resultSet.getLong(1);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Index wasn't found in INSERT result set");
-        } finally {
-            closeResultSet(resultSet);
-        }
+        executeQueryWithoutResult(insertQuery);
     }
 
     @Override
