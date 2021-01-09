@@ -11,6 +11,7 @@ public class PropertiesStorage {
 
     private PropertyParser pages;
     private PropertyParser links;
+    private PropertyParser form;
 
     private static class InstanceHolder {
         public static PropertiesStorage INSTANCE = new PropertiesStorage();
@@ -21,21 +22,22 @@ public class PropertiesStorage {
     }
 
     private PropertiesStorage() {
-        try {
-            pages = new PropertyParser("pages.properties");
-            pages.setPrefix("/template");
-        } catch (PropertyFileException e) {
-            throw new PropertyCantInitException(e);
-        }
-        try {
-            links = new PropertyParser("links.properties");
-        } catch (PropertyFileException e) {
-            throw new PropertyCantInitException(e);
-        }
+        pages = initProperties("pages.properties");
+        pages.setPrefix("/template");
+        links = initProperties("links.properties");
+        form = initProperties("form.properties");
     }
 
     public static String getPagePath(String property) {
         return ApplicationProperties.getProperty("app.page.root") + getInstance().pages.getProperty(property);
+    }
+
+    private PropertyParser initProperties(String filename){
+        try {
+            return new PropertyParser("links.properties");
+        } catch (PropertyFileException e) {
+            throw new PropertyCantInitException(e);
+        }
     }
 
 }

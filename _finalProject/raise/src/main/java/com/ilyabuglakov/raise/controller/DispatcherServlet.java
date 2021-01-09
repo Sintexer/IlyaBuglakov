@@ -48,7 +48,7 @@ public class DispatcherServlet extends HttpServlet {
         if (command.isPresent()) {
             command.get().execute(req, resp);
         } else {
-            getServletContext().getRequestDispatcher(req.getRequestURI()).forward(req, resp);
+            resp.sendError(404);
         }
     }
 

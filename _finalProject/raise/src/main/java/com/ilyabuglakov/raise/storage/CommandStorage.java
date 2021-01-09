@@ -5,6 +5,7 @@ import com.ilyabuglakov.raise.model.command.Command;
 import com.ilyabuglakov.raise.model.command.impl.IndexCommand;
 import com.ilyabuglakov.raise.model.command.impl.IndexPostCommand;
 import com.ilyabuglakov.raise.model.command.impl.RegistrationCommand;
+import com.ilyabuglakov.raise.model.command.impl.RegistrationPostCommand;
 import com.ilyabuglakov.raise.service.property.PropertyParser;
 
 import java.util.EnumMap;
@@ -33,6 +34,7 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "index", new IndexCommand());
         addCommand(RequestMethod.POST, "index", new IndexPostCommand());
         addCommand(RequestMethod.GET, "registration", new RegistrationCommand());
+        addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
 
     }
 

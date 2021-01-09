@@ -25,8 +25,8 @@
     <main class="main">
         <div class="section">
             <div class="content centered">
-                <p><fmt:message key="home.title"/></p>
-                <a href="api/registration">Registration</a>
+                <div class="section"><p><fmt:message key="home.title"/></p></div>
+                <a href="/api/registration">Registration</a>
             </div>
         </div>
     </main>
