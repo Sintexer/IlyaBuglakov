@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <meta charset="UTF-8">

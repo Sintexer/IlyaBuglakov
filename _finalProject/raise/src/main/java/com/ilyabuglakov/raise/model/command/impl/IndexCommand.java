@@ -16,8 +16,8 @@ public class IndexCommand implements Command {
             throws ServletException, IOException {
         log.info("Entered index command");
         request.getRequestDispatcher(PropertiesStorage.getInstance()
-                    .getPages()
-                    .getProperty("index"))
+                .getPages()
+                .getProperty("index"))
                 .forward(request, response);
     }
 }

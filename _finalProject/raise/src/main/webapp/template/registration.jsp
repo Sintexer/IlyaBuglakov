@@ -26,15 +26,18 @@
         </a>
     </div>
     <div class="dec-pancake">
-        <form class="form-card card-md bg-lightcyan" method="post" action="<c:url value="/"/>" >
+        <form class="form-card card-md bg-lightcyan" method="post" action="<c:url value="/"/>">
             <h2 class="form-sign-in-heading">Sign up</h2>
-            <input type="email" id="username" name="username" class="form-input rounded-10" placeholder="Your Email" required
+            <input type="email" id="username" name="username" class="form-input rounded-10" placeholder="Your Email"
+                   required
                    autofocus>
             <input type="name" id="name" name="name" class="form-input rounded-10" placeholder="Your Name" required
-                   >
-            <input type="surname" id="surname" name="surname" class="form-input rounded-10" placeholder="Your Surname" required
-                   >
-            <input type="password" id="password" name="password" class="form-input rounded-10" placeholder="Your Password"
+            >
+            <input type="surname" id="surname" name="surname" class="form-input rounded-10" placeholder="Your Surname"
+                   required
+            >
+            <input type="password" id="password" name="password" class="form-input rounded-10"
+                   placeholder="Your Password"
                    required>
             <button class="btn mg-top-2rem" type="submit">SIGN UP</button>
         </form>

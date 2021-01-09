@@ -23,10 +23,10 @@ public abstract class AccessFilter implements Filter {
         return link;
     }
 
-    protected Optional<RequestMethod> extractMethod(HttpServletRequest request){
-        try{
+    protected Optional<RequestMethod> extractMethod(HttpServletRequest request) {
+        try {
             return Optional.of(RequestMethod.valueOf(request.getMethod()));
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }

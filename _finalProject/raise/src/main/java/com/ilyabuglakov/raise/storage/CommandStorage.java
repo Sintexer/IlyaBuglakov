@@ -36,7 +36,7 @@ public class CommandStorage {
 
     }
 
-    private void addCommand(RequestMethod method, String property, Command command){
+    private void addCommand(RequestMethod method, String property, Command command) {
         String uri = PropertiesStorage.getInstance().getLinks().getProperty(property);
         methodMap.get(method).put(uri, command);
     }

@@ -10,7 +10,7 @@ public class LoggerTest {
     public static Logger logger = LogManager.getLogger(LoggerTest.class);
 
     @Test
-    public void writeSomeLogs(){
+    public void writeSomeLogs() {
         logger.debug("DebugMessage");
         logger.trace("TraceMessage");
         logger.info("InfoMessage");
