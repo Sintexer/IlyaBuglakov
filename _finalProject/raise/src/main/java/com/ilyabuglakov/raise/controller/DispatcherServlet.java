@@ -29,7 +29,7 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("Entered post");
+        log.info("Entered get");
         processCommand(req, resp);
     }
 

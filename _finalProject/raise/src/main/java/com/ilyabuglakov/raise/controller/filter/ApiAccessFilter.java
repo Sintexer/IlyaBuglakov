@@ -30,6 +30,7 @@ public class ApiAccessFilter extends AccessFilter {
             if (command != null) {
                 request.setAttribute("command", command);
                 request.getServletContext().getRequestDispatcher("/controller").forward(servletRequest, servletResponse);
+                return;
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
