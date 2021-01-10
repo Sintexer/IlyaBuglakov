@@ -8,10 +8,12 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * TestDao is the Dao implementation specifically for Test class
@@ -34,13 +36,13 @@ public class TestDao extends BaseDao implements TestDaoInterface {
     }
 
     @Override
-    public Test read(long id) throws DaoOperationException {
+    public Optional<Test> read(long id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("test");
         sqlQueryBuilder.addWhere("id", id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        Test test = buildTest(resultSet);
+        Optional<Test> test = buildTest(resultSet);
         closeResultSet(resultSet);
         return test;
     }
@@ -69,17 +71,24 @@ public class TestDao extends BaseDao implements TestDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
+     * Will build Optional-User only if result set has all user fields values,
+     * otherwise will return Optional.empty()
+     *
      * @param resultSet input result set parameters, taken from sql query execution
      * @return Test from resultSet
      */
-    private Test buildTest(ResultSet resultSet) throws DaoOperationException {
+    private Optional<Test> buildTest(ResultSet resultSet) throws DaoOperationException {
         try {
-            Test test = Test.builder()
-                    .testName(resultSet.getString("test_name"))
-                    .difficulty(Integer.parseInt(resultSet.getString("difficulty")))
-                    .build();
-            test.setId(resultSet.getLong("id"));
-            return test;
+            ResultSetValidator validator = new ResultSetValidator();
+            if(validator.hasAllValues(resultSet, "test_name", "difficulty", "id")) {
+                Test test = Test.builder()
+                        .testName(resultSet.getString("test_name"))
+                        .difficulty(Integer.parseInt(resultSet.getString("difficulty")))
+                        .build();
+                test.setId(resultSet.getLong("id"));
+                return Optional.of(test);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw createBadResultSetException(e);

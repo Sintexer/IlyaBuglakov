@@ -8,11 +8,13 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
 
@@ -33,13 +35,13 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
     }
 
     @Override
-    public TestComment read(long id) throws DaoOperationException {
+    public Optional<TestComment> read(long id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("test_comment");
         sqlQueryBuilder.addWhere("id", id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        TestComment testComment = buildTestComment(resultSet);
+        Optional<TestComment> testComment = buildTestComment(resultSet);
         closeResultSet(resultSet);
         return testComment;
     }
@@ -69,17 +71,24 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
+     * Will build Optional-User only if result set has all user fields values,
+     * otherwise will return Optional.empty()
+     *
      * @param resultSet input result set parameters, taken from sql query execution
      * @return TestComment from resultSet
      */
-    private TestComment buildTestComment(ResultSet resultSet) throws DaoOperationException {
+    private Optional<TestComment> buildTestComment(ResultSet resultSet) throws DaoOperationException {
         try {
-            TestComment testComment = TestComment.builder()
-                    .timestamp(LocalDateTime.parse(resultSet.getString("timestamp")))
-                    .content(resultSet.getString("content"))
-                    .build();
-            testComment.setId(resultSet.getLong("id"));
-            return testComment;
+            ResultSetValidator validator = new ResultSetValidator();
+            if(validator.hasAllValues(resultSet, "timestamp", "content", "id")) {
+                TestComment testComment = TestComment.builder()
+                        .timestamp(LocalDateTime.parse(resultSet.getString("timestamp")))
+                        .content(resultSet.getString("content"))
+                        .build();
+                testComment.setId(resultSet.getLong("id"));
+                return Optional.of(testComment);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw createBadResultSetException(e);

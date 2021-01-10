@@ -8,11 +8,14 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
 import lombok.AllArgsConstructor;
 
+import javax.swing.text.html.Option;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * QuestionDao is the Dao implementation specifically for Question class
@@ -34,13 +37,13 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
     }
 
     @Override
-    public Question read(long id) throws DaoOperationException {
+    public Optional<Question> read(long id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("qu");
         sqlQueryBuilder.addWhere("id", id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        Question question = buildQuestion(resultSet);
+        Optional<Question> question = buildQuestion(resultSet);
         closeResultSet(resultSet);
         return question;
     }
@@ -69,16 +72,23 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
+     * Will build Optional-User only if result set has all user fields values,
+     * otherwise will return Optional.empty()
+     *
      * @param resultSet input result set parameters, taken from sql query execution
      * @return Question from resultSet
      */
-    private Question buildQuestion(ResultSet resultSet) throws DaoOperationException {
+    private Optional<Question> buildQuestion(ResultSet resultSet) throws DaoOperationException {
         try {
-            Question question = Question.builder()
-                    .content(resultSet.getString("content"))
-                    .build();
-            question.setId(resultSet.getLong("id"));
-            return question;
+            ResultSetValidator validator = new ResultSetValidator();
+            if(validator.hasAllValues(resultSet, "content", "id")) {
+                Question question = Question.builder()
+                        .content(resultSet.getString("content"))
+                        .build();
+                question.setId(resultSet.getLong("id"));
+                return Optional.of(question);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw createBadResultSetException(e);

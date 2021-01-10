@@ -10,6 +10,7 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,6 +18,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * UserDao is the Dao implementation specifically for User class
@@ -25,6 +28,19 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     public UserDao(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) throws DaoOperationException {
+        //TODO constants for table names
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
+        sqlQueryBuilder.addWhere("email", email);
+        String selectQuery = sqlQueryBuilder.build();
+
+        ResultSet resultSet = createResultSet(selectQuery);
+        Optional<User> user = buildUser(resultSet);
+        closeResultSet(resultSet);
+        return user;
     }
 
     @Override
@@ -43,13 +59,13 @@ public class UserDao extends BaseDao implements UserDaoInterface {
     }
 
     @Override
-    public User read(long id) throws DaoOperationException {
+    public Optional<User> read(long id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
         sqlQueryBuilder.addWhere("id", id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        User user = buildUser(resultSet);
+        Optional<User> user = buildUser(resultSet);
         closeResultSet(resultSet);
         return user;
     }
@@ -59,14 +75,16 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
         String selectQuery = sqlQueryBuilder.build();
 
-        List<User> users = new ArrayList<>();
+        List<Optional<User>> users = new ArrayList<>();
         ResultSet resultSet = createResultSet(selectQuery);
         try {
             while (resultSet.next()) {
-                User user = buildUser(resultSet);
+                Optional<User> user = buildUser(resultSet);
                 users.add(user);
             }
-            return users;
+            return users.stream()
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toList());
         } catch (SQLException e) {
             throw new DaoOperationException("Bad result set after executing query. Can't build entities", e);
         } finally {
@@ -103,22 +121,30 @@ public class UserDao extends BaseDao implements UserDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
+     * Will build Optional-User only if result set has all user fields values,
+     * otherwise will return Optional.empty()
+     *
      * @param resultSet input result set parameters, taken from sql query execution
      * @return User from resultSet
      */
-    private User buildUser(ResultSet resultSet) throws DaoOperationException {
+    private Optional<User> buildUser(ResultSet resultSet) throws DaoOperationException {
         try {
-            User user = User.builder()
-                    .name(resultSet.getString("name"))
-                    .surname(resultSet.getString("surname"))
-                    .email(resultSet.getString("email"))
-                    .password(resultSet.getString("password"))
-                    .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-                    .role(Role.valueOf(resultSet.getString("role")))
-                    .status(Status.valueOf(resultSet.getString("status")))
-                    .build();
-            user.setId(resultSet.getLong("id"));
-            return user;
+            ResultSetValidator validator = new ResultSetValidator();
+            if(validator.hasAllValues(resultSet, "email", "name", "surname",
+                    "password", "registration_date", "role", "status", "id") ) {
+                User user = User.builder()
+                        .name(resultSet.getString("name"))
+                        .surname(resultSet.getString("surname"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
+                        .role(Role.valueOf(resultSet.getString("role")))
+                        .status(Status.valueOf(resultSet.getString("status")))
+                        .build();
+                user.setId(resultSet.getLong("id"));
+                return Optional.of(user);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw createBadResultSetException(e);

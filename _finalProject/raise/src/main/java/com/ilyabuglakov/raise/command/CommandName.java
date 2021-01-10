@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum CommandName {
 
     INDEX(new IndexCommand());
+    REGISTRATION(new )
 
     @Getter
     private Command command;

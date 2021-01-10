@@ -8,10 +8,12 @@ import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * AnswerDao is the Dao implementation specifically for Answer class
@@ -34,13 +36,13 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
     }
 
     @Override
-    public Answer read(long id) throws DaoOperationException {
+    public Optional<Answer> read(long id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("answer");
         sqlQueryBuilder.addWhere("id", id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        Answer answer = buildAnswer(resultSet);
+        Optional<Answer> answer = buildAnswer(resultSet);
         closeResultSet(resultSet);
         return answer;
     }
@@ -70,17 +72,24 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
+     * Will build Optional-User only if result set has all user fields values,
+     * otherwise will return Optional.empty()
+     *
      * @param resultSet input result set parameters, taken from sql query execution
      * @return Answer from resultSet
      */
-    private Answer buildAnswer(ResultSet resultSet) throws DaoOperationException {
+    private Optional<Answer> buildAnswer(ResultSet resultSet) throws DaoOperationException {
         try {
-            Answer answer = Answer.builder()
-                    .content(resultSet.getString("content"))
-                    .correct(Boolean.parseBoolean(resultSet.getString("correct")))
-                    .build();
-            answer.setId(resultSet.getLong("id"));
-            return answer;
+            ResultSetValidator validator = new ResultSetValidator();
+            if(validator.hasAllValues(resultSet, "content", "correct", "id")) {
+                Answer answer = Answer.builder()
+                        .content(resultSet.getString("content"))
+                        .correct(Boolean.parseBoolean(resultSet.getString("correct")))
+                        .build();
+                answer.setId(resultSet.getLong("id"));
+                return Optional.of(answer);
+            }
+            return Optional.empty();
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw createBadResultSetException(e);

@@ -6,7 +6,7 @@ import com.ilyabuglakov.raise.dal.dao.impl.TestCommentDao;
 import com.ilyabuglakov.raise.dal.dao.impl.TestDao;
 import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
 import com.ilyabuglakov.raise.dal.dao.impl.UserTestResultDao;
-import com.ilyabuglakov.raise.dal.dao.interfaces.Dao;
+import com.ilyabuglakov.raise.dal.dao.Dao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.model.DaoType;

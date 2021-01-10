@@ -29,12 +29,12 @@ public class PropertiesStorage {
     }
 
     public static String getPagePath(String property) {
-        return ApplicationProperties.getProperty("app.page.root") + getInstance().pages.getProperty(property);
+        return getInstance().pages.getProperty(property);
     }
 
     private PropertyParser initProperties(String filename){
         try {
-            return new PropertyParser("links.properties");
+            return new PropertyParser(filename);
         } catch (PropertyFileException e) {
             throw new PropertyCantInitException(e);
         }

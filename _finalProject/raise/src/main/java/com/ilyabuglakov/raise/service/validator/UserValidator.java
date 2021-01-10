@@ -25,15 +25,19 @@ public class UserValidator {
     }
 
     public boolean isValidPassword(String password) {
-        return password.length() > FormConstants.PASSWORD_MIN.getValue() &&
+        return password.length() >= FormConstants.PASSWORD_MIN.getValue() &&
                 password.length() < FormConstants.PASSWORD_MAX.getValue();
     }
 
     public boolean isValid(User user){
-        return isValidEmail(user.getEmail()) &&
-                isValidName(user.getName()) &&
-                isValidSurname(user.getSurname()) &&
-                isValidPassword(user.getPassword());
+        return isValidUserParameters(user.getEmail(), user.getName(), user.getSurname(), user.getPassword());
+    }
+
+    public boolean isValidUserParameters(String email, String name, String surname, String password){
+        return isValidEmail(email) &&
+                isValidName(name) &&
+                isValidSurname(surname) &&
+                isValidPassword(password);
     }
 
 }

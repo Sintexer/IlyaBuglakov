@@ -26,18 +26,53 @@
     <div class="dec-pancake">
         <form class="form-card card-md bg-lightcyan" method="post" action="<c:url value="/api/registration"/>">
             <h2 class="form-sign-in-heading">Sign up</h2>
-            <input type="email" maxlength="${emailLength}" id="username" name="username" class="form-input rounded-10"
-                   placeholder="Your Email"
-                   required autofocus>
-            <input type="name" maxlength="${nameLength}" id="name" name="name" class="form-input rounded-10"
-                   placeholder="Your Name" required>
-            <input type="surname" maxlength="${surnameLength}" id="surname" name="surname" class="form-input rounded-10"
-                   placeholder="Your Surname"
-                   required>
-            <input type="password" minlength="${passwordMin}" maxlength="${passwordMax}" id="password" name="password"
-                   class="form-input rounded-10"
-                   placeholder="Your Password"
-                   required>
+
+            <div class="tooltip rounded-10">
+                <span class="tooltip-text rounded-10"><fmt:message key="reg.user.email.tooltip"/></span>
+                <input type="email"
+                       maxlength="${emailLength}"
+                       id="username"
+                       name="username"
+                       class="form-input rounded-10"
+                       placeholder="Your Email"
+                       required autofocus
+                       value="${emailPrevVal}">
+            </div>
+
+            <div class="tooltip rounded-10">
+                <span class="tooltip-text rounded-10"><fmt:message key="reg.user.name.tooltip"/></span>
+                <input type="name"
+                       maxlength="${nameLength}"
+                       id="name"
+                       name="name"
+                       class="form-input rounded-10"
+                       placeholder="Your Name"
+                       required value="${namePrevVal}">
+            </div>
+
+            <div class="tooltip rounded-10">
+                <span class="tooltip-text rounded-10"><fmt:message key="reg.user.surname.tooltip" /></span>
+                <input type="surname"
+                       maxlength="${surnameLength}"
+                       id="surname"
+                       name="surname"
+                       class="form-input rounded-10"
+                       placeholder="Your Surname"
+                       required value="${surnamePrevVal}">
+            </div>
+
+            <div class="tooltip rounded-10">
+                <span class="tooltip-text rounded-10"><fmt:message key="reg.user.password.tooltip"/></span>
+                <input type="password"
+                       minlength="${passwordMin}"
+                       maxlength="${passwordMax}"
+                       id="password"
+                       name="password"
+                       class="form-input rounded-10"
+                       placeholder="Your Password"
+                       required>
+            </div>
+
             <button class="btn mg-top-2rem" type="submit">SIGN UP</button>
         </form>
     </div>
