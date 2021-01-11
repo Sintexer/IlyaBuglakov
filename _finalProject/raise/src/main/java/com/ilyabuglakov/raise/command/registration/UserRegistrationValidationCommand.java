@@ -2,7 +2,7 @@ package com.ilyabuglakov.raise.command.registration;
 
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.UserValidationException;
-import com.ilyabuglakov.raise.service.validator.UserValidator;
+import com.ilyabuglakov.raise.model.service.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

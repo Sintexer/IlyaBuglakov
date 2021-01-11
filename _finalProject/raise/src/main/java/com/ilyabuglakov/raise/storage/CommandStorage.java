@@ -6,7 +6,7 @@ import com.ilyabuglakov.raise.command.impl.IndexGetCommand;
 import com.ilyabuglakov.raise.command.impl.IndexPostCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationPostCommand;
-import com.ilyabuglakov.raise.service.property.PropertyParser;
+import com.ilyabuglakov.raise.model.service.property.PropertyParser;
 
 import java.util.EnumMap;
 import java.util.HashMap;

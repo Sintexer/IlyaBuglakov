@@ -3,12 +3,12 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
 import com.ilyabuglakov.raise.domain.Answer;
-import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
-import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

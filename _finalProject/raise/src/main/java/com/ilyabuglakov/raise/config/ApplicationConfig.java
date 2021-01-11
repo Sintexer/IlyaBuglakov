@@ -2,9 +2,9 @@ package com.ilyabuglakov.raise.config;
 
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPoolFactory;
-import com.ilyabuglakov.raise.service.property.ApplicationProperties;
-import com.ilyabuglakov.raise.service.property.PropertyParser;
-import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
+import com.ilyabuglakov.raise.model.service.property.ApplicationProperties;
+import com.ilyabuglakov.raise.model.service.property.PropertyParser;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;

@@ -5,12 +5,12 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
-import com.ilyabuglakov.raise.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.service.sql.builder.SqlUpdateBuilder;
-import com.ilyabuglakov.raise.service.validator.ResultSetValidator;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
+import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -4,9 +4,9 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.UserRegistrationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
-import com.ilyabuglakov.raise.service.web.user.UserDatabaseRegistrationService;
-import com.ilyabuglakov.raise.service.web.user.exception.UserRegistrationServiceException;
-import com.ilyabuglakov.raise.service.web.user.interfaces.UserRegistrationService;
+import com.ilyabuglakov.raise.model.service.web.user.UserDatabaseRegistrationService;
+import com.ilyabuglakov.raise.model.service.web.user.exception.UserRegistrationServiceException;
+import com.ilyabuglakov.raise.model.service.web.user.interfaces.UserRegistrationService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

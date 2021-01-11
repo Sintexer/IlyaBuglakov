@@ -1,9 +1,8 @@
 package com.ilyabuglakov.raise.storage;
 
-import com.ilyabuglakov.raise.service.property.ApplicationProperties;
-import com.ilyabuglakov.raise.service.property.PropertyParser;
-import com.ilyabuglakov.raise.service.property.exception.PropertyCantInitException;
-import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
+import com.ilyabuglakov.raise.model.service.property.PropertyParser;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyCantInitException;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
 import lombok.Getter;
 
 @Getter
