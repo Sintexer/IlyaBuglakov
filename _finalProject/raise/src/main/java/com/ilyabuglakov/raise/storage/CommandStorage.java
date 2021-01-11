@@ -2,10 +2,10 @@ package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.impl.IndexCommand;
+import com.ilyabuglakov.raise.command.impl.IndexGetCommand;
 import com.ilyabuglakov.raise.command.impl.IndexPostCommand;
-import com.ilyabuglakov.raise.command.impl.RegistrationCommand;
-import com.ilyabuglakov.raise.command.impl.RegistrationPostCommand;
+import com.ilyabuglakov.raise.command.registration.RegistrationGetCommand;
+import com.ilyabuglakov.raise.command.registration.RegistrationPostCommand;
 import com.ilyabuglakov.raise.service.property.PropertyParser;
 
 import java.util.EnumMap;
@@ -31,9 +31,9 @@ public class CommandStorage {
         }
 
         PropertyParser links = PropertiesStorage.getInstance().getLinks();
-        addCommand(RequestMethod.GET, "index", new IndexCommand());
+        addCommand(RequestMethod.GET, "index", new IndexGetCommand());
         addCommand(RequestMethod.POST, "index", new IndexPostCommand());
-        addCommand(RequestMethod.GET, "registration", new RegistrationCommand());
+        addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
         addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
 
     }

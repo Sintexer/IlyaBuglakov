@@ -16,6 +16,7 @@
         <log4j2.version>2.7</log4j2.version>
         <disruptor.version>3.3.6</disruptor.version>
         <postgres.version>42.2.10</postgres.version>
+        <apache.shiro.version>1.7.0</apache.shiro.version>
     </properties>
 
     <dependencies>
@@ -103,33 +104,29 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+        <!--    Apache Shiro    -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-all</artifactId>
+            <version>${apache.shiro.version}</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
 
-<!--    <build>-->
-<!--        <finalName>raise</finalName>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <artifactId>maven-war-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <attachClasses>true</attachClasses>-->
-<!--                    <webXml>web/WEB-INF/web.xml</webXml>-->
-<!--                    <webResources>-->
-<!--                        <resource>-->
-<!--                            <directory>web</directory>-->
-<!--                            <filtering>true</filtering>-->
-<!--                        </resource>-->
-<!--                    </webResources>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <source>9</source>-->
-<!--                    <target>9</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <build>
+        <finalName>raise</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

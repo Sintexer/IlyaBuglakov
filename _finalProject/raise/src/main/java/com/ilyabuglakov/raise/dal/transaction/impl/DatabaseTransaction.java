@@ -1,6 +1,7 @@
 package com.ilyabuglakov.raise.dal.transaction.impl;
 
 import com.ilyabuglakov.raise.dal.dao.impl.AnswerDao;
+import com.ilyabuglakov.raise.dal.dao.impl.BaseDao;
 import com.ilyabuglakov.raise.dal.dao.impl.QuestionDao;
 import com.ilyabuglakov.raise.dal.dao.impl.TestCommentDao;
 import com.ilyabuglakov.raise.dal.dao.impl.TestDao;
@@ -24,7 +25,7 @@ public class DatabaseTransaction implements Transaction {
 
     private final Connection connection;
 
-    private final EnumMap<DaoType, Dao<?>> daoMap;
+    private  EnumMap<DaoType, BaseDao> daoMap;
 
     public DatabaseTransaction(Connection connection) {
         this.connection = connection;
@@ -38,7 +39,7 @@ public class DatabaseTransaction implements Transaction {
     }
 
     @Override
-    public Dao<?> createDao(DaoType daoType) {
+    public BaseDao createDao(DaoType daoType) {
         return daoMap.get(daoType);
     }
 

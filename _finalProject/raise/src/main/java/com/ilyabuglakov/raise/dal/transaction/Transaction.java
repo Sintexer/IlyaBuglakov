@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.dal.transaction;
 
-import com.ilyabuglakov.raise.dal.dao.Dao;
+import com.ilyabuglakov.raise.dal.dao.impl.BaseDao;
 import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.model.DaoType;
 
@@ -11,7 +11,7 @@ import com.ilyabuglakov.raise.model.DaoType;
  */
 public interface Transaction extends AutoCloseable {
 
-    <T extends Dao<?>> T createDao(DaoType daoType) throws TransactionException;
+    BaseDao createDao(DaoType daoType);
 
     void commit() throws TransactionException;
 

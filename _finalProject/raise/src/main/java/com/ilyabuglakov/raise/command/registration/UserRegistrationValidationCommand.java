@@ -1,21 +1,32 @@
-package com.ilyabuglakov.raise.command.impl;
+package com.ilyabuglakov.raise.command.registration;
 
 import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.command.exception.UserValidationException;
 import com.ilyabuglakov.raise.service.validator.UserValidator;
-import com.ilyabuglakov.raise.storage.PropertiesStorage;
-import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-@Log4j2
-public class RegistrationPostCommand implements Command {
+/**
+ * checks user registration form parameters for validity.
+ * <p>
+ * Will throw UserValidationException if some fields are invalid.
+ */
+public class UserRegistrationValidationCommand implements Command {
+
+
+    /**
+     * In case of invalid fields will put error messages to request attributes,
+     * such as invalidEmail, invalidName, invalidSurname, invalidPassword.
+     * Also will save previous user fields input in attributes emailPrevVal, namePrevVal, surnamePrevVal
+     *
+     * @param request Servlet request
+     * @param response Servlet response
+     * @throws UserValidationException if some fields are invalid
+     */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.info("posted");
-
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+            throws UserValidationException {
         String email = request.getParameter("username");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
@@ -37,14 +48,8 @@ public class RegistrationPostCommand implements Command {
 
             request.setAttribute("emailPrevVal", email);
             request.setAttribute("namePrevVal", name);
-            request.setAttribute("surnamePrevVal",surname);
-            request.getRequestDispatcher(
-                    PropertiesStorage.getInstance()
-                            .getPages()
-                            .getProperty("registration"))
-                    .forward(request, response);
+            request.setAttribute("surnamePrevVal", surname);
+            throw new UserValidationException("Some of form fields contain invalid value");
         }
-
-        //TODO RegistrationService
     }
 }

@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.command.impl;
+package com.ilyabuglakov.raise.command.registration;
 
-import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class RegistrationCommand implements Command {
+public class RegistrationGetCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

@@ -37,10 +37,11 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addWhere("email", email);
         String selectQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<User> user = buildUser(resultSet);
-        closeResultSet(resultSet);
-        return user;
+        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
+
+        if(optionalResultSet.isPresent())
+            return buildUser(optionalResultSet.get());
+        return Optional.empty();
     }
 
     @Override
@@ -66,6 +67,11 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
         ResultSet resultSet = createResultSet(selectQuery);
         Optional<User> user = buildUser(resultSet);
+        try {
+            long i = resultSet.getLong("id");
+        } catch (SQLException e) {
+            e.printStackTrace();//TODO
+        }
         closeResultSet(resultSet);
         return user;
     }

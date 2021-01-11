@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.controller;
 
+import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.command.Command;
@@ -43,12 +44,18 @@ public class DispatcherServlet extends HttpServlet {
         return Optional.ofNullable((Command) request.getAttribute("command"));
     }
 
-    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         Optional<Command> command = extractCommand(req);
-        if (command.isPresent()) {
-            command.get().execute(req, resp);
-        } else {
-            resp.sendError(404);
+        try {
+
+            if (command.isPresent()) {
+                command.get().execute(req, resp);
+            } else {
+                resp.sendError(404);
+            }
+
+        } catch (CommandException e) {
+            resp.sendError(500);
         }
     }
 

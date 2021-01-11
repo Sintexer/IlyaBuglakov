@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.dal.dao.impl;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
@@ -9,13 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 @Log4j2
 public abstract class BaseDao {
 
     protected Connection connection;
 
-    protected BaseDao(Connection connection){
+    protected BaseDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -48,16 +48,23 @@ public abstract class BaseDao {
         ResultSet resultSet = null;
         try {
             PreparedStatement statement = connection.prepareStatement(query, statementParameters);
-            statement.execute();
+            statement.executeQuery();
             resultSet = statement.getResultSet();
-            if (resultSet.next())
-                return resultSet;
-            else
-                throw new DaoOperationException("Result set doesn't contain required information after the query: " + query);
+            return resultSet;
         } catch (SQLException e) {
             closeResultSet(resultSet);
             throw new DaoOperationException(e);
         }
+    }
+
+    protected Optional<ResultSet> unpackResultSet(ResultSet resultSet) throws DaoOperationException {
+        try {
+            if(resultSet.next())
+                return Optional.of(resultSet);
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't access ResultSet", e);
+        }
+        return Optional.empty();
     }
 
     protected void closeStatement(Statement statement) {

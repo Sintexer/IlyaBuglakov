@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Log4j2
 public class IndexPostCommand implements Command {
@@ -21,10 +22,11 @@ public class IndexPostCommand implements Command {
             throws ServletException, IOException {
         log.info("Entered POST index command");
         try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
-            UserDao dao = transaction.createDao(DaoType.USER);
-            User usr = dao.read(2L);
+            UserDao dao = (UserDao)transaction.createDao(DaoType.USER);
+            Optional<User> usr = dao.read(2L);
             transaction.commit();
-            log.info(usr);
+            if(usr.isPresent())
+                log.info(usr.get());
         } catch (TransactionCreationException e) {
             e.printStackTrace();
         } catch (Exception e) {
