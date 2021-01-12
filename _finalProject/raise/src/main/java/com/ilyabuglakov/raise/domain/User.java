@@ -19,7 +19,6 @@ public class User extends Entity {
     private String name;
     private String surname;
     private String password;
-    private Set<Role> roles;
     private Status status;
     private LocalDate registrationDate;
 

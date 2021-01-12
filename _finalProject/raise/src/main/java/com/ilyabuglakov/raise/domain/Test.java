@@ -13,4 +13,5 @@ public class Test extends Entity {
     private String testName;
     private int difficulty;
     private Set<Question> questions;
-}
+}//TODO add dao method getCharacteristics
+
