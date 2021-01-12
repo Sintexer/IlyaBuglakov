@@ -72,7 +72,7 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all user fields values,
+     * Will build Optional-Answer only if resultSet has values of all user fields,
      * otherwise will return Optional.empty()
      *
      * @param resultSet input result set parameters, taken from sql query execution

@@ -74,10 +74,10 @@ public class TestDao extends BaseDao implements TestDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-Test only if resultSet has all test fields values,
+     * Will build Optional-Test only if resultSet has values of all test fields,
      * otherwise will return Optional.empty()
      *
-     * @param resultSet input result set parameters, taken from sql query execution
+     * @param resultSet input resultSet parameters, taken from sql query execution
      * @return Test from resultSet
      */
     private Optional<Test> buildTest(ResultSet resultSet) throws DaoOperationException {

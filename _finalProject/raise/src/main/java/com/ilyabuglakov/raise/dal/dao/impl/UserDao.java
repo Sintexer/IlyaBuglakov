@@ -136,10 +136,10 @@ public class UserDao extends BaseDao implements UserDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all User fields values,
+     * Will build Optional-User only if resultSet has values of all User fields,
      * otherwise will return Optional.empty()
      *
-     * @param resultSet input result set parameters, taken from sql query execution
+     * @param resultSet input resultSet parameters, taken from sql query execution
      * @return User from resultSet
      */
     private Optional<User> buildUser(ResultSet resultSet) throws DaoOperationException {

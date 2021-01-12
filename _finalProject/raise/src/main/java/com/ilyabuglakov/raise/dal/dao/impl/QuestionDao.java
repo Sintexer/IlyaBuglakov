@@ -70,10 +70,10 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all user fields values,
+     * Will build Optional-Question only if resultSet has values of all user fields,
      * otherwise will return Optional.empty()
      *
-     * @param resultSet input result set parameters, taken from sql query execution
+     * @param resultSet input resultSet parameters, taken from sql query execution
      * @return Question from resultSet
      */
     private Optional<Question> buildQuestion(ResultSet resultSet) throws DaoOperationException {
