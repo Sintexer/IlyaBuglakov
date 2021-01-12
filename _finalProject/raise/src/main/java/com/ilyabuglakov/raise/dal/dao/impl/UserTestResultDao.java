@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDaoInterface;
 import com.ilyabuglakov.raise.domain.UserTestResult;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UserTestResultColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -17,6 +20,7 @@ import java.util.Optional;
 
 /**
  * UserTestResultDao is the Dao implementation specifically for UserTestResult class
+ * TODO add User and Test extraction in UserTestResult service
  */
 public class UserTestResultDao extends BaseDao implements UserTestResultDaoInterface {
 
@@ -26,10 +30,10 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
 
     @Override
     public void create(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("user_test_result");
-        sqlQueryBuilder.addField("user_id", entity.getUser().getId());
-        sqlQueryBuilder.addField("test_id", entity.getTest().getId());
-        sqlQueryBuilder.addField("result", entity.getResult());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_TEST_RESULT.name());
+        sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());
+        sqlQueryBuilder.addField(UserTestResultColumns.TEST_ID.name(), entity.getTest().getId());
+        sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
         String insertQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(insertQuery);
@@ -37,23 +41,23 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
 
     @Override
     public Optional<UserTestResult> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("user_test_result");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
-        Optional<UserTestResult> userTestResult = buildUser(resultSet);
+        Optional<UserTestResult> userTestResult = buildUserTestResult(resultSet);
         closeResultSet(resultSet);
         return userTestResult;
     }
 
     @Override
     public void update(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("user_test_result");
-        sqlQueryBuilder.addField("result", entity.getResult());
-        sqlQueryBuilder.addField("user_id", entity.getUser().getId());
-        sqlQueryBuilder.addField("test_id", entity.getTest().getId());
-        sqlQueryBuilder.addWhere("id", entity.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.USER_TEST_RESULT.name());
+        sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());
+        sqlQueryBuilder.addField(UserTestResultColumns.TEST_ID.name(), entity.getTest().getId());
+        sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String updateQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(updateQuery);
@@ -61,8 +65,8 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
 
     @Override
     public void delete(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("user_test_result");
-        sqlQueryBuilder.addWhere("id", entity.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.USER_TEST_RESULT.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(deleteQuery);
@@ -72,20 +76,22 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all user fields values,
+     * Will build Optional-UserTestResult only if resultSet has values of all UserTestResult fields,
      * otherwise will return Optional.empty()
      *
-     * @param resultSet input result set parameters, taken from sql query execution
+     * @param resultSet input resultSet parameters, taken from sql query execution
      * @return Optional UserTestResult from resultSet
      */
-    private Optional<UserTestResult> buildUser(ResultSet resultSet) throws DaoOperationException {
+    private Optional<UserTestResult> buildUserTestResult(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "result", "id")) {
+            if(validator.hasAllValues(resultSet,
+                    UserTestResultColumns.RESULT.name(),
+                    EntityColumns.ID.name())) {
                 UserTestResult userTestResult = UserTestResult.builder()
-                        .result(resultSet.getInt("result"))
+                        .result(resultSet.getInt(UserTestResultColumns.RESULT.name()))
                         .build();
-                userTestResult.setId(resultSet.getLong("id"));
+                userTestResult.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(userTestResult);
             }
             return Optional.empty();
