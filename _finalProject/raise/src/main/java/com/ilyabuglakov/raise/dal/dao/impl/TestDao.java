@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDaoInterface;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -26,10 +29,10 @@ public class TestDao extends BaseDao implements TestDaoInterface {
 
     @Override
     public void create(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test");
-        sqlQueryBuilder.addField("id", test.getId());
-        sqlQueryBuilder.addField("test_name", test.getTestName());
-        sqlQueryBuilder.addField("difficulty", test.getDifficulty());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name(), test.getId());
+        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
+        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(insertQuery);
@@ -37,8 +40,8 @@ public class TestDao extends BaseDao implements TestDaoInterface {
 
     @Override
     public Optional<Test> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("test");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
@@ -49,10 +52,10 @@ public class TestDao extends BaseDao implements TestDaoInterface {
 
     @Override
     public void update(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("test");
-        sqlQueryBuilder.addField("id", test.getId());
-        sqlQueryBuilder.addField("test_name", test.getTestName());
-        sqlQueryBuilder.addField("difficulty", test.getDifficulty());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name(), test.getId());
+        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
+        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String updateQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(updateQuery);
@@ -60,8 +63,8 @@ public class TestDao extends BaseDao implements TestDaoInterface {
 
     @Override
     public void delete(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("test");
-        sqlQueryBuilder.addWhere("id", test.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(deleteQuery);
@@ -71,7 +74,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all user fields values,
+     * Will build Optional-Test only if resultSet has all test fields values,
      * otherwise will return Optional.empty()
      *
      * @param resultSet input result set parameters, taken from sql query execution
@@ -80,12 +83,14 @@ public class TestDao extends BaseDao implements TestDaoInterface {
     private Optional<Test> buildTest(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "test_name", "difficulty", "id")) {
+            if(validator.hasAllValues(resultSet, TestColumns.TEST_NAME.name(),
+                    TestColumns.TEST_NAME.name(),
+                    EntityColumns.ID.name())) {
                 Test test = Test.builder()
-                        .testName(resultSet.getString("test_name"))
-                        .difficulty(Integer.parseInt(resultSet.getString("difficulty")))
+                        .testName(resultSet.getString(TestColumns.TEST_NAME.name()))
+                        .difficulty(Integer.parseInt(resultSet.getString(TestColumns.DIFFICULTY.name())))
                         .build();
-                test.setId(resultSet.getLong("id"));
+                test.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(test);
             }
             return Optional.empty();
