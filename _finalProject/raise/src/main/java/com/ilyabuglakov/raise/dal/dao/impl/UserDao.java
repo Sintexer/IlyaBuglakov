@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UserColumns;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
@@ -31,9 +34,8 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public Optional<User> findByEmail(String email) throws DaoOperationException {
-        //TODO constants for table names
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
-        sqlQueryBuilder.addWhere("email", email);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
+        sqlQueryBuilder.addWhere(UserColumns.EMAIL.name(), email);
         String selectQuery = sqlQueryBuilder.build();
 
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
@@ -45,9 +47,9 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public Optional<Long> getUserId(String email) throws SQLException, DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
-        sqlQueryBuilder.addField("id");
-        sqlQueryBuilder.addWhere("email", email);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name());
+        sqlQueryBuilder.addWhere(UserColumns.EMAIL.name(), email);
         String selectQuery = sqlQueryBuilder.build();
 
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
@@ -60,14 +62,13 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public void create(User entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("usr");
-        sqlQueryBuilder.addField("email", entity.getEmail());
-        sqlQueryBuilder.addField("name", entity.getName());
-        sqlQueryBuilder.addField("password", entity.getPassword());
-        sqlQueryBuilder.addField("surname", entity.getSurname());
-//        sqlQueryBuilder.addField("role", entity.getRole().name()); TODO give roles
-        sqlQueryBuilder.addField("status", entity.getStatus().name());
-        sqlQueryBuilder.addField("registration_date", entity.getRegistrationDate());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USR.name());
+        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), entity.getEmail());
+        sqlQueryBuilder.addField(UserColumns.NAME.name(), entity.getName());
+        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), entity.getPassword());
+        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), entity.getSurname());
+        sqlQueryBuilder.addField(UserColumns.STATUS.name(), entity.getStatus().name());
+        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(insertQuery);
@@ -75,8 +76,8 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public Optional<User> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
@@ -87,7 +88,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public List<User> readAll() throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
         String selectQuery = sqlQueryBuilder.build();
 
         List<Optional<User>> users = new ArrayList<>();
@@ -109,15 +110,14 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public void update(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("usr");
-        sqlQueryBuilder.addField("name", user.getName());
-        sqlQueryBuilder.addField("surname", user.getSurname());
-        sqlQueryBuilder.addField("email", user.getEmail());
-        sqlQueryBuilder.addField("password", user.getPassword());
-//        sqlQueryBuilder.addField("role", user.getRole()); TODO give roles
-        sqlQueryBuilder.addField("status", user.getStatus());
-        sqlQueryBuilder.addField("registration_date", user.getRegistrationDate());
-        sqlQueryBuilder.addWhere("id", user.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.USR.name());
+        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), user.getEmail());
+        sqlQueryBuilder.addField(UserColumns.NAME.name(), user.getName());
+        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), user.getSurname());
+        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), user.getPassword());
+        sqlQueryBuilder.addField(UserColumns.STATUS.name(), user.getStatus());
+        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), user.getRegistrationDate());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String updateQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(updateQuery);
@@ -125,8 +125,8 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
     @Override
     public void delete(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("usr");
-        sqlQueryBuilder.addWhere("id", user.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.USR.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
         executeQueryWithoutResult(deleteQuery);
@@ -153,7 +153,6 @@ public class UserDao extends BaseDao implements UserDaoInterface {
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
                         .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-//                        .role(Role.valueOf(resultSet.getString("role"))) TODO build roles
                         .status(Status.valueOf(resultSet.getString("status")))
                         .build();
                 user.setId(resultSet.getLong("id"));
