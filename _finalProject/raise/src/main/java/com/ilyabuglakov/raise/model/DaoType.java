@@ -6,5 +6,6 @@ public enum DaoType {
     TEST,
     TEST_COMMENT,
     QUESTION,
-    ANSWER
+    ANSWER,
+    ROLE
 }

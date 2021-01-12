@@ -1,6 +1,5 @@
-CREATE TYPE characteristic AS enum ('memory', 'reaction', 'logic', 'calculations');
-CREATE TYPE role AS enum ('USER', 'ADMIN');
-CREATE TYPE status AS enum ('ACTIVE', 'BANNED');
+CREATE TYPE characteristic AS enum ('MEMORY', 'REACTION', 'LOGIC', 'CALCULATIONS');
+CREATE TYPE STATUS AS ENUM ('ACTIVE', 'UNCONFIRMED', 'BANNED');
 
 CREATE TABLE usr
 (
@@ -8,12 +7,37 @@ CREATE TABLE usr
     email             varchar(256) NOT NULL UNIQUE,
     name              varchar(40)  NOT NULL,
     surname           varchar(80)  NOT NULL,
-    password          varchar(256) NOT NULL,
-    role              role         NOT NULL,
-    status            status       NOT NULL,
+    password          varchar(64)  NOT NULL,
+--     role              role         NOT NULL,
+    status            STATUS       NOT NULL,
     registration_date DATE         NOT NULL
 );
 
+--
+--
+--
+CREATE TABLE role
+(
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_roles
+(
+    id   BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES usr(id),
+    role_id BIGINT NOT NULL REFERENCES role(id)
+);
+
+CREATE TABLE role_permissions
+(
+    id         BIGSERIAL PRIMARY KEY,
+    role_id BIGINT NOT NULL REFERENCES role(id),
+    permission VARCHAR(50) NOT NULL UNIQUE
+);
+--
+--
+--
 
 create table test
 (

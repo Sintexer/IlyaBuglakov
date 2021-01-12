@@ -3,7 +3,6 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
 import com.ilyabuglakov.raise.domain.User;
-import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
@@ -45,13 +44,28 @@ public class UserDao extends BaseDao implements UserDaoInterface {
     }
 
     @Override
+    public Optional<Long> getUserId(String email) throws SQLException, DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("usr");
+        sqlQueryBuilder.addField("id");
+        sqlQueryBuilder.addWhere("email", email);
+        String selectQuery = sqlQueryBuilder.build();
+
+        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
+
+        if(optionalResultSet.isPresent()) {
+            return Optional.of(optionalResultSet.get().getLong("id"));
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void create(User entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("usr");
         sqlQueryBuilder.addField("email", entity.getEmail());
         sqlQueryBuilder.addField("name", entity.getName());
         sqlQueryBuilder.addField("password", entity.getPassword());
         sqlQueryBuilder.addField("surname", entity.getSurname());
-        sqlQueryBuilder.addField("role", entity.getRole().name());
+//        sqlQueryBuilder.addField("role", entity.getRole().name()); TODO give roles
         sqlQueryBuilder.addField("status", entity.getStatus().name());
         sqlQueryBuilder.addField("registration_date", entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
@@ -67,11 +81,6 @@ public class UserDao extends BaseDao implements UserDaoInterface {
 
         ResultSet resultSet = createResultSet(selectQuery);
         Optional<User> user = buildUser(resultSet);
-        try {
-            long i = resultSet.getLong("id");
-        } catch (SQLException e) {
-            e.printStackTrace();//TODO
-        }
         closeResultSet(resultSet);
         return user;
     }
@@ -105,7 +114,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addField("surname", user.getSurname());
         sqlQueryBuilder.addField("email", user.getEmail());
         sqlQueryBuilder.addField("password", user.getPassword());
-        sqlQueryBuilder.addField("role", user.getRole());
+//        sqlQueryBuilder.addField("role", user.getRole()); TODO give roles
         sqlQueryBuilder.addField("status", user.getStatus());
         sqlQueryBuilder.addField("registration_date", user.getRegistrationDate());
         sqlQueryBuilder.addWhere("id", user.getId());
@@ -137,14 +146,14 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         try {
             ResultSetValidator validator = new ResultSetValidator();
             if(validator.hasAllValues(resultSet, "email", "name", "surname",
-                    "password", "registration_date", "role", "status", "id") ) {
+                    "password", "registration_date", "status", "id") ) {
                 User user = User.builder()
                         .name(resultSet.getString("name"))
                         .surname(resultSet.getString("surname"))
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
                         .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-                        .role(Role.valueOf(resultSet.getString("role")))
+//                        .role(Role.valueOf(resultSet.getString("role"))) TODO build roles
                         .status(Status.valueOf(resultSet.getString("status")))
                         .build();
                 user.setId(resultSet.getLong("id"));

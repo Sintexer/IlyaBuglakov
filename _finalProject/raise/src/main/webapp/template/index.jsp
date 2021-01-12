@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <fmt:setLocale value="ru_RU"/>
 <fmt:setBundle basename="/locale/page"/>
@@ -27,6 +28,8 @@
             <div class="content centered">
                 <div class="section"><p><fmt:message key="home.title"/></p></div>
                 <a href="/api/registration">Registration</a>
+                <p>Hi <shiro:notAuthenticated>Guest</shiro:notAuthenticated></p>
+                <shiro:authenticated><p>HELLO</p></shiro:authenticated>
             </div>
         </div>
     </main>

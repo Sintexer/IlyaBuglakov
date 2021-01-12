@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
+import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ public class RegistrationGetCommand implements Command {
             throws ServletException, IOException {
         log.info("Entered registration command");
 
+        SecurityUtils.getSubject().logout();
 
         specifyFormParameters(request,
                 FormConstants.EMAIL_LENGTH.getValue(), FormConstants.NAME_LENGTH.getValue(),

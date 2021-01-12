@@ -1,6 +1,5 @@
 package com.ilyabuglakov.raise.domain;
 
-import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Builder
@@ -19,7 +19,7 @@ public class User extends Entity {
     private String name;
     private String surname;
     private String password;
-    private Role role;
+    private Set<Role> roles;
     private Status status;
     private LocalDate registrationDate;
 

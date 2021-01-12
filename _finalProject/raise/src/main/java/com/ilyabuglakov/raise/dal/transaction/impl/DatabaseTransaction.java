@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.dal.transaction.impl;
 import com.ilyabuglakov.raise.dal.dao.impl.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.impl.BaseDao;
 import com.ilyabuglakov.raise.dal.dao.impl.QuestionDao;
+import com.ilyabuglakov.raise.dal.dao.impl.RoleDao;
 import com.ilyabuglakov.raise.dal.dao.impl.TestCommentDao;
 import com.ilyabuglakov.raise.dal.dao.impl.TestDao;
 import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
@@ -36,6 +37,7 @@ public class DatabaseTransaction implements Transaction {
         daoMap.put(DaoType.ANSWER, new AnswerDao(connection));
         daoMap.put(DaoType.QUESTION, new QuestionDao(connection));
         daoMap.put(DaoType.USER_TEST_RESULT, new UserTestResultDao(connection));
+        daoMap.put(DaoType.ROLE, new RoleDao(connection));
     }
 
     @Override

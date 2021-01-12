@@ -4,7 +4,6 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
-import com.ilyabuglakov.raise.domain.type.Role;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.service.web.TransactionWebService;
@@ -41,12 +40,12 @@ public class UserDatabaseRegistrationService extends TransactionWebService imple
 //                .password(hash.toBase64())
                 .password(user.getPassword())
                 .registrationDate(LocalDate.now())
-                .role(Role.USER)
                 .status(Status.ACTIVE)
                 .build(); //TODO change status to непотвержденный
 
         try {
             dao.create(committedUser);
+            //TODO save roles
         } catch (DaoOperationException e) {
             throw new UserRegistrationServiceException("Error while creating user", e);
         }
