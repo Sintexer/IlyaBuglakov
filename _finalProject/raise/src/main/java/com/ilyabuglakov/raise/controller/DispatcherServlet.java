@@ -22,7 +22,6 @@ public class DispatcherServlet extends HttpServlet {
     public void init() throws ServletException {
         try {
             ApplicationConfig.initConnectionPool();
-            ApplicationConfig.initRealm();
         } catch (PoolConfigurationException e) {
             log.fatal("Can't init ConnectionPool through application.properties: " + e.getMessage(), e);
             destroy();

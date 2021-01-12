@@ -21,7 +21,7 @@
 <body>
 <div class="page">
 
-    <h:header></h:header>
+    <jsp:include page="parts/header.jsp"/>
 
     <main class="main">
         <div class="section">

@@ -37,6 +37,7 @@ public class RegistrationPostCommand implements Command {
             response.sendRedirect(PropertiesStorage.getInstance().getLinks().getProperty("login"));
 
         } catch (CommandException e) {
+            request.setAttribute("registrationFailed", true);
             request.getRequestDispatcher(
                     PropertiesStorage.getInstance()
                             .getPages()

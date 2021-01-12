@@ -66,6 +66,8 @@ button {
 .stack {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    padding: 1rem 0;
 }
 
 .items-gap > * {
@@ -360,3 +362,10 @@ button {
     box-sizing: border-box;
 }
 
+.text-break-all {
+    word-break: break-all;
+}
+
+.text-center{
+    text-align: center;
+}

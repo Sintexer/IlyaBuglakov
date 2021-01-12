@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.config;
 
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPoolFactory;
-import com.ilyabuglakov.raise.dal.realm.DatabaseRealm;
 import com.ilyabuglakov.raise.model.service.property.ApplicationProperties;
 import com.ilyabuglakov.raise.model.service.property.PropertyParser;
 import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
@@ -39,16 +38,6 @@ public class ApplicationConfig {
 
     public static ApplicationConfig getInstance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    public static void initRealm(){
-//        Realm realm = new DatabaseRealm();
-//        SecurityManager securityManager = new DefaultSecurityManager(realm);
-//        SecurityUtils.setSecurityManager(securityManager);
-
-//        Realm realm = new IniRealm("classpath:shiro.ini");
-//        SecurityManager securityManager = new DefaultSecurityManager(realm);
-//        SecurityUtils.setSecurityManager(securityManager);
     }
 
     public static void initConnectionPool() throws PoolConfigurationException {
