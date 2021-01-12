@@ -55,7 +55,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
 
         if(optionalResultSet.isPresent()) {
-            return Optional.of(optionalResultSet.get().getLong("id"));
+            return Optional.of(optionalResultSet.get().getLong(EntityColumns.ID.name()));
         }
         return Optional.empty();
     }
@@ -136,7 +136,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      *
-     * Will build Optional-User only if result set has all user fields values,
+     * Will build Optional-User only if result set has all User fields values,
      * otherwise will return Optional.empty()
      *
      * @param resultSet input result set parameters, taken from sql query execution
@@ -145,17 +145,22 @@ public class UserDao extends BaseDao implements UserDaoInterface {
     private Optional<User> buildUser(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "email", "name", "surname",
-                    "password", "registration_date", "status", "id") ) {
+            if(validator.hasAllValues(resultSet, UserColumns.EMAIL.name(),
+                    UserColumns.NAME.name(),
+                    UserColumns.SURNAME.name(),
+                    UserColumns.PASSWORD.name(),
+                    UserColumns.REGISTRATION_DATE.name(),
+                    UserColumns.STATUS.name(),
+                    EntityColumns.ID.name()) ) {
                 User user = User.builder()
-                        .name(resultSet.getString("name"))
-                        .surname(resultSet.getString("surname"))
-                        .email(resultSet.getString("email"))
-                        .password(resultSet.getString("password"))
-                        .registrationDate(LocalDate.parse(resultSet.getString("registration_date")))
-                        .status(Status.valueOf(resultSet.getString("status")))
+                        .email(resultSet.getString(UserColumns.EMAIL.name()))
+                        .name(resultSet.getString(UserColumns.NAME.name()))
+                        .surname(resultSet.getString(UserColumns.SURNAME.name()))
+                        .password(resultSet.getString(UserColumns.PASSWORD.name()))
+                        .registrationDate(LocalDate.parse(resultSet.getString(UserColumns.REGISTRATION_DATE.name())))
+                        .status(Status.valueOf(resultSet.getString(UserColumns.STATUS.name())))
                         .build();
-                user.setId(resultSet.getLong("id"));
+                user.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(user);
             }
             return Optional.empty();
