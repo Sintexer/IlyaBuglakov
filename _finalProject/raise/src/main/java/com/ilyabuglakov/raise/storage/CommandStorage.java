@@ -2,8 +2,8 @@ package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.impl.IndexGetCommand;
-import com.ilyabuglakov.raise.command.impl.IndexPostCommand;
+import com.ilyabuglakov.raise.command.index.IndexGetCommand;
+import com.ilyabuglakov.raise.command.index.IndexPostCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationPostCommand;
 import com.ilyabuglakov.raise.model.service.property.PropertyParser;

@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.command.impl;
+package com.ilyabuglakov.raise.command.index;
 
 import com.ilyabuglakov.raise.command.Command;
 import lombok.extern.log4j.Log4j2;

@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.command;
 
-import com.ilyabuglakov.raise.command.impl.IndexGetCommand;
+import com.ilyabuglakov.raise.command.index.IndexGetCommand;
 import com.ilyabuglakov.raise.command.registration.UserRegistrationCommand;
 import com.ilyabuglakov.raise.command.registration.UserRegistrationValidationCommand;
 import com.ilyabuglakov.raise.command.registration.UserUniquenessCheckCommand;
