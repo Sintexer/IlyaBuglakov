@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDaoInterface;
 import com.ilyabuglakov.raise.domain.Question;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -26,18 +29,18 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
 
     @Override
     public void create(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("question");
-        sqlQueryBuilder.addField("content", question.getContent());
-        sqlQueryBuilder.addField("test_id", question.getTest().getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
+        sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
     public Optional<Question> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("qu");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
@@ -48,22 +51,23 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
 
     @Override
     public void update(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("question");
-        sqlQueryBuilder.addField("id", question.getId());
-        sqlQueryBuilder.addField("content", question.getContent());
-        sqlQueryBuilder.addField("test_id", question.getTest().getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name(), question.getId());
+        sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
+        sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
     public void delete(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("answer");
-        sqlQueryBuilder.addWhere("id", question.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**
@@ -79,11 +83,13 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
     private Optional<Question> buildQuestion(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "content", "id")) {
+            if(validator.hasAllValues(resultSet,
+                    QuestionColumns.CONTENT.name(),
+                    EntityColumns.ID.name())) {
                 Question question = Question.builder()
-                        .content(resultSet.getString("content"))
+                        .content(resultSet.getString(QuestionColumns.CONTENT.name()))
                         .build();
-                question.setId(resultSet.getLong("id"));
+                question.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(question);
             }
             return Optional.empty();

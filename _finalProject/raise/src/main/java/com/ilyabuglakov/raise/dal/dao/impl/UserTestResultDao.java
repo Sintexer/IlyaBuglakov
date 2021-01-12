@@ -36,7 +36,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**

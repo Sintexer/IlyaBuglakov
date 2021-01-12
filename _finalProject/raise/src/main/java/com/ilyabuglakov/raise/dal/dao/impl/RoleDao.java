@@ -3,6 +3,11 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.RoleDaoInterface;
 import com.ilyabuglakov.raise.domain.Role;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.RoleColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.RolePermissionsColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UserRolesColumns;
 import com.ilyabuglakov.raise.model.service.sql.ResultSetService;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
@@ -31,13 +36,14 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
     @Override
     public Set<String> getRoleNames(Long userId) throws SQLException, DaoOperationException {
 
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("user_roles");
-        sqlQueryBuilder.addField("role_id");
-        sqlQueryBuilder.addWhere("user_id", userId);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_ROLES.name());
+        sqlQueryBuilder.addField(UserRolesColumns.ROLE_ID.name());
+        sqlQueryBuilder.addWhere(UserRolesColumns.USER_ID.name(), userId);
         String subQuery = sqlQueryBuilder.build();
-        sqlQueryBuilder = new SqlSelectBuilder("role");
-        sqlQueryBuilder.addField("name");
-        sqlQueryBuilder.addWhere("id", "(" + subQuery + ")");
+
+        sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
+        sqlQueryBuilder.addField(RoleColumns.NAME.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), "(" + subQuery + ")");
         String selectQuery = sqlQueryBuilder.build();
 
         Set<Optional<String>> roleNames = new HashSet<>();
@@ -46,7 +52,7 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
         try {
             resultSet = createResultSet(selectQuery);
             while(resultSet.next())
-                roleNames.add(Optional.ofNullable(resultSet.getString("name")));
+                roleNames.add(Optional.ofNullable(resultSet.getString(RoleColumns.NAME.name())));
         } finally {
             closeResultSet(resultSet);
         }
@@ -57,16 +63,17 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
 
     @Override
     public Set<String> getPermissions(Long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("role_permissions");
-        sqlQueryBuilder.addField("permission");
-        sqlQueryBuilder.addWhere("role_id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE_PERMISSIONS.name());
+        sqlQueryBuilder.addField(RolePermissionsColumns.PERMISSION.name());
+        sqlQueryBuilder.addWhere(RolePermissionsColumns.ROLE_ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet permissionResultSet = createResultSet(selectQuery);
         Set<String> permissions = new HashSet<>();
 
         try {
-            permissions.addAll(new ResultSetService().getAllStringsByName(permissionResultSet, "permission"));
+            permissions.addAll(new ResultSetService().getAllStringsByName(permissionResultSet,
+                    RolePermissionsColumns.PERMISSION.name()));
         } catch (SQLException e) {
             throw new DaoOperationException("Can't read role's permissions");
         } finally {
@@ -77,17 +84,17 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
 
     @Override
     public Set<String> getPermissions(String name) throws DaoOperationException, SQLException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("role");
-        sqlQueryBuilder.addField("id");
-        sqlQueryBuilder.addWhere("name", name);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name());
+        sqlQueryBuilder.addWhere(RoleColumns.NAME.name(), name);
         String subQuery = sqlQueryBuilder.build();
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(subQuery));
 
         if (optionalResultSet.isPresent()) {
             ResultSet resultSet = optionalResultSet.get();
-            Optional<Long> id = Optional.ofNullable(resultSet.getLong("id"));
-            if (id.isPresent()) {
-                return getPermissions(id.get());
+            long id = resultSet.getLong(EntityColumns.ID.name());
+            if (!resultSet.wasNull()) {
+                return getPermissions(id);
             }
         }
 
@@ -95,15 +102,10 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
     }
 
     @Override
-    public void create(Role entity) throws DaoOperationException {
-        log.error("Operation \"save role\" not implemented");
-    }
-
-    @Override
     public Optional<Role> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("role");
-        sqlQueryBuilder.addField("name");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
+        sqlQueryBuilder.addField(RoleColumns.NAME.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
@@ -115,6 +117,11 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
             optionalRole = buildRole(resultSet, permissions);
         }
         return optionalRole;
+    }
+
+    @Override
+    public void create(Role entity) throws DaoOperationException {
+        log.error("Operation \"save role\" not implemented");
     }
 
     @Override
@@ -141,11 +148,14 @@ public class RoleDao extends BaseDao implements RoleDaoInterface {
     private Optional<Role> buildRole(ResultSet resultSet, Set<String> permissions) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if (validator.hasAllValues(resultSet, "name", "id")) {
+            if (validator.hasAllValues(resultSet,
+                    RoleColumns.NAME.name(),
+                    EntityColumns.ID.name())) {
                 Role role = Role.builder()
-                        .name(resultSet.getString("name"))
+                        .name(resultSet.getString(RoleColumns.NAME.name()))
+                        .permissions(permissions)
                         .build();
-                role.setId(resultSet.getLong("id"));
+                role.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(role);
             }
             return Optional.empty();

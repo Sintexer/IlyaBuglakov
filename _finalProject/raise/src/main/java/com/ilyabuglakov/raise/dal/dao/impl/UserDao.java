@@ -71,7 +71,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**

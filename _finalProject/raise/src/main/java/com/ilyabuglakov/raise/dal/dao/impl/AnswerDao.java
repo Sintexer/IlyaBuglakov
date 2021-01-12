@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
 import com.ilyabuglakov.raise.domain.Answer;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -26,19 +29,19 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
 
     @Override
     public void create(Answer answer) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("answer");
-        sqlQueryBuilder.addField("content", answer.getContent());
-        sqlQueryBuilder.addField("correct", answer.isCorrect());
-        sqlQueryBuilder.addField("question_id", answer.getQuestion().getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.ANSWER.name());
+        sqlQueryBuilder.addField(AnswerColumns.CONTENT.name(), answer.getContent());
+        sqlQueryBuilder.addField(AnswerColumns.CORRECT.name(), answer.isCorrect());
+        sqlQueryBuilder.addField(AnswerColumns.QUESTION_ID.name(), answer.getQuestion().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
     public Optional<Answer> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("answer");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ANSWER.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
@@ -49,23 +52,24 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
 
     @Override
     public void update(Answer answer) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("answer");
-        sqlQueryBuilder.addField("id", answer.getId());
-        sqlQueryBuilder.addField("content", answer.getContent());
-        sqlQueryBuilder.addField("question_id", answer.getQuestion().getId());
-        sqlQueryBuilder.addField("correct", answer.isCorrect());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.ANSWER.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name(), answer.getId());
+        sqlQueryBuilder.addField(AnswerColumns.CONTENT.name(), answer.getContent());
+        sqlQueryBuilder.addField(AnswerColumns.QUESTION_ID.name(), answer.getQuestion().getId());
+        sqlQueryBuilder.addField(AnswerColumns.CORRECT.name(), answer.isCorrect());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
     public void delete(Answer answer) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("answer");
-        sqlQueryBuilder.addWhere("id", answer.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.ANSWER.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**
@@ -81,12 +85,15 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
     private Optional<Answer> buildAnswer(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "content", "correct", "id")) {
+            if(validator.hasAllValues(resultSet,
+                    AnswerColumns.CONTENT.name(),
+                    AnswerColumns.CORRECT.name(),
+                    EntityColumns.ID.name())) {
                 Answer answer = Answer.builder()
-                        .content(resultSet.getString("content"))
-                        .correct(Boolean.parseBoolean(resultSet.getString("correct")))
+                        .content(resultSet.getString(AnswerColumns.CONTENT.name()))
+                        .correct(Boolean.parseBoolean(resultSet.getString(AnswerColumns.CORRECT.name())))
                         .build();
-                answer.setId(resultSet.getLong("id"));
+                answer.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(answer);
             }
             return Optional.empty();

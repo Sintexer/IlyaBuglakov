@@ -35,7 +35,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
@@ -56,9 +56,10 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addField(EntityColumns.ID.name(), test.getId());
         sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**

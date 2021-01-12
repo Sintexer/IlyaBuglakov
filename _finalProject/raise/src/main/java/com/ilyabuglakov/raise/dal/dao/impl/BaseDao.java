@@ -19,26 +19,13 @@ public abstract class BaseDao {
         this.connection = connection;
     }
 
-    protected void executeUpdateQuery(String updateQuery) throws DaoOperationException {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(updateQuery);
-
-        } catch (SQLException e) {
-            throw new DaoOperationException("Bad update query: " + updateQuery, e);
-        } finally {
-            closeStatement(statement);
-        }
-    }
-
-    protected void executeQueryWithoutResult(String query) throws DaoOperationException {
+    protected void executeUpdateQeuery(String query) throws DaoOperationException {
         Statement statement = null;
         try {
             statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {
-            throw new DaoOperationException("Bad query: " + query, e);
+            throw new DaoOperationException("Bad update query: " + query, e);
         } finally {
             closeStatement(statement);
         }

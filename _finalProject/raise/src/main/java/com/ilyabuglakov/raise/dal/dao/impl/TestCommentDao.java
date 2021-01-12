@@ -3,6 +3,9 @@ package com.ilyabuglakov.raise.dal.dao.impl;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDaoInterface;
 import com.ilyabuglakov.raise.domain.TestComment;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -24,20 +27,20 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
 
     @Override
     public void create(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder("test_comment");
-        sqlQueryBuilder.addField("user_id", testComment.getUser().getId());
-        sqlQueryBuilder.addField("test_id", testComment.getTest().getId());
-        sqlQueryBuilder.addField("timestamp", testComment.getTimestamp());
-        sqlQueryBuilder.addField("content", testComment.getContent());
+        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_COMMENT.name());
+        sqlQueryBuilder.addField(TestCommentColumns.USER_ID.name(), testComment.getUser().getId());
+        sqlQueryBuilder.addField(TestCommentColumns.TEST_ID.name(), testComment.getTest().getId());
+        sqlQueryBuilder.addField(TestCommentColumns.TIMESTAMP.name(), testComment.getTimestamp());
+        sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(insertQuery);
+        executeUpdateQeuery(insertQuery);
     }
 
     @Override
     public Optional<TestComment> read(long id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder("test_comment");
-        sqlQueryBuilder.addWhere("id", id);
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_COMMENT.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
         ResultSet resultSet = createResultSet(selectQuery);
@@ -48,23 +51,24 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
 
     @Override
     public void update(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder("test_comment");
-        sqlQueryBuilder.addField("user_id", testComment.getUser().getId());
-        sqlQueryBuilder.addField("test_id", testComment.getTest().getId());
-        sqlQueryBuilder.addField("timestamp", testComment.getTimestamp());
-        sqlQueryBuilder.addField("content", testComment.getContent());
+        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST_COMMENT.name());
+        sqlQueryBuilder.addField(TestCommentColumns.USER_ID.name(), testComment.getUser().getId());
+        sqlQueryBuilder.addField(TestCommentColumns.TEST_ID.name(), testComment.getTest().getId());
+        sqlQueryBuilder.addField(TestCommentColumns.TIMESTAMP.name(), testComment.getTimestamp());
+        sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(updateQuery);
+        executeUpdateQeuery(updateQuery);
     }
 
     @Override
     public void delete(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder("test_comment");
-        sqlQueryBuilder.addWhere("id", testComment.getId());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST_COMMENT.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeQueryWithoutResult(deleteQuery);
+        executeUpdateQeuery(deleteQuery);
     }
 
     /**
@@ -80,12 +84,15 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
     private Optional<TestComment> buildTestComment(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, "timestamp", "content", "id")) {
+            if(validator.hasAllValues(resultSet,
+                    TestCommentColumns.CONTENT.name(),
+                    TestCommentColumns.TIMESTAMP.name(),
+                    EntityColumns.ID.name())) {
                 TestComment testComment = TestComment.builder()
-                        .timestamp(LocalDateTime.parse(resultSet.getString("timestamp")))
-                        .content(resultSet.getString("content"))
+                        .content(resultSet.getString(TestCommentColumns.CONTENT.name()))
+                        .timestamp(LocalDateTime.parse(resultSet.getString(TestCommentColumns.TIMESTAMP.name())))
                         .build();
-                testComment.setId(resultSet.getLong("id"));
+                testComment.setId(resultSet.getLong(EntityColumns.ID.name()));
                 return Optional.of(testComment);
             }
             return Optional.empty();
