@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -20,10 +20,12 @@ import java.util.Optional;
 
 /**
  * QuestionDao is the Dao implementation specifically for Question class
+ * Based on DatabaseDao abstract class.
+ * TODO add Test extraction in Question service
  */
-public class QuestionDao extends BaseDao implements QuestionDaoInterface {
+public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
-    public QuestionDao(Connection connection) {
+    public QuestionDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -34,7 +36,7 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
         sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class QuestionDao extends BaseDao implements QuestionDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**

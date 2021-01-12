@@ -1,7 +1,7 @@
 package com.ilyabuglakov.raise.model.service.web.user;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
+import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.DaoType;
@@ -20,7 +20,7 @@ public class UserTransactionSearch extends TransactionWebService implements User
     @Override
     public Optional<User> findByEmail(String email) throws UserSearchServiceException {
         try {
-            UserDao dao = (UserDao)transaction.createDao(DaoType.USER);
+            UserDatabaseDao dao = (UserDatabaseDao)transaction.createDao(DaoType.USER);
             return dao.findByEmail(email);
         } catch (DaoOperationException e) {
             throw new UserSearchServiceException("Search source can't be created", e);

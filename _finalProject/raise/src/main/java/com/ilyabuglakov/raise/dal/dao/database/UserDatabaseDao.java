@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.UserDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -25,10 +25,11 @@ import java.util.stream.Collectors;
 
 /**
  * UserDao is the Dao implementation specifically for User class
+ * Based on DatabaseDao abstract class.
  */
-public class UserDao extends BaseDao implements UserDaoInterface {
+public class UserDatabaseDao extends DatabaseDao implements UserDao {
 
-    public UserDao(Connection connection) {
+    public UserDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -71,7 +72,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -120,7 +121,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -129,7 +130,7 @@ public class UserDao extends BaseDao implements UserDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.ilyabuglakov.raise.model.service.web.user;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.impl.UserDao;
+import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Status;
@@ -29,7 +29,7 @@ public class UserDatabaseRegistrationService extends TransactionWebService imple
      */
     @Override
     public void save(User user) throws UserRegistrationServiceException {
-        UserDao dao = (UserDao) transaction.createDao(DaoType.USER);
+        UserDatabaseDao dao = (UserDatabaseDao) transaction.createDao(DaoType.USER);
 
 //        Hash hash = new Sha256Hash(user.getPassword(), 1, 5128); //TODO Add salt, change number
 

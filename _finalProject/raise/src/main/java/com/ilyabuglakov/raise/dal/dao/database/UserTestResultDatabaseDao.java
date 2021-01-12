@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDao;
 import com.ilyabuglakov.raise.domain.UserTestResult;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -20,11 +20,12 @@ import java.util.Optional;
 
 /**
  * UserTestResultDao is the Dao implementation specifically for UserTestResult class
+ * Based on DatabaseDao abstract class.
  * TODO add User and Test extraction in UserTestResult service
  */
-public class UserTestResultDao extends BaseDao implements UserTestResultDaoInterface {
+public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestResultDao {
 
-    public UserTestResultDao(Connection connection) {
+    public UserTestResultDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -36,7 +37,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class UserTestResultDao extends BaseDao implements UserTestResultDaoInter
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**

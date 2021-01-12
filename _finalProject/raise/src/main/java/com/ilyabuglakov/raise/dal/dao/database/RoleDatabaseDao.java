@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.RoleDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.RoleDao;
 import com.ilyabuglakov.raise.domain.Role;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -25,11 +25,12 @@ import java.util.stream.Collectors;
 
 /**
  * RoleDao is the Dao implementation specifically for Role class
+ * Based on DatabaseDao abstract class.
  */
 @Log4j2
-public class RoleDao extends BaseDao implements RoleDaoInterface {
+public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
 
-    public RoleDao(Connection connection) {
+    public RoleDatabaseDao(Connection connection) {
         super(connection);
     }
 

@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDao;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -19,9 +19,14 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
+/**
+ * TestCommentDatabaseDao is the Dao implementation specifically for TestComment class
+ * Based on DatabaseDao abstract class.
+ * TODO add User and Test extraction in TestComment service
+ */
+public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDao {
 
-    public TestCommentDao(Connection connection) {
+    public TestCommentDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -34,7 +39,7 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
         sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -59,7 +64,7 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class TestCommentDao extends BaseDao implements TestCommentDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**

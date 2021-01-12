@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -20,10 +20,11 @@ import java.util.Optional;
 
 /**
  * TestDao is the Dao implementation specifically for Test class
+ * Based on DatabaseDao abstract class.
  */
-public class TestDao extends BaseDao implements TestDaoInterface {
+public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
-    public TestDao(Connection connection) {
+    public TestDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -35,7 +36,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class TestDao extends BaseDao implements TestDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**

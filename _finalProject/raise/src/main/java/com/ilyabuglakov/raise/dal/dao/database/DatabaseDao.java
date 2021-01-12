@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import lombok.extern.log4j.Log4j2;
@@ -11,15 +11,15 @@ import java.sql.Statement;
 import java.util.Optional;
 
 @Log4j2
-public abstract class BaseDao {
+public abstract class DatabaseDao {
 
     protected Connection connection;
 
-    protected BaseDao(Connection connection) {
+    protected DatabaseDao(Connection connection) {
         this.connection = connection;
     }
 
-    protected void executeUpdateQeuery(String query) throws DaoOperationException {
+    protected void executeUpdateQeury(String query) throws DaoOperationException {
         Statement statement = null;
         try {
             statement = connection.createStatement();

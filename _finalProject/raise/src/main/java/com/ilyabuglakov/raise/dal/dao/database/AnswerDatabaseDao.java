@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.dal.dao.impl;
+package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDaoInterface;
+import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
@@ -19,11 +19,13 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 /**
- * AnswerDao is the Dao implementation specifically for Answer class
+ * AnswerDao is the Dao implementation specifically for Answer class.
+ * Based on DatabaseDao abstract class.
+ * TODO add Question extraction in Answer service
  */
-public class AnswerDao extends BaseDao implements AnswerDaoInterface {
+public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
 
-    public AnswerDao(Connection connection) {
+    public AnswerDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -35,7 +37,7 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
         sqlQueryBuilder.addField(AnswerColumns.QUESTION_ID.name(), answer.getQuestion().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(insertQuery);
+        executeUpdateQeury(insertQuery);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(updateQuery);
+        executeUpdateQeury(updateQuery);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class AnswerDao extends BaseDao implements AnswerDaoInterface {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeuery(deleteQuery);
+        executeUpdateQeury(deleteQuery);
     }
 
     /**
