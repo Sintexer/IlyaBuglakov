@@ -10,7 +10,6 @@ public class PropertiesStorage {
 
     private PropertyParser pages;
     private PropertyParser links;
-    private PropertyParser form;
 
     private static class InstanceHolder {
         public static PropertiesStorage INSTANCE = new PropertiesStorage();
@@ -24,7 +23,6 @@ public class PropertiesStorage {
         pages = initProperties("pages.properties");
         pages.setPrefix("/template");
         links = initProperties("links.properties");
-        form = initProperties("form.properties");
     }
 
     public static String getPagePath(String property) {

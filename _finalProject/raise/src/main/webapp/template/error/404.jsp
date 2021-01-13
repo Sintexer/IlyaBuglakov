@@ -20,15 +20,8 @@
             <a class="btn" href="/api/home">Вернуться на главную</a>
         </div>
     </main>
-    <footer>
-        <div class="page-footer centered">
-            <div>
-                <h4>
-                    © 2020 Copyright: Ilya Buglakov
-                </h4>
-            </div>
-        </div>
-    </footer>
+    <c:url value="/template/parts/footer.jsp" var="footerPath"/>
+    <jsp:include page="${footerPath}" />
 </div>
 </body>
 </html>

@@ -3,7 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
-<%--<fmt:setLocale value="${cookie.userLocale.value}"/>--%>
 <fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
 <fmt:setBundle basename="/locale/page"/>
 <%--
@@ -29,10 +28,10 @@
         <div class="section">
             <div class="content">
                 <div class="section">
-                    <p><fmt:message key="home.title"/></p>
-                    <a href="/api/registration">Registration</a>
-                    <p>Hi <shiro:notAuthenticated>Guest</shiro:notAuthenticated></p>
-                    <shiro:authenticated><p>HELLO</p></shiro:authenticated>
+                    <h2>Создание теста</h2>
+                    <form name="test">
+
+                    </form>
                 </div>
 
             </div>

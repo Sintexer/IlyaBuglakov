@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<fmt:setLocale value="ru_RU"/>
+<fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
 <fmt:setBundle basename="/locale/page" var="page"/>
 <fmt:setBundle basename="/locale/form" var="form"/>
 <%--
@@ -37,12 +37,13 @@
 <c:set var="passwordTooltipFormatted" value="${fn:replace(passwordTooltipReplaced, \"{1}\", passwordMax)}" scope="page"/>
 
 <div class="page">
-    <jsp:include page="parts/header.jsp"/>
+    <c:url value="/template/parts/header.jsp" var="headerPath"/>
+    <jsp:include page="${headerPath}"/>
 
     <div class="stack centered">
         <c:if test="${registrationFailed}">
             <div class="alert">
-                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
                 <c:if test="${userEmailAlreadyExist}">
                     <fmt:message key="error.emailduplicate" bundle="${form}"/>
                 </c:if>
@@ -118,6 +119,10 @@
             <button class="btn mg-top-2rem" type="submit"><fmt:message key="button.signup" bundle="${page}"/></button>
         </form>
     </div>
+
+    <c:url value="/template/parts/footer.jsp" var="footerPath"/>
+    <jsp:include page="${footerPath}" />
+
 </div>
 </body>
 </html>

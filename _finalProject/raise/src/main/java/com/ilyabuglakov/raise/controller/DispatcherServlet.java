@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.model.LocaleType;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Log4j2
@@ -49,6 +51,7 @@ public class DispatcherServlet extends HttpServlet {
         try {
 
             if (command.isPresent()) {
+                req.setAttribute("locales", Arrays.asList(LocaleType.values()));
                 command.get().execute(req, resp);
             } else {
                 resp.sendError(404);

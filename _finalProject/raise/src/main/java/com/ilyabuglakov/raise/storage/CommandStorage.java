@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.storage;
 
+import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.index.IndexGetCommand;
@@ -30,11 +31,11 @@ public class CommandStorage {
             methodMap.put(value, new HashMap<>());
         }
 
-        PropertyParser links = PropertiesStorage.getInstance().getLinks();
         addCommand(RequestMethod.GET, "index", new IndexGetCommand());
         addCommand(RequestMethod.POST, "index", new IndexPostCommand());
         addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
         addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
+        addCommand(RequestMethod.GET, "changeLocale", new ChangeLocalizationCommand());
 
     }
 
