@@ -1,6 +1,8 @@
 package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
+import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
+import com.ilyabuglakov.raise.command.test.TestSaveCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.index.IndexGetCommand;
@@ -36,6 +38,8 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
         addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
         addCommand(RequestMethod.GET, "changeLocale", new ChangeLocalizationCommand());
+        addCommand(RequestMethod.GET, "test.creator", new TestCreatorGetCommand());
+        addCommand(RequestMethod.POST, "test.creator.save", new TestSaveCommand());
 
     }
 

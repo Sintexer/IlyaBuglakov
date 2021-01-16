@@ -16,7 +16,7 @@
     </div>
     <main class="main centered">
         <div class="centered error-msg">
-            <h2 class="error-code">${response.status}</h2>
+            <h2 class="error-code">${error}</h2>
             <h2>An error has occurred</h2>
             <a class="btn" href="/api/home">Back to main</a>
         </div>
