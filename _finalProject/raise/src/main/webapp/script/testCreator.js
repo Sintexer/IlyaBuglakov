@@ -6,43 +6,99 @@ const ANSWER_ROWS = 4;
 const QUESTION_ROWS = 4;
 const QUESTION_NAME_ROWS = 1;
 
+const TEST_NAME_MIN = 2;
+const MIN_FIELD_LENGTH = 2;
+
+const ALERT_STYLE = "background-color: #f44336; color: white;";
+
 let locales = {};
+let formParameters = {};
+
+function initScript(testNameLength, questionTitleLength, questionContentLength, answerContentLength, minFieldLength) {
+    formParameters["testNameLength"] = testNameLength;
+    formParameters["questionTitleLength"] = questionTitleLength;
+    formParameters["questionContentLength"] = questionContentLength;
+    formParameters["answerContentLength"] = answerContentLength;
+    formParameters["minFieldLength"] = minFieldLength;
+}
 
 async function sendResult() {
     let testObj = createTestObj();
-    if (validateTest(testObj)) {
-        try {
-            const response = await fetch("/rest/test/save", {
-                method: 'POST',
-                body: JSON.stringify(testObj),
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                redirect: "follow"
-            });
-            location.assign(response.text());
-            location.reload();
-            // let questions = document.getElementById("questions");
-            // while (questions.hasChildNodes())
-            //     questions.removeChild(questions.firstChild);
-            // alert("Test saved successfully");
-        } catch (error) {
-            alert("an error has occurred, while posting test to server");
+    if (validate()) {
+        let modal = document.getElementById("testPostModal");
+        modal.style.display = "grid";
+        document.getElementById("testJson").value = JSON.stringify(testObj);
+        window.onclick = (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
         }
+    } else {
+        document.getElementById("testGuide").removeAttribute("hidden");
     }
 }
 
-function createJson() {
-    let testObj = createTestObj();
-    console.log(validateTest(testObj));
-    if (!validateTest(testObj)) {
-        document.getElementById("testGuide").setAttribute("class", "alert");
-        document.getElementById("testGuide").removeAttribute("hidden");
-    }
+function validate() {
+    let validTestNode = validateTestNode();
+    let validQuestionsNode = validateQuestionsNode();
 
-    let testJson = JSON.stringify(testObj);
-    console.log(testJson);
-    return testJson;
+    return validTestNode && validQuestionsNode;
+}
+
+function validateTestNode() {
+    let testName = document.getElementsByName("testName")[0];
+    let valid = validateTestName(testName);
+    let validCharacteristics = validateCharacteristics();
+    if (!valid) {
+        testName.parentNode.setAttribute("style", ALERT_STYLE);
+        return false;
+    } else {
+        testName.parentNode.removeAttribute("style")
+    }
+    return validCharacteristics;
+}
+
+function validateTestName(testNameInput) {
+    let testName = testNameInput.value;
+    let regex = /^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{2,}$/;
+    return testName.match(regex);
+}
+
+function validateQuestionsNode() {
+    let questions = document.getElementById("questions");
+    let valid = true;
+    for (let questionNode of questions.querySelectorAll(".question")) {
+        let anyChecked = false;
+        for(let correct of questionNode.querySelectorAll("input[type=checkbox]"))
+            if(correct.checked)
+                anyChecked = true;
+        if (!anyChecked) {
+            questionNode.querySelector(".answers").querySelectorAll(".answer").forEach(
+                answer => answer.setAttribute("style", ALERT_STYLE)
+            );
+        } else {
+            questionNode.querySelector(".answers").querySelectorAll(".answer").forEach(
+                answer => answer.removeAttribute("style")
+            );
+        }
+        valid &= anyChecked;
+    }
+    return valid;
+}
+
+function validateCharacteristics(){
+    let characteristics = document.getElementById("characteristics");
+    let anyChecked = false;
+    for(let correct of characteristics.querySelectorAll("input[type=checkbox]"))
+        if(correct.checked)
+            anyChecked = true;
+    if(!anyChecked){
+        characteristics.setAttribute("style", ALERT_STYLE);
+        return false;
+    } else {
+        characteristics.removeAttribute("style");
+    }
+    return true;
 }
 
 function validateTest(test) {
@@ -55,7 +111,7 @@ function validateTest(test) {
 }
 
 function validateQuestion(question) {
-    if (question["name"] === null || question["name"] ==='')
+    if (question["name"] === null || question["name"] === '')
         return false;
     let hasCorrect = false;
     for (let answer of question["answers"]) {
@@ -206,9 +262,7 @@ function regenerateQuestionNumeration(titleText) {
 
 function addQuestion(button, questionTitleText, addAnswerButtonName, correctCaptionText, deleteQuestionText, questionNamePlaceholder) {
     locales["questionTitle"] = questionTitleText;
-    // locales["addAnswerButtonName"] = addAnswerButtonName;
     locales["correct"] = correctCaptionText;
-    // locales["deleteQuestionText"] = deleteQuestionText;
     if (document.getElementById("questions").querySelectorAll('.question').length >= MAX_QUESTIONS)
         return;
     let question = document.createElement("div");
@@ -220,15 +274,19 @@ function addQuestion(button, questionTitleText, addAnswerButtonName, correctCapt
     questionContent.setAttribute("class", "question-content unresize flex-auto form-input");
     questionContent.setAttribute("required", "required");
     questionContent.setAttribute("name", "question-content");
+    questionContent.setAttribute("minLength", formParameters.minFieldLength);
+    questionContent.setAttribute("maxLength", formParameters.questionContentLength);
     questionContent.setAttribute("rows", QUESTION_ROWS.toString());
     questionContentDiv.appendChild(questionContent);
 
     let questionHeader = createQuestionHeader(deleteQuestionText);
 
     let questionName = document.createElement("textarea");
-    questionName.setAttribute("class", "question-name unresize flex-auto form-input w-auto");
+    questionName.setAttribute("class", "question-name unresize flex-auto form-input");
     questionName.setAttribute("required", "required");
     questionName.setAttribute("name", "question-name");
+    questionName.setAttribute("minLength", formParameters.minFieldLength);
+    questionName.setAttribute("maxLength", formParameters.questionTitleLength);
     questionName.setAttribute("placeholder", questionNamePlaceholder)
     questionName.setAttribute("rows", QUESTION_NAME_ROWS.toString());
 
@@ -305,13 +363,16 @@ function createAnswerTextArea() {
     answerTextArea.setAttribute("class", "unresize flex-auto form-input w-auto");
     answerTextArea.setAttribute("required", "required");
     answerTextArea.setAttribute("name", "answer-content");
+    answerTextArea.setAttribute("minLength", formParameters.minFieldLength);
+    answerTextArea.setAttribute("maxLength", formParameters.answerContentLength);
     answerTextArea.setAttribute("rows", ANSWER_ROWS.toString());
     return answerTextArea;
 }
 
 function createAnswerCorrect(captionText) {
     let caption = document.createElement("span");
-    caption.setAttribute("class", "margin-r-2rem")
+    caption.setAttribute("class", "margin-r-2rem");
+    caption.setAttribute("onchange", "validateQuestionsNode()");
     caption.innerHTML = "<input type=\"checkbox\" name=\"answer-correct\"/>" + captionText;
     return caption;
 }

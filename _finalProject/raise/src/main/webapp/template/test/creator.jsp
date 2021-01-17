@@ -14,11 +14,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
+<head onload="initScript(256, 256, 512, 512, 3)">
     <title>Raise</title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/testCreator.js"/>"/>
     <script src=<c:url value="/script/testCreator.js"/>></script>
+    <link type="text/javascript" href="<c:url value="/script/modal.js"/>"/>
+    <script src=<c:url value="/script/modal.js"/>></script>
 </head>
 <body>
 <div class="page">
@@ -35,17 +37,20 @@
                         <span class="font-md"><fmt:message key="test.creator.guide"/></span>
                     </div>
                     <div class="card-md-resizable items-gap-vertical margin-b-2rem">
-                        <form class="stack items-gap-vertical">
-                            <span class="flex align-items-center">
+                        <form class="stack items-gap-vertical" action="/rest/test/save" method="post">
+                            <span class="flex align-items-center padding-1rem">
                                 <fmt:message key="test.creator.testname"/>:
-                                <input class="flex-auto form-input w-auto" type="text" name="testName" required/>
+                                <input class="flex-auto form-input w-auto" type="text" name="testName"
+                                       onchange="validateTestNode()"
+                                       pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{2,}$" required/>
                             </span>
-                            <div class="items-middle flex flex-wrap">
+                            <div class="items-middle flex flex-wrap padding-1rem" id="characteristics">
                                 <span><fmt:message key="test.creator.characteristics.title"/></span>
                                 <c:forEach var="characteristic" items="${characteristics}">
                                     <div>
                                         <span>
-                                            <input type="checkbox" value="${characteristic}" name="characteristic">
+                                            <input type="checkbox" onchange="validateTestNode()"
+                                                   value="${characteristic}" name="characteristic">
                                             <fmt:message key="${characteristic.getPropertyName()}"/>
                                         </span>
                                     </div>
@@ -56,10 +61,10 @@
                             </div>
                             <button class="btn btn-yellow margin-b-2rem" type="button"
                                     onclick="addQuestion(this, '<fmt:message key="test.creator.question.title"/>',
-                                    '<fmt:message key="test.creator.button.add.answer"/>',
-                                    '<fmt:message key="test.creator.button.correct"/>',
-                                    '<fmt:message key="test.creator.button.delete.question"/>',
-                                    '<fmt:message key="test.creator.question.name.placeholder"/>',)"
+                                            '<fmt:message key="test.creator.button.add.answer"/>',
+                                            '<fmt:message key="test.creator.button.correct"/>',
+                                            '<fmt:message key="test.creator.button.delete.question"/>',
+                                            '<fmt:message key="test.creator.question.name.placeholder"/>',)"
                                     id="addQuestionButton">
                                 <fmt:message key="test.creator.button.add.question"/>
                             </button>
@@ -77,6 +82,24 @@
             </div>
         </div>
     </main>
+
+    <div id="testPostModal" class="modal centered">
+
+        <!-- Модальное содержание -->
+        <div class="modal-content card-mk">
+            <div class="modal-header bold">
+                <h2 class="margin-right-auto">Are you sure?</h2>
+                <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
+            </div>
+            <div class="items-gap dec-pancake bold">
+                <form method="post" action="/rest/test/save">
+                    <input type="hidden" name="testJson" id="testJson">
+                    <button type="submit" class="btn">Save</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
 
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
     <jsp:include page="${footerPath}"/>

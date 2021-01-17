@@ -19,6 +19,11 @@
     </filter>
 
     <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>shiroFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>

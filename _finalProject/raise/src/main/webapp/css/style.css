@@ -183,6 +183,12 @@ button {
     padding: 2rem;
 }
 
+.padding-1rem {
+    padding: 1rem;
+}
+
+
+
 .align-items-left {
     align-items: first baseline;
 }

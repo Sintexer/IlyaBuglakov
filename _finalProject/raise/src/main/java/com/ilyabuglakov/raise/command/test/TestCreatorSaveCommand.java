@@ -20,51 +20,64 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 public class TestCreatorSaveCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
 
-        String body = request.getReader().lines()
-                .reduce("", (accumulator, actual) -> accumulator + actual);
-        log.info(body);
 
-        String errorAttributeName = "testError";
-
-        Gson gson = new Gson();
-        Test test = gson.fromJson(body, Test.class);
-
-        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
-            boolean isValid = ValidationCommands.TEST_VALIDATION.getCommand().execute(test, request);
-            if (!isValid) {
-                request.setAttribute(errorAttributeName, "Some of test fields are not valid. Check if all questions have at least one correct answer");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
-            TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
-            Optional<Integer> testId = testDao.getTestId(test.getTestName());
-            if(testId.isPresent()){
-                request.setAttribute(errorAttributeName, "Test already exists");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
-            TestSaveService testSaveService = new TestDatabaseSaveService(transaction);
-            testSaveService.save(test);
-            transaction.commit();
-            response.setStatus(HttpServletResponse.SC_OK);
-        } catch (TestSaveServiceException e) {
-            request.setAttribute(errorAttributeName, "Error while saving test to db");
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return;
-        } catch (Exception e) {
-            log.error("Can't close transaction", e);
-            return;
-        }
-
-        response.setContentType("text");
-        response.getWriter().print(PropertiesStorage.getInstance().getLinks().getProperty("index"));
+        log.info(request.getParameterMap());
+        request.getParameterMap().forEach((key, value) -> log.info(key+": "+ Arrays.stream(value).collect(Collectors.joining("\n"))));
+        return;
+//
+//        String body = request.getReader().lines()
+//                .reduce("", (accumulator, actual) -> accumulator + actual);
+//        log.info(body);
+//
+//        String errorAttributeName = "testError";
+//
+//        Gson gson = new Gson();
+//        Test test = gson.fromJson(body, Test.class);
+//
+//        request.setAttribute("redirectPage", PropertiesStorage.getInstance().getLinks().getProperty("registration"));
+//
+//        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
+//            boolean isValid = ValidationCommands.TEST_VALIDATION.getCommand().execute(test, request);
+//            if (!isValid) {
+//                request.setAttribute(errorAttributeName, "Some of test fields are not valid. Check if all questions have at least one correct answer");
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                return;
+//            }
+//            TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+//            Optional<Integer> testId = testDao.getTestId(test.getTestName());
+//            if(testId.isPresent()){
+//                request.setAttribute(errorAttributeName, "Test already exists");
+//                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+//                return;
+//            }
+//            TestSaveService testSaveService = new TestDatabaseSaveService(transaction);
+//            testSaveService.save(test);
+//            transaction.commit();
+//            response.setStatus(HttpServletResponse.SC_OK);
+//        } catch (TestSaveServiceException e) {
+//            request.setAttribute(errorAttributeName, "Error while saving test to db");
+//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            return;
+//        } catch (Exception e) {
+//            log.error("Can't close transaction", e);
+//            return;
+//        }
+//        response.setContentType("text");
+//        response.getWriter().print(PropertiesStorage.getInstance().getLinks().getProperty("index"));
+//        request.setAttribute("redirectPage", PropertiesStorage.getInstance().getLinks().getProperty("index"));
+//        request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("index"))
+//                .forward(request, response);
+//        response.setContentType("text");
+//        response.getWriter().print(PropertiesStorage.getInstance().getLinks().getProperty("index"));
 
 
     }
