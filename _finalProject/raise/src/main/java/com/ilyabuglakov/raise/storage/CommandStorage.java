@@ -2,14 +2,13 @@ package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
-import com.ilyabuglakov.raise.command.test.TestSaveCommand;
+import com.ilyabuglakov.raise.command.test.TestCreatorSaveCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.index.IndexGetCommand;
 import com.ilyabuglakov.raise.command.index.IndexPostCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.registration.RegistrationPostCommand;
-import com.ilyabuglakov.raise.model.service.property.PropertyParser;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -39,7 +38,7 @@ public class CommandStorage {
         addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
         addCommand(RequestMethod.GET, "changeLocale", new ChangeLocalizationCommand());
         addCommand(RequestMethod.GET, "test.creator", new TestCreatorGetCommand());
-        addCommand(RequestMethod.POST, "test.creator.save", new TestSaveCommand());
+        addCommand(RequestMethod.POST, "test.creator.save", new TestCreatorSaveCommand());
 
     }
 

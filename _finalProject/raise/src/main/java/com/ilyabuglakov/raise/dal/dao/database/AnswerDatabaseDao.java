@@ -16,6 +16,8 @@ import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -30,18 +32,40 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     }
 
     @Override
-    public void create(Answer answer) throws DaoOperationException {
+    public Integer create(Answer answer) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.ANSWER.name());
         sqlQueryBuilder.addField(AnswerColumns.CONTENT.name(), answer.getContent());
         sqlQueryBuilder.addField(AnswerColumns.CORRECT.name(), answer.isCorrect());
         sqlQueryBuilder.addField(AnswerColumns.QUESTION_ID.name(), answer.getQuestion().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<Answer> read(long id) throws DaoOperationException {
+    public void createAll(Collection<Answer> answers) throws DaoOperationException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.ANSWER.name());
+            for(Answer answer : answers){
+                sqlQueryBuilder.addField(AnswerColumns.CONTENT.name(), answer.getContent());
+                sqlQueryBuilder.addField(AnswerColumns.CORRECT.name(), answer.isCorrect());
+                sqlQueryBuilder.addField(AnswerColumns.QUESTION_ID.name(), answer.getQuestion().getId());
+                String query = sqlQueryBuilder.build();
+                statement.addBatch(query);
+                sqlQueryBuilder.clear();
+            }
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw  new DaoOperationException("Can't save batch", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    @Override
+    public Optional<Answer> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ANSWER.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -62,7 +86,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -71,7 +95,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), answer.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -95,7 +119,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
                         .content(resultSet.getString(AnswerColumns.CONTENT.name()))
                         .correct(Boolean.parseBoolean(resultSet.getString(AnswerColumns.CORRECT.name())))
                         .build();
-                answer.setId(resultSet.getLong(EntityColumns.ID.name()));
+                answer.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(answer);
             }
             return Optional.empty();

@@ -16,6 +16,8 @@ import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -30,17 +32,40 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
-    public void create(Question question) throws DaoOperationException {
+    public Integer create(Question question) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
         sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
         sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<Question> read(long id) throws DaoOperationException {
+    public void createAll(Collection<Question> questions) throws DaoOperationException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
+            for(Question question : questions){
+                sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
+                sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
+                sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
+                String query = sqlQueryBuilder.build();
+                statement.addBatch(query);
+                sqlQueryBuilder.clear();
+            }
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw  new DaoOperationException("Can't save batch", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    @Override
+    public Optional<Question> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -55,12 +80,13 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     public void update(Question question) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.QUESTION.name());
         sqlQueryBuilder.addField(EntityColumns.ID.name(), question.getId());
+        sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
         sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
         sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -69,7 +95,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -87,11 +113,13 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
             ResultSetValidator validator = new ResultSetValidator();
             if(validator.hasAllValues(resultSet,
                     QuestionColumns.CONTENT.name(),
+                    QuestionColumns.NAME.name(),
                     EntityColumns.ID.name())) {
                 Question question = Question.builder()
                         .content(resultSet.getString(QuestionColumns.CONTENT.name()))
+                        .name(resultSet.getString(QuestionColumns.NAME.name()))
                         .build();
-                question.setId(resultSet.getLong(EntityColumns.ID.name()));
+                question.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(question);
             }
             return Optional.empty();

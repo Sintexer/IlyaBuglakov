@@ -4,6 +4,7 @@ const MIN_QUESTIONS = 1;
 const MAX_QUESTIONS = 3;
 const ANSWER_ROWS = 4;
 const QUESTION_ROWS = 4;
+const QUESTION_NAME_ROWS = 1;
 
 let locales = {};
 
@@ -19,11 +20,13 @@ async function sendResult() {
                 },
                 redirect: "follow"
             });
-            let questions = document.getElementById("questions");
-            while (questions.hasChildNodes())
-                questions.removeChild(questions.firstChild);
-            alert("Test saved successfully");
-        } catch (error){
+            location.assign(response.text());
+            location.reload();
+            // let questions = document.getElementById("questions");
+            // while (questions.hasChildNodes())
+            //     questions.removeChild(questions.firstChild);
+            // alert("Test saved successfully");
+        } catch (error) {
             alert("an error has occurred, while posting test to server");
         }
     }
@@ -52,6 +55,8 @@ function validateTest(test) {
 }
 
 function validateQuestion(question) {
+    if (question["name"] === null || question["name"] ==='')
+        return false;
     let hasCorrect = false;
     for (let answer of question["answers"]) {
         if (answer["content"] === '')
@@ -88,9 +93,11 @@ function createQuestionObj(questionNode) {
     let answerJsons = [];
     for (let answer of answers)
         answerJsons.push(createAnswerObj(answer));
-    let questionContent = questionNode.querySelector("textarea").value;
+    let questionContent = questionNode.querySelector(".question-content").value;
+    let questionName = questionNode.querySelector(".question-name").value;
 
     let obj = {};
+    obj["name"] = questionName;
     obj["content"] = questionContent;
     obj["answers"] = answerJsons;
     return obj;
@@ -197,7 +204,7 @@ function regenerateQuestionNumeration(titleText) {
     }
 }
 
-function addQuestion(button, questionTitleText, addAnswerButtonName, correctCaptionText, deleteQuestionText) {
+function addQuestion(button, questionTitleText, addAnswerButtonName, correctCaptionText, deleteQuestionText, questionNamePlaceholder) {
     locales["questionTitle"] = questionTitleText;
     // locales["addAnswerButtonName"] = addAnswerButtonName;
     locales["correct"] = correctCaptionText;
@@ -210,7 +217,7 @@ function addQuestion(button, questionTitleText, addAnswerButtonName, correctCapt
     let questionContentDiv = document.createElement("div");
     questionContentDiv.setAttribute("class", "flex");
     let questionContent = document.createElement("textarea")
-    questionContent.setAttribute("class", "unresize flex-auto form-input");
+    questionContent.setAttribute("class", "question-content unresize flex-auto form-input");
     questionContent.setAttribute("required", "required");
     questionContent.setAttribute("name", "question-content");
     questionContent.setAttribute("rows", QUESTION_ROWS.toString());
@@ -218,12 +225,20 @@ function addQuestion(button, questionTitleText, addAnswerButtonName, correctCapt
 
     let questionHeader = createQuestionHeader(deleteQuestionText);
 
+    let questionName = document.createElement("textarea");
+    questionName.setAttribute("class", "question-name unresize flex-auto form-input w-auto");
+    questionName.setAttribute("required", "required");
+    questionName.setAttribute("name", "question-name");
+    questionName.setAttribute("placeholder", questionNamePlaceholder)
+    questionName.setAttribute("rows", QUESTION_NAME_ROWS.toString());
+
     let answers = document.createElement("div");
     answers.setAttribute("class", "answers items-gap-vertical-sm");
 
     let addAnswerButton = createAddAnswerButton(addAnswerButtonName);
 
     question.appendChild(questionHeader);
+    question.appendChild(questionName);
     question.appendChild(questionContentDiv);
     question.appendChild(answers);
     question.appendChild(addAnswerButton);

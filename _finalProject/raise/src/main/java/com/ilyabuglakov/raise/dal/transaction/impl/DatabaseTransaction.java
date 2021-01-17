@@ -64,6 +64,7 @@ public class DatabaseTransaction implements Transaction {
 
     @Override
     public void close() throws SQLException {
+        connection.setAutoCommit(true);
         connection.close();
     }
 }

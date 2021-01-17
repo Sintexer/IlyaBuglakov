@@ -31,7 +31,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
     }
 
     @Override
-    public void create(TestComment testComment) throws DaoOperationException {
+    public Integer create(TestComment testComment) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_COMMENT.name());
         sqlQueryBuilder.addField(TestCommentColumns.USER_ID.name(), testComment.getUser().getId());
         sqlQueryBuilder.addField(TestCommentColumns.TEST_ID.name(), testComment.getTest().getId());
@@ -39,11 +39,11 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
         sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<TestComment> read(long id) throws DaoOperationException {
+    public Optional<TestComment> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_COMMENT.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -64,7 +64,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -97,7 +97,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
                         .content(resultSet.getString(TestCommentColumns.CONTENT.name()))
                         .timestamp(LocalDateTime.parse(resultSet.getString(TestCommentColumns.TIMESTAMP.name())))
                         .build();
-                testComment.setId(resultSet.getLong(EntityColumns.ID.name()));
+                testComment.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(testComment);
             }
             return Optional.empty();

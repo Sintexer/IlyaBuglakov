@@ -1,11 +1,9 @@
 package com.ilyabuglakov.raise.command.registration;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.CommandName;
+import com.ilyabuglakov.raise.command.Commands;
 import com.ilyabuglakov.raise.command.exception.CommandException;
-import com.ilyabuglakov.raise.command.exception.UserRegistrationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
-import com.ilyabuglakov.raise.dal.transaction.factory.TransactionFactory;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
@@ -28,9 +26,9 @@ public class RegistrationPostCommand implements Command {
         try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             request.setAttribute("transaction", transaction);
 
-            CommandName.USER_REG_VALIDATION.getCommand().execute(request, response);
-            CommandName.USER_REG_UNIQUENESS.getCommand().execute(request, response);
-            CommandName.USER_REG.getCommand().execute(request, response);
+            Commands.USER_REG_VALIDATION.getCommand().execute(request, response);
+            Commands.USER_REG_UNIQUENESS.getCommand().execute(request, response);
+            Commands.USER_REG.getCommand().execute(request, response);
 
             transaction.commit();
 

@@ -47,7 +47,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
     }
 
     @Override
-    public Optional<Long> getUserId(String email) throws SQLException, DaoOperationException {
+    public Optional<Integer> getUserId(String email) throws SQLException, DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
         sqlQueryBuilder.addField(EntityColumns.ID.name());
         sqlQueryBuilder.addWhere(UserColumns.EMAIL.name(), email);
@@ -56,13 +56,13 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
 
         if(optionalResultSet.isPresent()) {
-            return Optional.of(optionalResultSet.get().getLong(EntityColumns.ID.name()));
+            return Optional.of(optionalResultSet.get().getInt(EntityColumns.ID.name()));
         }
         return Optional.empty();
     }
 
     @Override
-    public void create(User entity) throws DaoOperationException {
+    public Integer create(User entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USR.name());
         sqlQueryBuilder.addField(UserColumns.EMAIL.name(), entity.getEmail());
         sqlQueryBuilder.addField(UserColumns.NAME.name(), entity.getName());
@@ -72,11 +72,11 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), entity.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<User> read(long id) throws DaoOperationException {
+    public Optional<User> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -121,7 +121,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -161,7 +161,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
                         .registrationDate(LocalDate.parse(resultSet.getString(UserColumns.REGISTRATION_DATE.name())))
                         .status(Status.valueOf(resultSet.getString(UserColumns.STATUS.name())))
                         .build();
-                user.setId(resultSet.getLong(EntityColumns.ID.name()));
+                user.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(user);
             }
             return Optional.empty();

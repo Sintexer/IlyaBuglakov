@@ -12,6 +12,7 @@ public class SqlSelectBuilder extends SqlQueryBuilder {
 
     @Override
     public String build() {
-        return String.join(" ", "SELECT", generateFieldsString(true), "FROM", tableName, generateWhereString()).trim();
+        return String.join(" ", "SELECT", generateFieldsString(false), "FROM", tableName, generateWhereString()).trim();
     }
+
 }

@@ -11,4 +11,8 @@ public class Answer extends Entity {
     private String content;
     private boolean correct;
     private Question question;
+
+    public String toString(){
+        return "Answer " + content;
+    }
 }

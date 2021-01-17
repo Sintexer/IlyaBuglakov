@@ -27,6 +27,11 @@ public abstract class SqlQueryBuilder {
 
     public abstract String build();
 
+    public void clear(){
+        fieldValues.clear();
+        whereValues.clear();
+    };
+
     public void setTableName(String tableName) {
         this.tableName = surroundWith(tableName, fieldQuoteType);
     }

@@ -35,7 +35,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public Set<String> getRoleNames(Long userId) throws SQLException, DaoOperationException {
+    public Set<String> getRoleNames(Integer userId) throws SQLException, DaoOperationException {
 
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_ROLES.name());
         sqlQueryBuilder.addField(UserRolesColumns.ROLE_ID.name());
@@ -63,7 +63,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public Set<String> getPermissions(Long id) throws DaoOperationException {
+    public Set<String> getPermissions(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE_PERMISSIONS.name());
         sqlQueryBuilder.addField(RolePermissionsColumns.PERMISSION.name());
         sqlQueryBuilder.addWhere(RolePermissionsColumns.ROLE_ID.name(), id);
@@ -93,7 +93,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
 
         if (optionalResultSet.isPresent()) {
             ResultSet resultSet = optionalResultSet.get();
-            long id = resultSet.getLong(EntityColumns.ID.name());
+            Integer id = resultSet.getInt(EntityColumns.ID.name());
             if (!resultSet.wasNull()) {
                 return getPermissions(id);
             }
@@ -103,7 +103,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public Optional<Role> read(long id) throws DaoOperationException {
+    public Optional<Role> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
         sqlQueryBuilder.addField(RoleColumns.NAME.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
@@ -121,8 +121,9 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public void create(Role entity) throws DaoOperationException {
+    public Integer create(Role entity) throws DaoOperationException {
         log.error("Operation \"save role\" not implemented");
+        return null;
     }
 
     @Override
@@ -156,7 +157,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
                         .name(resultSet.getString(RoleColumns.NAME.name()))
                         .permissions(permissions)
                         .build();
-                role.setId(resultSet.getLong(EntityColumns.ID.name()));
+                role.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(role);
             }
             return Optional.empty();

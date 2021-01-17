@@ -19,7 +19,24 @@ public abstract class DatabaseDao {
         this.connection = connection;
     }
 
-    protected void executeUpdateQeury(String query) throws DaoOperationException {
+    protected Integer executeReturnId(String query) throws DaoOperationException{
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if(resultSet.next())
+                return resultSet.getInt(1);
+            else
+                throw new DaoOperationException();
+        } catch (SQLException e) {
+            throw new DaoOperationException(e);
+        }finally {
+            closeResultSet(resultSet);
+        }
+    }
+
+    protected void executeUpdateQuery(String query) throws DaoOperationException {
         Statement statement = null;
         try {
             statement = connection.createStatement();

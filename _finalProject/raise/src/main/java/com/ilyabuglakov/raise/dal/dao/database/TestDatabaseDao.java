@@ -29,18 +29,40 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public void create(Test test) throws DaoOperationException {
+    public Optional<Integer> getTestId(String testName) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name());
+        sqlQueryBuilder.addWhere(TestColumns.TEST_NAME.name(), testName);
+        String selectQuery = sqlQueryBuilder.build();
+
+        ResultSet resultSet = createResultSet(selectQuery);
+        Optional<Integer> id = Optional.empty();
+        try {
+            if(resultSet.next()) {
+                id = Optional.ofNullable(resultSet.getInt(EntityColumns.ID.name()));
+                if (resultSet.wasNull())
+                    id = Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Error while reading index", e);
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return id;
+    }
+
+    @Override
+    public Integer create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name(), test.getId());
         sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<Test> read(long id) throws DaoOperationException {
+    public Optional<Test> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -60,7 +82,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -69,7 +91,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -92,7 +114,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
                         .testName(resultSet.getString(TestColumns.TEST_NAME.name()))
                         .difficulty(Integer.parseInt(resultSet.getString(TestColumns.DIFFICULTY.name())))
                         .build();
-                test.setId(resultSet.getLong(EntityColumns.ID.name()));
+                test.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(test);
             }
             return Optional.empty();

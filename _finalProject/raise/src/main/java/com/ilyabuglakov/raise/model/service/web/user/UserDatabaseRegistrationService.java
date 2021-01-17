@@ -37,7 +37,7 @@ public class UserDatabaseRegistrationService extends TransactionWebService imple
                 .email(user.getEmail())
                 .name(user.getName())
                 .surname(user.getSurname())
-//                .password(hash.toBase64())
+//                .password(hash.toBase64()) TODO
                 .password(user.getPassword())
                 .registrationDate(LocalDate.now())
                 .status(Status.ACTIVE)

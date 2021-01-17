@@ -6,17 +6,18 @@ import com.ilyabuglakov.raise.command.registration.UserRegistrationValidationCom
 import com.ilyabuglakov.raise.command.registration.UserUniquenessCheckCommand;
 import lombok.Getter;
 
-public enum CommandName {
+public enum Commands {
 
     INDEX(new IndexGetCommand()),
     USER_REG_VALIDATION(new UserRegistrationValidationCommand()),
     USER_REG_UNIQUENESS(new UserUniquenessCheckCommand()),
     USER_REG(new UserRegistrationCommand());
 
+
     @Getter
     private Command command;
 
-    CommandName(Command command) {
+    Commands(Command command) {
         this.command = command;
     }
 }

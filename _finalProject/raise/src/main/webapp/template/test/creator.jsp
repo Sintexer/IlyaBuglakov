@@ -58,7 +58,8 @@
                                     onclick="addQuestion(this, '<fmt:message key="test.creator.question.title"/>',
                                     '<fmt:message key="test.creator.button.add.answer"/>',
                                     '<fmt:message key="test.creator.button.correct"/>',
-                                    '<fmt:message key="test.creator.button.delete.question"/>')"
+                                    '<fmt:message key="test.creator.button.delete.question"/>',
+                                    '<fmt:message key="test.creator.question.name.placeholder"/>',)"
                                     id="addQuestionButton">
                                 <fmt:message key="test.creator.button.add.question"/>
                             </button>

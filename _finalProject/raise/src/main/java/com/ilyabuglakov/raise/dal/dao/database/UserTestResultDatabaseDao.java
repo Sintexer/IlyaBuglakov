@@ -30,18 +30,18 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     }
 
     @Override
-    public void create(UserTestResult entity) throws DaoOperationException {
+    public Integer create(UserTestResult entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_TEST_RESULT.name());
         sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());
         sqlQueryBuilder.addField(UserTestResultColumns.TEST_ID.name(), entity.getTest().getId());
         sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
         String insertQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(insertQuery);
+        return executeReturnId(insertQuery);
     }
 
     @Override
-    public Optional<UserTestResult> read(long id) throws DaoOperationException {
+    public Optional<UserTestResult> read(Integer id) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
@@ -61,7 +61,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String updateQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(updateQuery);
+        executeUpdateQuery(updateQuery);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
-        executeUpdateQeury(deleteQuery);
+        executeUpdateQuery(deleteQuery);
     }
 
     /**
@@ -92,7 +92,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
                 UserTestResult userTestResult = UserTestResult.builder()
                         .result(resultSet.getInt(UserTestResultColumns.RESULT.name()))
                         .build();
-                userTestResult.setId(resultSet.getLong(EntityColumns.ID.name()));
+                userTestResult.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(userTestResult);
             }
             return Optional.empty();

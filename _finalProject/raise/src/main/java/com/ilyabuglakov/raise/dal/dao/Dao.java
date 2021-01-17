@@ -7,9 +7,9 @@ import java.util.Optional;
 
 
 public interface Dao<T extends Entity> {
-    void create(T entity) throws DaoOperationException;
+    Integer create(T entity) throws DaoOperationException;
 
-    Optional<T> read(long id) throws DaoOperationException;
+    Optional<T> read(Integer id) throws DaoOperationException;
 
     void update(T entity) throws DaoOperationException;
 
