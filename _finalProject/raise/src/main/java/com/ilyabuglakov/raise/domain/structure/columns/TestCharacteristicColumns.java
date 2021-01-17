@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.domain.structure.columns;
 
-public enum QuestionColumns {
-    NAME,
-    CONTENT,
+public enum TestCharacteristicColumns {
+    CHARACTERISTIC,
     TEST_ID;
 }

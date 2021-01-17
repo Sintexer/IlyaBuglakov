@@ -4,8 +4,4 @@ public enum AnswerColumns {
     QUESTION_ID,
     CORRECT,
     CONTENT;
-
-    String getName(){
-        return name().toLowerCase();
-    }
 }

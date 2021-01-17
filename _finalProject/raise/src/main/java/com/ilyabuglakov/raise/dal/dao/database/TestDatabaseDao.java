@@ -5,7 +5,10 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestCharacteristicColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
+import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -16,9 +19,13 @@ import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -54,6 +61,70 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 //        return id;
 //    }
 
+
+    @Override
+    public Integer getTestAmount() throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.returnCount();
+        String query = sqlQueryBuilder.build();
+
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(query));
+        Integer count = 0;
+        if (resultSet.isPresent()) {
+            try {
+                count = resultSet.get().getInt("count");
+            } catch (SQLException e) {
+                throw new DaoOperationException("Can't get row count", e);
+            } finally {
+                closeResultSet(resultSet.get());
+            }
+        }
+
+        return count;
+    }
+
+    @Override
+    public void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException {
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_CHARACTERISTIC.name());
+            for(Characteristic characteristic : characteristics){
+                sqlQueryBuilder.addField(TestCharacteristicColumns.CHARACTERISTIC.name(), characteristic.name());
+                sqlQueryBuilder.addField(TestCharacteristicColumns.TEST_ID.name(), testId);
+                String insertQuery = sqlQueryBuilder.build();
+                statement.addBatch(insertQuery);
+                sqlQueryBuilder.clear();
+            }
+            statement.executeBatch();
+        } catch (SQLException e) {
+            throw new DaoOperationException("Error during characteristic batch", e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    @Override
+    public Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_CHARACTERISTIC.name());
+        sqlQueryBuilder.addField(TestCharacteristicColumns.CHARACTERISTIC.name());
+        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testId);
+        String selectQuery = sqlQueryBuilder.build();
+
+        ResultSet resultSet = createResultSet(selectQuery);
+        Set<Characteristic> characteristics = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                characteristics.add(Characteristic.valueOf(
+                        resultSet.getString(TestCharacteristicColumns.CHARACTERISTIC.name())));
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Error while reading test characteristics", e);
+        } finally {
+            closeResultSet(resultSet);
+        }
+        return characteristics;
+    }
 
     @Override
     public List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException {

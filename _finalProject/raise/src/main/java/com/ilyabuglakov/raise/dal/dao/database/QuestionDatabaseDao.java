@@ -32,6 +32,31 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
+    public Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.returnCount();
+        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
+        String query = sqlQueryBuilder.build();
+
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(query));
+        Optional<Integer> count = Optional.empty();
+        if (resultSet.isPresent()) {
+            try {
+
+                count = Optional.ofNullable(resultSet.get().getInt("count"));
+
+            } catch (SQLException e) {
+                throw new DaoOperationException("Can't get row count", e);
+            } finally {
+                closeResultSet(resultSet.get());
+            }
+        }
+
+
+        return count;
+    }
+
+    @Override
     public Integer create(Question question) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
         sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
@@ -48,7 +73,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
         try {
             statement = connection.createStatement();
             SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
-            for(Question question : questions){
+            for (Question question : questions) {
                 sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
                 sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
                 sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
@@ -58,7 +83,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
             }
             statement.executeBatch();
         } catch (SQLException e) {
-            throw  new DaoOperationException("Can't save batch", e);
+            throw new DaoOperationException("Can't save batch", e);
         } finally {
             closeStatement(statement);
         }
@@ -101,7 +126,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
-     *
+     * <p>
      * Will build Optional-Question only if resultSet has values of all user fields,
      * otherwise will return Optional.empty()
      *
@@ -111,7 +136,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     private Optional<Question> buildQuestion(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet,
+            if (validator.hasAllValues(resultSet,
                     QuestionColumns.CONTENT.name(),
                     QuestionColumns.NAME.name(),
                     EntityColumns.ID.name())) {

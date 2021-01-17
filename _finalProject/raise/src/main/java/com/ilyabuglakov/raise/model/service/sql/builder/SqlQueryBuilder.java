@@ -21,6 +21,8 @@ public abstract class SqlQueryBuilder {
     private boolean hasLimit = false;
     private int limit;
 
+    private boolean returnCount = false;
+
     private String fieldQuoteType;
     private String stringQuoteType;
 
@@ -36,6 +38,10 @@ public abstract class SqlQueryBuilder {
         fieldValues.clear();
         whereValues.clear();
     };
+
+    public void returnCount(){
+        returnCount = true;
+    }
 
     public void setTableName(String tableName) {
         this.tableName = surroundWith(tableName, fieldQuoteType);
@@ -77,6 +83,8 @@ public abstract class SqlQueryBuilder {
     }
 
     protected String generateFieldsString(boolean brackets) {
+        if(returnCount)
+            return "COUNT(*)";
         if (fieldValues.isEmpty())
             return "*";
         String leftBracket = "";

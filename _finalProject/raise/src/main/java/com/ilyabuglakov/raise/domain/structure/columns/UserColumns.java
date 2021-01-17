@@ -7,8 +7,4 @@ public enum UserColumns {
     PASSWORD,
     REGISTRATION_DATE,
     STATUS;
-
-    String getName(){
-        return name().toLowerCase();
-    }
 }

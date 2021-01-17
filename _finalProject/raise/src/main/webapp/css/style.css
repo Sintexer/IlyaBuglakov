@@ -618,3 +618,125 @@ button:disabled, button:disabled:hover {
 .font-md {
     font-size: 1.5rem;
 }
+
+@media (min-width: 600px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+@media (min-width: 900px) {
+    .cards { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1200px) {
+    .cards { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 900px) {/*TODO*/
+    .nav-menu{display: none}
+}
+
+.cards {
+    width: 100%;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 100%;
+    display: grid;
+    grid-gap: 2rem 1rem;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid gainsboro;
+    border-radius: 20px;
+    /*box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);*/
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 16rem;
+}
+
+.card-header {
+    box-sizing: border-box;
+    border-bottom: 1px solid gainsboro;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    /*background-color: #a8e5c9;*/
+}
+
+.card-body {
+    flex: 1 1 auto;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.card-footer {
+    padding: 0.5rem 2rem;
+    background-color: gainsboro;
+}
+
+.flex-11a {
+    flex: 1 1 auto;
+}
+
+.pagination-wrap{
+    /*background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #d6fff5 17%, #d6fff5 83%, rgba(255, 255, 255, 0) 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00ffffff", endColorstr="#00ffffff",GradientType=1 );*/
+    height: 50px;
+    text-align: center;
+    /*width: 700px;*/
+    display: flex;
+    margin-top: 3rem;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination li {
+    display: block;
+    float: left;
+    padding: 5px;
+}
+
+.btn-round {
+    background: #f3f3f3;
+    border: 1px solid gainsboro;
+    border-radius: 25px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.6);
+    display: block;
+    font-size: 1rem;
+    /* height: 40px; */
+    /* line-height: 1.5rem; */
+    min-width: 2.7rem;
+    padding: 0.7rem;
+    /* text-align: center; */
+}
+
+.btn-round:hover {
+    background-color: #ffffff;
+    border: 1px solid #98ecc5;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.btn-round.active:hover {
+    background-color: #f3f3f3;
+    border: 1px solid #98ecc5;
+}
+
+.btn-round.active, .btn-round:active {
+    background-color: gainsboro;
+    /*border: 1px solid #b3b3b3;*/
+}
+
+.next, .prev {
+    min-width: 1.7rem;
+    min-height: 1.7rem;
+    display: block;
+}

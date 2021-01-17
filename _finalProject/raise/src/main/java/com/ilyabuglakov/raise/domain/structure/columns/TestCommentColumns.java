@@ -5,8 +5,4 @@ public enum TestCommentColumns {
     TEST_ID,
     CONTENT,
     TIMESTAMP;
-
-    String getName(){
-        return name().toLowerCase();
-    }
 }

@@ -4,10 +4,13 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
+import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
-import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.model.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
+import com.ilyabuglakov.raise.model.service.test.TestCatalogService;
+import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -21,17 +24,30 @@ public class TestCatalogPageCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, CommandException {
-        int page = Integer.parseInt(request.getParameter("pageNumber"));
-        int itemsPerPage = 4;
+        String pageNumber = request.getParameter("pageNumber");
+        int page = TestCatalogService.getPageNumber(pageNumber);
 
-        Transaction transaction = new DatabaseTransactionFactory().createTransaction();
-        TestReadService testReadService = new TestDatabaseReadService(transaction);
-        List<Test> tests= null;
-        try {
-            tests = testReadService.getTestsInfo(page, itemsPerPage);
+        int itemsPerPage = 24;
+
+        List<TestInfo> testInfos= null;
+        int testAmount = 0;
+        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
+            TestReadService testReadService = new TestDatabaseReadService(transaction);
+            testInfos = testReadService.getTestInfos(page, itemsPerPage);
+             testAmount = testReadService.getTestAmount();
         } catch (DaoOperationException e) {
             log.error("Error while reading tests from db", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        } catch (Exception e) {
+            log.fatal("Error while closing transaction");
         }
-        log.info(tests);
+
+        log.info(testInfos);
+        request.setAttribute("testInfos", testInfos);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("maxPage", TestCatalogService.getMaxPage(testAmount, itemsPerPage));
+        request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.catalog"))
+                .forward(request, response);
     }
 }

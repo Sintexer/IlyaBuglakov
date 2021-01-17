@@ -26,15 +26,14 @@ public class TestDatabaseSaveService extends TransactionWebService implements Te
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         AnswerDao answerDao = (AnswerDao) transaction.createDao(DaoType.ANSWER);
-//        TestService testService = new TestService();
-//        Test test = testService.createBacklinks(sourceTest);
-//        test.setDifficulty(Test.BASE_DIFFICULTY);
         try{
             Integer testId = testDao.create(test);
+
+            testDao.saveCharacteristics(test.getCharacteristics(), testId);
+
             Test testProxy = new Test();
             testProxy.setId(testId);
             test.getQuestions().forEach(question -> question.setTest(testProxy));
-//            questionDao.createAll(test.getQuestions());
 
             for(Question question : test.getQuestions()){
                 Integer questionId = questionDao.create(question);

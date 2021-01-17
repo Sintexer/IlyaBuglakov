@@ -4,8 +4,4 @@ public enum UserTestResultColumns {
     USER_ID,
     TEST_ID,
     RESULT;
-
-    String getName(){
-        return name().toLowerCase();
-    }
 }

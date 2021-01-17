@@ -7,6 +7,7 @@ import com.ilyabuglakov.raise.domain.type.Characteristic;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class TestValidator {
@@ -27,7 +28,7 @@ public class TestValidator {
         return pattern.matcher(testName).matches();
     }
 
-    public boolean isValidCharacteristics(List<Characteristic> characteristics) {
+    public boolean isValidCharacteristics(Set<Characteristic> characteristics) {
         return characteristics != null
                 && !characteristics.isEmpty()
                 && ObjectUtils.allNotNull(characteristics);

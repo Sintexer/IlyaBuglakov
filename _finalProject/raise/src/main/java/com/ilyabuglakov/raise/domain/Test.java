@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,7 +17,7 @@ import java.util.Set;
 public class Test extends Entity {
     private String testName;
     private int difficulty;
-    private List<Characteristic> characteristics; //TODO should be saved in another table
+    private Set<Characteristic> characteristics;
     private Set<Question> questions;
 
     public static int BASE_DIFFICULTY = 1;
