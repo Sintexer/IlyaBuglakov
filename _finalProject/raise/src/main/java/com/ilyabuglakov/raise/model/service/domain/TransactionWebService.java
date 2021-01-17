@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.web;
+package com.ilyabuglakov.raise.model.service.domain;
 
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.web.test;
+package com.ilyabuglakov.raise.model.service.domain.test;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
@@ -9,13 +9,10 @@ import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.model.DaoType;
-import com.ilyabuglakov.raise.model.service.test.TestService;
-import com.ilyabuglakov.raise.model.service.web.TransactionWebService;
-import com.ilyabuglakov.raise.model.service.web.test.exception.TestSaveServiceException;
-import com.ilyabuglakov.raise.model.service.web.test.interfaces.TestSaveService;
+import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
+import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceException;
+import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestSaveService;
 import lombok.extern.log4j.Log4j2;
-
-import java.util.Optional;
 
 @Log4j2
 public class TestDatabaseSaveService extends TransactionWebService implements TestSaveService {

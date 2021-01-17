@@ -52,6 +52,7 @@ public abstract class DatabaseDao {
         ResultSet resultSet = null;
         try {
             PreparedStatement statement = connection.prepareStatement(query, statementParameters);
+            statement.closeOnCompletion();
             statement.executeQuery();
             resultSet = statement.getResultSet();
             return resultSet;
@@ -83,7 +84,7 @@ public abstract class DatabaseDao {
     protected void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {
             try {
-                closeStatement(resultSet.getStatement());
+//                closeStatement(resultSet.getStatement());
                 resultSet.close();
             } catch (SQLException e) {
                 log.error("Exception while closing result set", e);

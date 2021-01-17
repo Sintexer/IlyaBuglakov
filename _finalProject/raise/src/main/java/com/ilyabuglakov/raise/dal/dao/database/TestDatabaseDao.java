@@ -16,7 +16,10 @@ import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * TestDao is the Dao implementation specifically for Test class
@@ -51,6 +54,32 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 //        return id;
 //    }
 
+
+    @Override
+    public List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addField(EntityColumns.ID.name());
+        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name());
+        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name());
+        sqlQueryBuilder.addLimit(startFrom, itemsAmount);
+        String query = sqlQueryBuilder.build();
+
+        ResultSet resultSet = createResultSet(query);
+        List<Optional<Test>> tests = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                tests.add(buildTest(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Error while reading tests from resultSet", e);
+        }
+        closeResultSet(resultSet);
+        return tests.stream()
+                .flatMap(Optional::stream)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public Integer create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST.name());
@@ -67,10 +96,13 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<Test> test = buildTest(resultSet);
-        closeResultSet(resultSet);
-        return test;
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
+        if(resultSet.isPresent()) {
+            Optional<Test> test = buildTest(resultSet.get());
+            closeResultSet(resultSet.get());
+            return test;
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -107,8 +139,9 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     private Optional<Test> buildTest(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, TestColumns.TEST_NAME.name(),
+            if(validator.hasAllValues(resultSet,
                     TestColumns.TEST_NAME.name(),
+                    TestColumns.DIFFICULTY.name(),
                     EntityColumns.ID.name())) {
                 Test test = Test.builder()
                         .testName(resultSet.getString(TestColumns.TEST_NAME.name()))

@@ -19,7 +19,12 @@ public class Question extends Entity {
     private Set<Answer> answers;
     private Test test;
 
-    public String toString(){
-        return "Question " + content;
+    @Override
+    public String toString() {
+        return "Question{" +
+                "name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", answers=" + answers +
+                "}";
     }
 }

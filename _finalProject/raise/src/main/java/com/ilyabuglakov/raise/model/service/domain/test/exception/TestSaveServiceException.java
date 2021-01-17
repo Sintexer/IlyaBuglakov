@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.web.test.exception;
+package com.ilyabuglakov.raise.model.service.domain.test.exception;
 
 public class TestSaveServiceException  extends Exception{
     public TestSaveServiceException() {

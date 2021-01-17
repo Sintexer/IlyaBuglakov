@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.web.user.exception;
+package com.ilyabuglakov.raise.model.service.domain.user.exception;
 
 public class UserRegistrationServiceException extends Exception {
     public UserRegistrationServiceException() {

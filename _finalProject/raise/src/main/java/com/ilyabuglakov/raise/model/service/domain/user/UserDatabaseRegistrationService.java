@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.web.user;
+package com.ilyabuglakov.raise.model.service.domain.user;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
@@ -6,9 +6,9 @@ import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.DaoType;
-import com.ilyabuglakov.raise.model.service.web.TransactionWebService;
-import com.ilyabuglakov.raise.model.service.web.user.exception.UserRegistrationServiceException;
-import com.ilyabuglakov.raise.model.service.web.user.interfaces.UserRegistrationService;
+import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
+import com.ilyabuglakov.raise.model.service.domain.user.exception.UserRegistrationServiceException;
+import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserRegistrationService;
 
 import java.time.LocalDate;
 

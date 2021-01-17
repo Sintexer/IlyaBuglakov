@@ -12,7 +12,11 @@ public class Answer extends Entity {
     private boolean correct;
     private Question question;
 
-    public String toString(){
-        return "Answer " + content;
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "content='" + content + '\'' +
+                ", correct=" + correct +
+                '}';
     }
 }

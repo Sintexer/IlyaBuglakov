@@ -7,9 +7,9 @@ import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.domain.Test;
-import com.ilyabuglakov.raise.model.service.web.test.TestDatabaseSaveService;
-import com.ilyabuglakov.raise.model.service.web.test.exception.TestSaveServiceException;
-import com.ilyabuglakov.raise.model.service.web.test.interfaces.TestSaveService;
+import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseSaveService;
+import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceException;
+import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestSaveService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 

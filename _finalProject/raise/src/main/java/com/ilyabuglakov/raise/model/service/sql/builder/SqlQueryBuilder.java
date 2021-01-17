@@ -16,6 +16,11 @@ public abstract class SqlQueryBuilder {
     private Map<String, String> fieldValues = new LinkedHashMap<>();
     private Map<String, String> whereValues = new LinkedHashMap<>();
 
+    private boolean hasFrom = false;
+    private int from;
+    private boolean hasLimit = false;
+    private int limit;
+
     private String fieldQuoteType;
     private String stringQuoteType;
 
@@ -49,6 +54,22 @@ public abstract class SqlQueryBuilder {
 
     public void addWhere(String field, Object value) {
         whereValues.put(field, value.toString());
+    }
+
+    public void addLimit(int limit){
+        this.hasLimit = true;
+        this.limit = limit;
+    }
+
+    public void addLimit(int from, int limit){
+        addFromLimit(from);
+        this.hasLimit = true;
+        this.limit = limit;
+    }
+
+    public void addFromLimit(int from){
+        this.hasFrom = true;
+        this.from = from;
     }
 
     public void removeValue(String field) {
@@ -91,6 +112,16 @@ public abstract class SqlQueryBuilder {
         return "SET " + fieldValues.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + surroundWith(entry.getValue(), stringQuoteType))
                 .collect(Collectors.joining(", "));
+    }
+
+    protected String generateLimit(){
+        if(!hasLimit) {
+            return "";
+        }
+        String result = "LIMIT " + limit;
+        if(hasFrom)
+            result += " OFFSET " + from;
+        return result;
     }
 
     protected String surroundWith(String source, String surrounder) {

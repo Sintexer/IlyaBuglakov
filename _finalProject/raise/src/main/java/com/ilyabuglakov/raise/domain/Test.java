@@ -24,9 +24,14 @@ public class Test extends Entity {
     public static int BASE_DIFFICULTY = 1;
 
 
-    public String toString(){
-        return "Test " + testName;
+    @Override
+    public String toString() {
+        return "Test{" +
+                "testName='" + testName + '\'' +
+                ", difficulty=" + difficulty +
+                ", characteristics=" + characteristics +
+                ", questions=" + questions +
+                '}';
     }
-
 }//TODO add dao method getCharacteristics
 
