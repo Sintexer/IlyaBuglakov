@@ -28,28 +28,28 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         super(connection);
     }
 
-    @Override
-    public Optional<Integer> getTestId(String testName) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name());
-        sqlQueryBuilder.addWhere(TestColumns.TEST_NAME.name(), testName);
-        String selectQuery = sqlQueryBuilder.build();
-
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<Integer> id = Optional.empty();
-        try {
-            if(resultSet.next()) {
-                id = Optional.ofNullable(resultSet.getInt(EntityColumns.ID.name()));
-                if (resultSet.wasNull())
-                    id = Optional.empty();
-            }
-        } catch (SQLException e) {
-            throw new DaoOperationException("Error while reading index", e);
-        } finally {
-            closeResultSet(resultSet);
-        }
-        return id;
-    }
+//    @Override
+//    public Optional<Integer> getTestId(String testName) throws DaoOperationException {
+//        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+//        sqlQueryBuilder.addField(EntityColumns.ID.name());
+//        sqlQueryBuilder.addWhere(TestColumns.TEST_NAME.name(), testName);
+//        String selectQuery = sqlQueryBuilder.build();
+//
+//        ResultSet resultSet = createResultSet(selectQuery);
+//        Optional<Integer> id = Optional.empty();
+//        try {
+//            if(resultSet.next()) {
+//                id = Optional.ofNullable(resultSet.getInt(EntityColumns.ID.name()));
+//                if (resultSet.wasNull())
+//                    id = Optional.empty();
+//            }
+//        } catch (SQLException e) {
+//            throw new DaoOperationException("Error while reading index", e);
+//        } finally {
+//            closeResultSet(resultSet);
+//        }
+//        return id;
+//    }
 
     @Override
     public Integer create(Test test) throws DaoOperationException {

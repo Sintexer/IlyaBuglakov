@@ -37,7 +37,7 @@
                         <span class="font-md"><fmt:message key="test.creator.guide"/></span>
                     </div>
                     <div class="card-md-resizable items-gap-vertical margin-b-2rem">
-                        <form class="stack items-gap-vertical" action="/rest/test/save" method="post">
+                        <form class="stack items-gap-vertical">
                             <span class="flex align-items-center padding-1rem">
                                 <fmt:message key="test.creator.testname"/>:
                                 <input class="flex-auto form-input w-auto" type="text" name="testName"
@@ -92,7 +92,7 @@
                 <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
             </div>
             <div class="items-gap dec-pancake bold">
-                <form method="post" action="/rest/test/save">
+                <form method="post" action="/api/test/save">
                     <input type="hidden" name="testJson" id="testJson">
                     <button type="submit" class="btn">Save</button>
                 </form>

@@ -42,7 +42,7 @@ CREATE TABLE role_permissions
 create table test
 (
     id         SERIAL primary key,
-    test_name  varchar(256) not null unique,
+    test_name  varchar(256) not null,
     difficulty int          not null
 );
 

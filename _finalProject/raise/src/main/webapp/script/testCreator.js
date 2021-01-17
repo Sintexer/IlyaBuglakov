@@ -65,9 +65,10 @@ function validateTestName(testNameInput) {
 }
 
 function validateQuestionsNode() {
-    let questions = document.getElementById("questions");
+    let questions = document.getElementById("questions").querySelectorAll(".question");
     let valid = true;
-    for (let questionNode of questions.querySelectorAll(".question")) {
+    let notEmpty = questions.length>0;
+    for (let questionNode of questions) {
         let anyChecked = false;
         for(let correct of questionNode.querySelectorAll("input[type=checkbox]"))
             if(correct.checked)
@@ -83,7 +84,7 @@ function validateQuestionsNode() {
         }
         valid &= anyChecked;
     }
-    return valid;
+    return valid && notEmpty;
 }
 
 function validateCharacteristics(){

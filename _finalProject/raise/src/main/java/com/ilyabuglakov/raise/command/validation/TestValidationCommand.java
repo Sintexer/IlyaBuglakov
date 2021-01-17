@@ -9,17 +9,16 @@ public class TestValidationCommand implements ValidationCommand<Test>{
     @Override
     public boolean execute(Test test, HttpServletRequest request) {
         TestValidator validator = new TestValidator();
-        String errorAttributeName = "testError";
         if(test == null){
-            request.setAttribute(errorAttributeName, "Wrong test format");
+            request.setAttribute("wrongTestFormat", true);
             return false;
         }
         if(!validator.isValidTestName(test.getTestName())){
-            request.setAttribute(errorAttributeName, "Invalid testName.Shouldn't be empty, or contain any special characters. Must start with a letter");
+            request.setAttribute("invalidTestName", true);
             return false;
         }
-        if(!test.getQuestions().stream().allMatch(validator::isValidQuestion)){
-            request.setAttribute(errorAttributeName, "Some of test questions are invalid");
+        if(!test.getQuestions().stream().allMatch(validator::isValidQuestion) || test.getQuestions().isEmpty()){
+            request.setAttribute("invalidQuestions", true);
             return false;
         }
         return true;

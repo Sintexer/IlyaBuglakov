@@ -7,5 +7,4 @@ import com.ilyabuglakov.raise.domain.Test;
 import java.util.Optional;
 
 public interface TestDao extends Dao<Test> {
-    Optional<Integer> getTestId(String testName) throws DaoOperationException;
 }
