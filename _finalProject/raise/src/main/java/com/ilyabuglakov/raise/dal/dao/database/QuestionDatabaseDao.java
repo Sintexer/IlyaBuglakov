@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
 import com.ilyabuglakov.raise.domain.Question;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
@@ -17,8 +18,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * QuestionDao is the Dao implementation specifically for Question class
@@ -54,6 +60,29 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
 
         return count;
+    }
+
+    @Override
+    public Set<Question> findByTestId(Integer testId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
+        String selectQuery = sqlQueryBuilder.build();
+
+        Set<Optional<Question>> questions = new HashSet<>();
+        ResultSet resultSet = createResultSet(selectQuery);
+        try {
+            while (resultSet.next()) {
+                Optional<Question> question = buildQuestion(resultSet);
+                questions.add(question);
+            }
+            return questions.stream()
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new DaoOperationException("Bad result set after executing query. Can't build entities", e);
+        } finally {
+            closeResultSet(resultSet);
+        }
     }
 
     @Override

@@ -18,6 +18,7 @@ public class Question extends Entity {
     private String content;
     private Set<Answer> answers;
     private Test test;
+    private int correctAmount;
 
     @Override
     public String toString() {

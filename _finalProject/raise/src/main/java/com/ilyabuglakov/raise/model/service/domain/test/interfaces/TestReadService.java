@@ -5,8 +5,11 @@ import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.model.TestInfo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TestReadService {
+
+    Optional<Test> getTest(Integer testId) throws DaoOperationException;
 
     List<TestInfo> getTestInfos(int pageNumber, int testsPerPage) throws DaoOperationException;
 

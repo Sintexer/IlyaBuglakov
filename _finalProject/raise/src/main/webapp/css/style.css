@@ -73,7 +73,6 @@ button {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding-top: 1rem;
 }
 
 .items-gap > * {
@@ -99,6 +98,15 @@ button {
     flex-direction: column;
     padding: 1rem;
     border: 1px solid #dcdcdc;
+    border-radius: 15px;
+}
+
+.card-lg {
+    width: clamp(42ch, 70%, 70ch);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 1px solid gainsboro;
     border-radius: 15px;
 }
 
@@ -739,4 +747,22 @@ button:disabled, button:disabled:hover {
     min-width: 1.7rem;
     min-height: 1.7rem;
     display: block;
+}
+
+.question-header {
+    width: fit-content;
+}
+
+.test-text-block{
+    border: 2px solid gainsboro;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+}
+
+.margin-t-2rem {
+    margin-top: 2rem;
+}
+
+.font-lg {
+    font-size: 2rem;
 }

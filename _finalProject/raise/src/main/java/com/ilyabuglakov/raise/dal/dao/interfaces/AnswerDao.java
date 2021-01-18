@@ -6,7 +6,9 @@ import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
 
 import java.util.Collection;
+import java.util.Set;
 
 public interface AnswerDao extends Dao<Answer> {
     void createAll(Collection<Answer> answers) throws DaoOperationException;
+    Set<Answer> findByQuestionId(Integer questionId) throws DaoOperationException;
 }

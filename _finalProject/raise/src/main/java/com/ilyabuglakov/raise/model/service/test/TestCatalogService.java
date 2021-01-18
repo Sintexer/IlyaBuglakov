@@ -1,5 +1,8 @@
 package com.ilyabuglakov.raise.model.service.test;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class TestCatalogService {
 
     public static int getMaxPage(int testAmount, int testsPerPage){
@@ -14,7 +17,9 @@ public class TestCatalogService {
                 if(tempPageNumber>0)
                     page = tempPageNumber-1;
             }
-        }catch (NumberFormatException e){}
+        }catch (NumberFormatException e){
+            log.error(e);
+        }
         return page;
     }
 }

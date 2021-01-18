@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
 import com.ilyabuglakov.raise.command.test.TestCatalogPageCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorSaveCommand;
+import com.ilyabuglakov.raise.command.test.TestingGetCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.index.IndexGetCommand;
@@ -41,6 +42,7 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "test.creator", new TestCreatorGetCommand());
         addCommand(RequestMethod.POST, "test.creator.save", new TestCreatorSaveCommand());
         addCommand(RequestMethod.GET, "test.catalog", new TestCatalogPageCommand());
+        addCommand(RequestMethod.GET, "test.testing", new TestingGetCommand());
 
     }
 

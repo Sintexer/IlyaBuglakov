@@ -3,9 +3,11 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.domain.Answer;
+import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -18,7 +20,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * AnswerDao is the Dao implementation specifically for Answer class.
@@ -29,6 +34,29 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
 
     public AnswerDatabaseDao(Connection connection) {
         super(connection);
+    }
+
+    @Override
+    public Set<Answer> findByQuestionId(Integer questionId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.ANSWER.name());
+        sqlQueryBuilder.addWhere(AnswerColumns.QUESTION_ID.name(), questionId);
+        String selectQuery = sqlQueryBuilder.build();
+
+        Set<Optional<Answer>> answers = new HashSet<>();
+        ResultSet resultSet = createResultSet(selectQuery);
+        try {
+            while (resultSet.next()) {
+                Optional<Answer> answer = buildAnswer(resultSet);
+                answers.add(answer);
+            }
+            return answers.stream()
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toSet());
+        } catch (SQLException e) {
+            throw new DaoOperationException("Bad result set after executing query. Can't build entities", e);
+        } finally {
+            closeResultSet(resultSet);
+        }
     }
 
     @Override
@@ -117,7 +145,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
                     EntityColumns.ID.name())) {
                 Answer answer = Answer.builder()
                         .content(resultSet.getString(AnswerColumns.CONTENT.name()))
-                        .correct(Boolean.parseBoolean(resultSet.getString(AnswerColumns.CORRECT.name())))
+                        .correct(resultSet.getBoolean(AnswerColumns.CORRECT.name()))
                         .build();
                 answer.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(answer);

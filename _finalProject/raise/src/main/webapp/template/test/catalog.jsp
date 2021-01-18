@@ -38,8 +38,8 @@
                                     <span class="bold">${test.questionsAmount}</span>
                                     <c:if test="${not empty test.characteristics}">
                                         <div class="breakline"></div>
+                                        <span><fmt:message key="test.characteristics"/>:</span>
                                         <c:forEach var="characteristic" items="${test.characteristics}">
-                                            <span>a</span>
                                             <span>${characteristic}</span>
                                         </c:forEach>
                                     </c:if>
