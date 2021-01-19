@@ -74,7 +74,7 @@
                             </button>
                         </form>
                     </div>
-                    <div id="testGuide" class="margin-b-2rem padding-2rem" hidden>
+                    <div id="testGuide" class="margin-b-2rem padding-2rem alert" hidden>
                         <span class="font-md"><fmt:message key="test.creator.guide"/></span>
                     </div>
 
@@ -92,9 +92,10 @@
                 <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
             </div>
             <div class="items-gap dec-pancake bold">
-                <form method="post" action="/api/test/save">
+                <form method="post" class="flex" action="/api/test/save">
                     <input type="hidden" name="testJson" id="testJson">
                     <button type="submit" class="btn">Save</button>
+                    <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testPostModal')">Cancel</button>
                 </form>
             </div>
         </div>

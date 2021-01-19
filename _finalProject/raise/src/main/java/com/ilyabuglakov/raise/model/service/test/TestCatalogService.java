@@ -10,12 +10,12 @@ public class TestCatalogService {
     }
 
     public static int getPageNumber(String stringPageNumber){
-        int page = 0;
+        int page = 1;
         try {
             if (stringPageNumber != null) {
                 int tempPageNumber = Integer.parseInt(stringPageNumber);
                 if(tempPageNumber>0)
-                    page = tempPageNumber-1;
+                    page = tempPageNumber;
             }
         }catch (NumberFormatException e){
             log.error(e);

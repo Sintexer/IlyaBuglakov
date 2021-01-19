@@ -4,7 +4,6 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
-import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.model.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
@@ -27,13 +26,13 @@ public class TestCatalogPageCommand implements Command {
         String pageNumber = request.getParameter("pageNumber");
         int page = TestCatalogService.getPageNumber(pageNumber);
 
-        int itemsPerPage = 24;
+        int itemsPerPage = 4;
 
         List<TestInfo> testInfos= null;
         int testAmount = 0;
         try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             TestReadService testReadService = new TestDatabaseReadService(transaction);
-            testInfos = testReadService.getTestInfos(page, itemsPerPage);
+            testInfos = testReadService.getTestInfos(page-1, itemsPerPage);
              testAmount = testReadService.getTestAmount();
         } catch (DaoOperationException e) {
             log.error("Error while reading tests from db", e);
@@ -43,10 +42,13 @@ public class TestCatalogPageCommand implements Command {
             log.fatal("Error while closing transaction");
         }
 
+
+        int maxPage =TestCatalogService.getMaxPage(testAmount, itemsPerPage);
+        page = Math.min(page, maxPage);
         log.info(testInfos);
         request.setAttribute("testInfos", testInfos);
         request.setAttribute("currentPage", page);
-        request.setAttribute("maxPage", TestCatalogService.getMaxPage(testAmount, itemsPerPage));
+        request.setAttribute("maxPage", maxPage);
         request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.catalog"))
                 .forward(request, response);
     }

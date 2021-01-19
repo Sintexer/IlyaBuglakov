@@ -695,7 +695,7 @@ button:disabled, button:disabled:hover {
     text-align: center;
     /*width: 700px;*/
     display: flex;
-    margin-top: 3rem;
+    margin: 3rem 0;
 }
 
 .pagination {
@@ -750,7 +750,7 @@ button:disabled, button:disabled:hover {
 }
 
 .question-header {
-    width: fit-content;
+    /*width: fit-content;*/
 }
 
 .test-text-block{

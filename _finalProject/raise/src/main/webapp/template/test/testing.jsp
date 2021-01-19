@@ -33,7 +33,7 @@
                                 <h3 class="text-center font-lg">${test.testName}</h3>
                                 <input type="number" id="testId" name="testId" hidden value="${test.id}">
                                 <div class="breakline"></div>
-                                <span>Difficulty: ${test.difficulty}</span>
+                                <span><fmt:message key="test.card.difficulty"/>: ${test.difficulty}</span>
 
                                 <c:if test="${not empty test.characteristics}">
                                     <span><fmt:message key="test.characteristics"/>:</span>

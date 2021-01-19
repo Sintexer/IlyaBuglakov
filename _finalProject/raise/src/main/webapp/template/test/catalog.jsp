@@ -26,6 +26,8 @@
             <div class="content">
                 <div class="section centered padding-0">
                     <h1 class="page-title">Test catalog</h1>
+                    <c:url value="/template/parts/pagination.jsp" var="topPagination"/>
+                    <jsp:include page="${topPagination}"/>
                     <div class="cards">
                         <c:forEach var="test" items="${testInfos}">
                             <div class="card">
@@ -45,7 +47,7 @@
                                     </c:if>
                                     <div class="flex-11a"></div>
                                     <div class="breakline"></div>
-                                    <div><a class="btn" href="#"><fmt:message key="test.card.button.view"/></a></div>
+                                    <div><a class="btn" href="/api/test/preview&testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
 
                                 </div>
                                 <div class="card-footer">
@@ -55,50 +57,8 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <div class="pagination-wrap">
-                        <ul class="pagination">
-                            <c:if test="${currentPage>1}">
-                                <li><a class="prev link-type" title="previous page">&#10094;</a></li>
-                            </c:if>
-                            <c:if test="${currentPage>1}">
-                                <li>
-                                    <a class="btn-round" href="?pageNumber=1">1</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${currentPage>2}">
-                                <li>
-                                    <span>/</span>
-                                </li>
-                            </c:if>
-                            <c:if test="${currentPage>0}">
-                                <li>
-                                    <a class="btn-round" href="#">${currentPage-1}</a>
-                                </li>
-                            </c:if>
-                            <li>
-                                <a class="btn-round active"  href="#">${currentPage}</a>
-                            </li>
-                            <c:if test="${currentPage < maxPage}">
-                                <li>
-                                    <a class="btn-round" href="#">${currentPage+1}</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${currentPage < maxPage-2}">
-                                <li>
-                                    <span>/</span>
-                                </li>
-                            </c:if>
-                            <c:if test="${currentPage < maxPage-1}">
-                                <li>
-                                    <a class="btn-round" href="#">${maxPage}</a>
-                                </li>
-                            </c:if>
-                            <c:if test="${currentPage < maxPage}">
-                                <li><a class="next link-type" title="next page">&#10095;</a></li>
-                            </c:if>
-
-                        </ul>
-                    </div>
+                    <c:url value="/template/parts/pagination.jsp" var="bottomPagination"/>
+                    <jsp:include page="${bottomPagination}"/>
                 </div>
             </div>
         </div>

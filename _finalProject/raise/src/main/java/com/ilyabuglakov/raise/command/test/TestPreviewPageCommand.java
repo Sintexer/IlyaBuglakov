@@ -6,10 +6,8 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.domain.Test;
-import com.ilyabuglakov.raise.model.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
-import com.ilyabuglakov.raise.model.service.test.TestCatalogService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,13 +15,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Log4j2
-public class TestingGetCommand implements Command {
+public class TestPreviewPageCommand implements Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         Integer testId = null;
         try {
             String stringTestId = request.getParameter("testId");
@@ -38,7 +36,7 @@ public class TestingGetCommand implements Command {
             return;
         }
 
-        Optional<Test> test= Optional.empty();
+        Optional<Test> test = Optional.empty();
         try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             TestReadService testReadService = new TestDatabaseReadService(transaction);
             test = testReadService.getTest(testId);
@@ -53,13 +51,10 @@ public class TestingGetCommand implements Command {
         if(test.isPresent()){
             log.info(test.get());
             request.setAttribute("test", test.get());
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.testing"))
+            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.preview"))
                     .forward(request, response);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
         }
-
-
     }
 }

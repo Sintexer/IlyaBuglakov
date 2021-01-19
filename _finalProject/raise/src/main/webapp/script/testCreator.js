@@ -82,7 +82,15 @@ function validateQuestionsNode() {
                 answer => answer.removeAttribute("style")
             );
         }
-        valid &= anyChecked;
+        let emptyAnswers = false;
+        for(let answer of questionNode.querySelectorAll(".answer")){
+            emptyAnswers = answer.querySelector(".answer-content").value === "";
+        }
+        let validQuestion = anyChecked
+            && questionNode.querySelector(".question-content").value !== ""
+            && questionNode.querySelector(".question-name").value !== "";
+        if(!validQuestion || emptyAnswers)
+            valid = false;
     }
     return valid && notEmpty;
 }
@@ -361,7 +369,7 @@ function createAnswerOrder() {
 
 function createAnswerTextArea() {
     let answerTextArea = document.createElement("textarea")
-    answerTextArea.setAttribute("class", "unresize flex-auto form-input w-auto");
+    answerTextArea.setAttribute("class", "answer-content unresize flex-auto form-input w-auto");
     answerTextArea.setAttribute("required", "required");
     answerTextArea.setAttribute("name", "answer-content");
     answerTextArea.setAttribute("minLength", formParameters.minFieldLength);
