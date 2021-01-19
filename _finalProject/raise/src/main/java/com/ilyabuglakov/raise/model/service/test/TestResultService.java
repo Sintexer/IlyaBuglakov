@@ -46,9 +46,7 @@ public class TestResultService {
         }
 
         resultDto.setTestId(test.getId());
-        resultDto.setIncorrectQuestions(failedQuestions.stream()
-                .map(Entity::getId)
-                .collect(Collectors.toSet()));
+        resultDto.setIncorrectQuestions(failedQuestions);
         resultDto.setResult(processTestResult(test.getQuestions().size(), score));
 
         return resultDto;

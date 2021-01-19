@@ -49,6 +49,7 @@ public class TestResultCommand implements Command {
             TestResultDto testResultDto = TestResultService.getInstance().createResult(testDto, test.get());
             log.info(testResultDto);
             //TODO save results to db
+            request.setAttribute("testName", test.get().getTestName());
             request.setAttribute("testResult", testResultDto);
             request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.testing.result"))
                 .forward(request, response);

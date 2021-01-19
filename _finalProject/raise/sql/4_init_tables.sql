@@ -8,4 +8,6 @@ INSERT INTO role_permissions(id,
                              permission)
 values (1, 1, '**'),
        (2, 2, 'auth:**'),
-       (3, 2, 'api:**')
+       (3, 2, 'test:**'),
+       (4, 2, 'user:**')
+

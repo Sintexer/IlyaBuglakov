@@ -97,7 +97,7 @@
             <div class="items-gap dec-pancake bold">
                 <form method="post" class="flex" action="/api/test/testing/result">
                     <input type="hidden" name="testJson" id="testJson">
-                    <button type="submit" class="btn"><fmt:message key="button.save"/></button>
+                    <button type="submit" class="btn"><fmt:message key="button.finish"/></button>
                     <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testingPostModal')"><fmt:message key="button.cancel"/></button>
                 </form>
             </div>

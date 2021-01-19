@@ -47,7 +47,7 @@
                                     </c:if>
                                     <div class="flex-11a"></div>
                                     <div class="breakline"></div>
-                                    <div><a class="btn" href="/api/test/preview&testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
+                                    <div><a class="btn" href="/api/test/preview?testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
 
                                 </div>
                                 <div class="card-footer">

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+<%@ taglib  prefix="h" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <%--<fmt:setLocale value="${cookie.userLocale.value}"/>--%>
@@ -25,12 +26,13 @@
     <c:url value="/template/parts/header.jsp" var="headerPath"/>
     <jsp:include page="${headerPath}"/>
 
+
     <main class="main">
         <div class="section">
             <div class="content">
                 <div class="section">
                     <p><fmt:message key="home.title"/></p>
-                    <a href="/api/registration">Registration</a>
+                    <a href='<ct:link key="index"/>'>Registration</a>
                     <p>Hi <shiro:notAuthenticated>Guest</shiro:notAuthenticated></p>
                     <shiro:authenticated><p>HELLO</p></shiro:authenticated>
                 </div>

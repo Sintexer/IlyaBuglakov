@@ -18,6 +18,15 @@
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
     </filter>
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Hidden static</web-resource-name>
+            <url-pattern>/template/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+        </auth-constraint>
+    </security-constraint>
+
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/api/*</url-pattern>

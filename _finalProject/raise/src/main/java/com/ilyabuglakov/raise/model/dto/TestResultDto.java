@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.model.dto;
 
+import com.ilyabuglakov.raise.domain.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,5 @@ public class TestResultDto {
     Integer testId;
     Integer authorId;
     int result;
-    Set<Integer> incorrectQuestions;
+    Set<Question> incorrectQuestions;
 }
