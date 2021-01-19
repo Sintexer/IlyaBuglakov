@@ -10,7 +10,7 @@ import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.DaoType;
-import com.ilyabuglakov.raise.model.TestInfo;
+import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import lombok.extern.log4j.Log4j2;

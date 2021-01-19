@@ -1,10 +1,29 @@
+function postResult(){
+    let modalMessage = document.getElementById("modalMessage");
+    if(checkEmptyQuestions()){
+        modalMessage.setAttribute("hidden", "hidden");
+    } else {
+        modalMessage.removeAttribute("hidden");
+    }
+    let responseObj = createResponseObject();
+    console.log(JSON.stringify(responseObj));
+    document.getElementById("testJson").value = JSON.stringify(responseObj);
+
+    let modal = document.getElementById("testingPostModal");
+    modal.style.display = "grid";
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+
 function createResponseObject(){
     let obj = {};
-    obj["testId"] = document.getElementById("testId").value;
+    obj["id"] = document.getElementById("testId").value;
     obj["questions"] = createQuestionsList();
 
-    console.log(obj);
-    console.log(JSON.stringify(obj));
+    return obj;
 }
 
 function createQuestionsList() {
@@ -27,4 +46,18 @@ function createQuestionObject(question) {
             obj["answers"].push(answer.querySelector(".answerId").value);
     }
     return obj;
+}
+
+function checkEmptyQuestions(){
+    let questions = document.getElementById("questions").querySelectorAll(".question");
+    for(let question of questions){
+        let anyChecked = false;
+        for(let checkbox of question.querySelectorAll(".answerOption")){
+            if(checkbox.checked)
+                anyChecked = true;
+        }
+        if(!anyChecked)
+            return false;
+    }
+    return true;
 }

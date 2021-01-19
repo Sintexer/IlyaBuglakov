@@ -766,3 +766,15 @@ button:disabled, button:disabled:hover {
 .font-lg {
     font-size: 2rem;
 }
+
+
+.wide {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    margin: 2rem;
+}
+
+.bg-yellow {
+    background-color: #feffb4;
+}

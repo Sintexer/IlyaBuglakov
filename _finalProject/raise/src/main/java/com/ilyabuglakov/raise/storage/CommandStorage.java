@@ -5,6 +5,7 @@ import com.ilyabuglakov.raise.command.test.TestCatalogPageCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorSaveCommand;
 import com.ilyabuglakov.raise.command.test.TestPreviewPageCommand;
+import com.ilyabuglakov.raise.command.test.TestResultCommand;
 import com.ilyabuglakov.raise.command.test.TestingGetCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
@@ -45,6 +46,7 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "test.catalog", new TestCatalogPageCommand());
         addCommand(RequestMethod.GET, "test.testing", new TestingGetCommand());
         addCommand(RequestMethod.GET, "test.preview", new TestPreviewPageCommand());
+        addCommand(RequestMethod.POST, "test.testing.result", new TestResultCommand());
 
     }
 

@@ -85,17 +85,17 @@
 
     <div id="testPostModal" class="modal centered">
 
-        <!-- Модальное содержание -->
         <div class="modal-content card-mk">
             <div class="modal-header bold">
-                <h2 class="margin-right-auto">Are you sure?</h2>
+                <h2 class="margin-right-auto"><fmt:message key="test.creator.modal.sure"/></h2>
                 <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
             </div>
             <div class="items-gap dec-pancake bold">
                 <form method="post" class="flex" action="/api/test/save">
                     <input type="hidden" name="testJson" id="testJson">
-                    <button type="submit" class="btn">Save</button>
-                    <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testPostModal')">Cancel</button>
+                    <button type="submit" class="btn"><fmt:message key="button.save"/></button>
+                    <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testPostModal')">
+                        <fmt:message key="button.cancel"/></button>
                 </form>
             </div>
         </div>
@@ -108,3 +108,4 @@
 </div>
 </body>
 </html>
+

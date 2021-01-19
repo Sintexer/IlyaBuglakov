@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="breakline"></div>
-                            <button type="button" class="btn margin-t-2rem" onclick="createResponseObject()"><fmt:message
+                            <button type="button" class="btn margin-t-2rem" onclick="postResult()"><fmt:message
                                     key="test.testing.finish"/></button>
                         </form>
                     </div>
@@ -84,6 +84,26 @@
             </div>
         </div>
     </main>
+
+    <div id="testingPostModal" class="modal centered">
+
+        <!-- Модальное содержание -->
+        <div class="modal-content items-gap-vertical card-mk">
+            <div class="modal-header bold">
+                <h2 class="margin-right-auto"><fmt:message key="test.testing.finish.modal"/></h2>
+                <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
+            </div>
+            <span id="modalMessage" hidden><fmt:message key="test.testing.questions.empty"/></span>
+            <div class="items-gap dec-pancake bold">
+                <form method="post" class="flex" action="/api/test/testing/result">
+                    <input type="hidden" name="testJson" id="testJson">
+                    <button type="submit" class="btn"><fmt:message key="button.save"/></button>
+                    <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testingPostModal')"><fmt:message key="button.cancel"/></button>
+                </form>
+            </div>
+        </div>
+
+    </div>
 
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
     <jsp:include page="${footerPath}"/>

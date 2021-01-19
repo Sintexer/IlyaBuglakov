@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model;
+package com.ilyabuglakov.raise.model.dto;
 
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import lombok.AllArgsConstructor;

@@ -6,10 +6,8 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.domain.Test;
-import com.ilyabuglakov.raise.model.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
-import com.ilyabuglakov.raise.model.service.test.TestCatalogService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Log4j2

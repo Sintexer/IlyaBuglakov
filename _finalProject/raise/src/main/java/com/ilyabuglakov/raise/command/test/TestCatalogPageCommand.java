@@ -5,7 +5,7 @@ import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
-import com.ilyabuglakov.raise.model.TestInfo;
+import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.model.service.test.TestCatalogService;
