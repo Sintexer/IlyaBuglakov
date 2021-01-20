@@ -8,27 +8,26 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 
 <fmt:setBundle basename="/locale/header"/>
 
-<%--<head>--%>
-<%--    <link rel="script" href="<c:url value="/script/modal.js"/>" >--%>
-<%--</head>--%>
-
-<script src="/script/modal.js"></script>
-<script src="/script/changeLocale.js"></script>
+<script src="<c:url value="/script/modal.js" />"></script>
+<script src="<c:url value="/script/changeLocale.js"/>"></script>
 
 <header id="page-header" class="page-header">
     <div>
         <nav class="dec-pancake items-gap">
             <div class="dec-pancake items-gap bold">
                 <div class="header-logo">
-                    <a href="/api/home">
+                    <a href="<ct:link key="root"/>">
                         <h3>Raise</h3>
                     </a>
                 </div>
-                <a href="/api/home"><fmt:message key="link.home"/></a>
-                <a href="/api/registration"><fmt:message key="link.profile"/></a>
+                <a href="<ct:link key="root"/>"><fmt:message key="link.home"/></a>
+                <a href="<ct:link key="test.catalog"/>"><fmt:message key="link.tests"/></a>
+                <a href="<ct:link key="registration"/>"><fmt:message key="link.login"/></a>
+                <a href="<ct:link key="login"/>"><fmt:message key="link.registration"/></a>
             </div>
             <div class="header-right-side">
                 <h:locale/>
@@ -37,10 +36,8 @@
     </div>
 </header>
 
-<!-- Модальный -->
 <div id="langModal" class="modal centered">
 
-    <!-- Модальное содержание -->
     <div class="modal-content card-mk">
         <div class="modal-header bold">
             <h2 class="margin-right-auto"><fmt:message key="title.modal.lang"/></h2>

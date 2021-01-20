@@ -39,6 +39,12 @@
                         <span><fmt:message key="error.emailorpassword" bundle="${form}"/></span>
                     </div>
                 </c:if>
+                <c:if test="${alreadyLogged}">
+                    <div class="alert">
+                        <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span><fmt:message key="error.logged.already" bundle="${form}"/></span>
+                    </div>
+                </c:if>
 
                 <div class="tooltip rounded-10">
                     <input type="email"

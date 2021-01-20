@@ -11,6 +11,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletException;
@@ -34,39 +35,29 @@ public class LoginPostCommand implements Command {
                     request.getParameter("password"));
             try {
                 currentUser.login(token);
+
             } catch (UnknownAccountException | IncorrectCredentialsException e) {
                 request.setAttribute("loginFailed", true);
                 request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("login"))
                         .forward(request, response);
+                return;
             }
         } else {
             request.setAttribute("alreadyLogged", true);
             request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("login"))
                     .forward(request, response);
+            return;
         }
 
-        WebUtils.redirectToSavedRequest(request, response, WebUtils.getSavedRequest(request).getRequestUrl());
+        log.info("after login");
+        SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+        if(savedRequest!=null){
+            log.info("redirect to prev page");
+            WebUtils.redirectToSavedRequest(request, response, savedRequest.getRequestUrl());
+        } else {
+            log.info("redirect to home page");
+            response.sendRedirect(PropertiesStorage.getInstance().getLinks().getProperty("root"));
+        }
 
-//        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
-//            request.setAttribute("transaction", transaction);
-//
-//            Commands.USER_REG_VALIDATION.getCommand().execute(request, response);
-//            Commands.USER_REG_UNIQUENESS.getCommand().execute(request, response);
-//            Commands.USER_REG.getCommand().execute(request, response);
-//
-//            transaction.commit();
-//
-//            response.sendRedirect(PropertiesStorage.getInstance().getLinks().getProperty("login"));
-//
-//        } catch (CommandException e) {
-//            request.setAttribute("registrationFailed", true);
-//            request.getRequestDispatcher(
-//                    PropertiesStorage.getInstance()
-//                            .getPages()
-//                            .getProperty("registration"))
-//                    .forward(request, response);
-//        } catch (Exception e) {
-//            log.fatal("Error while closing transaction");
-//        }
     }
 }
