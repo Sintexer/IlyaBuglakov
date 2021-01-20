@@ -29,8 +29,11 @@
 
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/auth/*</url-pattern>
         <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/test/*</url-pattern>
+        <url-pattern>/user/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>shiroFilter</filter-name>
@@ -42,8 +45,11 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>accessFilter</filter-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/auth/*</url-pattern>
         <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/test/*</url-pattern>
+        <url-pattern>/user/*</url-pattern>
     </filter-mapping>
 
 
@@ -56,9 +62,9 @@
         <error-code>500</error-code>
         <location>/template/error/500.jsp</location>
     </error-page>
-    <error-page>
-        <location>/template/error/error.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <location>/template/error/error.jsp</location>-->
+<!--    </error-page>-->
 
 
 </web-app>

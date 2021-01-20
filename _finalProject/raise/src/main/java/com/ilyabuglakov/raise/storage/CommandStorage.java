@@ -1,6 +1,8 @@
 package com.ilyabuglakov.raise.storage;
 
 import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
+import com.ilyabuglakov.raise.command.login.LoginGetCommand;
+import com.ilyabuglakov.raise.command.login.LoginPostCommand;
 import com.ilyabuglakov.raise.command.test.TestCatalogPageCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
 import com.ilyabuglakov.raise.command.test.TestCreatorSaveCommand;
@@ -36,6 +38,7 @@ public class CommandStorage {
             methodMap.put(value, new HashMap<>());
         }
 
+        addCommand(RequestMethod.GET, "root", new IndexGetCommand());
         addCommand(RequestMethod.GET, "index", new IndexGetCommand());
         addCommand(RequestMethod.POST, "index", new IndexPostCommand());
         addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
@@ -47,6 +50,8 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "test.testing", new TestingGetCommand());
         addCommand(RequestMethod.GET, "test.preview", new TestPreviewPageCommand());
         addCommand(RequestMethod.POST, "test.testing.result", new TestResultCommand());
+        addCommand(RequestMethod.GET, "login", new LoginGetCommand());
+        addCommand(RequestMethod.POST, "login", new LoginPostCommand());
 
     }
 

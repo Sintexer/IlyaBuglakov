@@ -5,7 +5,9 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.RoleColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.UserColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UserRolesColumns;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
@@ -62,15 +64,25 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
     }
 
     @Override
-    public Integer create(User entity) throws DaoOperationException {
+    public Integer create(User user) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USR.name());
-        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), entity.getEmail());
-        sqlQueryBuilder.addField(UserColumns.NAME.name(), entity.getName());
-        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), entity.getPassword());
-        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), entity.getSurname());
-        sqlQueryBuilder.addField(UserColumns.STATUS.name(), entity.getStatus().name());
-        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), entity.getRegistrationDate());
+        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), user.getEmail());
+        sqlQueryBuilder.addField(UserColumns.NAME.name(), user.getName());
+        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), user.getPassword());
+        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), user.getSurname());
+        sqlQueryBuilder.addField(UserColumns.STATUS.name(), user.getStatus().name());
+        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), user.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
+
+//        sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
+//        sqlQueryBuilder.addField(EntityColumns.ID.name());
+//        sqlQueryBuilder.addWhere(RoleColumns.NAME.name(), user.getRole().getName());
+//        String subQuery = sqlQueryBuilder.build();
+//
+//        sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_ROLES.name());
+//        sqlQueryBuilder.addField(UserRolesColumns.USER_ID.name(), user.getId());
+//
+//        "insert into user_roles(user_id, role_id) values((select id from usr where email = 'ilboogl@gmail.com'), 2)";
 
         return executeReturnId(insertQuery);
     }

@@ -28,17 +28,18 @@
     <jsp:include page="${headerPath}"/>
 
     <div class="centered">
-
+        <div class="stack">
+            <div>
+            <c:if test="${loginFailed}">
+                <div class="alert">
+                    <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <span><fmt:message key="error.emailorpassword" bundle="${form}"/></span>
+                </div>
+            </c:if>
             <form class="form-card card-md bg-lightcyan" method="post" action="">
                 <div class="text-break-all text-center">
                     <h2 class="form-sign-in-heading"><fmt:message key="login" bundle="${page}"/></h2>
                 </div>
-                <c:if test="${loginFailed}">
-                    <div class="alert">
-                        <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
-                        <span><fmt:message key="error.emailorpassword" bundle="${form}"/></span>
-                    </div>
-                </c:if>
 
                 <div class="tooltip rounded-10">
                     <input type="email"
@@ -66,6 +67,8 @@
                 <button class="btn mg-top-2rem" type="submit"><fmt:message key="button.login"
                                                                            bundle="${page}"/></button>
             </form>
+            </div>
+        </div>
     </div>
 
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
