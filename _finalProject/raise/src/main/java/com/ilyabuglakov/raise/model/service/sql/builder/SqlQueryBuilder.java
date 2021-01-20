@@ -113,7 +113,7 @@ public abstract class SqlQueryBuilder {
             return "";
         return "WHERE " + whereValues.entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + surroundWith(entry.getValue(), stringQuoteType))
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(" AND "));
     }
 
     protected String generateSetString() {

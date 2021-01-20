@@ -5,6 +5,7 @@ import com.ilyabuglakov.raise.command.Commands;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
+import com.ilyabuglakov.raise.model.service.RequestService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -43,6 +44,9 @@ public class RegistrationPostCommand implements Command {
                     .forward(request, response);
         } catch (Exception e) {
             log.fatal("Error while closing transaction");
+            RequestService.getInstance().setRequestErrorAttributes(request, "error.db", 500);
+            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
+                    .forward(request, response);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
+import com.ilyabuglakov.raise.model.service.RequestService;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.model.service.test.TestCatalogService;
@@ -27,23 +28,33 @@ public class TestCatalogPageCommand implements Command {
         int page = TestCatalogService.getPageNumber(pageNumber);
 
         int itemsPerPage = 4;
+        int maxPage = 0;
 
-        List<TestInfo> testInfos= null;
+        List<TestInfo> testInfos = null;
         int testAmount = 0;
-        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
+        try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             TestReadService testReadService = new TestDatabaseReadService(transaction);
-            testInfos = testReadService.getTestInfos(page-1, itemsPerPage);
-             testAmount = testReadService.getTestAmount();
+            testAmount = testReadService.getTestAmount();
+
+            maxPage = 1 + TestCatalogService.getMaxPage(testAmount, itemsPerPage);
+            if(page > maxPage || page < 1){
+                RequestService.getInstance().setRequestErrorAttributes(request, "error.404", 404);
+                request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
+                        .forward(request, response);
+                return;
+            }
+
+            testInfos = testReadService.getTestInfos(page - 1, itemsPerPage);
         } catch (DaoOperationException e) {
             log.error("Error while reading tests from db", e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            RequestService.getInstance().setRequestErrorAttributes(request, "error.db", 500);
+            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
+                    .forward(request, response);
             return;
         } catch (Exception e) {
             log.fatal("Error while closing transaction");
         }
 
-
-        int maxPage =TestCatalogService.getMaxPage(testAmount, itemsPerPage);
         page = Math.min(page, maxPage);
         log.info(testInfos);
         request.setAttribute("testInfos", testInfos);

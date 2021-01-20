@@ -93,9 +93,12 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<User> user = buildUser(resultSet);
-        closeResultSet(resultSet);
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
+        Optional<User> user = Optional.empty();
+        if(resultSet.isPresent()) {
+            user = buildUser(resultSet.get());
+            closeResultSet(resultSet.get());
+        }
         return user;
     }
 

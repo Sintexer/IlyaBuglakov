@@ -14,4 +14,5 @@ public interface TestReadService {
     List<TestInfo> getTestInfos(int pageNumber, int testsPerPage) throws DaoOperationException;
 
     Integer getTestAmount() throws DaoOperationException;
+    Integer getTestAmount(Integer authorId) throws DaoOperationException;
 }

@@ -34,24 +34,28 @@
                             <div class="test-header stack items-gap-vertical">
                                 <h3 class="text-center font-lg">${testName}</h3>
                                 <div class="breakline"></div>
+                                <h3 class=""><fmt:message key="test.result.result"/>: ${testResult.result}%</h3>
+                                <div class="breakline"></div>
                                 <h3 class="text-center"><fmt:message key="test.result.incorrect.questions"/>:</h3>
-                                <h3 class="text-center"><fmt:message key="test.result.result"/>: ${testResult.result}%</h3>
-                                <div id="questions" class="items-gap-vertical stack bg-yellow">
-                                    <c:forEach var="question" items="${testResult.incorrectQuestions}">
-                                        <div class="question stack items-gap-vertical">
-                                            <div class="breakline"></div>
-                                            <p class="margin-y-1rem question-header test-text-block">${question.name}</p>
-                                            <span class="test-text-block">${question.content}</span>
-                                            <ul class="answers margin-l-2rem">
-                                                <c:forEach var="answer" items="${question.answers}">
-                                                    <li class="answer items-gap align-items-center">
-                                                        <span class="font-md">${answer.content}</span>
-                                                    </li>
-                                                </c:forEach>
-                                            </ul>
-                                        </div>
-                                    </c:forEach>
-                                </div>
+
+                                <c:if test="${testResult.incorrectQuestions.size() > 0}">
+                                    <div id="questions" class="items-gap-vertical stack bg-yellow">
+                                        <c:forEach var="question" items="${testResult.incorrectQuestions}">
+                                            <div class="question stack items-gap-vertical">
+                                                <div class="breakline"></div>
+                                                <p class="margin-y-1rem question-header test-text-block">${question.name}</p>
+                                                <span class="test-text-block">${question.content}</span>
+                                                <ul class="answers margin-l-2rem">
+                                                    <c:forEach var="answer" items="${question.answers}">
+                                                        <li class="answer items-gap align-items-center">
+                                                            <span class="font-md">${answer.content}</span>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,8 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.type.TestStatus;
+import com.ilyabuglakov.raise.model.service.RequestService;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
@@ -24,9 +26,9 @@ public class TestingGetCommand implements Command {
         Integer testId = null;
         try {
             String stringTestId = request.getParameter("testId");
-            if(stringTestId!=null)
+            if (stringTestId != null)
                 testId = Integer.parseInt(stringTestId);
-            else{
+            else {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
@@ -35,8 +37,8 @@ public class TestingGetCommand implements Command {
             return;
         }
 
-        Optional<Test> test= Optional.empty();
-        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
+        Optional<Test> test = Optional.empty();
+        try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             TestReadService testReadService = new TestDatabaseReadService(transaction);
             test = testReadService.getTest(testId);
         } catch (DaoOperationException e) {
@@ -47,14 +49,17 @@ public class TestingGetCommand implements Command {
             log.fatal("Error while closing transaction");
         }
 
-        if(test.isPresent()){
+        if (test.isPresent() && test.get().getStatus() == TestStatus.CONFIRMED) {
+
             log.info(test.get());
             request.setAttribute("test", test.get());
             request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.testing"))
                     .forward(request, response);
+
         } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            RequestService.getInstance().setRequestErrorAttributes(request, "error.404", 404);
+            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
+                    .forward(request, response);
         }
 
 

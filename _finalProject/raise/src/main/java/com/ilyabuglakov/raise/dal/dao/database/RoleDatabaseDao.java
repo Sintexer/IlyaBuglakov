@@ -30,6 +30,8 @@ import java.util.Set;
 @Log4j2
 public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
 
+//    private static final String CREATE_USER_ROLES = "INSERT INTO USER_ROLES (USER_ID, ROLE_ID) VALUES ('13', '(SELECT ID FROM ROLE WHERE NAME='USER')')"
+
     public RoleDatabaseDao(Connection connection) {
         super(connection);
     }
@@ -67,13 +69,16 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
         sqlQueryBuilder.addField(EntityColumns.ID.name());
         sqlQueryBuilder.addWhere(RoleColumns.NAME.name(), "");
         String subQuery = sqlQueryBuilder.build();
-        log.info("userRoles insert subQuery: "+subQuery +"|");
+        subQuery = subQuery.substring(0, subQuery.length()-1);
 
         for (UserRole role : userRoles) {
             sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_ROLES.name());
             sqlQueryBuilder.addField(UserRolesColumns.USER_ID.name(), userId);
-            sqlQueryBuilder.addField(UserRolesColumns.ROLE_ID.name(), subQuery + role.name());
+            sqlQueryBuilder.addField(UserRolesColumns.ROLE_ID.name(), "");
             String query = sqlQueryBuilder.build();
+            query = query.substring(0, query.length()-3);
+            query = query + "(" + subQuery + role.name() + "\'" + "))";
+            log.info("userRoles insert subQuery: " + query);
 
             executeUpdateQuery(query);
         }

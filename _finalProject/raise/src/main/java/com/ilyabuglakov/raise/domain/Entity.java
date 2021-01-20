@@ -1,7 +1,11 @@
 package com.ilyabuglakov.raise.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 
 /**
@@ -9,6 +13,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class Entity {
 
     private Integer id;

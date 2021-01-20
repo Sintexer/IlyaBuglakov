@@ -91,7 +91,7 @@
                 <span class="close-btn" onclick="closeModal('testPostModal')">&times;</span>
             </div>
             <div class="items-gap dec-pancake bold">
-                <form method="post" class="flex" action="/api/test/save">
+                <form method="post" class="flex" action="/test/save">
                     <input type="hidden" name="testJson" id="testJson">
                     <button type="submit" class="btn"><fmt:message key="button.save"/></button>
                     <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testPostModal')">

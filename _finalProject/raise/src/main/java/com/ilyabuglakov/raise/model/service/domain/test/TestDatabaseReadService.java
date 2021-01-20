@@ -4,10 +4,12 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
@@ -31,17 +33,19 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         AnswerDao answerDao = (AnswerDao) transaction.createDao(DaoType.ANSWER);
+        UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
 
         Optional<Test> test = testDao.read(testId);
-        if(test.isPresent()){
+        if (test.isPresent()) {
             test.get().setCharacteristics(testDao.getCharacteristics(testId));
-          Set<Question> questions = questionDao.findByTestId(testId);
-          for(Question question : questions){
-              Set<Answer> answers = answerDao.findByQuestionId(question.getId());
-              question.setAnswers(answers);
-              question.setCorrectAmount((int)answers.stream().filter(Answer::isCorrect).count());
-          }
-          test.get().setQuestions(questions);
+            test.get().setAuthor(userDao.read(test.get().getId()).orElse(null));
+            Set<Question> questions = questionDao.findByTestId(testId);
+            for (Question question : questions) {
+                Set<Answer> answers = answerDao.findByQuestionId(question.getId());
+                question.setAnswers(answers);
+                question.setCorrectAmount((int) answers.stream().filter(Answer::isCorrect).count());
+            }
+            test.get().setQuestions(questions);
         }
         return test;
     }
@@ -50,14 +54,18 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
     public List<TestInfo> getTestInfos(int pageNumber, int testsPerPage) throws DaoOperationException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
+        UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
 
         List<Test> tests = testDao.getTests(pageNumber * testsPerPage, testsPerPage);
         List<TestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.getCharacteristics(test.getId());
             int questionsAmount = questionDao.getQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
+            User author = userDao.read(test.getAuthor().getId()).orElse(null);
+            log.debug(test.getAuthor().getId() + ": " + author);
             testInfos.add(TestInfo.builder()
                     .testName(test.getTestName())
+                    .author(author)
                     .characteristics(characteristicSet)
                     .difficulty(test.getDifficulty())
                     .id(test.getId())
@@ -72,5 +80,11 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
     public Integer getTestAmount() throws DaoOperationException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         return testDao.getTestAmount();
+    }
+
+    @Override
+    public Integer getTestAmount(Integer authorId) throws DaoOperationException {
+        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+        return testDao.getNewTestAmount(authorId);
     }
 }

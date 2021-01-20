@@ -15,7 +15,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head onload="initScript(256, 256, 512, 512, 3)">
+<head>
     <title>Raise</title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/testCreator.js"/>"/>
@@ -52,6 +52,9 @@
                             </c:if>
                             <c:if test="${invalidQuestions}">
                                 <fmt:message key="test.creator.error.questions"/>
+                            </c:if>
+                            <c:if test="${testLimitReached}">
+                                <fmt:message key="error.test.limit"/>
                             </c:if>
                         </div>
                         <a class="btn" href="/api/test/creator"><fmt:message key="link.back.test.creator"/></a>

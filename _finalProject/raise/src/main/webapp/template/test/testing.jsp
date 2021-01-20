@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 
 <fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
 <fmt:setBundle basename="/locale/page"/>
@@ -95,7 +96,7 @@
             </div>
             <span id="modalMessage" hidden><fmt:message key="test.testing.questions.empty"/></span>
             <div class="items-gap dec-pancake bold">
-                <form method="post" class="flex" action="/api/test/testing/result">
+                <form method="post" class="flex" action="<ct:link key="test.testing.result"/>">
                     <input type="hidden" name="testJson" id="testJson">
                     <button type="submit" class="btn"><fmt:message key="button.finish"/></button>
                     <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testingPostModal')"><fmt:message key="button.cancel"/></button>

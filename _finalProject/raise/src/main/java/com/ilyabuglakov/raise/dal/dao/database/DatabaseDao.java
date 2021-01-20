@@ -1,6 +1,11 @@
 package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
+import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
+import com.ilyabuglakov.raise.domain.type.TestStatus;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
+import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
@@ -17,6 +22,23 @@ public abstract class DatabaseDao {
 
     protected DatabaseDao(Connection connection) {
         this.connection = connection;
+    }
+
+    protected Integer getCount(ResultSet resultSet) throws DaoOperationException {
+
+        Optional<ResultSet> rs = unpackResultSet(resultSet);
+        Integer count = 0;
+        if (rs.isPresent()) {
+            try {
+                count = rs.get().getInt("count");
+            } catch (SQLException e) {
+                throw new DaoOperationException("Can't get row count", e);
+            } finally {
+                closeResultSet(rs.get());
+            }
+        }
+
+        return count;
     }
 
     protected Integer executeReturnId(String query) throws DaoOperationException{

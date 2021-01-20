@@ -52,7 +52,8 @@
                                 </div>
                                 <div class="card-footer">
                                     <span>author:</span>
-                                    <a href="#">Ilya Buglakov</a>
+<%--                                    //TODO--%>
+                                    <a href="#">${test.author.name} ${test.author.surname}</a>
                                 </div>
                             </div>
                         </c:forEach>

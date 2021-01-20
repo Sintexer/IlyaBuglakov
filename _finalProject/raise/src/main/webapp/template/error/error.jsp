@@ -1,28 +1,49 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib  prefix="h" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
+<fmt:setBundle basename="/locale/page"/>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <meta charset="UTF-8">
-    <title>Error has occurred</title>
+    <title><fmt:message key="error.title"/></title>
 </head>
 <body>
 <div class="page">
-    <div class="header-logo section centered">
-        <a href="/">
-            <h3>Elevate</h3>
-        </a>
-    </div>
-    <main class="main centered">
-        <div class="centered error-msg">
-            <h2 class="error-code">${error}</h2>
-            <h2>An error has occurred</h2>
-            <a class="btn" href="/api/home">Back to main</a>
+    <c:url value="/template/parts/header.jsp" var="headerPath"/>
+    <jsp:include page="${headerPath}"/>
+
+
+    <main class="main">
+        <div class="section">
+            <div class="content">
+                <div class="section stack">
+                    <h1 class="page-title"><fmt:message key="error.title"/></h1>
+                    <c:if test="${statusCode}">
+                    <h2 class="error-code">
+                        ${errorCode}
+                    </h2>
+                    </c:if>
+                    <c:if test="${errorMessage}">
+                    <h2 class="font-lg">
+                        ${errorMessage}
+                    </h2>
+                    </c:if>
+                    <a class="btn" href='<ct:link key="root"/>'><fmt:message key="link.home"/></a>
+                </div>
+
+            </div>
         </div>
     </main>
+
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
-    <jsp:include page="${footerPath}" />
+    <jsp:include page="${footerPath}"/>
 </div>
 </body>
 </html>

@@ -30,6 +30,37 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     }
 
     @Override
+    public Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
+        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userId);
+        sqlQueryBuilder.addWhere(UserTestResultColumns.TEST_ID.name(), testId);
+        String selectQuery = sqlQueryBuilder.build();
+
+        ResultSet resultSet = createResultSet(selectQuery);
+        Optional<UserTestResult> userTestResult = buildUserTestResult(resultSet);
+        closeResultSet(resultSet);
+        return userTestResult;
+    }
+
+//    @Override
+//    public boolean exists(UserTestResult userTestResult) throws DaoOperationException {
+//        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
+//        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userTestResult.getUser().getId());
+//        sqlQueryBuilder.addWhere(UserTestResultColumns.TEST_ID.name(), userTestResult.getTest().getId());
+//        String selectQuery = sqlQueryBuilder.build();
+//
+//        ResultSet resultSet = createResultSet(selectQuery);
+//        boolean exists = false;
+//        try {
+//             exists = resultSet.next();
+//        } catch (SQLException e) {
+//            throw new DaoOperationException("Can't read result set");
+//        }
+//        closeResultSet(resultSet);
+//        return exists;
+//    }
+
+    @Override
     public Integer create(UserTestResult entity) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_TEST_RESULT.name());
         sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());

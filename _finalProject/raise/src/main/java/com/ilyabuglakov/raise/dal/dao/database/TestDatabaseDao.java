@@ -3,12 +3,13 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCharacteristicColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
+import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -65,22 +66,22 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public Integer getTestAmount() throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
         sqlQueryBuilder.returnCount();
         String query = sqlQueryBuilder.build();
 
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(query));
-        Integer count = 0;
-        if (resultSet.isPresent()) {
-            try {
-                count = resultSet.get().getInt("count");
-            } catch (SQLException e) {
-                throw new DaoOperationException("Can't get row count", e);
-            } finally {
-                closeResultSet(resultSet.get());
-            }
-        }
+        return getCount(createResultSet(query));
+    }
 
-        return count;
+    @Override
+    public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.NEW.name());
+        sqlQueryBuilder.addWhere(TestColumns.AUTHOR_ID.name(), authorId);
+        sqlQueryBuilder.returnCount();
+        String query = sqlQueryBuilder.build();
+
+        return getCount(createResultSet(query));
     }
 
     @Override
@@ -89,7 +90,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         try {
             statement = connection.createStatement();
             SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_CHARACTERISTIC.name());
-            for(Characteristic characteristic : characteristics){
+            for (Characteristic characteristic : characteristics) {
                 sqlQueryBuilder.addField(TestCharacteristicColumns.CHARACTERISTIC.name(), characteristic.name());
                 sqlQueryBuilder.addField(TestCharacteristicColumns.TEST_ID.name(), testId);
                 String insertQuery = sqlQueryBuilder.build();
@@ -131,7 +132,10 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
         sqlQueryBuilder.addField(EntityColumns.ID.name());
         sqlQueryBuilder.addField(TestColumns.TEST_NAME.name());
+        sqlQueryBuilder.addField(TestColumns.STATUS.name());
+        sqlQueryBuilder.addField(TestColumns.AUTHOR_ID.name());
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name());
+        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
         sqlQueryBuilder.addLimit(startFrom, itemsAmount);
         String query = sqlQueryBuilder.build();
 
@@ -155,6 +159,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     public Integer create(Test test) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST.name());
         sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
+        sqlQueryBuilder.addField(TestColumns.STATUS.name(), test.getStatus());
+        sqlQueryBuilder.addField(TestColumns.AUTHOR_ID.name(), test.getAuthor().getId());
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         String insertQuery = sqlQueryBuilder.build();
 
@@ -168,7 +174,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         String selectQuery = sqlQueryBuilder.build();
 
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
-        if(resultSet.isPresent()) {
+        if (resultSet.isPresent()) {
             Optional<Test> test = buildTest(resultSet.get());
             closeResultSet(resultSet.get());
             return test;
@@ -178,9 +184,10 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public void update(Test test) throws DaoOperationException {
+        //TODO add characteristics and comments subqueries
         SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name(), test.getId());
         sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
+        sqlQueryBuilder.addField(TestColumns.STATUS.name(), test.getStatus());
         sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String updateQuery = sqlQueryBuilder.build();
@@ -190,17 +197,21 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public void delete(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST.name());
+        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST_CHARACTERISTIC.name());
+        sqlQueryBuilder.addWhere(TestCharacteristicColumns.TEST_ID.name(), test.getId());
+        String subQuery = sqlQueryBuilder.build();
+        sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST.name());
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
         String deleteQuery = sqlQueryBuilder.build();
 
+        executeUpdateQuery(subQuery);
         executeUpdateQuery(deleteQuery);
     }
 
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
-     *
+     * <p>
      * Will build Optional-Test only if resultSet has values of all test fields,
      * otherwise will return Optional.empty()
      *
@@ -210,12 +221,18 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     private Optional<Test> buildTest(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet,
+            if (validator.hasAllValues(resultSet,
                     TestColumns.TEST_NAME.name(),
+                    TestColumns.STATUS.name(),
+                    TestColumns.AUTHOR_ID.name(),
                     TestColumns.DIFFICULTY.name(),
                     EntityColumns.ID.name())) {
+                User user = new User();
+                user.setId(resultSet.getInt(TestColumns.AUTHOR_ID.name()));
                 Test test = Test.builder()
                         .testName(resultSet.getString(TestColumns.TEST_NAME.name()))
+                        .status(TestStatus.valueOf(resultSet.getString(TestColumns.STATUS.name())))
+                        .author(user)
                         .difficulty(Integer.parseInt(resultSet.getString(TestColumns.DIFFICULTY.name())))
                         .build();
                 test.setId(resultSet.getInt(EntityColumns.ID.name()));

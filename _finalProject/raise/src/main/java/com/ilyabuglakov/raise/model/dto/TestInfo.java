@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.model.dto;
 
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class TestInfo {
     private Integer id;
+    private User author;
     private String testName;
     private int difficulty;
     private Set<Characteristic> characteristics;

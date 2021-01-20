@@ -1,5 +1,6 @@
 CREATE TYPE characteristic AS enum ('MEMORY', 'REACTION', 'LOGIC', 'CALCULATIONS');
-CREATE TYPE STATUS AS ENUM ('ACTIVE', 'UNCONFIRMED', 'BANNED');
+CREATE TYPE status AS ENUM ('ACTIVE', 'UNCONFIRMED', 'BANNED');
+CREATE TYPE test_status AS ENUM ('NEW', 'CONFIRMED', 'BANNED');
 
 CREATE TABLE usr
 (
@@ -33,7 +34,7 @@ CREATE TABLE role_permissions
 (
     id         SERIAL PRIMARY KEY,
     role_id BIGINT NOT NULL REFERENCES role(id),
-    permission VARCHAR(50) NOT NULL UNIQUE
+    permission VARCHAR(50) NOT NULL
 );
 --
 --
@@ -42,8 +43,10 @@ CREATE TABLE role_permissions
 create table test
 (
     id         SERIAL primary key,
+    author_id INTEGER not null references usr(id),
+    status test_status not null,
     test_name  varchar(256) not null,
-    difficulty int          not null
+    difficulty INTEGER          not null
 );
 
 create table question
@@ -51,7 +54,7 @@ create table question
     id      SERIAL primary key,
     name varchar(256) not null unique,
     content varchar(512) not null,
-    test_id bigint       not null references test (id)
+    test_id INTEGER       not null references test (id)
 );
 
 create table answer
@@ -59,14 +62,14 @@ create table answer
     id          SERIAL primary key,
     content     varchar(256) not null,
     correct     boolean      not null,
-    question_id bigint       not null references question (id)
+    question_id INTEGER       not null references question (id)
 );
 
 create table test_characteristic
 (
     id             SERIAL primary key,
     characteristic characteristic not null,
-    test_id        bigint         not null references test (id)
+    test_id        INTEGER         not null references test (id)
 );
 
 create table test_comment
@@ -74,16 +77,16 @@ create table test_comment
     id        SERIAL primary key,
     content   varchar(512) not null,
     timestamp timestamp,
-    test_id   bigint       not null references test (id),
-    user_id   bigint       not null references usr (id)
+    test_id   INTEGER       not null references test (id),
+    user_id   INTEGER       not null references usr (id)
 );
 
 create table user_test_result
 (
     id      SERIAL primary key,
-    user_id bigint  not null references usr (id) unique,
-    test_id bigint  not null references test (id) unique,
-    result  integer not null
+    user_id INTEGER  not null references usr (id) unique,
+    test_id INTEGER  not null references test (id) unique,
+    result  INTEGER not null
 );
 
 

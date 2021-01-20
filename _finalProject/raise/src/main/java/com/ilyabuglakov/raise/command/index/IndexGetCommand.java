@@ -22,25 +22,6 @@ public class IndexGetCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered index command");
-        Subject currentUser = SecurityUtils.getSubject();
-        log.warn(currentUser.isAuthenticated());
-
-        if (request.getParameter("auth")!=null && !currentUser.isAuthenticated()) {
-            log.info("auth");
-            UsernamePasswordToken token
-                    = new UsernamePasswordToken("ilboogl@gmail.com", "121212");
-            try {
-                currentUser.login(token);
-            } catch (UnknownAccountException uae) {
-                log.error("Username Not Found!", uae);
-            } catch (IncorrectCredentialsException ice) {
-                log.error("Invalid Credentials!", ice);
-            } catch (LockedAccountException lae) {
-                log.error("Your Account is Locked!", lae);
-            } catch (AuthenticationException ae) {
-                log.error("Unexpected Error!", ae);
-            }
-        }
 
         request.getRequestDispatcher(PropertiesStorage.getInstance()
                 .getPages()
