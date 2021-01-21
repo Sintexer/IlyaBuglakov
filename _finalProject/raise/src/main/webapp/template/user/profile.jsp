@@ -44,16 +44,24 @@
                 </div>
             </div>
         </div>
+        <c:if test="${isOwner}">
+            <div>
+                <div class="user-profile-actions section">
+                    <a href="#" class="btn">Edit profile</a>
+                </div>
+            </div>
+        </c:if>
         <div class="section">
             <div class="content">
-                <span><fmt:message key="user.profile.characteristics.title"/>:</span>
+                <span class="font-mdd bold margin-b-1rem"><fmt:message
+                        key="user.profile.characteristics.title"/>:</span>
                 <c:forEach var="userCharacteristic" items="${userParameters.userCharacteristics}">
                     <div class="breakline"></div>
-                    <div class="characteristic-section padding-2rem">
-                        <div class="usr-characteristics-left">
+                    <div class="padding-2rem">
+                        <div class="font-mdd margin-b-1rem">
                             <span>${userCharacteristic.characteristic}:</span><span>${userCharacteristic.score}</span>
                         </div>
-                        <span class="usr-characteristics-right">Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
+                        <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
                     </div>
                 </c:forEach>
             </div>

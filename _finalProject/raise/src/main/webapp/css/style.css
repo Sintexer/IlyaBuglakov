@@ -808,7 +808,7 @@ button:disabled, button:disabled:hover {
     align-items: center;
 }
 
-.usr-characteristics-left {
+.user-characteristics-left {
     display: flex;
     justify-content: space-between;
     margin-right: 2rem;
@@ -816,6 +816,23 @@ button:disabled, button:disabled:hover {
     border-right: 1px solid gainsboro;
 }
 
-.usr-characteristics-right{
+.user-characteristics-right{
     padding: 2rem 0;
+}
+
+.user-profile-actions {
+    background-color: #2f3f44;
+    padding: 2rem;
+}
+
+.font-mdd {
+    font-size: 2rem;
+}
+
+.padding-b-1rem {
+    padding-bottom: 1rem;
+}
+
+.margin-b-1rem {
+    margin-bottom: 1rem;
 }

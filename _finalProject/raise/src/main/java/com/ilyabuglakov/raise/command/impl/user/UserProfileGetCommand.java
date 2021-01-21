@@ -40,10 +40,24 @@ public class UserProfileGetCommand extends Command {
             userParametersDto = userService.getUserParameters(optionalUserId.get());
         } else if (subject != null) {
             userParametersDto = userService.getUserParameters((String) subject.getPrincipal());
-            responseEntity.setAttribute("userParameters", userParametersDto);
-            log.debug(userParametersDto);
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
         }
 
+        if(userParametersDto == null){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+
+        if(subject.isAuthenticated()
+                && ((String)subject.getPrincipal())
+                .equals(userParametersDto.getUser().getEmail())){
+            responseEntity.setAttribute("isOwner", true);
+        }
+
+        responseEntity.setAttribute("userParameters", userParametersDto);
+        log.debug(userParametersDto);
         responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("user.profile"));
         return responseEntity;
     }

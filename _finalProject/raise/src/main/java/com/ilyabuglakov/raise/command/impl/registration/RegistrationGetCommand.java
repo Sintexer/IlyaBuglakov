@@ -5,7 +5,6 @@ import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
-import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

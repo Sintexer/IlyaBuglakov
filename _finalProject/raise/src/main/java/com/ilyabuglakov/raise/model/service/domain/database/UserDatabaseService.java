@@ -25,9 +25,9 @@ public class UserDatabaseService extends DatabaseService implements UserService 
     public UserParametersDto getUserParameters(Integer userId) throws PersistentException {
         UserSearchService userSearchService = new UserTransactionSearch(transaction);
 
-        Optional<User> userOptional = userSearchService.;
+        Optional<User> userOptional = userSearchService.findById(userId);
         if (!userOptional.isPresent())
-            throw new PersistentException("Authorized user not found");
+            return null;
 
         return createUserParameters(userOptional.get());
     }
@@ -38,7 +38,7 @@ public class UserDatabaseService extends DatabaseService implements UserService 
 
         Optional<User> userOptional = userSearchService.findByEmail(email);
         if (!userOptional.isPresent())
-            throw new PersistentException("Authorized user not found");
+            return null;
 
         return createUserParameters(userOptional.get());
     }
