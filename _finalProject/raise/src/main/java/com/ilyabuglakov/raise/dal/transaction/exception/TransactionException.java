@@ -1,6 +1,8 @@
 package com.ilyabuglakov.raise.dal.transaction.exception;
 
-public class TransactionException extends Exception {
+import com.ilyabuglakov.raise.dal.exception.PersistentException;
+
+public class TransactionException extends PersistentException {
     public TransactionException() {
         super();
     }

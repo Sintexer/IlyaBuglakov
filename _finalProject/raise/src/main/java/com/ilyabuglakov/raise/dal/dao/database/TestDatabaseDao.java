@@ -74,6 +74,16 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
+    public Integer getTestAmount(Integer authorId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
+        sqlQueryBuilder.addWhere(TestColumns.AUTHOR_ID.name(), authorId);
+        sqlQueryBuilder.returnCount();
+        String query = sqlQueryBuilder.build();
+
+        return getCount(createResultSet(query));
+    }
+
+    @Override
     public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
         sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.NEW.name());

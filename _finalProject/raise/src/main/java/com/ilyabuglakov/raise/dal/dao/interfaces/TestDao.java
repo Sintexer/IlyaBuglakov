@@ -13,6 +13,7 @@ import java.util.Set;
 public interface TestDao extends Dao<Test> {
     List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException;
     Integer getTestAmount() throws DaoOperationException;
+    Integer getTestAmount(Integer authorId) throws DaoOperationException;
     Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
     void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException;
     Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException;

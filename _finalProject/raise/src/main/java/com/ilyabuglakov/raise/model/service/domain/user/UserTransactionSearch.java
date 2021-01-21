@@ -18,13 +18,9 @@ public class UserTransactionSearch extends TransactionWebService implements User
     }
 
     @Override
-    public Optional<User> findByEmail(String email) throws UserSearchServiceException {
-        try {
-            UserDatabaseDao dao = (UserDatabaseDao)transaction.createDao(DaoType.USER);
-            return dao.findByEmail(email);
-        } catch (DaoOperationException e) {
-            throw new UserSearchServiceException("Search source can't be created", e);
-        }
+    public Optional<User> findByEmail(String email) throws DaoOperationException {
+        UserDatabaseDao dao = (UserDatabaseDao)transaction.createDao(DaoType.USER);
+        return dao.findByEmail(email);
     }
 
 }

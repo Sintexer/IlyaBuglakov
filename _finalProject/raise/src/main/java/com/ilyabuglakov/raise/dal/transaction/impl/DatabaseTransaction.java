@@ -63,8 +63,12 @@ public class DatabaseTransaction implements Transaction {
     }
 
     @Override
-    public void close() throws SQLException {
-        connection.setAutoCommit(true);
-        connection.close();
+    public void close() throws TransactionException {
+        try {
+            connection.setAutoCommit(true);
+            connection.close();
+        } catch (SQLException e) {
+            throw new TransactionException("Can't close transaction", e);
+        }
     }
 }

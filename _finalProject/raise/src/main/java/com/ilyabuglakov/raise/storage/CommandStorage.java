@@ -1,20 +1,20 @@
 package com.ilyabuglakov.raise.storage;
 
-import com.ilyabuglakov.raise.command.localization.ChangeLocalizationCommand;
-import com.ilyabuglakov.raise.command.login.LoginGetCommand;
-import com.ilyabuglakov.raise.command.login.LoginPostCommand;
-import com.ilyabuglakov.raise.command.test.TestCatalogPageCommand;
-import com.ilyabuglakov.raise.command.test.TestCreatorGetCommand;
-import com.ilyabuglakov.raise.command.test.TestCreatorSaveCommand;
-import com.ilyabuglakov.raise.command.test.TestPreviewPageCommand;
-import com.ilyabuglakov.raise.command.test.TestResultCommand;
-import com.ilyabuglakov.raise.command.test.TestingGetCommand;
+import com.ilyabuglakov.raise.command.impl.localization.ChangeLocalizationCommand;
+import com.ilyabuglakov.raise.command.impl.login.LoginGetCommand;
+import com.ilyabuglakov.raise.command.impl.login.LoginPostCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestCatalogPageCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestCreatorGetCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestCreatorSaveCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestPreviewPageCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestResultCommand;
+import com.ilyabuglakov.raise.command.impl.test.TestingGetCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.index.IndexGetCommand;
-import com.ilyabuglakov.raise.command.index.IndexPostCommand;
-import com.ilyabuglakov.raise.command.registration.RegistrationGetCommand;
-import com.ilyabuglakov.raise.command.registration.RegistrationPostCommand;
+import com.ilyabuglakov.raise.command.impl.index.IndexGetCommand;
+import com.ilyabuglakov.raise.command.impl.index.IndexPostCommand;
+import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
+import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 
 import java.util.EnumMap;
 import java.util.HashMap;

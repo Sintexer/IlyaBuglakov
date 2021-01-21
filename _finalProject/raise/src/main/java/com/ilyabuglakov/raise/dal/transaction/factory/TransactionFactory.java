@@ -5,4 +5,5 @@ import com.ilyabuglakov.raise.dal.transaction.factory.exception.TransactionCreat
 
 public interface TransactionFactory {
     Transaction createTransaction() throws TransactionCreationException;
+    void close();
 }

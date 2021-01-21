@@ -15,4 +15,5 @@ public interface TestReadService {
 
     Integer getTestAmount() throws DaoOperationException;
     Integer getTestAmount(Integer authorId) throws DaoOperationException;
+    Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
 }

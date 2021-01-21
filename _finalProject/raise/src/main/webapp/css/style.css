@@ -39,7 +39,7 @@ ul {
 a {
     text-decoration: none;
     outline: none;
-    color: rgb(51, 160, 236);
+    color: #292929;
 }
 
 a:hover {
@@ -56,10 +56,14 @@ button {
 }
 
 .section {
-    padding: 0 4rem;
+    padding: 0 2rem;
     max-width: var(--pageMax);
     margin: 0 auto;
     background-color: #fff;
+    display: flex;
+    width: 100%;
+    flex: 1 1 auto;
+    box-sizing: border-box;
 }
 
 .dec-pancake {
@@ -97,7 +101,7 @@ button {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    border: 1px solid #dcdcdc;
+    border: 1px solid gainsboro;
     border-radius: 15px;
 }
 
@@ -114,7 +118,7 @@ button {
     display: inline-flex;
     flex-direction: column;
     padding: 1rem;
-    border: 1px solid #dcdcdc;
+    border: 1px solid gainsboro;
     border-radius: 15px;
 }
 
@@ -226,7 +230,6 @@ button {
     background-color: white;
     padding: 2rem 0;
     box-sizing: border-box;
-    height: 100%;
 }
 
 .page {
@@ -239,20 +242,19 @@ button {
     /*! margin: auto; */
     /*! display: grid; */
     /*! grid-template-columns: auto 1fr auto; */
-    background-color: #f8f8f8;
+    display: flex;
+    flex-flow: column;
+    background-color: #a5c3cc;
 }
 
-/*.content {*/
-/*    width: clamp(23ch, 50%, 46ch);*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    padding: 1rem;*/
-/*}*/
+.content {
+    width: 100%;
+}
 
 
 .page-header {
     padding: 1rem;
-    background-color: #d5f1f6;
+    background-color: #63a583;
     font-family: 'Source Sans Pro', sans-serif;
 }
 
@@ -583,9 +585,8 @@ button:disabled, button:disabled:hover {
 }
 
 .page-title {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
 .margin-auto {
@@ -695,7 +696,7 @@ button:disabled, button:disabled:hover {
     text-align: center;
     /*width: 700px;*/
     display: flex;
-    margin: 3rem 0;
+    margin-top: 3rem;
 }
 
 .pagination {
@@ -764,9 +765,8 @@ button:disabled, button:disabled:hover {
 }
 
 .font-lg {
-    font-size: 2rem;
+    font-size: 4rem;
 }
-
 
 .wide {
     width: 100%;
@@ -777,4 +777,32 @@ button:disabled, button:disabled:hover {
 
 .bg-yellow {
     background-color: #feffb4;
+}
+
+.bg-none {
+    background-color: transparent;
+}
+
+.main-head {
+    width: 100%;
+    padding: 2rem 0;
+    color: white;
+    background-color: #326964;
+}
+
+.head-info {
+    margin-bottom: 6rem;
+}
+
+.jc-space-around {
+    justify-content: space-around;
+}
+
+.block {
+    display: block;
+}
+
+.characteristic-section {
+    display: grid;
+    grid-template-columns: minmax(13ch, 20%) 1fr;
 }

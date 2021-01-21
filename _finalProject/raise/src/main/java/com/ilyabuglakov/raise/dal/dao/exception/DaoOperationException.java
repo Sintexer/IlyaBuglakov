@@ -1,6 +1,8 @@
 package com.ilyabuglakov.raise.dal.dao.exception;
 
-public class DaoOperationException extends Exception {
+import com.ilyabuglakov.raise.dal.exception.PersistentException;
+
+public class DaoOperationException extends PersistentException {
     public DaoOperationException() {
         super();
     }

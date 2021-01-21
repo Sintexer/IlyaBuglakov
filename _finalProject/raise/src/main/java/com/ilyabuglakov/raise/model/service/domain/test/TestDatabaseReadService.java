@@ -85,6 +85,12 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
     @Override
     public Integer getTestAmount(Integer authorId) throws DaoOperationException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+        return testDao.getTestAmount(authorId);
+    }
+
+    @Override
+    public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
+        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         return testDao.getNewTestAmount(authorId);
     }
 }

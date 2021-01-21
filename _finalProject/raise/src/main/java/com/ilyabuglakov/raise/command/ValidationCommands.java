@@ -1,7 +1,7 @@
 package com.ilyabuglakov.raise.command;
 
-import com.ilyabuglakov.raise.command.validation.TestValidationCommand;
-import com.ilyabuglakov.raise.command.validation.ValidationCommand;
+import com.ilyabuglakov.raise.command.impl.validation.TestValidationCommand;
+import com.ilyabuglakov.raise.command.impl.validation.ValidationCommand;
 import lombok.Getter;
 
 @Getter
