@@ -9,10 +9,10 @@ import com.ilyabuglakov.raise.command.impl.test.TestCreatorSaveCommand;
 import com.ilyabuglakov.raise.command.impl.test.TestPreviewPageCommand;
 import com.ilyabuglakov.raise.command.impl.test.TestResultCommand;
 import com.ilyabuglakov.raise.command.impl.test.TestingGetCommand;
+import com.ilyabuglakov.raise.command.impl.user.UserProfileGetCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.impl.index.IndexGetCommand;
-import com.ilyabuglakov.raise.command.impl.index.IndexPostCommand;
 import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 
@@ -40,7 +40,6 @@ public class CommandStorage {
 
         addCommand(RequestMethod.GET, "root", new IndexGetCommand());
         addCommand(RequestMethod.GET, "index", new IndexGetCommand());
-        addCommand(RequestMethod.POST, "index", new IndexPostCommand());
         addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
         addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
         addCommand(RequestMethod.GET, "changeLocale", new ChangeLocalizationCommand());
@@ -52,6 +51,7 @@ public class CommandStorage {
         addCommand(RequestMethod.POST, "test.testing.result", new TestResultCommand());
         addCommand(RequestMethod.GET, "login", new LoginGetCommand());
         addCommand(RequestMethod.POST, "login", new LoginPostCommand());
+        addCommand(RequestMethod.GET, "profile", new UserProfileGetCommand());
 
     }
 

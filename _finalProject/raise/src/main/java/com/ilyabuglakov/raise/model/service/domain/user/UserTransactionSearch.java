@@ -23,4 +23,9 @@ public class UserTransactionSearch extends TransactionWebService implements User
         return dao.findByEmail(email);
     }
 
+    @Override
+    public Optional<User> findById(Integer userId) throws DaoOperationException {
+        UserDatabaseDao dao = (UserDatabaseDao)transaction.createDao(DaoType.USER);
+        return dao.read(userId);
+    }
 }

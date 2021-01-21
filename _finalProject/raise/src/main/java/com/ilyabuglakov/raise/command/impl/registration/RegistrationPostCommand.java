@@ -5,7 +5,7 @@ import com.ilyabuglakov.raise.command.Commands;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
-import com.ilyabuglakov.raise.model.service.RequestService;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,11 +19,11 @@ import java.io.IOException;
  * before throwing an exception.
  */
 @Log4j2
-public class RegistrationPostCommand implements Command {
+public class RegistrationPostCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("posted");
-
+        ResponseEntity responseEntity = new ResponseEntity();
         try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             request.setAttribute("transaction", transaction);
 
@@ -33,20 +33,19 @@ public class RegistrationPostCommand implements Command {
 
             transaction.commit();
 
-            response.sendRedirect(PropertiesStorage.getInstance().getLinks().getProperty("login"));
+            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("login"));
+            responseEntity.setRedirect(true);
 
         } catch (CommandException e) {
-            request.setAttribute("registrationFailed", true);
-            request.getRequestDispatcher(
-                    PropertiesStorage.getInstance()
-                            .getPages()
-                            .getProperty("registration"))
-                    .forward(request, response);
+            responseEntity.getAttributes().put("registrationFailed", true);
+            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("registration"));
         } catch (Exception e) {
             log.fatal("Error while closing transaction");
-            RequestService.getInstance().setRequestErrorAttributes(request, "error.db", 500);
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
-                    .forward(request, response);
+            responseEntity.getAttributes().put("registrationFailed", true);
+            responseEntity.getAttributes().put("errorMessage", "error.db");
+            responseEntity.getAttributes().put("errorCode", "500");
+            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("error"));
         }
+        return responseEntity;
     }
 }

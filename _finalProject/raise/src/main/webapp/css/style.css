@@ -804,5 +804,18 @@ button:disabled, button:disabled:hover {
 
 .characteristic-section {
     display: grid;
-    grid-template-columns: minmax(13ch, 20%) 1fr;
+    grid-template-columns: minmax(24ch, 30%) 1fr;
+    align-items: center;
+}
+
+.usr-characteristics-left {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 2rem;
+    padding: 2rem 2rem 2rem 0;
+    border-right: 1px solid gainsboro;
+}
+
+.usr-characteristics-right{
+    padding: 2rem 0;
 }

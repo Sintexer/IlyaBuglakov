@@ -1,10 +1,17 @@
 package com.ilyabuglakov.raise.controller;
 
 import com.ilyabuglakov.raise.command.exception.CommandException;
+import com.ilyabuglakov.raise.command.manager.CommandManager;
+import com.ilyabuglakov.raise.command.manager.CommandManagerFactory;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.dal.exception.PersistentException;
+import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.model.LocaleType;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
+import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
+import com.ilyabuglakov.raise.model.service.domain.factory.database.DatabaseServiceFactory;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -42,6 +49,10 @@ public class DispatcherServlet extends HttpServlet {
         processCommand(req, resp);
     }
 
+    private ServiceFactory getServiceFactory(){
+        return new DatabaseServiceFactory(new DatabaseTransactionFactory());
+    }
+
     private Optional<Command> extractCommand(HttpServletRequest request) {
         return Optional.ofNullable((Command) request.getAttribute("command"));
     }
@@ -52,13 +63,30 @@ public class DispatcherServlet extends HttpServlet {
 
             if (command.isPresent()) {
                 req.setAttribute("locales", Arrays.asList(LocaleType.values()));
-                command.get().execute(req, resp);
+                CommandManager commandManager = CommandManagerFactory.getCommandManager(getServiceFactory());
+                ResponseEntity responseEntity = commandManager.execute(command.get(), req, resp);
+                commandManager.close();
+                if(responseEntity != null)
+                    processResponseEntity(responseEntity, req, resp);
             } else {
                 resp.sendError(404);
             }
 
-        } catch (CommandException e) {
+        } catch (CommandException | PersistentException e) {
             resp.sendError(500);
+        }
+    }
+
+    private void processResponseEntity(ResponseEntity responseEntity,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response)
+            throws IOException, ServletException {
+        if(responseEntity.isRedirect()){
+            log.debug("Send redirect");
+            response.sendRedirect(responseEntity.getLink());
+        } else {
+            responseEntity.getAttributes().forEach(request::setAttribute);
+            request.getRequestDispatcher(responseEntity.getLink()).forward(request, response);
         }
     }
 

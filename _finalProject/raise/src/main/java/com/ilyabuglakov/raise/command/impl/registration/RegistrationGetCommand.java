@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.command.impl.registration;
 
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.model.FormConstants;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
@@ -12,32 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class RegistrationGetCommand implements Command {
+public class RegistrationGetCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered registration command");
 
-        SecurityUtils.getSubject().logout();
+        ResponseEntity responseEntity = new ResponseEntity();
+        responseEntity.getAttributes().put("emailLength", FormConstants.EMAIL_LENGTH.getValue());
+        responseEntity.getAttributes().put("nameLength", FormConstants.NAME_LENGTH.getValue());
+        responseEntity.getAttributes().put("surnameLength", FormConstants.SURNAME_LENGTH.getValue());
+        responseEntity.getAttributes().put("passwordMin", FormConstants.PASSWORD_MIN.getValue());
+        responseEntity.getAttributes().put("passwordMax", FormConstants.PASSWORD_MAX.getValue());
+        responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("registration"));
 
-        specifyFormParameters(request,
-                FormConstants.EMAIL_LENGTH.getValue(), FormConstants.NAME_LENGTH.getValue(),
-                FormConstants.SURNAME_LENGTH.getValue(), FormConstants.PASSWORD_MIN.getValue(),
-                FormConstants.PASSWORD_MAX.getValue());
-
-        request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("registration"))
-                .forward(request, response);
-    }
-
-    private void specifyFormParameters(HttpServletRequest request,
-                                       int emailLength,
-                                       int nameLength, int surnameLength,
-                                       int passwordMin, int passwordMax){
-        request.setAttribute("emailLength", emailLength);
-        request.setAttribute("nameLength", nameLength);
-        request.setAttribute("surnameLength", surnameLength);
-        request.setAttribute("passwordMin", passwordMin);
-        request.setAttribute("passwordMax", passwordMax);
+        return responseEntity;
     }
 
 }

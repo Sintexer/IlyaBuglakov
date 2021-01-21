@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.UserRegistrationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.user.UserDatabaseRegistrationService;
 import com.ilyabuglakov.raise.model.service.domain.user.exception.UserRegistrationServiceException;
 import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserRegistrationService;
@@ -11,10 +12,10 @@ import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserRegistrat
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UserRegistrationCommand implements Command {
+public class UserRegistrationCommand extends Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws UserRegistrationException {
 
         String email = request.getParameter("username");
@@ -37,6 +38,7 @@ public class UserRegistrationCommand implements Command {
         } catch (UserRegistrationServiceException e) {
             throw new UserRegistrationException("", e);
         }
+        return null;
     }
 
 }

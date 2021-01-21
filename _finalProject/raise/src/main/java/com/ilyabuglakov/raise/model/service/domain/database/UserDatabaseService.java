@@ -5,7 +5,7 @@ import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.dto.UserCharacteristic;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
-import com.ilyabuglakov.raise.model.service.domain.Service;
+import com.ilyabuglakov.raise.model.service.domain.UserService;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.model.service.domain.user.UserParametersDatabaseService;
@@ -13,21 +13,38 @@ import com.ilyabuglakov.raise.model.service.domain.user.UserTransactionSearch;
 import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserParametersService;
 import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserSearchService;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
+import java.util.Optional;
 
-public class UserDatabaseService extends DatabaseService implements Service {
+public class UserDatabaseService extends DatabaseService implements UserService {
     public UserDatabaseService(Transaction transaction) {
         super(transaction);
     }
 
-    public UserParametersDto getUserParameters(String email) throws PersistentException {
-        UserParametersDto userParametersDto = null;
+    @Override
+    public UserParametersDto getUserParameters(Integer userId) throws PersistentException {
         UserSearchService userSearchService = new UserTransactionSearch(transaction);
 
-        User user = userSearchService.findByEmail(email).orElseThrow(() ->
-                new PersistenceException("Authorized user not found"));
+        Optional<User> userOptional = userSearchService.;
+        if (!userOptional.isPresent())
+            throw new PersistentException("Authorized user not found");
 
+        return createUserParameters(userOptional.get());
+    }
+
+    @Override
+    public UserParametersDto getUserParameters(String email) throws PersistentException {
+        UserSearchService userSearchService = new UserTransactionSearch(transaction);
+
+        Optional<User> userOptional = userSearchService.findByEmail(email);
+        if (!userOptional.isPresent())
+            throw new PersistentException("Authorized user not found");
+
+        return createUserParameters(userOptional.get());
+    }
+
+    private UserParametersDto createUserParameters(User user) throws PersistentException {
+        UserParametersDto userParametersDto = null;
         UserParametersService userParametersService = new UserParametersDatabaseService(transaction);
         int answeredTestsAmount = userParametersService.getResultsAmount(user.getId());
         TestReadService testReadService = new TestDatabaseReadService(transaction);

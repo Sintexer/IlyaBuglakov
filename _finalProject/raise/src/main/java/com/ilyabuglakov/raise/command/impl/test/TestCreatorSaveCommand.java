@@ -9,7 +9,7 @@ import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFa
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
-import com.ilyabuglakov.raise.model.service.RequestService;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseSaveService;
 import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceException;
 import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceLimitException;
@@ -27,16 +27,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class TestCreatorSaveCommand implements Command {
+public class TestCreatorSaveCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
 
         Subject subject = SecurityUtils.getSubject();
-
         if(subject == null){
-            response.setStatus(401);
-            return;
+            response.sendError(401);
+            return null;
         }
+
+        ResponseEntity responseEntity = new ResponseEntity();
 
         String body = request.getParameter("testJson");
         log.info(body);
@@ -49,11 +50,10 @@ public class TestCreatorSaveCommand implements Command {
             if(subject.isPermitted("confirm:test")){
                 test.setStatus(TestStatus.CONFIRMED);
             }
-
             boolean isValid = ValidationCommands.TEST_VALIDATION.getCommand().execute(test, request);
             if (!isValid) {
-                forwardToFailure(request, response);
-                return;
+                forwardToFailure(responseEntity, request, response);
+                return responseEntity;
             }
 
             TestSaveService testSaveService = new TestDatabaseSaveService(transaction);
@@ -63,33 +63,31 @@ public class TestCreatorSaveCommand implements Command {
             test.setAuthor(user);
             testSaveService.save(test);
             transaction.commit();
-            request.setAttribute("testName", test.getTestName());
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("test.creator.save.success"))
-                    .forward(request, response);
+            responseEntity.setAttribute("testName", test.getTestName());
+            responseEntity.setLink(PropertiesStorage.getInstance()
+                    .getPages()
+                    .getProperty("test.creator.save.success"));
         } catch(TestSaveServiceLimitException e) {
             request.setAttribute("testLimitReached", true);
-            forwardToFailure(request, response);
+            forwardToFailure(responseEntity, request, response);
         } catch (TestSaveServiceException e) {
-            RequestService.getInstance().setRequestErrorAttributes(request, "error.test.db.save", 500);
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
-                    .forward(request, response);
+            response.sendError(500);
+            return null;
         } catch (Exception e) {
-            RequestService.getInstance().setRequestErrorAttributes(request, "error.404", 404);
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("error"))
-                    .forward(request, response);
+            response.sendError(404);
+            return null;
         }
-
-
-
-
+        return responseEntity;
     }
 
-    private void forwardToFailure(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("testWasntCreated", true);
-        request.getRequestDispatcher(PropertiesStorage.getInstance()
+    private void forwardToFailure(ResponseEntity responseEntity,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response)
+            throws ServletException, IOException {
+        responseEntity.setAttribute("testWasntCreated", true);
+        responseEntity.setLink(PropertiesStorage.getInstance()
                 .getPages()
-                .getProperty("test.creator.save.failure"))
-                .forward(request, response);
+                .getProperty("test.creator.save.failure"));
     }
 
 }

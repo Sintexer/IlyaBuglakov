@@ -33,10 +33,12 @@ public class DatabaseTransactionFactory implements TransactionFactory {
 
     @Override
     public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            log.error("Error while closing transaction", e);
+        if(connection!=null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                log.error("Error while closing transaction", e);
+            }
         }
     }
 }

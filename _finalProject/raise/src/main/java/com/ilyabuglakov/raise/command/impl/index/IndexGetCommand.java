@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class IndexGetCommand implements Command {
+public class IndexGetCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         log.info("Entered index command");
         ResponseEntity responseEntity = new ResponseEntity();
-        request.getRequestDispatcher(PropertiesStorage.getInstance()
-                .getPages()
-                .getProperty("index"))
-                .forward(request, response);
+        responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("index"));
+        return responseEntity;
     }
 }

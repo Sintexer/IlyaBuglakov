@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface UserSearchService {
 
     public Optional<User> findByEmail(String email) throws DaoOperationException;
+    public Optional<User> findById(Integer userId) throws DaoOperationException;
 
 }

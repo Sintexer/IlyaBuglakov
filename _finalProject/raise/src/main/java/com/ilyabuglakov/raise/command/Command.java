@@ -1,6 +1,7 @@
 package com.ilyabuglakov.raise.command;
 
 import com.ilyabuglakov.raise.command.exception.CommandException;
+import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
 import lombok.Setter;
@@ -15,5 +16,5 @@ public abstract class Command {
     protected ServiceFactory serviceFactory;
 
     public abstract ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException;
+            throws ServletException, IOException, CommandException, PersistentException;
 }

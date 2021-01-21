@@ -74,16 +74,6 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), user.getRegistrationDate());
         String insertQuery = sqlQueryBuilder.build();
 
-//        sqlQueryBuilder = new SqlSelectBuilder(Tables.ROLE.name());
-//        sqlQueryBuilder.addField(EntityColumns.ID.name());
-//        sqlQueryBuilder.addWhere(RoleColumns.NAME.name(), user.getRole().getName());
-//        String subQuery = sqlQueryBuilder.build();
-//
-//        sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_ROLES.name());
-//        sqlQueryBuilder.addField(UserRolesColumns.USER_ID.name(), user.getId());
-//
-//        "insert into user_roles(user_id, role_id) values((select id from usr where email = 'ilboogl@gmail.com'), 2)";
-
         return executeReturnId(insertQuery);
     }
 

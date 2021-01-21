@@ -4,5 +4,6 @@ import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 
 public interface UserService extends Service{
+    public UserParametersDto getUserParameters(Integer userId) throws PersistentException;
     public UserParametersDto getUserParameters(String email) throws PersistentException;
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -12,5 +13,9 @@ import java.util.Map;
 public class ResponseEntity {
     private String link;
     private boolean isRedirect;
-    private Map<String, Object> attributes;
+    private Map<String, Object> attributes = new HashMap<>();
+
+    public Object setAttribute(String key, Object value){
+        return attributes.put(key, value);
+    }
 }

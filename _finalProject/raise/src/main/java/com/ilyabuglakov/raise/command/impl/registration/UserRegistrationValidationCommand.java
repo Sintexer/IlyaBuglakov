@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.command.impl.registration;
 
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.UserValidationException;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.validator.UserValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * Will throw UserValidationException if some fields are invalid.
  */
-public class UserRegistrationValidationCommand implements Command {
+public class UserRegistrationValidationCommand extends Command {
 
 
     /**
@@ -25,7 +26,7 @@ public class UserRegistrationValidationCommand implements Command {
      * @throws UserValidationException if some fields are invalid
      */
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws UserValidationException {
         String email = request.getParameter("username");
         String name = request.getParameter("name");
@@ -51,5 +52,6 @@ public class UserRegistrationValidationCommand implements Command {
             request.setAttribute("surnamePrevVal", surname);
             throw new UserValidationException("Some of form fields contain invalid value");
         }
+        return null;
     }
 }

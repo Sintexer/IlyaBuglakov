@@ -13,9 +13,10 @@ import java.util.EnumMap;
 public class DatabaseServiceFactory implements ServiceFactory {
 
     private final EnumMap<ServiceType, DatabaseServiceProducer> serviceCreators;
-    private final TransactionFactory transactionFactory = new DatabaseTransactionFactory();
+    private final TransactionFactory transactionFactory;
 
-    public DatabaseServiceFactory() {
+    public DatabaseServiceFactory(DatabaseTransactionFactory databaseTransactionFactory) {
+        this.transactionFactory = databaseTransactionFactory;
         serviceCreators = new EnumMap<>(ServiceType.class);
         serviceCreators.put(ServiceType.USER, UserDatabaseService::new);
     }

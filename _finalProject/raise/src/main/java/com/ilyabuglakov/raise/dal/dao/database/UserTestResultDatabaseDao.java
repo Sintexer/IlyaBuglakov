@@ -2,6 +2,8 @@ package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDao;
+import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.UserTestResult;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -157,10 +159,14 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
             ResultSetValidator validator = new ResultSetValidator();
             if(validator.hasAllValues(resultSet,
                     UserTestResultColumns.RESULT.name(),
+                    UserTestResultColumns.USER_ID.name(),
+                    UserTestResultColumns.TEST_ID.name(),
                     EntityColumns.ID.name())) {
                 UserTestResult userTestResult = UserTestResult.builder()
                         .result(resultSet.getInt(UserTestResultColumns.RESULT.name()))
                         .build();
+                userTestResult.setUser(User.builder().id(resultSet.getInt(UserTestResultColumns.USER_ID.name())).build());
+                userTestResult.setTest(Test.builder().id(resultSet.getInt(UserTestResultColumns.TEST_ID.name())).build());
                 userTestResult.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(userTestResult);
             }

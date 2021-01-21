@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.command.impl.login;
 
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
@@ -18,13 +19,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Log4j2
-public class LoginPostCommand implements Command {
+public class LoginPostCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
         log.info("posted to Login");
 
         Subject currentUser = SecurityUtils.getSubject();
-        log.warn(currentUser);
+        log.debug(currentUser);
+
+        ResponseEntity responseEntity = new ResponseEntity();
 
         if (!currentUser.isAuthenticated()) {
             log.info("login auth");
@@ -33,29 +36,27 @@ public class LoginPostCommand implements Command {
                     request.getParameter("password"));
             try {
                 currentUser.login(token);
-
+                log.info("after login");
+                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+                if(savedRequest!=null){
+                    log.info("redirect to prev page");
+                    WebUtils.redirectToSavedRequest(request, response, savedRequest.getRequestUrl());
+                } else {
+                    log.info("redirect to home page");
+                    responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
+                    responseEntity.setRedirect(true);
+                    return responseEntity;
+                }
+                return null;
             } catch (UnknownAccountException | IncorrectCredentialsException e) {
-                request.setAttribute("loginFailed", true);
-                request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("login"))
-                        .forward(request, response);
-                return;
+                responseEntity.getAttributes().put("loginFailed", true);
+                responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
             }
         } else {
-            request.setAttribute("alreadyLogged", true);
-            request.getRequestDispatcher(PropertiesStorage.getInstance().getPages().getProperty("login"))
-                    .forward(request, response);
-            return;
+            responseEntity.getAttributes().put("alreadyLogged", true);
+            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
         }
 
-        log.info("after login");
-        SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-        if(savedRequest!=null){
-            log.info("redirect to prev page");
-            WebUtils.redirectToSavedRequest(request, response, savedRequest.getRequestUrl());
-        } else {
-            log.info("redirect to home page");
-            response.sendRedirect(PropertiesStorage.getInstance().getLinks().getProperty("root"));
-        }
-
+        return responseEntity;
     }
 }

@@ -14,10 +14,15 @@ import java.io.IOException;
 
 public class DatabaseCommandManager implements CommandManager{
 
-    private final ServiceFactory serviceFactory = new DatabaseServiceFactory();
+    private final ServiceFactory serviceFactory;
+
+    public DatabaseCommandManager(ServiceFactory serviceFactory) {
+        this.serviceFactory = serviceFactory;
+    }
 
     @Override
-    public ResponseEntity execute(Command command, HttpServletRequest request, HttpServletResponse response) throws PersistentException, ServletException, CommandException, IOException {
+    public ResponseEntity execute(Command command, HttpServletRequest request, HttpServletResponse response)
+            throws PersistentException, ServletException, CommandException, IOException {
         command.setServiceFactory(serviceFactory);
         return command.execute(request, response);
     }

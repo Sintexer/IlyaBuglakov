@@ -8,6 +8,7 @@ import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.DaoType;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -23,9 +24,9 @@ import java.util.Optional;
  * Will try to rollback transaction if provided email already exists or if DaoOperationException happens.
  */
 @Log4j2
-public class UserUniquenessCheckCommand implements Command {
+public class UserUniquenessCheckCommand extends Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, UserEmailUniquenessException {
         Transaction transaction = (Transaction) request.getAttribute("transaction");
         try {
@@ -46,5 +47,6 @@ public class UserUniquenessCheckCommand implements Command {
         } catch (TransactionException e) {
             log.fatal("Can't rollback transaction", e);
         }
+        return null;
     }
 }

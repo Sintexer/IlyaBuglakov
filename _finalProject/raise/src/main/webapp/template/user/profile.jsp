@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib  prefix="h" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="h" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Raise</title>
+    <%--    TODO title--%>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 </head>
 <body>
@@ -24,50 +25,37 @@
         <div class="main-head">
             <div class="section bg-none block">
                 <div class="head-info">
-                    <h2 class="bold font-lg">Ilya Buglakov</h2>
-                    <p>Registered: 22-01-2021</p>
+                    <h2 class="bold font-lg">${userParameters.user.name} ${userParameters.user.surname}</h2>
+                    <p><fmt:message key="user.profile.registered"/>: ${userParameters.user.registrationDate}</p>
                 </div>
                 <div class="dec-pancake jc-space-around">
                     <div class="user-achievements text-center">
-                        <h3 class="font-lg">22</h3>
-                        <span>test passed</span>
+                        <h3 class="font-lg">${userParameters.testsSolved}</h3>
+                        <span><fmt:message key="user.profile.tests.solved"/></span>
                     </div>
                     <div class="user-achievements text-center">
-                        <h3 class="font-lg">33</h3>
-                        <span>test created</span>
+                        <h3 class="font-lg">${userParameters.testsCreated}</h3>
+                        <span><fmt:message key="user.profile.tests.created"/></span>
                     </div>
                     <div class="user-achievements text-center">
-                        <h3 class="font-lg">44</h3>
-                        <span>comment posted</span>
+                        <h3 class="font-lg">${userParameters.commentsPosted}</h3>
+                        <span><fmt:message key="user.profile.comments.posted"/></span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="section">
             <div class="content">
-                <span >User characteristics:</span>
-                <div class="breakline"></div>
-                <div class="characteristic-section padding-2rem">
-                    <div>Memory: 200</div>
-                    <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
-                </div>
-                <div class="breakline"></div>
-                <div class="characteristic-section padding-2rem">
-                    <div>Memory: 200</div>
-                    <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
-                </div>
-                <div class="breakline"></div>
-                <div class="characteristic-section padding-2rem">
-                    <div>Memory: 200</div>
-                    <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
-                </div>
-                <div class="breakline"></div>
-                <div class="characteristic-section padding-2rem">
-                    <div>Memory: 200</div>
-                    <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
-                </div>
-
-
+                <span><fmt:message key="user.profile.characteristics.title"/>:</span>
+                <c:forEach var="userCharacteristic" items="${userParameters.userCharacteristics}">
+                    <div class="breakline"></div>
+                    <div class="characteristic-section padding-2rem">
+                        <div class="usr-characteristics-left">
+                            <span>${userCharacteristic.characteristic}:</span><span>${userCharacteristic.score}</span>
+                        </div>
+                        <span class="usr-characteristics-right">Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </main>
