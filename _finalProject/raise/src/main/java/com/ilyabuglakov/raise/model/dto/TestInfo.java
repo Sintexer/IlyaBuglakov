@@ -19,5 +19,6 @@ public class TestInfo {
     private String testName;
     private int difficulty;
     private Set<Characteristic> characteristics;
+    private String questionNames;
     private int questionsAmount;
 }

@@ -1,9 +1,14 @@
 package com.ilyabuglakov.raise.model.service.domain;
 
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 
+import java.util.Optional;
+
 public interface UserService extends Service{
-    public UserParametersDto getUserParameters(Integer userId) throws PersistentException;
-    public UserParametersDto getUserParameters(String email) throws PersistentException;
+    UserParametersDto getUserParameters(Integer userId) throws PersistentException;
+    UserParametersDto getUserParameters(String email) throws PersistentException;
+    Optional<User> getUser(String email) throws PersistentException;
+    void updateUser(User user) throws PersistentException;
 }

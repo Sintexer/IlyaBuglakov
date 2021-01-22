@@ -1,8 +1,10 @@
 package com.ilyabuglakov.raise.model.service.domain.database;
 
+import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.UserCharacteristic;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
@@ -19,6 +21,19 @@ import java.util.Optional;
 public class UserDatabaseService extends DatabaseService implements UserService {
     public UserDatabaseService(Transaction transaction) {
         super(transaction);
+    }
+
+    @Override
+    public Optional<User> getUser(String email) throws PersistentException {
+        UserSearchService userSearchService = new UserTransactionSearch(transaction);
+        return userSearchService.findByEmail(email);
+    }
+
+    @Override
+    public void updateUser(User user) throws PersistentException {
+        UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
+        userDao.update(user);
+        transaction.commit();
     }
 
     @Override

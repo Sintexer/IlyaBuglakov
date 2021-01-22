@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
@@ -24,7 +25,7 @@
     <main class="main">
         <div class="section">
             <div class="content">
-                <div class="section centered padding-0">
+                <div class="section block centered padding-0">
                     <h1 class="page-title">Test catalog</h1>
                     <c:url value="/template/parts/pagination.jsp" var="topPagination"/>
                     <jsp:include page="${topPagination}"/>
@@ -47,13 +48,14 @@
                                     </c:if>
                                     <div class="flex-11a"></div>
                                     <div class="breakline"></div>
-                                    <div><a class="btn" href="/api/test/preview?testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
+                                    <div><a class="btn" href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
 
                                 </div>
                                 <div class="card-footer">
                                     <span>author:</span>
-<%--                                    //TODO--%>
-                                    <a href="#">${test.author.name} ${test.author.surname}</a>
+                                    <a href="<ct:link key="user.profile"/>?userId=${test.author.id}">
+                                            ${test.author.name} ${test.author.surname}
+                                    </a>
                                 </div>
                             </div>
                         </c:forEach>

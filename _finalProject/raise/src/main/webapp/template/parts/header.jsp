@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <fmt:setBundle basename="/locale/header"/>
 
@@ -26,10 +27,13 @@
                 </div>
                 <a href="<ct:link key="root"/>"><fmt:message key="link.home"/></a>
                 <a href="<ct:link key="test.catalog"/>"><fmt:message key="link.tests"/></a>
-                <a href="<ct:link key="registration"/>"><fmt:message key="link.login"/></a>
-                <a href="<ct:link key="login"/>"><fmt:message key="link.registration"/></a>
+
             </div>
             <div class="header-right-side">
+                <shiro:guest>
+                    <a class="btn" href="<ct:link key="login"/>"><fmt:message key="link.login"/></a>
+                    <a class="btn" href="<ct:link key="registration"/>"><fmt:message key="link.registration"/></a>
+                </shiro:guest>
                 <h:locale/>
             </div>
         </nav>

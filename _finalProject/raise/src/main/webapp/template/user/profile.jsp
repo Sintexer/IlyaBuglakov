@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raise</title>
+    <title><fmt:message key="title.user.profile"/></title>
     <%--    TODO title--%>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 </head>
@@ -47,7 +47,7 @@
         <c:if test="${isOwner}">
             <div>
                 <div class="user-profile-actions section">
-                    <a href="#" class="btn">Edit profile</a>
+                    <a href="<ct:link key="user.profile.change"/>" class="btn"><fmt:message key="button.profile.edit"/></a>
                 </div>
             </div>
         </c:if>
@@ -59,7 +59,7 @@
                     <div class="breakline"></div>
                     <div class="padding-2rem">
                         <div class="font-mdd margin-b-1rem">
-                            <span>${userCharacteristic.characteristic}:</span><span>${userCharacteristic.score}</span>
+                            <span>${userCharacteristic.characteristic}: </span><span class="bold">${userCharacteristic.score}</span>
                         </div>
                         <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
                     </div>

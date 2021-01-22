@@ -66,9 +66,12 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
         sqlQueryBuilder.addWhere(UserTestResultColumns.TEST_ID.name(), testId);
         String selectQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<UserTestResult> userTestResult = buildUserTestResult(resultSet);
-        closeResultSet(resultSet);
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
+        Optional<UserTestResult> userTestResult = Optional.empty();
+        if(resultSet.isPresent()){
+            userTestResult = buildUserTestResult(resultSet.get());
+            closeResultSet(resultSet.get());
+        };
         return userTestResult;
     }
 
@@ -117,9 +120,13 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
         sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
         String selectQuery = sqlQueryBuilder.build();
 
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<UserTestResult> userTestResult = buildUserTestResult(resultSet);
-        closeResultSet(resultSet);
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
+        Optional<UserTestResult> userTestResult = Optional.empty();
+        if(resultSet.isPresent()){
+            userTestResult = buildUserTestResult(resultSet.get());
+            closeResultSet(resultSet.get());
+        }
+
         return userTestResult;
     }
 

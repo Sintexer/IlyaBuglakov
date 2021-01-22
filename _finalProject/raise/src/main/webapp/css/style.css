@@ -465,7 +465,7 @@ button:disabled, button:disabled:hover {
 }
 
 .tooltip .tooltip-text {
-    left: 105%;
+    top: 105%;
     visibility: hidden;
     background-color: rgba(0, 0, 0, .75);
     color: #fff;
@@ -835,4 +835,113 @@ button:disabled, button:disabled:hover {
 
 .margin-b-1rem {
     margin-bottom: 1rem;
+}
+
+.user-profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.w-auto {
+    width: auto;
+}
+.w-fit {
+    width: fit-content;
+}
+
+.m-x-1rem {
+    margin: 0 1rem;
+}
+
+.jc-left{
+    justify-content: left;
+}
+
+.color-white {
+    color: white;
+}
+
+.m-y-0 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+.table-responsive td, .table-responsive th {
+    padding: 12px 10px;
+    vertical-align: top;
+    text-align: left;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f5f5f5;
+}
+
+.table-responsive tbody>tr>td {
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+
+.w-15{
+    width: 15%;
+}
+
+.w-35{
+    width: 35%;
+}
+
+.jc-fl-end {
+    justify-content: flex-end;
+}
+
+.table-striped tbody tr:hover, .table-striped th:hover {
+    background-color: #8cadef;
+}
+
+.grid-2 {
+    display: grid;
+    grid-gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; }
+}
+
+
+.box-100 {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.test-preview {
+    display: flex;
+    flex-direction: column;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.m-x-auto {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.m-t-1rem {
+    margin-top: 1rem;
+}
+
+.comment {
+    background-color: #e5e5e5;
+}
+
+.jc-center {
+    justify-content: center;
 }

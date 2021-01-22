@@ -1,27 +1,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
+
+<fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
+<fmt:setBundle basename="/locale/page"/>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <meta charset="UTF-8">
-    <title>Raise - 404</title>
+    <title>404</title>
 </head>
 <body>
 <div class="page">
-    <div class="header-logo section centered">
-        <a href="/api/home">
-            <h3>Raise</h3>
-        </a>
-    </div>
+    <c:url value="/template/parts/header.jsp" var="headerPath"/>
+    <jsp:include page="${headerPath}"/>
     <main class="main centered">
         <div class="centered error-msg">
             <h2 class="error-code">404</h2>
-            <h2>Page not found</h2>
-            <a class="btn" href="/api/home">Вернуться на главную</a>
+            <h2><fmt:message key="error.404"/></h2>
+            <a class="btn" href="<ct:link key="root"/>"><fmt:message key="link.back.main"/></a>
         </div>
     </main>
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
-    <jsp:include page="${footerPath}" />
+    <jsp:include page="${footerPath}"/>
 </div>
 </body>
 </html>

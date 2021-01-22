@@ -13,6 +13,7 @@ import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
+import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public class TestingGetCommand extends Command {
             log.info(test.get());
             responseEntity.setAttribute("test", test.get());
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.testing"));
-        } else {
+        } else if(!SecurityUtils.getSubject().isPermitted("test:confirm")) {
             response.sendError(404);
         }
         return responseEntity;

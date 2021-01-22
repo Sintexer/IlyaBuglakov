@@ -71,7 +71,7 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
         log.info("User characteristics values: " + characteristicResults);
 
         return characteristicResults.entrySet().stream()
-                .map(entry -> new UserCharacteristic(entry.getKey(), entry.getValue()))
+                .map(entry -> new UserCharacteristic(entry.getKey(), entry.getValue()/100))
                 .collect(Collectors.toList());
     }
 }

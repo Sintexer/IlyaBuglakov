@@ -38,6 +38,25 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
+    public List<String> getQuestionsNames(Integer testId) throws DaoOperationException {
+        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
+        sqlQueryBuilder.addField(QuestionColumns.NAME.name());
+        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
+        String query = sqlQueryBuilder.build();
+
+        List<String> questionsNames = new ArrayList<>();
+        ResultSet resultSet = createResultSet(query);
+        try {
+            while (resultSet.next()) {
+                questionsNames.add(resultSet.getString(QuestionColumns.NAME.name()));
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't read resultSet", e);
+        }
+        return questionsNames;
+    }
+
+    @Override
     public Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException {
         SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
         sqlQueryBuilder.returnCount();

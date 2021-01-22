@@ -1,5 +1,7 @@
 package com.ilyabuglakov.raise.model.service.domain;
 
 public enum ServiceType {
-    USER
+    USER,
+    TEST,
+    TEST_COMMENT
 }

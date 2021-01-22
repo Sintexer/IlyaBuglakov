@@ -68,7 +68,7 @@ public class TestResultCommand extends Command {
                 UserSearchService userSearchService = new UserTransactionSearch(transaction);
                 Optional<User> user = userSearchService.findByEmail((String) SecurityUtils.getSubject().getPrincipal());
                 if (!user.isPresent()) {
-                    response.sendError(500);
+                    response.sendError(403);
                     return null;
                 }
 
