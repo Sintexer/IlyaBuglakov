@@ -1,9 +1,17 @@
 package com.ilyabuglakov.raise.controller;
 
+import com.ilyabuglakov.raise.command.exception.CommandException;
+import com.ilyabuglakov.raise.command.manager.CommandManager;
+import com.ilyabuglakov.raise.command.manager.CommandManagerFactory;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
-import com.ilyabuglakov.raise.model.Forward;
-import com.ilyabuglakov.raise.model.command.Command;
+import com.ilyabuglakov.raise.command.Command;
+import com.ilyabuglakov.raise.dal.exception.PersistentException;
+import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
+import com.ilyabuglakov.raise.model.LocaleType;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
+import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
+import com.ilyabuglakov.raise.model.service.domain.factory.database.DatabaseServiceFactory;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -12,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Log4j2
 @WebServlet("/controller")
@@ -29,25 +39,55 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Object commandAttribute = req.getAttribute("command");
-        Command command;
-        String url;
-        if (commandAttribute != null) {
-            command = (Command) commandAttribute;
-            log.info("Command: " + command.getClass());
-            Forward forward = command.execute(req, resp, getServletContext());
-            log.warn(forward.getForward());
-            url = forward.getForward();
-        } else {
-            url = req.getRequestURI();
-        }
-        getServletContext().getRequestDispatcher(url).forward(req, resp);
+        log.info("Entered get");
+        processCommand(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        log.info("Entered post");
+        processCommand(req, resp);
     }
 
+    private ServiceFactory getServiceFactory(){
+        return new DatabaseServiceFactory(new DatabaseTransactionFactory());
+    }
+
+    private Optional<Command> extractCommand(HttpServletRequest request) {
+        return Optional.ofNullable((Command) request.getAttribute("command"));
+    }
+
+    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        Optional<Command> command = extractCommand(req);
+        try {
+
+            if (command.isPresent()) {
+                req.setAttribute("locales", Arrays.asList(LocaleType.values()));
+                CommandManager commandManager = CommandManagerFactory.getCommandManager(getServiceFactory());
+                ResponseEntity responseEntity = commandManager.execute(command.get(), req, resp);
+                commandManager.close();
+                if(responseEntity != null)
+                    processResponseEntity(responseEntity, req, resp);
+            } else {
+                resp.sendError(404);
+            }
+
+        } catch (CommandException | PersistentException e) {
+            resp.sendError(500);
+        }
+    }
+
+    private void processResponseEntity(ResponseEntity responseEntity,
+                                       HttpServletRequest request,
+                                       HttpServletResponse response)
+            throws IOException, ServletException {
+        if(responseEntity.isRedirect()){
+            log.debug("Send redirect");
+            response.sendRedirect(responseEntity.getLink());
+        } else {
+            responseEntity.getAttributes().forEach(request::setAttribute);
+            request.getRequestDispatcher(responseEntity.getLink()).forward(request, response);
+        }
+    }
 
 }

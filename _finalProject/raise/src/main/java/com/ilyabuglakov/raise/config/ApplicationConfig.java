@@ -2,12 +2,17 @@ package com.ilyabuglakov.raise.config;
 
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
 import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPoolFactory;
-import com.ilyabuglakov.raise.service.property.ApplicationProperties;
-import com.ilyabuglakov.raise.service.property.PropertyParser;
-import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
+import com.ilyabuglakov.raise.model.service.property.ApplicationProperties;
+import com.ilyabuglakov.raise.model.service.property.PropertyParser;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.text.IniRealm;
 
 @Log4j2
 public class ApplicationConfig {

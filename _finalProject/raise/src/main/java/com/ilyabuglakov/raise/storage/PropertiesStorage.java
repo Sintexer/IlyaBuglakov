@@ -1,9 +1,8 @@
 package com.ilyabuglakov.raise.storage;
 
-import com.ilyabuglakov.raise.service.property.ApplicationProperties;
-import com.ilyabuglakov.raise.service.property.PropertyParser;
-import com.ilyabuglakov.raise.service.property.exception.PropertyCantInitException;
-import com.ilyabuglakov.raise.service.property.exception.PropertyFileException;
+import com.ilyabuglakov.raise.model.service.property.PropertyParser;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyCantInitException;
+import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
 import lombok.Getter;
 
 @Getter
@@ -21,21 +20,21 @@ public class PropertiesStorage {
     }
 
     private PropertiesStorage() {
-        try {
-            pages = new PropertyParser("pages.properties");
-            pages.setPrefix("/template");
-        } catch (PropertyFileException e) {
-            throw new PropertyCantInitException(e);
-        }
-        try {
-            links = new PropertyParser("links.properties");
-        } catch (PropertyFileException e) {
-            throw new PropertyCantInitException(e);
-        }
+        pages = initProperties("pages.properties");
+        pages.setPrefix("/template");
+        links = initProperties("links.properties");
     }
 
     public static String getPagePath(String property) {
-        return ApplicationProperties.getProperty("app.page.root") + getInstance().pages.getProperty(property);
+        return getInstance().pages.getProperty(property);
+    }
+
+    private PropertyParser initProperties(String filename){
+        try {
+            return new PropertyParser(filename);
+        } catch (PropertyFileException e) {
+            throw new PropertyCantInitException(e);
+        }
     }
 
 }

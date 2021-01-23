@@ -1,31 +1,13 @@
-insert into characteristics(
-	id,
-	memory,
-	reaction,
-	logic,
-	calculations
-) values (
-	1,0,0,0,0
-);
+INSERT INTO role(id,
+                 name)
+values (1, 'ADMIN'),
+       (2, 'USER');
 
-insert into users (
-	id,
-	email,
-	name,
-	surname,
-	password,
-	role,
-	status,
-	registration_date,
-	characteristic_id
-) values (
-	1,
-	'admin@gmail.com',
-	'admin',
-	'admin',
-	'$2y$12$cOWQZuEvcWi5d3.LasbUluPxCq4FwuAWQM6SYyhNfwIB4kQfD.OCy',
-	'admin',
-	'active',
-	'2020-02-02',
-	1
-);
+INSERT INTO role_permissions(id,
+                             role_id,
+                             permission)
+values (1, 1, '*'),
+       (2, 2, 'user:*'),
+       (3, 2, 'test:*')
+--        (4, 2, 'auth:**')
+

@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.dal.connection;
 
 import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPool;
 import com.ilyabuglakov.raise.dal.connection.pool.ConnectionPoolFactory;
-import com.ilyabuglakov.raise.dal.connection.pool.StandardConnectionPool;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.Test;
 
