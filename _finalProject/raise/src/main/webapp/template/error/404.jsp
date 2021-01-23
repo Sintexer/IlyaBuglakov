@@ -17,7 +17,7 @@
 <div class="page">
     <c:url value="/template/parts/header.jsp" var="headerPath"/>
     <jsp:include page="${headerPath}"/>
-    <main class="main centered">
+    <main class="centered main">
         <div class="centered error-msg">
             <h2 class="error-code">404</h2>
             <h2><fmt:message key="error.404"/></h2>

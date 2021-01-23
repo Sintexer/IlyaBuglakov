@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="pagination-wrap jc-center">
+<div class="pagination-wrap jc-center m-y-3rem">
     <ul class="pagination">
         <c:if test="${currentPage>1}">
             <li><a href="?pageNumber=${currentPage-1}" class="prev link-type" title="previous page">&#10094;</a></li>

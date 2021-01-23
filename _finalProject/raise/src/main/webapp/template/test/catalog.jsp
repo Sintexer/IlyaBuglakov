@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raise</title>
+    <title><fmt:message key="title.test.catalog"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 
 </head>
@@ -26,7 +26,8 @@
         <div class="section">
             <div class="content">
                 <div class="section block centered padding-0">
-                    <h1 class="page-title">Test catalog</h1>
+                    <h1 class="page-title"><fmt:message key="title.test.catalog"/></h1>
+                    <div class="breakline"></div>
                     <c:url value="/template/parts/pagination.jsp" var="topPagination"/>
                     <jsp:include page="${topPagination}"/>
                     <div class="cards">

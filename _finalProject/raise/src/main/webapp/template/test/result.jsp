@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 
 <fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
 <fmt:setBundle basename="/locale/page"/>
@@ -21,24 +22,23 @@
     <jsp:include page="${headerPath}"/>
 
     <main class="main">
-        <div class="section">
+        <div class="section padding-0">
             <div class="content">
-                <div class="section centered padding-0">
+                <div class="section block items-gap-vertical">
                     <h1 class="page-title"><fmt:message key="test.testing.result.title"/></h1>
                     <div class="breakline"></div>
-                    <div class="section wide items-gap-vertical">
-                        <a href="/api/test/catalog" class="btn"><fmt:message key="button.go.test.catalog"/></a>
+                    <div class="w-fit items-gap-vertical">
+                        <a href="<ct:link key="test.catalog"/>" class="btn"><fmt:message key="button.go.test.catalog"/></a>
                     </div>
-                    <div class="card-lg items-gap-vertical margin-b-2rem">
+                    <div class="card-lg items-gap-vertical margin-b-2rem m-x-auto">
                         <div class="stack">
                             <div class="test-header stack items-gap-vertical">
-                                <h3 class="text-center font-lg">${testName}</h3>
+                                <h3 class="text-center font-md">${testName}</h3>
                                 <div class="breakline"></div>
                                 <h3 class=""><fmt:message key="test.result.result"/>: ${testResult.result}%</h3>
-                                <div class="breakline"></div>
-                                <h3 class="text-center"><fmt:message key="test.result.incorrect.questions"/>:</h3>
-
                                 <c:if test="${testResult.incorrectQuestions.size() > 0}">
+                                    <div class="breakline"></div>
+                                    <h3 class="text-center"><fmt:message key="test.result.incorrect.questions"/>:</h3>
                                     <div id="questions" class="items-gap-vertical stack bg-yellow">
                                         <c:forEach var="question" items="${testResult.incorrectQuestions}">
                                             <div class="question stack items-gap-vertical">

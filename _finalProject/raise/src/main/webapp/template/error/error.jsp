@@ -20,7 +20,7 @@
     <jsp:include page="${headerPath}"/>
 
 
-    <main class="main">
+    <main class="centered main">
         <div class="section">
             <div class="content">
                 <div class="section stack">

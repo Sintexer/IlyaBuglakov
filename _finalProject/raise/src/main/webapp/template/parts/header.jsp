@@ -18,18 +18,26 @@
 
 <header id="page-header" class="page-header">
     <div>
-        <nav class="dec-pancake items-gap">
-            <div class="dec-pancake items-gap bold">
-                <div class="header-logo">
+        <nav class="dec-pancake section bg-none">
+            <div class="dec-pancake items-gap-right bold">
+                <div class="font-xl">
                     <a href="<ct:link key="root"/>">
-                        <h3>Raise</h3>
+                        <h3 class="font-xl">Raise</h3>
                     </a>
                 </div>
+
                 <a href="<ct:link key="root"/>"><fmt:message key="link.home"/></a>
                 <a href="<ct:link key="test.catalog"/>"><fmt:message key="link.tests"/></a>
+                <a href="<ct:link key="test.creator"/>"><fmt:message key="link.creator"/></a>
+                <shiro:authenticated>
+                    <a href="<ct:link key="profile"/>"><fmt:message key="link.profile"/></a>
+                </shiro:authenticated>
+                <shiro:hasPermission name="admin:*">
+                    <a class="btn btn-yellow" href="<ct:link key="admin.test.catalog"/>"><fmt:message key="link.admin.catalog"/></a>
+                </shiro:hasPermission>
 
             </div>
-            <div class="header-right-side">
+            <div class="header-right-side dec-pancake items-gap-sm">
                 <shiro:guest>
                     <a class="btn" href="<ct:link key="login"/>"><fmt:message key="link.login"/></a>
                     <a class="btn" href="<ct:link key="registration"/>"><fmt:message key="link.registration"/></a>

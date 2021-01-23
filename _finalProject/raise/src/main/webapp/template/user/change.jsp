@@ -12,8 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raise</title>
-    <%--    TODO title--%>
+    <title><fmt:message key="title.user.profile.edit"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 </head>
 <body>
@@ -42,15 +41,15 @@
 
     <main class="main">
         <c:if test="${somethingChanged}">
-            <div class="alert m-y-0 bg-lightcyan stack items-gap-vertical">
+            <div class="alert font-heavy m-y-0 bg-lightcyan stack items-gap-vertical">
                 <c:if test="${nameChanged}">
-                    <span> Name changed </span>
+                    <span class="m-y-0"> Name changed </span>
                 </c:if>
                 <c:if test="${surnameChanged}">
-                    <span> Surname changed </span>
+                    <span class="m-y-0"> Surname changed </span>
                 </c:if>
                 <c:if test="${passwordChanged}">
-                    <span> Password changed </span>
+                    <span class="m-y-0"> Password changed </span>
                 </c:if>
             </div>
         </c:if>

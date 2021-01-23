@@ -79,8 +79,12 @@ button {
     box-sizing: border-box;
 }
 
+.items-gap-right > * {
+    margin-right: 2rem;
+}
+
 .items-gap > * {
-    margin: 0 1rem;
+    margin-right: 0 1rem;
 }
 
 .items-gap-sm > * {
@@ -944,4 +948,26 @@ table{
 
 .jc-center {
     justify-content: center;
+}
+
+.font-heavy{
+    color: black;
+    font-weight: 700;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.m-y-3rem {
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+}
+
+.font-xl {
+    font-size: 2.5rem;
+}
+
+nav a {
+    color: white;
 }

@@ -1,6 +1,5 @@
 package com.ilyabuglakov.raise.model.service.domain.user;
 
-import com.ilyabuglakov.raise.dal.dao.database.UserTestResultDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDao;
@@ -35,12 +34,12 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
                     userTestResultDao.getByUserIdAndTestId(userTestResult.getUser().getId(),
                             userTestResult.getTest().getId());
             if (prevResult.isPresent()) {
-                if (prevResult.get().getResult() < userTestResult.getResult()) {
-                    userTestResult.setId(prevResult.get().getId());
+                userTestResult.setId(prevResult.get().getId());
+                if(prevResult.get().getResult() < userTestResult.getResult()){
                     userTestResultDao.update(userTestResult);
-                } else {
-                    userTestResultDao.create(userTestResult);
                 }
+            } else {
+                userTestResultDao.create(userTestResult);
             }
         } catch (DaoOperationException e) {
             transaction.rollback();
@@ -63,7 +62,7 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
         Map<Characteristic, Double> characteristicResults = Stream.of(Characteristic.values())
                 .collect(Collectors.toMap(Function.identity(), characteristic -> 0.0));
 
-        for(UserTestResult utr : userTestResults){
+        for (UserTestResult utr : userTestResults) {
             testDao.getCharacteristics(utr.getTest().getId())
                     .forEach(characteristic ->
                             characteristicResults.merge(characteristic, (double) utr.getResult(), Double::sum));
@@ -71,7 +70,7 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
         log.info("User characteristics values: " + characteristicResults);
 
         return characteristicResults.entrySet().stream()
-                .map(entry -> new UserCharacteristic(entry.getKey(), entry.getValue()/100))
+                .map(entry -> new UserCharacteristic(entry.getKey(), entry.getValue() / 100))
                 .collect(Collectors.toList());
     }
 }

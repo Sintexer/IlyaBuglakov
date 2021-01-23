@@ -41,6 +41,7 @@ public class TestCreatorGetCommand extends Command {
         } catch (TestSaveServiceLimitException e){
             responseEntity.setAttribute("testLimitReached", true);
             responseEntity.setAttribute("testWasntCreated", true);
+            responseEntity.setAttribute("testWasntCPosted", true);
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.creator.save.failure"));
         } catch (PersistentException e) {
             response.sendError(500);

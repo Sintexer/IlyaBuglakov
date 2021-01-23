@@ -69,6 +69,8 @@ public class TestCreatorSaveCommand extends Command {
                     .getProperty("test.creator.save.success"));
         } catch(TestSaveServiceLimitException e) {
             request.setAttribute("testLimitReached", true);
+            request.setAttribute("testWasntCreated", true);
+            request.setAttribute("testWasntPosted", true);
             forwardToFailure(responseEntity, request, response);
         } catch (TestSaveServiceException e) {
             response.sendError(500);

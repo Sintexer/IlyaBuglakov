@@ -9,6 +9,7 @@ import com.ilyabuglakov.raise.model.service.domain.UserService;
 import com.ilyabuglakov.raise.model.service.user.UserInfoChangeService;
 import com.ilyabuglakov.raise.model.service.validator.UserCredentialsValidator;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
+import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Log4j2
 public class UserProfileChangeSaveCommand extends Command {
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
@@ -52,6 +54,8 @@ public class UserProfileChangeSaveCommand extends Command {
             if(userCredentialsValidator.isCorrectOldPassword(user, oldPassword)){
                 responseEntity.setAttribute("passwordChanged",
                         userInfoChangeService.changePassword(user, newPassword, newPasswordRepeat));
+                somethingChanged = true;
+                log.debug("Password changed :" + user.getPassword());
             } else{
                 somethingWrong = true;
                 responseEntity.setAttribute("incorrectOldPassword", true);

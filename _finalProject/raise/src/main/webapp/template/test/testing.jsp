@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raise</title>
+    <title><fmt:message key="title.test.testing"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/testing.js"/>"/>
     <script src=<c:url value="/script/testing.js"/>></script>
@@ -26,12 +26,13 @@
     <main class="main">
         <div class="section">
             <div class="content">
-                <div class="section centered padding-0">
+                <div class="section block centered padding-0">
                     <h1 class="page-title"><fmt:message key="test.testing.title"/></h1>
-                    <div class="card-lg items-gap-vertical margin-b-2rem">
+                    <div class="breakline"></div>
+                    <div class="card-lg items-gap-vertical margin-b-2rem m-x-auto">
                         <form class="stack">
                             <div class="test-header stack items-gap-vertical">
-                                <h3 class="text-center font-lg">${test.testName}</h3>
+                                <h1 class="page-title text-center font-lg">${test.testName}</h1>
                                 <input type="number" id="testId" name="testId" hidden value="${test.id}">
                                 <div class="breakline"></div>
                                 <span><fmt:message key="test.card.difficulty"/>: ${test.difficulty}</span>
@@ -42,7 +43,6 @@
                                         <span>${characteristic}</span>
                                     </c:forEach>
                                 </c:if>
-                                <%--                                TODO characteristics--%>
                                 <div id="questions" class="items-gap-vertical stack">
                                     <c:forEach var="question" varStatus="loop" items="${test.questions}">
                                         <div class="question stack items-gap-vertical">

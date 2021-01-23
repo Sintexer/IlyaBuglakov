@@ -7,6 +7,7 @@
 
 <fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
 <fmt:setBundle basename="/locale/page"/>
+<fmt:setBundle basename="/locale/form" var="form"/>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -41,7 +42,7 @@
                                     </c:forEach>
                                 </c:if>
                                 <div class="breakline"></div>
-                                <span><fmt:message key="test.questions.amount"/>: ${test.questions.size()}</span>
+                                <span><fmt:message key="test.questions.amount"/>: ${fn:length(test.questions)}</span>
                                 <div class="breakline"></div>
                                 <a href="<ct:link key="test.testing"/>?testId=${test.id}" class="btn">
                                     <fmt:message key="test.button.testing"/>
@@ -50,18 +51,18 @@
                         </div>
                     </div>
                     <div class="grid-element items-gap-vertical">
-                        <h2 class="margin-y-1rem font-md w-fit m-x-auto flex">
+                        <h2 class="margin-y-1rem font-md w-fit m-x-auto flex items-gap-sm">
                             <c:if test="${currentPage>1}">
-                                <form>
+                                <form action="<ct:link key="test.preview"/>">
                                     <input hidden name="testId" value="${test.id}">
                                     <input hidden name="pageNumber" value="${currentPage-1}">
                                         <button class="prev link-type"
                                            title="previous page">&#10094;</button>
                                 </form>
                             </c:if>
-                            Comments
+                            <fmt:message key="title.comments"/>
                             <c:if test="${currentPage < maxPage}">
-                                <form>
+                                <form action="<ct:link key="test.preview"/>">
                                     <input hidden name="testId" value="${test.id}">
                                     <input hidden name="pageNumber" value="${currentPage+1}">
                                     <button    class="next link-type" title="next page">&#10095;</button>
@@ -74,11 +75,11 @@
                                 <input hidden name="testId" value="${test.id}">
                                 <textarea minlength="5"
                                           maxlength="512"
-                                          placeholder="Your comment..."
+                                          placeholder="<fmt:message key="placeholder.comment" bundle="${form}"/>"
                                           class="form-input unresize w-100"
                                           rows="5"
                                           name="comment"></textarea>
-                                <button class="btn w-100">Send</button>
+                                <button class="btn btn-yellow w-100">Send</button>
                             </form>
                         </shiro:authenticated>
 

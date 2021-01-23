@@ -31,8 +31,9 @@
     <main class="main">
         <div class="section">
             <div class="content">
-                <div class="section centered padding-0">
+                <div class="section centered padding-0 flex-column">
                     <h1 class="page-title"><fmt:message key="test.creator.page.title"/></h1>
+                    <div class="breakline"></div>
                     <div class="margin-b-2rem padding-2rem">
                         <span class="font-md"><fmt:message key="test.creator.guide"/></span>
                     </div>
@@ -45,7 +46,7 @@
                                        pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{2,}$" required/>
                             </span>
                             <div class="items-middle flex flex-wrap padding-1rem" id="characteristics">
-                                <span><fmt:message key="test.creator.characteristics.title"/></span>
+                                <span><fmt:message key="test.creator.characteristics.title"/>: </span>
                                 <c:forEach var="characteristic" items="${characteristics}">
                                     <div>
                                         <span>

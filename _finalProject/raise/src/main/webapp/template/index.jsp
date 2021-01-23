@@ -32,9 +32,6 @@
             <div class="content">
                 <div class="section">
                     <p><fmt:message key="home.title"/></p>
-                    <a href='<ct:link key="index"/>'>Registration</a>
-                    <p>Hi <shiro:notAuthenticated>Guest</shiro:notAuthenticated></p>
-                    <shiro:authenticated><p>HELLO</p></shiro:authenticated>
                 </div>
 
             </div>

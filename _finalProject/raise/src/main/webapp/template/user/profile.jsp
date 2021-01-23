@@ -11,7 +11,6 @@
 <html>
 <head>
     <title><fmt:message key="title.user.profile"/></title>
-    <%--    TODO title--%>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 </head>
 <body>
