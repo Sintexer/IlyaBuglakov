@@ -1,11 +1,6 @@
-package com.ilyabuglakov.raise.dal.dao.database;
+package com.ilyabuglakov.raise.dal.dao;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.domain.structure.Tables;
-import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
-import com.ilyabuglakov.raise.domain.type.TestStatus;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
@@ -41,19 +36,35 @@ public abstract class DatabaseDao {
         return count;
     }
 
-    protected Integer executeReturnId(String query) throws DaoOperationException{
+    protected Integer executeReturnId(String query) throws DaoOperationException {
         ResultSet resultSet = null;
         try {
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next())
+            if (resultSet.next())
                 return resultSet.getInt(1);
             else
                 throw new DaoOperationException();
         } catch (SQLException e) {
             throw new DaoOperationException(e);
-        }finally {
+        } finally {
+            closeResultSet(resultSet);
+        }
+    }
+
+    protected Integer executeReturnId(PreparedStatement statement) throws DaoOperationException {
+        ResultSet resultSet = null;
+        try {
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next())
+                return resultSet.getInt(1);
+            else
+                throw new DaoOperationException();
+        } catch (SQLException e) {
+            throw new DaoOperationException(e);
+        } finally {
             closeResultSet(resultSet);
         }
     }
@@ -70,7 +81,17 @@ public abstract class DatabaseDao {
         }
     }
 
-    protected ResultSet createResultSet(String query, int... statementParameters) throws DaoOperationException {
+    protected void executeUpdateQuery(PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoOperationException("Bad update query: " + statement, e);
+        } finally {
+            closeStatement(statement);
+        }
+    }
+
+    public ResultSet createResultSet(String query, int... statementParameters) throws DaoOperationException {
         ResultSet resultSet = null;
         try {
             PreparedStatement statement = connection.prepareStatement(query, statementParameters);
@@ -79,14 +100,34 @@ public abstract class DatabaseDao {
             resultSet = statement.getResultSet();
             return resultSet;
         } catch (SQLException e) {
-            closeResultSet(resultSet);
             throw new DaoOperationException(e);
+        }
+    }
+
+    protected ResultSet createResultSet(PreparedStatement statement) throws DaoOperationException {
+        ResultSet resultSet = null;
+        try {
+            statement.executeQuery();
+            resultSet = statement.getResultSet();
+            return resultSet;
+        } catch (SQLException e) {
+            throw new DaoOperationException(e);
+        }
+    }
+
+    protected PreparedStatement prepareStatement(String query, int... statementParameters) throws DaoOperationException {
+        try {
+            PreparedStatement statement = connection.prepareStatement(query, statementParameters);
+            statement.closeOnCompletion();
+            return statement;
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't prepare statement", e);
         }
     }
 
     protected Optional<ResultSet> unpackResultSet(ResultSet resultSet) throws DaoOperationException {
         try {
-            if(resultSet.next())
+            if (resultSet.next())
                 return Optional.of(resultSet);
         } catch (SQLException e) {
             throw new DaoOperationException("Can't access ResultSet", e);

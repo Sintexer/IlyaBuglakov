@@ -1,1 +1,1 @@
-drop database if exists raise_db
+DROP DATABASE IF EXISTS raise_db

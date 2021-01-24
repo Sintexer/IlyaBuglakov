@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.dal.dao.database;
 
+import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.domain.User;

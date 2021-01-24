@@ -1,9 +1,9 @@
 package com.ilyabuglakov.raise.dal.dao.database;
 
+import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
 import com.ilyabuglakov.raise.domain.Question;
-import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;

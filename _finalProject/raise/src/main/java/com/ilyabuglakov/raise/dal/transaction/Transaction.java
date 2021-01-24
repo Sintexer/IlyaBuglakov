@@ -1,11 +1,8 @@
 package com.ilyabuglakov.raise.dal.transaction;
 
-import com.ilyabuglakov.raise.dal.dao.database.DatabaseDao;
-import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
+import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.model.DaoType;
-
-import java.sql.SQLException;
 
 /**
  * Transaction is interface for classes, that let you to perform

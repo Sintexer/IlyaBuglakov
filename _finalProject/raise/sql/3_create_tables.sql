@@ -10,7 +10,7 @@ CREATE TABLE usr
     surname           varchar(80)  NOT NULL,
     password          varchar(64)  NOT NULL,
 --     role              role         NOT NULL,
-    status            STATUS       NOT NULL,
+    status            status       NOT NULL,
     registration_date DATE         NOT NULL
 );
 
@@ -42,40 +42,40 @@ CREATE TABLE role_permissions
 
 create table test
 (
-    id         SERIAL primary key,
-    author_id INTEGER not null references usr(id),
-    status test_status not null,
-    test_name  varchar(256) not null,
-    difficulty INTEGER          not null
+    id         SERIAL PRIMARY KEY,
+    author_id INTEGER NOT NULL REFERENCES usr(id),
+    status test_status NOT NULL,
+    test_name  varchar(256) NOT NULL,
+    difficulty INTEGER          NOT NULL
 );
 
 create table question
 (
-    id      SERIAL primary key,
-    name varchar(256) not null unique,
-    content varchar(512) not null,
-    test_id INTEGER       not null references test (id)
+    id      SERIAL PRIMARY KEY,
+    name VARCHAR(256) NOT NULL,
+    content VARCHAR(512) NOT NULL,
+    test_id INTEGER       NOT NULL REFERENCES test (id)
 );
 
 create table answer
 (
-    id          SERIAL primary key,
-    content     varchar(256) not null,
-    correct     boolean      not null,
-    question_id INTEGER       not null references question (id)
+    id          SERIAL PRIMARY KEY,
+    content     VARCHAR(256) NOT NULL,
+    correct     BOOLEAN      NOT NULL,
+    question_id INTEGER       NOT NULL REFERENCES question (id)
 );
 
 create table test_characteristic
 (
-    id             SERIAL primary key,
-    characteristic characteristic not null,
-    test_id        INTEGER         not null references test (id)
+    id             SERIAL PRIMARY KEY,
+    characteristic characteristic NOT NULL,
+    test_id        INTEGER         NOT NULL REFERENCES test (id)
 );
 
 create table test_comment
 (
-    id        SERIAL primary key,
-    content   varchar(512) not null,
+    id        SERIAL PRIMARY KEY,
+    content   VARCHAR(512) NOT NULL,
     timestamp timestamp,
     test_id   INTEGER       not null references test (id),
     user_id   INTEGER       not null references usr (id)
@@ -84,9 +84,10 @@ create table test_comment
 create table user_test_result
 (
     id      SERIAL primary key,
-    user_id INTEGER  not null references usr (id) unique,
-    test_id INTEGER  not null references test (id) unique,
-    result  INTEGER not null
+    user_id INTEGER  not null references usr (id),
+    test_id INTEGER  not null references test (id),
+    result  INTEGER not null,
+    UNIQUE(user_id, test_id)
 );
 
 
