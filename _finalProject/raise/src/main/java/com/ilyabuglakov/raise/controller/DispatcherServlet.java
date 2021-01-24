@@ -73,6 +73,7 @@ public class DispatcherServlet extends HttpServlet {
             }
 
         } catch (CommandException | PersistentException e) {
+            log.error(e);
             resp.sendError(500);
         }
     }

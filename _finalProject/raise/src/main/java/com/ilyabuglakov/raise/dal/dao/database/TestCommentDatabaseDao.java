@@ -3,19 +3,14 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDao;
-import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
+import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,6 +26,7 @@ import java.util.stream.Collectors;
  * TestCommentDatabaseDao is the Dao implementation specifically for TestComment class
  * Based on DatabaseDao abstract class.
  */
+@Log4j2
 public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDao {
 
     public static final String INSERT_COMMENT = String.format(
@@ -62,12 +58,12 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
             "SELECT COUNT(*) FROM %s",
             Tables.TEST_COMMENT.name());
 
-    public static final String SELECT_BY_ID_LIMIT_OFFSET = String.format(
+    public static final String SELECT_BY_TEST_ID_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
             TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
             Tables.TEST_COMMENT.name(),
-            EntityColumns.ID.name());
+            TestCommentColumns.TEST_ID.name());
 
     public TestCommentDatabaseDao(Connection connection) {
         super(connection);
@@ -75,7 +71,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
 
     @Override
     public Integer create(TestComment testComment) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(INSERT_COMMENT);
+        PreparedStatement statement = prepareStatement(INSERT_COMMENT, PreparedStatement.RETURN_GENERATED_KEYS);
         setAllStatementParameters(testComment, statement);
 
         return executeReturnId(statement);
@@ -126,7 +122,8 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
 
     @Override
     public List<TestComment> getComments(Integer testId, int offset, int items) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        PreparedStatement statement = prepareStatement(SELECT_BY_TEST_ID_LIMIT_OFFSET);
+        log.debug("offset:" + offset + "; items: "+ items);
         try {
             statement.setInt(1, testId);
             statement.setInt(2, items);
