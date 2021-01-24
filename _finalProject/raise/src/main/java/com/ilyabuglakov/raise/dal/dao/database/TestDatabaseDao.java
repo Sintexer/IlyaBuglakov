@@ -156,46 +156,6 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public void updateStatus(Integer testId, TestStatus status) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
-        try {
-            statement.setObject(1, status, Types.OTHER);
-            statement.setInt(2, testId);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        executeUpdateQuery(statement);
-    }
-
-    @Override
-    public Integer getTestAmount() throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public Integer getTestAmount(Integer authorId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
-        setIdStatementParameters(authorId, statement);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public Integer getNewTestAmount() throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT_BY_AUTHOR);
-        setIdStatementParameters(authorId, statement);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
     public void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(INSERT_CHARACTERISTIC);
         try {
@@ -234,6 +194,32 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
+    public Integer getTestAmount() throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
+    public Integer getTestAmount(Integer authorId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        setIdStatementParameters(authorId, statement);
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
+    public Integer getNewTestAmount() throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT);
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
+    public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT_BY_AUTHOR);
+        setIdStatementParameters(authorId, statement);
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
     public List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_CONFIRMED_TESTS_LIMIT_OFFSET);
         setAllIntStatementParameters(statement, itemsAmount, startFrom);
@@ -249,6 +235,20 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
         ResultSet resultSet = createResultSet(statement);
         return buildTestList(resultSet);
+    }
+
+    @Override
+    public void updateStatus(Integer testId, TestStatus status) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
+        try {
+            statement.setObject(1, status, Types.OTHER);
+            statement.setInt(2, testId);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        executeUpdateQuery(statement);
     }
 
     private void setAllStatementParameters(Test test, PreparedStatement statement) throws DaoOperationException {
