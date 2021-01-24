@@ -43,9 +43,9 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(), UserColumns.PASSWORD.name());
 
     public static final String SELECT_BY_ID = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            "SELECT %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), UserColumns.EMAIL.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
-            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(),
+            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(), UserColumns.PASSWORD.name(),
             Tables.USR.name(),
             EntityColumns.ID.name());
 
@@ -61,9 +61,9 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             EntityColumns.ID.name());
 
     public static final String SELECT_BY_EMAIL = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            "SELECT %s, %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), UserColumns.EMAIL.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
-            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(),
+            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(), UserColumns.PASSWORD.name(),
             Tables.USR.name(),
             UserColumns.EMAIL.name());
 
@@ -166,6 +166,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
                     UserColumns.SURNAME.name(),
                     UserColumns.REGISTRATION_DATE.name(),
                     UserColumns.STATUS.name(),
+                    UserColumns.PASSWORD.name(),
                     EntityColumns.ID.name()) ) {
                 User user = User.builder()
                         .email(resultSet.getString(UserColumns.EMAIL.name()))
@@ -173,6 +174,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
                         .surname(resultSet.getString(UserColumns.SURNAME.name()))
                         .registrationDate(LocalDate.parse(resultSet.getString(UserColumns.REGISTRATION_DATE.name())))
                         .status(Status.valueOf(resultSet.getString(UserColumns.STATUS.name())))
+                        .password(resultSet.getString(UserColumns.PASSWORD.name()))
                         .build();
                 user.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(user);

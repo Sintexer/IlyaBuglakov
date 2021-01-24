@@ -9,8 +9,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface UserTestResultDao extends Dao<UserTestResult> {
-//    boolean exists(UserTestResult userTestResult) throws DaoOperationException;
     Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException;
-    List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException;
     int getResultAmount(Integer userId) throws DaoOperationException;
+    List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException;
 }

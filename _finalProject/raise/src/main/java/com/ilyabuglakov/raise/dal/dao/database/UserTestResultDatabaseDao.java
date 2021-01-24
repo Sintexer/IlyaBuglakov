@@ -19,8 +19,11 @@ import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,21 +32,135 @@ import java.util.stream.Collectors;
 /**
  * UserTestResultDao is the Dao implementation specifically for UserTestResult class
  * Based on DatabaseDao abstract class.
- * TODO add User and Test extraction in UserTestResult service
  */
 public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestResultDao {
+
+    public static final String INSERT_USER_TEST_RESULT = String.format(
+            "INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+            Tables.USER_TEST_RESULT.name(),
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name(),
+            UserTestResultColumns.RESULT.name());
+
+    public static final String SELECT_BY_ID = String.format(
+            "SELECT %s, %s, %s, %s FROM %s WHERE %s = ?",
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name(),
+            UserTestResultColumns.RESULT.name(), EntityColumns.ID.name(),
+            Tables.USER_TEST_RESULT.name(),
+            EntityColumns.ID.name());
+
+    public static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
+            Tables.USER_TEST_RESULT.name(),
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name(),
+            UserTestResultColumns.RESULT.name(),
+            EntityColumns.ID.name());
+
+    public static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s = ?",
+            Tables.USER_TEST_RESULT.name(),
+            EntityColumns.ID.name());
+
+    public static final String SELECT_BY_USER_ID_TEST_ID = String.format(
+            "SELECT %s, %s, %s, %s FROM %s WHERE %s=? AND %s=?",
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name(),
+            UserTestResultColumns.RESULT.name(), EntityColumns.ID.name(),
+            Tables.USER_TEST_RESULT.name(),
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name());
+
+    public static final String SELECT_RESULT_COUNT_BY_USER_ID = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ?",
+            Tables.USER_TEST_RESULT.name(),
+            UserTestResultColumns.USER_ID.name());
+
+    public static final String SELECT_BY_USER_ID = String.format(
+            "SELECT %s, %s, %s, %s FROM %s WHERE %s = ?",
+            UserTestResultColumns.USER_ID.name(), UserTestResultColumns.TEST_ID.name(),
+            UserTestResultColumns.RESULT.name(), EntityColumns.ID.name(),
+            Tables.USER_TEST_RESULT.name(),
+            UserTestResultColumns.USER_ID.name());
 
     public UserTestResultDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userId);
-        String selectQuery = sqlQueryBuilder.build();
+    public Integer create(UserTestResult userTestResult) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(INSERT_USER_TEST_RESULT);
+        setAllStatementParameters(userTestResult, statement);
 
-        ResultSet resultSet = createResultSet(selectQuery);
+        return executeReturnId(statement);
+    }
+
+    @Override
+    public Optional<UserTestResult> read(Integer id) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_ID);
+        setIdStatementParameters(id, statement);
+
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        Optional<UserTestResult> userTestResult = Optional.empty();
+        if(resultSet.isPresent()){
+            userTestResult = buildUserTestResult(resultSet.get());
+            closeResultSet(resultSet.get());
+        }
+
+        return userTestResult;
+    }
+
+    @Override
+    public void update(UserTestResult userTestResult) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setAllStatementParameters(userTestResult, statement);
+        try {
+            statement.setInt(4, userTestResult.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public void delete(UserTestResult userTestResult) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(DELETE_BY_ID);
+        setIdStatementParameters(userTestResult.getId(), statement);
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_USER_ID_TEST_ID);
+        try {
+            statement.setInt(1, userId);
+            statement.setInt(2, testId);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        Optional<UserTestResult> userTestResult = Optional.empty();
+        if(resultSet.isPresent()){
+            userTestResult = buildUserTestResult(resultSet.get());
+            closeResultSet(resultSet.get());
+        };
+        return userTestResult;
+    }
+
+    @Override
+    public int getResultAmount(Integer userId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_RESULT_COUNT_BY_USER_ID);
+        setIdStatementParameters(userId, statement);
+
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
+    public List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_USER_ID);
+        setIdStatementParameters(userId, statement);
+
+        ResultSet resultSet = createResultSet(statement);
         List<Optional<UserTestResult>> userTestResults = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -60,96 +177,15 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userId);
-        sqlQueryBuilder.addWhere(UserTestResultColumns.TEST_ID.name(), testId);
-        String selectQuery = sqlQueryBuilder.build();
-
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
-        Optional<UserTestResult> userTestResult = Optional.empty();
-        if(resultSet.isPresent()){
-            userTestResult = buildUserTestResult(resultSet.get());
-            closeResultSet(resultSet.get());
-        };
-        return userTestResult;
-    }
-
-    @Override
-    public int getResultAmount(Integer userId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userId);
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
-
-        return getCount(createResultSet(query));
-    }
-
-    //    @Override
-//    public boolean exists(UserTestResult userTestResult) throws DaoOperationException {
-//        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
-//        sqlQueryBuilder.addWhere(UserTestResultColumns.USER_ID.name(), userTestResult.getUser().getId());
-//        sqlQueryBuilder.addWhere(UserTestResultColumns.TEST_ID.name(), userTestResult.getTest().getId());
-//        String selectQuery = sqlQueryBuilder.build();
-//
-//        ResultSet resultSet = createResultSet(selectQuery);
-//        boolean exists = false;
-//        try {
-//             exists = resultSet.next();
-//        } catch (SQLException e) {
-//            throw new DaoOperationException("Can't read result set");
-//        }
-//        closeResultSet(resultSet);
-//        return exists;
-//    }
-
-    @Override
-    public Integer create(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());
-        sqlQueryBuilder.addField(UserTestResultColumns.TEST_ID.name(), entity.getTest().getId());
-        sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
-        String insertQuery = sqlQueryBuilder.build();
-
-        return executeReturnId(insertQuery);
-    }
-
-    @Override
-    public Optional<UserTestResult> read(Integer id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
-        String selectQuery = sqlQueryBuilder.build();
-
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
-        Optional<UserTestResult> userTestResult = Optional.empty();
-        if(resultSet.isPresent()){
-            userTestResult = buildUserTestResult(resultSet.get());
-            closeResultSet(resultSet.get());
+    private void setAllStatementParameters(UserTestResult userTestResult, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setInt(1, userTestResult.getUser().getId());
+            statement.setInt(2, userTestResult.getTest().getId());
+            statement.setInt(3, userTestResult.getResult());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
         }
-
-        return userTestResult;
-    }
-
-    @Override
-    public void update(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addField(UserTestResultColumns.USER_ID.name(), entity.getUser().getId());
-        sqlQueryBuilder.addField(UserTestResultColumns.TEST_ID.name(), entity.getTest().getId());
-        sqlQueryBuilder.addField(UserTestResultColumns.RESULT.name(), entity.getResult());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
-        String updateQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(updateQuery);
-    }
-
-    @Override
-    public void delete(UserTestResult entity) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.USER_TEST_RESULT.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), entity.getId());
-        String deleteQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(deleteQuery);
     }
 
     /**
