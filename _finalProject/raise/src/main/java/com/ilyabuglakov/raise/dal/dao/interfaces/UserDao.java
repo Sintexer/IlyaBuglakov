@@ -9,7 +9,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao extends Dao<User> {
-    List<User> readAll() throws DaoOperationException;
     Optional<User> findByEmail(String email) throws DaoOperationException;
-    Optional<Integer> getUserId(String email) throws SQLException, DaoOperationException;
 }

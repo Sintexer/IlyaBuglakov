@@ -90,9 +90,8 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.getCharacteristics(test.getId());
             int questionsAmount = questionDao.getQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
-            //todo only name and id
             User author = userDao.read(test.getAuthor().getId()).orElse(null);
-            String questionNames = questionDao.getQuestionsNames(test.getId()).stream().collect(Collectors.joining("; "));
+            String questionNames = String.join("; ", questionDao.getQuestionsNames(test.getId()));
             log.debug(test.getAuthor().getId() + ": " + author);
             testInfos.add(TestInfo.builder()
                     .testName(test.getTestName())

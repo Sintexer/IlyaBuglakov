@@ -201,7 +201,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public Integer getTestAmount(Integer authorId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_AUTHOR);
         setIdStatementParameters(authorId, statement);
         return getCount(createResultSet(statement));
     }

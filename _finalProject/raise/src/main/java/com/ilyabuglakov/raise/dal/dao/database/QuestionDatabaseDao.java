@@ -64,9 +64,10 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
             Tables.QUESTION.name(),
             QuestionColumns.TEST_ID.name());
 
-    private static final String SELECT_QUESTION_COUNT = String.format(
-            "SELECT COUNT(*) FROM %s",
-            Tables.QUESTION.name());
+    private static final String SELECT_QUESTION_COUNT_BY_TEST_ID = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ?",
+            Tables.QUESTION.name(),
+            QuestionColumns.TEST_ID.name());
 
     private static final String SELECT_BY_TEST_ID = String.format(
             "SELECT %s, %s, %s FROM %s WHERE %s = ?",
@@ -149,8 +150,8 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
     @Override
     public Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_QUESTION_COUNT);
-
+        PreparedStatement statement = prepareStatement(SELECT_QUESTION_COUNT_BY_TEST_ID);
+        setIdStatementParameters(testId, statement);
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<Integer> count = Optional.empty();
         if (resultSet.isPresent()) {

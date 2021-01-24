@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
+import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -18,8 +19,11 @@ import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,59 +36,55 @@ import java.util.stream.Collectors;
  */
 public class UserDatabaseDao extends DatabaseDao implements UserDao {
 
+    public static final String INSERT_USER = String.format(
+            "INSERT INTO %s(%s, %s, %s, %s, %s, %s) VALUES(?, ?, ?, ?, ?, ?)",
+            Tables.USR.name(),
+            UserColumns.EMAIL.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
+            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(), UserColumns.PASSWORD.name());
+
+    public static final String SELECT_BY_ID = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), UserColumns.EMAIL.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
+            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(),
+            Tables.USR.name(),
+            EntityColumns.ID.name());
+
+    public static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s = ?",
+            Tables.USR.name(),
+            UserColumns.NAME.name(), UserColumns.SURNAME.name(), UserColumns.STATUS.name(), UserColumns.PASSWORD,
+            EntityColumns.ID.name());
+
+    public static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s=?",
+            Tables.USR.name(),
+            EntityColumns.ID.name());
+
+    public static final String SELECT_BY_EMAIL = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), UserColumns.EMAIL.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
+            UserColumns.REGISTRATION_DATE.name(), UserColumns.STATUS.name(),
+            Tables.USR.name(),
+            UserColumns.EMAIL.name());
+
     public UserDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Optional<User> findByEmail(String email) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
-        sqlQueryBuilder.addWhere(UserColumns.EMAIL.name(), email);
-        String selectQuery = sqlQueryBuilder.build();
-
-        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
-
-        if(optionalResultSet.isPresent())
-            return buildUser(optionalResultSet.get());
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Integer> getUserId(String email) throws SQLException, DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name());
-        sqlQueryBuilder.addWhere(UserColumns.EMAIL.name(), email);
-        String selectQuery = sqlQueryBuilder.build();
-
-        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(selectQuery));
-
-        if(optionalResultSet.isPresent()) {
-            return Optional.of(optionalResultSet.get().getInt(EntityColumns.ID.name()));
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public Integer create(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.USR.name());
-        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), user.getEmail());
-        sqlQueryBuilder.addField(UserColumns.NAME.name(), user.getName());
-        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), user.getPassword());
-        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), user.getSurname());
-        sqlQueryBuilder.addField(UserColumns.STATUS.name(), user.getStatus().name());
-        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), user.getRegistrationDate());
-        String insertQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatementReturnKeys(INSERT_USER);
+        setAllStatementParameters(user, statement);
 
-        return executeReturnId(insertQuery);
+        return executeReturnId(statement);
     }
 
     @Override
     public Optional<User> read(Integer id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
-        String selectQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_BY_ID);
+        setIdStatementParameters(id, statement);
 
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<User> user = Optional.empty();
         if(resultSet.isPresent()) {
             user = buildUser(resultSet.get());
@@ -94,49 +94,58 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
     }
 
     @Override
-    public List<User> readAll() throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.USR.name());
-        String selectQuery = sqlQueryBuilder.build();
-
-        List<Optional<User>> users = new ArrayList<>();
-        ResultSet resultSet = createResultSet(selectQuery);
-        try {
-            while (resultSet.next()) {
-                Optional<User> user = buildUser(resultSet);
-                users.add(user);
-            }
-            return users.stream()
-                    .flatMap(Optional::stream)
-                    .collect(Collectors.toList());
-        } catch (SQLException e) {
-            throw new DaoOperationException("Bad result set after executing query. Can't build entities", e);
-        } finally {
-            closeResultSet(resultSet);
-        }
-    }
-
-    @Override
     public void update(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.USR.name());
-        sqlQueryBuilder.addField(UserColumns.EMAIL.name(), user.getEmail());
-        sqlQueryBuilder.addField(UserColumns.NAME.name(), user.getName());
-        sqlQueryBuilder.addField(UserColumns.SURNAME.name(), user.getSurname());
-        sqlQueryBuilder.addField(UserColumns.PASSWORD.name(), user.getPassword());
-        sqlQueryBuilder.addField(UserColumns.STATUS.name(), user.getStatus());
-        sqlQueryBuilder.addField(UserColumns.REGISTRATION_DATE.name(), user.getRegistrationDate());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
-        String updateQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(updateQuery);
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        try {
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getSurname());
+            statement.setObject(3, user.getStatus(), Types.OTHER);
+            statement.setString(4, user.getPassword());
+            statement.setInt(5, user.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        executeUpdateQuery(statement);
     }
 
     @Override
     public void delete(User user) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.USR.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), user.getId());
-        String deleteQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(DELETE_BY_ID);
+        setIdStatementParameters(user.getId(), statement);
 
-        executeUpdateQuery(deleteQuery);
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_EMAIL);
+        try {
+            statement.setString(1, email);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
+        if(optionalResultSet.isPresent())
+            return buildUser(optionalResultSet.get());
+        return Optional.empty();
+    }
+
+
+    private void setAllStatementParameters(User user, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getSurname());
+            statement.setDate(4, Date.valueOf(user.getRegistrationDate()));
+            statement.setObject(5, user.getStatus(), Types.OTHER);
+            statement.setString(6, user.getPassword());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
     }
 
     /**
@@ -155,7 +164,6 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             if(validator.hasAllValues(resultSet, UserColumns.EMAIL.name(),
                     UserColumns.NAME.name(),
                     UserColumns.SURNAME.name(),
-                    UserColumns.PASSWORD.name(),
                     UserColumns.REGISTRATION_DATE.name(),
                     UserColumns.STATUS.name(),
                     EntityColumns.ID.name()) ) {
@@ -163,7 +171,6 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
                         .email(resultSet.getString(UserColumns.EMAIL.name()))
                         .name(resultSet.getString(UserColumns.NAME.name()))
                         .surname(resultSet.getString(UserColumns.SURNAME.name()))
-                        .password(resultSet.getString(UserColumns.PASSWORD.name()))
                         .registrationDate(LocalDate.parse(resultSet.getString(UserColumns.REGISTRATION_DATE.name())))
                         .status(Status.valueOf(resultSet.getString(UserColumns.STATUS.name())))
                         .build();
