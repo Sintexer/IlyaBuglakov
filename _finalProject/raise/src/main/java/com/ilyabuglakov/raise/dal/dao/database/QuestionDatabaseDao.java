@@ -66,7 +66,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
     private static final String SELECT_QUESTION_COUNT = String.format(
             "SELECT COUNT(*) FROM %s",
-            QuestionColumns.NAME.name());
+            Tables.QUESTION.name());
 
     private static final String SELECT_BY_TEST_ID = String.format(
             "SELECT %s, %s, %s FROM %s WHERE %s = ?",
