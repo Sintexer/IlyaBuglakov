@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -65,7 +66,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST.name());
 
     public static final String SELECT_NEW_TEST_COUNT = String.format(
-            "SELECT COUNT(*) FROM %s WHERE %s=%s",
+            "SELECT COUNT(*) FROM %s WHERE %s='%s'",
             Tables.TEST.name(),
             TestColumns.STATUS.name(),
             TestStatus.NEW.name());
@@ -76,7 +77,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.AUTHOR_ID.name());
 
     public static final String SELECT_NEW_TEST_COUNT_BY_AUTHOR = String.format(
-            "SELECT COUNT(*) FROM %s WHERE %s=%s AND %s=?",
+            "SELECT COUNT(*) FROM %s WHERE %s='%s' AND %s=?",
             Tables.TEST.name(),
             TestColumns.STATUS.name(), TestStatus.NEW.name(), TestColumns.AUTHOR_ID);
 
@@ -92,29 +93,19 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestCharacteristicColumns.TEST_ID.name());
 
     public static final String SELECT_CONFIRMED_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = %s LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
             Tables.TEST.name(),
-            TestColumns.STATUS, TestStatus.CONFIRMED.name());
+            TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
 
     public static final String SELECT_NEW_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = %s LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
             Tables.TEST.name(),
             TestColumns.STATUS, TestStatus.NEW.name());
 
-    public static final String SELECT_COUNT = String.format(
-            "SELECT COUNT(*) FROM %s",
-            Tables.TEST_COMMENT.name());
-
-    public static final String SELECT_BY_TEST_ID_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
-            EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
-            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
-            Tables.TEST_COMMENT.name(),
-            TestCommentColumns.TEST_ID.name());
 
     public TestDatabaseDao(Connection connection) {
         super(connection);
@@ -168,7 +159,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     public void updateStatus(Integer testId, TestStatus status) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
         try {
-            statement.setString(1, status.name());
+            statement.setObject(1, status, Types.OTHER);
             statement.setInt(2, testId);
         } catch (SQLException e) {
             closeStatement(statement);
@@ -209,12 +200,13 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         PreparedStatement statement = prepareStatement(INSERT_CHARACTERISTIC);
         try {
             for (Characteristic characteristic : characteristics) {
-                statement.setString(1, characteristic.name());
+                statement.setObject(1, characteristic, Types.OTHER);
                 statement.setInt(2, testId);
                 statement.addBatch();
             }
             statement.executeBatch();
         } catch (SQLException e) {
+            e.getNextException().printStackTrace();
             throw new DaoOperationException("Error during characteristic batch", e);
         } finally {
             closeStatement(statement);
@@ -262,7 +254,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     private void setAllStatementParameters(Test test, PreparedStatement statement) throws DaoOperationException {
         try {
             statement.setString(1, test.getTestName());
-            statement.setString(2, test.getStatus().name());
+            statement.setObject(2, test.getStatus(), Types.OTHER);
             statement.setInt(3, test.getAuthor().getId());
             statement.setInt(4,test.getDifficulty());
         } catch (SQLException e) {

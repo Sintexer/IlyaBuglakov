@@ -74,6 +74,7 @@ public class TestCreatorSaveCommand extends Command {
             forwardToFailure(responseEntity, request, response);
         } catch (TestSaveServiceException e) {
             response.sendError(500);
+            e.printStackTrace();
             return null;
         } catch (Exception e) {
             response.sendError(404);
