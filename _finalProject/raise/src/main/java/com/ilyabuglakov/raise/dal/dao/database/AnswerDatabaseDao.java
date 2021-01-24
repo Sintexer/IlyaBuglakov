@@ -31,25 +31,30 @@ import java.util.stream.Collectors;
  */
 public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
 
-    private static final String INSERT_ANSWER = String.format("INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+    private static final String INSERT_ANSWER = String.format(
+            "INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
             Tables.ANSWER.name(),
             AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(), AnswerColumns.QUESTION_ID.name());
 
-    private static final String SELECT_WHERE_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+    private static final String SELECT_WHERE_ID = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(),
             Tables.ANSWER.name(),
             EntityColumns.ID.name());
 
-    private static final String UPDATE_BY_ID = String.format("UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
+    private static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
             Tables.ANSWER.name(),
             AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(), AnswerColumns.QUESTION_ID.name(),
             EntityColumns.ID.name());
 
-    private static final String DELETE_BY_ID = String.format("DELETE FROM %s WHERE %s = ?",
+    private static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s = ?",
             Tables.ANSWER.name(),
             EntityColumns.ID.name());
 
-    private static final String SELECT_WHERE_QUESTION_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+    private static final String SELECT_WHERE_QUESTION_ID = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(),
             Tables.ANSWER.name(),
             AnswerColumns.QUESTION_ID.name());

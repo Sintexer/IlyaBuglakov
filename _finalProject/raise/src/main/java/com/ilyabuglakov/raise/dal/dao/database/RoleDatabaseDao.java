@@ -32,7 +32,7 @@ import java.util.Set;
  */
 @Log4j2
 public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
-    
+
     private static final String SELECT_WHERE_ID = String.format(
             "SELECT %s FROM %s WHERE %s = ?",
             RoleColumns.NAME.name(),

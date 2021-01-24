@@ -36,33 +36,40 @@ import java.util.stream.Collectors;
  */
 public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
-    private static final String INSERT_QUESTION = String.format("INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+    private static final String INSERT_QUESTION = String.format(
+            "INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
             Tables.QUESTION.name(),
             QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(), QuestionColumns.TEST_ID.name());
 
-    private static final String SELECT_WHERE_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+    private static final String SELECT_WHERE_ID = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(),
             Tables.QUESTION.name(),
             EntityColumns.ID.name());
 
-    private static final String UPDATE_BY_ID = String.format("UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
+    private static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
             Tables.QUESTION.name(),
             QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(), QuestionColumns.TEST_ID.name(),
             EntityColumns.ID.name());
 
-    private static final String DELETE_BY_ID = String.format("DELETE FROM %s WHERE %s = ?",
+    private static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s = ?",
             Tables.QUESTION.name(),
             EntityColumns.ID.name());
 
-    private static final String SELECT_QUESTION_NAMES_BY_TEST_ID = String.format("SELECT %s FROM %s WHERE %s = ?",
+    private static final String SELECT_QUESTION_NAMES_BY_TEST_ID = String.format(
+            "SELECT %s FROM %s WHERE %s = ?",
             QuestionColumns.NAME.name(),
             Tables.QUESTION.name(),
             QuestionColumns.TEST_ID.name());
 
-    private static final String SELECT_QUESTION_COUNT = String.format("SELECT COUNT(*) FROM %s",
+    private static final String SELECT_QUESTION_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s",
             QuestionColumns.NAME.name());
 
-    private static final String SELECT_BY_TEST_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+    private static final String SELECT_BY_TEST_ID = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(),
             Tables.QUESTION.name(),
             QuestionColumns.TEST_ID.name());
