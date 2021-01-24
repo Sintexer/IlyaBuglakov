@@ -13,15 +13,13 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface TestDao extends Dao<Test> {
-    List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException;
-    List<Test> getNewTests(int startFrom, int itemsAmount) throws DaoOperationException;
+    void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException;
+    Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException;
     Integer getTestAmount() throws DaoOperationException;
     Integer getTestAmount(Integer authorId) throws DaoOperationException;
     Integer getNewTestAmount() throws DaoOperationException;
     Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
-    void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException;
-    Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException;
-
+    List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException;
+    List<Test> getNewTests(int startFrom, int itemsAmount) throws DaoOperationException;
     void updateStatus(Integer testId, TestStatus status) throws DaoOperationException;
-    void findAll(List<SearchCondition> conditions) throws DaoOperationException;
 }

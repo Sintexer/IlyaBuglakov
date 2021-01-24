@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Log4j2
 public abstract class DatabaseDao {
-
+    
     protected static final String SELECT_S_FROM_S_WHERE_S = "SELECT %s FROM %s WHERE %s";
 
     protected Connection connection;
@@ -127,6 +127,16 @@ public abstract class DatabaseDao {
         }
     }
 
+    protected PreparedStatement prepareStatementReturnKeys(String query) throws DaoOperationException {
+        try {
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.closeOnCompletion();
+            return statement;
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't prepare statement", e);
+        }
+    }
+
     protected Optional<ResultSet> unpackResultSet(ResultSet resultSet) throws DaoOperationException {
         try {
             if (resultSet.next())
@@ -171,7 +181,7 @@ public abstract class DatabaseDao {
         }
     }
 
-    protected void setAllIdStatementParameters(PreparedStatement statement, Integer... ids) throws DaoOperationException {
+    protected void setAllIntStatementParameters(PreparedStatement statement, Integer... ids) throws DaoOperationException {
         try {
             for(int i = 1; i-1<ids.length;++i)
                 statement.setInt(i, ids[i-1]);

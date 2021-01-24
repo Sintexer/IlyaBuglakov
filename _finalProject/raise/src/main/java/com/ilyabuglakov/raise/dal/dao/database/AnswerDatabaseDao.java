@@ -65,7 +65,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
 
     @Override
     public Integer create(Answer answer) throws DaoOperationException {
-        PreparedStatement preparedStatement = prepareStatement(INSERT_ANSWER, PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = prepareStatementReturnKeys(INSERT_ANSWER);
         setAllStatementParameters(answer, preparedStatement);
         return executeReturnId(preparedStatement);
     }

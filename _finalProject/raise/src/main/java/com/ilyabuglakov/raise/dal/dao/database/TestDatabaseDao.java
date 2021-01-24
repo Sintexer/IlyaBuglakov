@@ -9,20 +9,17 @@ import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCharacteristicColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
-import com.ilyabuglakov.raise.model.condition.SearchCondition;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,102 +34,184 @@ import java.util.stream.Collectors;
  */
 public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
+    public static final String INSERT_TEST = String.format(
+            "INSERT INTO %s(%s, %s, %s, %s) VALUES(?, ?, ?, ?)",
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name());
+
+    public static final String SELECT_BY_ID = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            Tables.TEST.name(),
+            EntityColumns.ID.name());
+
+    public static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s = ?",
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            EntityColumns.ID.name());
+
+    public static final String UPDATE_STATUS_BY_ID = String.format(
+            "UPDATE %s SET %s=? WHERE %s = ?",
+            Tables.TEST.name(),
+            TestColumns.STATUS.name(),
+            EntityColumns.ID.name());
+
+    public static final String SELECT_TEST_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s",
+            Tables.TEST.name());
+
+    public static final String SELECT_NEW_TEST_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s=%s",
+            Tables.TEST.name(),
+            TestColumns.STATUS.name(),
+            TestStatus.NEW.name());
+
+    public static final String SELECT_TEST_COUNT_BY_AUTHOR = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s=?",
+            Tables.TEST.name(),
+            TestColumns.AUTHOR_ID.name());
+
+    public static final String SELECT_NEW_TEST_COUNT_BY_AUTHOR = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s=%s AND %s=?",
+            Tables.TEST.name(),
+            TestColumns.STATUS.name(), TestStatus.NEW.name(), TestColumns.AUTHOR_ID);
+
+    public static final String INSERT_CHARACTERISTIC = String.format(
+            "INSERT INTO %s(%s, %s) VALUES(?, ?)",
+            Tables.TEST_CHARACTERISTIC.name(),
+            TestCharacteristicColumns.CHARACTERISTIC.name(), TestCharacteristicColumns.TEST_ID.name());
+
+    public static final String SELECT_CHARACTERISTICS = String.format(
+            "SELECT %s FROM %s WHERE %s=?",
+            TestCharacteristicColumns.CHARACTERISTIC.name(),
+            Tables.TEST_CHARACTERISTIC.name(),
+            TestCharacteristicColumns.TEST_ID.name());
+
+    public static final String SELECT_CONFIRMED_TESTS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = %s LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            Tables.TEST.name(),
+            TestColumns.STATUS, TestStatus.CONFIRMED.name());
+
+    public static final String SELECT_NEW_TESTS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = %s LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            Tables.TEST.name(),
+            TestColumns.STATUS, TestStatus.NEW.name());
+
+    public static final String SELECT_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s",
+            Tables.TEST_COMMENT.name());
+
+    public static final String SELECT_BY_TEST_ID_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
+            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
+            Tables.TEST_COMMENT.name(),
+            TestCommentColumns.TEST_ID.name());
+
     public TestDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public void findAll(List<SearchCondition> conditions) throws DaoOperationException {
+    public Integer create(Test test) throws DaoOperationException {
+        PreparedStatement statement = prepareStatementReturnKeys(INSERT_TEST);
+        setAllStatementParameters(test, statement);
 
+        return executeReturnId(statement);
     }
 
-    //    @Override
-//    public Optional<Integer> getTestId(String testName) throws DaoOperationException {
-//        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-//        sqlQueryBuilder.addField(EntityColumns.ID.name());
-//        sqlQueryBuilder.addWhere(TestColumns.TEST_NAME.name(), testName);
-//        String selectQuery = sqlQueryBuilder.build();
-//
-//        ResultSet resultSet = createResultSet(selectQuery);
-//        Optional<Integer> id = Optional.empty();
-//        try {
-//            if(resultSet.next()) {
-//                id = Optional.ofNullable(resultSet.getInt(EntityColumns.ID.name()));
-//                if (resultSet.wasNull())
-//                    id = Optional.empty();
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoOperationException("Error while reading index", e);
-//        } finally {
-//            closeResultSet(resultSet);
-//        }
-//        return id;
-//    }
+    @Override
+    public Optional<Test> read(Integer id) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_ID);
+        setIdStatementParameters(id, statement);
 
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        if (resultSet.isPresent()) {
+            Optional<Test> test = buildTest(resultSet.get());
+            closeResultSet(resultSet.get());
+            return test;
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void update(Test test) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setAllStatementParameters(test, statement);
+        try {
+            statement.setInt(5, test.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public void delete(Test test) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setIdStatementParameters(test.getId(), statement);
+
+        executeUpdateQuery(statement);
+    }
 
     @Override
     public void updateStatus(Integer testId, TestStatus status) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(TestColumns.STATUS.name(), status.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testId);
-        String updateQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
+        try {
+            statement.setString(1, status.name());
+            statement.setInt(2, testId);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
 
-        executeUpdateQuery(updateQuery);
+        executeUpdateQuery(statement);
     }
 
     @Override
     public Integer getTestAmount() throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
-
-        return getCount(createResultSet(query));
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        return getCount(createResultSet(statement));
     }
 
     @Override
     public Integer getTestAmount(Integer authorId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(TestColumns.AUTHOR_ID.name(), authorId);
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
-
-        return getCount(createResultSet(query));
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        setIdStatementParameters(authorId, statement);
+        return getCount(createResultSet(statement));
     }
 
     @Override
     public Integer getNewTestAmount() throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.NEW.name());
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
-
-        return getCount(createResultSet(query));
+        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT);
+        return getCount(createResultSet(statement));
     }
 
     @Override
     public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.NEW.name());
-        sqlQueryBuilder.addWhere(TestColumns.AUTHOR_ID.name(), authorId);
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
-
-        return getCount(createResultSet(query));
+        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT_BY_AUTHOR);
+        setIdStatementParameters(authorId, statement);
+        return getCount(createResultSet(statement));
     }
 
     @Override
     public void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException {
-        Statement statement = null;
+        PreparedStatement statement = prepareStatement(INSERT_CHARACTERISTIC);
         try {
-            statement = connection.createStatement();
-            SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_CHARACTERISTIC.name());
             for (Characteristic characteristic : characteristics) {
-                sqlQueryBuilder.addField(TestCharacteristicColumns.CHARACTERISTIC.name(), characteristic.name());
-                sqlQueryBuilder.addField(TestCharacteristicColumns.TEST_ID.name(), testId);
-                String insertQuery = sqlQueryBuilder.build();
-                statement.addBatch(insertQuery);
-                sqlQueryBuilder.clear();
+                statement.setString(1, characteristic.name());
+                statement.setInt(2, testId);
+                statement.addBatch();
             }
             statement.executeBatch();
         } catch (SQLException e) {
@@ -144,12 +223,10 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_CHARACTERISTIC.name());
-        sqlQueryBuilder.addField(TestCharacteristicColumns.CHARACTERISTIC.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testId);
-        String selectQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_CHARACTERISTICS);
+        setIdStatementParameters(testId, statement);
 
-        ResultSet resultSet = createResultSet(selectQuery);
+        ResultSet resultSet = createResultSet(statement);
         Set<Characteristic> characteristics = new HashSet<>();
         try {
             while (resultSet.next()) {
@@ -166,111 +243,50 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name());
-        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name());
-        sqlQueryBuilder.addField(TestColumns.STATUS.name());
-        sqlQueryBuilder.addField(TestColumns.AUTHOR_ID.name());
-        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name());
-        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
-        sqlQueryBuilder.addLimit(startFrom, itemsAmount);
-        String query = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_CONFIRMED_TESTS_LIMIT_OFFSET);
+        setAllIntStatementParameters(statement, itemsAmount, startFrom);
 
-        ResultSet resultSet = createResultSet(query);
-        List<Optional<Test>> tests = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                tests.add(buildTest(resultSet));
-            }
-        } catch (SQLException e) {
-            throw new DaoOperationException("Error while reading tests from resultSet", e);
-        }
-        closeResultSet(resultSet);
-        return tests.stream()
-                .flatMap(Optional::stream)
-                .collect(Collectors.toList());
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
     }
 
     @Override
     public List<Test> getNewTests(int startFrom, int itemsAmount) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name());
-        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name());
-        sqlQueryBuilder.addField(TestColumns.STATUS.name());
-        sqlQueryBuilder.addField(TestColumns.AUTHOR_ID.name());
-        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name());
-        sqlQueryBuilder.addWhere(TestColumns.STATUS.name(), TestStatus.NEW.name());
-        sqlQueryBuilder.addLimit(startFrom, itemsAmount);
-        String query = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_NEW_TESTS_LIMIT_OFFSET);
+        setAllIntStatementParameters(statement, itemsAmount, startFrom);
 
-        ResultSet resultSet = createResultSet(query);
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
+    }
+
+    private void setAllStatementParameters(Test test, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setString(1, test.getTestName());
+            statement.setString(2, test.getStatus().name());
+            statement.setInt(3, test.getAuthor().getId());
+            statement.setInt(4,test.getDifficulty());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+    }
+
+    private List<Test> buildTestList(ResultSet resultSet) throws DaoOperationException {
         List<Optional<Test>> tests = new ArrayList<>();
-
         try {
             while (resultSet.next()) {
                 tests.add(buildTest(resultSet));
             }
         } catch (SQLException e) {
             throw new DaoOperationException("Error while reading tests from resultSet", e);
+        } finally {
+            closeResultSet(resultSet);
         }
-        closeResultSet(resultSet);
+
         return tests.stream()
                 .flatMap(Optional::stream)
                 .collect(Collectors.toList());
-    }
 
-    @Override
-    public Integer create(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
-        sqlQueryBuilder.addField(TestColumns.STATUS.name(), test.getStatus());
-        sqlQueryBuilder.addField(TestColumns.AUTHOR_ID.name(), test.getAuthor().getId());
-        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
-        String insertQuery = sqlQueryBuilder.build();
-
-        return executeReturnId(insertQuery);
-    }
-
-    @Override
-    public Optional<Test> read(Integer id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
-        String selectQuery = sqlQueryBuilder.build();
-
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(selectQuery));
-        if (resultSet.isPresent()) {
-            Optional<Test> test = buildTest(resultSet.get());
-            closeResultSet(resultSet.get());
-            return test;
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public void update(Test test) throws DaoOperationException {
-        //TODO add characteristics and comments subqueries
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addField(TestColumns.TEST_NAME.name(), test.getTestName());
-        sqlQueryBuilder.addField(TestColumns.STATUS.name(), test.getStatus());
-        sqlQueryBuilder.addField(TestColumns.DIFFICULTY.name(), test.getDifficulty());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
-        String updateQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(updateQuery);
-    }
-
-    @Override
-    public void delete(Test test) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST_CHARACTERISTIC.name());
-        sqlQueryBuilder.addWhere(TestCharacteristicColumns.TEST_ID.name(), test.getId());
-        String subQuery = sqlQueryBuilder.build();
-        sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), test.getId());
-        String deleteQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(subQuery);
-        executeUpdateQuery(deleteQuery);
     }
 
     /**

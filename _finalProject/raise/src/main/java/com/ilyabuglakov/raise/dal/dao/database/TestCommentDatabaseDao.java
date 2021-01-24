@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
 
     @Override
     public Integer create(TestComment testComment) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(INSERT_COMMENT, PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement statement = prepareStatementReturnKeys(INSERT_COMMENT);
         setAllStatementParameters(testComment, statement);
 
         return executeReturnId(statement);

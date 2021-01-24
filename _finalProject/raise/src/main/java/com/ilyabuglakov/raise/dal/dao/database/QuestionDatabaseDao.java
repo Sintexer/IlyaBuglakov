@@ -80,7 +80,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
     @Override
     public Integer create(Question question) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(INSERT_QUESTION, PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement statement = prepareStatementReturnKeys(INSERT_QUESTION);
         setAllStatementParameters(question, statement);
 
         return executeReturnId(statement);
