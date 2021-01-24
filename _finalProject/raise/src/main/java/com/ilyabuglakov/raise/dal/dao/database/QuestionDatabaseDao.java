@@ -3,10 +3,13 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
+import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.structure.Tables;
+import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -15,6 +18,7 @@ import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,43 +37,119 @@ import java.util.stream.Collectors;
  */
 public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
+    private static final String INSERT_QUESTION = String.format("INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+            Tables.QUESTION.name(),
+            QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(), QuestionColumns.TEST_ID.name());
+
+    private static final String SELECT_WHERE_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(),
+            Tables.QUESTION.name(),
+            EntityColumns.ID.name());
+
+    private static final String UPDATE_BY_ID = String.format("UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
+            Tables.QUESTION.name(),
+            QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(), QuestionColumns.TEST_ID.name(),
+            EntityColumns.ID.name());
+
+    private static final String DELETE_BY_ID = String.format("DELETE FROM %s WHERE %s = ?",
+            Tables.QUESTION.name(),
+            EntityColumns.ID.name());
+
+    private static final String SELECT_QUESTION_NAMES_BY_TEST_ID = String.format("SELECT %s FROM %s WHERE %s = ?",
+            QuestionColumns.NAME.name(),
+            Tables.QUESTION.name(),
+            QuestionColumns.TEST_ID.name());
+
+    private static final String SELECT_QUESTION_COUNT = String.format("SELECT COUNT(*) FROM %s",
+            QuestionColumns.NAME.name());
+
+    private static final String SELECT_BY_TEST_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), QuestionColumns.NAME.name(), QuestionColumns.CONTENT.name(),
+            Tables.QUESTION.name(),
+            QuestionColumns.TEST_ID.name());
+
     public QuestionDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public List<String> getQuestionsNames(Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addField(QuestionColumns.NAME.name());
-        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
-        String query = sqlQueryBuilder.build();
+    public Integer create(Question question) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(INSERT_QUESTION);
+        setAllStatementParameters(question, statement);
 
+        return executeReturnId(statement);
+    }
+
+    @Override
+    public Optional<Question> read(Integer id) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_WHERE_ID);
+        setIdStatementParameters(id, statement);
+        Optional<Question> question = Optional.empty();
+        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
+        if(optionalResultSet.isPresent()){
+            question = buildQuestion(optionalResultSet.get());
+            closeResultSet(optionalResultSet.get());
+        }
+
+        return question;
+    }
+
+    @Override
+    public void update(Question question) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setAllStatementParameters(question, statement);
+        try{
+            statement.setInt(4, question.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't change result set parameters", e);
+        }
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public void delete(Question question) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(DELETE_BY_ID);
+        setIdStatementParameters(question.getId(), statement);
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public List<String> getQuestionsNames(Integer testId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_QUESTION_NAMES_BY_TEST_ID);
+
+        try{
+            statement.setInt(1, testId);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't change result set parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
         List<String> questionsNames = new ArrayList<>();
-        ResultSet resultSet = createResultSet(query);
         try {
             while (resultSet.next()) {
                 questionsNames.add(resultSet.getString(QuestionColumns.NAME.name()));
             }
         } catch (SQLException e) {
             throw new DaoOperationException("Can't read resultSet", e);
+        } finally {
+            closeResultSet(resultSet);
         }
         return questionsNames;
     }
 
     @Override
     public Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.returnCount();
-        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
-        String query = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_QUESTION_COUNT);
 
-        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(query));
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<Integer> count = Optional.empty();
         if (resultSet.isPresent()) {
             try {
-
                 count = Optional.ofNullable(resultSet.get().getInt("count"));
-
             } catch (SQLException e) {
                 throw new DaoOperationException("Can't get row count", e);
             } finally {
@@ -77,18 +157,16 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
             }
         }
 
-
         return count;
     }
 
     @Override
     public Set<Question> findByTestId(Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addWhere(QuestionColumns.TEST_ID.name(), testId);
-        String selectQuery = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(SELECT_BY_TEST_ID);
+        setIdStatementParameters(testId, statement);
 
         Set<Optional<Question>> questions = new HashSet<>();
-        ResultSet resultSet = createResultSet(selectQuery);
+        ResultSet resultSet = createResultSet(statement);
         try {
             while (resultSet.next()) {
                 Optional<Question> question = buildQuestion(resultSet);
@@ -105,29 +183,12 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
-    public Integer create(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
-        sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
-        sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
-        String insertQuery = sqlQueryBuilder.build();
-
-        return executeReturnId(insertQuery);
-    }
-
-    @Override
     public void createAll(Collection<Question> questions) throws DaoOperationException {
-        Statement statement = null;
+        PreparedStatement statement = prepareStatement(INSERT_QUESTION);
         try {
-            statement = connection.createStatement();
-            SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.QUESTION.name());
             for (Question question : questions) {
-                sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
-                sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
-                sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
-                String query = sqlQueryBuilder.build();
-                statement.addBatch(query);
-                sqlQueryBuilder.clear();
+                setAllStatementParameters(question, statement);
+                statement.addBatch();
             }
             statement.executeBatch();
         } catch (SQLException e) {
@@ -137,38 +198,24 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
         }
     }
 
-    @Override
-    public Optional<Question> read(Integer id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
-        String selectQuery = sqlQueryBuilder.build();
-
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<Question> question = buildQuestion(resultSet);
-        closeResultSet(resultSet);
-        return question;
+    private void setAllStatementParameters(Question question, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setString(1, question.getName());
+            statement.setString(2, question.getContent());
+            statement.setInt(3, question.getTest().getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
     }
 
-    @Override
-    public void update(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addField(EntityColumns.ID.name(), question.getId());
-        sqlQueryBuilder.addField(QuestionColumns.NAME.name(), question.getName());
-        sqlQueryBuilder.addField(QuestionColumns.CONTENT.name(), question.getContent());
-        sqlQueryBuilder.addField(QuestionColumns.TEST_ID.name(), question.getTest().getId());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
-        String updateQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(updateQuery);
-    }
-
-    @Override
-    public void delete(Question question) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.QUESTION.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), question.getId());
-        String deleteQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(deleteQuery);
+    private void setIdStatementParameters(Integer id, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setInt(1, id);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
     }
 
     /**

@@ -38,7 +38,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     private static final String SELECT_WHERE_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(),
             Tables.ANSWER.name(),
-            AnswerColumns.QUESTION_ID.name());
+            EntityColumns.ID.name());
 
     private static final String UPDATE_BY_ID = String.format("UPDATE %s SET %s=?, %s=?, %s=? WHERE %s = ?",
             Tables.ANSWER.name(),
@@ -48,6 +48,11 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     private static final String DELETE_BY_ID = String.format("DELETE FROM %s WHERE %s = ?",
             Tables.ANSWER.name(),
             EntityColumns.ID.name());
+
+    private static final String SELECT_WHERE_QUESTION_ID = String.format("SELECT %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), AnswerColumns.CONTENT.name(), AnswerColumns.CORRECT.name(),
+            Tables.ANSWER.name(),
+            AnswerColumns.QUESTION_ID.name());
 
     public AnswerDatabaseDao(Connection connection) {
         super(connection);
@@ -64,9 +69,12 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     public Optional<Answer> read(Integer id) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_WHERE_ID);
         setIdStatementParameters(id, statement);
-        ResultSet resultSet = createResultSet(statement);
-        Optional<Answer> answer = buildAnswer(resultSet);
-        closeResultSet(resultSet);
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        Optional<Answer> answer = Optional.empty();
+        if(resultSet.isPresent()){
+            answer = buildAnswer(resultSet.get());
+            closeResultSet(resultSet.get());
+        }
         return answer;
     }
 
@@ -74,6 +82,12 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     public void update(Answer answer) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
         setAllStatementParameters(answer, statement);
+        try{
+            statement.setInt(4, answer.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't change result set parameters", e);
+        }
 
         executeUpdateQuery(statement);
     }
@@ -90,7 +104,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     public Set<Answer> findByQuestionId(Integer questionId) throws DaoOperationException {
         Set<Optional<Answer>> answers = new HashSet<>();
 
-        PreparedStatement preparedStatement = prepareStatement(SELECT_WHERE_ID);
+        PreparedStatement preparedStatement = prepareStatement(SELECT_WHERE_QUESTION_ID);
         ResultSet resultSet = null;
         try {
             preparedStatement.setInt(1, questionId);

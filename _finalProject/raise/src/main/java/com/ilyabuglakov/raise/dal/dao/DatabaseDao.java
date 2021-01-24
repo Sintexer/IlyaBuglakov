@@ -129,6 +129,7 @@ public abstract class DatabaseDao {
         try {
             if (resultSet.next())
                 return Optional.of(resultSet);
+            closeResultSet(resultSet);
         } catch (SQLException e) {
             throw new DaoOperationException("Can't access ResultSet", e);
         }
