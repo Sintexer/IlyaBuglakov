@@ -3,14 +3,13 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDao;
+import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
-import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
 import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
@@ -19,9 +18,10 @@ import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,28 +33,110 @@ import java.util.stream.Collectors;
  */
 public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDao {
 
+    public static final String INSERT_COMMENT = String.format(
+            "INSERT INTO %s(%s, %s, %s, %s) VALUES(?, ?, ?, ?)",
+            Tables.TEST_COMMENT.name(),
+            TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
+            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name());
+
+    public static final String SELECT_BY_ID = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
+            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
+            Tables.TEST_COMMENT.name(),
+            EntityColumns.ID.name());
+
+    public static final String UPDATE_BY_ID = String.format(
+            "UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s = ?",
+            Tables.TEST_COMMENT.name(),
+            TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
+            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
+            EntityColumns.ID.name());
+
+    public static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s = ?",
+            Tables.TEST_COMMENT.name(),
+            EntityColumns.ID.name());
+
+    public static final String SELECT_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s",
+            Tables.TEST_COMMENT.name());
+
+    public static final String SELECT_BY_ID_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
+            TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
+            Tables.TEST_COMMENT.name(),
+            EntityColumns.ID.name());
+
     public TestCommentDatabaseDao(Connection connection) {
         super(connection);
     }
 
     @Override
-    public Integer getCommentsAmount(Integer testId) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addWhere(TestCommentColumns.TEST_ID.name(), testId);
-        sqlQueryBuilder.returnCount();
-        String query = sqlQueryBuilder.build();
+    public Integer create(TestComment testComment) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(INSERT_COMMENT);
+        setAllStatementParameters(testComment, statement);
 
-        return getCount(createResultSet(query));
+        return executeReturnId(statement);
+    }
+
+    @Override
+    public Optional<TestComment> read(Integer id) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_BY_ID);
+        setIdStatementParameters(id, statement);
+
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        Optional<TestComment> testComment = Optional.empty();
+        if(resultSet.isPresent()){
+            testComment = buildTestComment(resultSet.get());
+            closeResultSet(resultSet.get());
+        }
+        return testComment;
+    }
+
+    @Override
+    public void update(TestComment testComment) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setAllStatementParameters(testComment, statement);
+        try {
+            statement.setInt(5, testComment.getId());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public void delete(TestComment testComment) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(DELETE_BY_ID);
+        setIdStatementParameters(testComment.getId(), statement);
+
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public Integer getCommentsAmount(Integer testId) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_COUNT);
+
+        return getCount(createResultSet(statement));
     }
 
     @Override
     public List<TestComment> getComments(Integer testId, int offset, int items) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addWhere(TestCommentColumns.TEST_ID.name(), testId);
-        sqlQueryBuilder.addLimit(offset, items);
-        String query = sqlQueryBuilder.build();
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        try {
+            statement.setInt(1, testId);
+            statement.setInt(2, items);
+            statement.setInt(3, offset);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
 
-        ResultSet resultSet = createResultSet(query);
+        ResultSet resultSet = createResultSet(statement);
         List<Optional<TestComment>> testComments = new ArrayList<>();
 
         try {
@@ -63,63 +145,30 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
             }
         } catch (SQLException e) {
             throw new DaoOperationException("Error while reading tests from resultSet", e);
+        } finally {
+            closeResultSet(resultSet);
         }
-        closeResultSet(resultSet);
         return testComments.stream()
                 .flatMap(Optional::stream)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Integer create(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlInsertBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addField(TestCommentColumns.USER_ID.name(), testComment.getUser().getId());
-        sqlQueryBuilder.addField(TestCommentColumns.TEST_ID.name(), testComment.getTest().getId());
-        sqlQueryBuilder.addField(TestCommentColumns.TIMESTAMP.name(), testComment.getTimestamp());
-        sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
-        String insertQuery = sqlQueryBuilder.build();
-
-        return executeReturnId(insertQuery);
-    }
-
-    @Override
-    public Optional<TestComment> read(Integer id) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlSelectBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), id);
-        String selectQuery = sqlQueryBuilder.build();
-
-        ResultSet resultSet = createResultSet(selectQuery);
-        Optional<TestComment> testComment = buildTestComment(resultSet);
-        closeResultSet(resultSet);
-        return testComment;
-    }
-
-    @Override
-    public void update(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlUpdateBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addField(TestCommentColumns.USER_ID.name(), testComment.getUser().getId());
-        sqlQueryBuilder.addField(TestCommentColumns.TEST_ID.name(), testComment.getTest().getId());
-        sqlQueryBuilder.addField(TestCommentColumns.TIMESTAMP.name(), testComment.getTimestamp());
-        sqlQueryBuilder.addField(TestCommentColumns.CONTENT.name(), testComment.getContent());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
-        String updateQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(updateQuery);
-    }
-
-    @Override
-    public void delete(TestComment testComment) throws DaoOperationException {
-        SqlQueryBuilder sqlQueryBuilder = new SqlDeleteBuilder(Tables.TEST_COMMENT.name());
-        sqlQueryBuilder.addWhere(EntityColumns.ID.name(), testComment.getId());
-        String deleteQuery = sqlQueryBuilder.build();
-
-        executeUpdateQuery(deleteQuery);
+    private void setAllStatementParameters(TestComment comment, PreparedStatement statement) throws DaoOperationException {
+        try {
+            statement.setInt(1, comment.getUser().getId());
+            statement.setInt(2, comment.getTest().getId());
+            statement.setTimestamp(3, Timestamp.valueOf(comment.getTimestamp()));
+            statement.setString(4, comment.getContent());
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
     }
 
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
-     *
+     * <p>
      * Will build Optional-TestComment only if resultSet has values of all user fields,
      * otherwise will return Optional.empty()
      *
@@ -129,7 +178,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
     private Optional<TestComment> buildTestComment(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet,
+            if (validator.hasAllValues(resultSet,
                     TestCommentColumns.CONTENT.name(),
                     TestCommentColumns.USER_ID.name(),
                     TestCommentColumns.TEST_ID.name(),
