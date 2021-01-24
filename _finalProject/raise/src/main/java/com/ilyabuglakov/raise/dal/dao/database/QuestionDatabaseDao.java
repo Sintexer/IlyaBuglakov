@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 /**
  * QuestionDao is the Dao implementation specifically for Question class
  * Based on DatabaseDao abstract class.
- * TODO add Test extraction in Question service
  */
 public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
 
@@ -203,15 +202,6 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
             statement.setString(1, question.getName());
             statement.setString(2, question.getContent());
             statement.setInt(3, question.getTest().getId());
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-    }
-
-    private void setIdStatementParameters(Integer id, PreparedStatement statement) throws DaoOperationException {
-        try {
-            statement.setInt(1, id);
         } catch (SQLException e) {
             closeStatement(statement);
             throw new DaoOperationException("Can't set statement parameters", e);

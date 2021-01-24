@@ -150,15 +150,6 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
         }
     }
 
-    private void setIdStatementParameters(Integer id, PreparedStatement statement) throws DaoOperationException {
-        try {
-            statement.setInt(1, id);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-    }
-
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
