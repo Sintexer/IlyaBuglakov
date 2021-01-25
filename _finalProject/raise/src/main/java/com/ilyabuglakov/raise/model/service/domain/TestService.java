@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TestService extends Service {
+    Optional<Test> createFromJson(String json);
+
+    void save(Test test, String authorEmail) throws PersistentException;
+
     void changeTestStatus(Integer testId, TestStatus status) throws PersistentException;
 
     Optional<Test> getTest(Integer id) throws PersistentException;

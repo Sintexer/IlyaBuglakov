@@ -44,4 +44,9 @@ public class ShiroAuthService implements AuthService {
     public String getEmail() {
         return (String) SecurityUtils.getSubject().getPrincipal();
     }
+
+    @Override
+    public boolean isPermitted(String permission) {
+        return SecurityUtils.getSubject().isPermitted(permission);
+    }
 }

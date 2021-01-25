@@ -8,4 +8,5 @@ public interface AuthService {
     boolean login(String username, String password);
     String getPreviousUrl(HttpServletRequest request, String defaultUrl);
     String getEmail();
+    boolean isPermitted(String permission);
 }
