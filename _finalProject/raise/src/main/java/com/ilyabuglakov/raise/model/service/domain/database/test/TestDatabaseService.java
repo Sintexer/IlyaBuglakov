@@ -12,12 +12,17 @@ import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.domain.UserTestResult;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
+import com.ilyabuglakov.raise.model.dto.TestDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
+import com.ilyabuglakov.raise.model.dto.TestResultDto;
+import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.database.DatabaseService;
+import com.ilyabuglakov.raise.model.service.test.TestResultService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +33,21 @@ import java.util.Optional;
 public class TestDatabaseService extends DatabaseService implements TestService {
     public TestDatabaseService(Transaction transaction) {
         super(transaction);
+    }
+
+    @Override
+    public ResponseEntity createResult(TestDto testDto) throws PersistentException {
+        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+        Optional<Test> test = getTest(testDto.getId());
+        ResponseEntity responseEntity = new ResponseEntity();
+        if(test.isPresent()){
+            TestResultDto testResultDto = TestResultService.getInstance().createResult(testDto, test.get());
+            responseEntity.setAttribute("testName", test.get().getTestName());
+            responseEntity.setAttribute("testResult", testResultDto);
+            return responseEntity;
+        }
+        responseEntity.setErrorOccurred(true);
+        return responseEntity;
     }
 
     @Override
@@ -44,6 +64,19 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     }
 
     @Override
+    public Optional<TestDto> createDtoFromJson(String json) {
+        Gson gson = new Gson();
+        Optional<TestDto> testDto = Optional.empty();
+        try {
+            testDto = Optional.of(gson.fromJson(json, TestDto.class));
+        } catch (JsonParseException e) {
+            log.error("Illegal test object json format " + json, e);
+            //Exception is ignored because caller method will operate Optional Test object and will see its empty
+        }
+        return testDto;
+    }
+
+    @Override
     public void save(Test test, String authorEmail) throws PersistentException {
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
@@ -54,6 +87,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
         test.setAuthor(user);
         if (test.getStatus() == null)
             test.setStatus(TestStatus.NEW);
+        test.setDifficulty(1);
         Integer testId = testDao.create(test);
 
         testDao.saveCharacteristics(test.getCharacteristics(), testId);

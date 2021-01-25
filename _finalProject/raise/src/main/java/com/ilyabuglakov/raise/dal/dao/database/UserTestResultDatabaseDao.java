@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,7 +77,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
 
     @Override
     public Integer create(UserTestResult userTestResult) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(INSERT_USER_TEST_RESULT);
+        PreparedStatement statement = prepareStatementReturnKeys(INSERT_USER_TEST_RESULT);
         setAllStatementParameters(userTestResult, statement);
 
         return executeReturnId(statement);
