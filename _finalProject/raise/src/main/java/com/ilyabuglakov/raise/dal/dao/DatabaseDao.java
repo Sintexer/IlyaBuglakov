@@ -13,8 +13,6 @@ import java.util.Optional;
 @Log4j2
 public abstract class DatabaseDao {
 
-    protected static final String SELECT_S_FROM_S_WHERE_S = "SELECT %s FROM %s WHERE %s";
-
     protected Connection connection;
 
     protected DatabaseDao(Connection connection) {
@@ -24,7 +22,7 @@ public abstract class DatabaseDao {
     protected Integer getCount(ResultSet resultSet) throws DaoOperationException {
 
         Optional<ResultSet> rs = unpackResultSet(resultSet);
-        Integer count = 0;
+        int count = 0;
         if (rs.isPresent()) {
             try {
                 count = rs.get().getInt("count");
@@ -36,23 +34,6 @@ public abstract class DatabaseDao {
         }
 
         return count;
-    }
-
-    protected Integer executeReturnId(String query) throws DaoOperationException {
-        ResultSet resultSet = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            statement.executeUpdate();
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next())
-                return resultSet.getInt(1);
-            else
-                throw new DaoOperationException();
-        } catch (SQLException e) {
-            throw new DaoOperationException(e);
-        } finally {
-            closeResultSet(resultSet);
-        }
     }
 
     protected Integer executeReturnId(PreparedStatement statement) throws DaoOperationException {
@@ -71,18 +52,6 @@ public abstract class DatabaseDao {
         }
     }
 
-    protected void executeUpdateQuery(String query) throws DaoOperationException {
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            throw new DaoOperationException("Bad update query: " + query, e);
-        } finally {
-            closeStatement(statement);
-        }
-    }
-
     protected void executeUpdateQuery(PreparedStatement statement) throws DaoOperationException {
         try {
             statement.executeUpdate();
@@ -90,19 +59,6 @@ public abstract class DatabaseDao {
             throw new DaoOperationException("Bad update query: " + statement, e);
         } finally {
             closeStatement(statement);
-        }
-    }
-
-    public ResultSet createResultSet(String query, int... statementParameters) throws DaoOperationException {
-        ResultSet resultSet = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(query, statementParameters);
-            statement.closeOnCompletion();
-            statement.executeQuery();
-            resultSet = statement.getResultSet();
-            return resultSet;
-        } catch (SQLException e) {
-            throw new DaoOperationException(e);
         }
     }
 
@@ -160,7 +116,6 @@ public abstract class DatabaseDao {
     protected void closeResultSet(ResultSet resultSet) {
         if (resultSet != null) {
             try {
-//                closeStatement(resultSet.getStatement());
                 resultSet.close();
             } catch (SQLException e) {
                 log.error("Exception while closing result set", e);
