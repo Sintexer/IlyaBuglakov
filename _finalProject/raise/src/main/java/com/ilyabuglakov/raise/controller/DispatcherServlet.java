@@ -83,7 +83,7 @@ public class DispatcherServlet extends HttpServlet {
                                        HttpServletResponse response)
             throws IOException, ServletException {
         if (responseEntity.isRedirect()) {
-            log.debug("Send redirect");
+            log.debug("Send redirect "  + responseEntity.getLink());
             response.sendRedirect(responseEntity.getLink());
         } else {
             responseEntity.getAttributes().forEach(request::setAttribute);

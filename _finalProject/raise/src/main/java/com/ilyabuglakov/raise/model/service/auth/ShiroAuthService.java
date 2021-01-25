@@ -1,10 +1,43 @@
 package com.ilyabuglakov.raise.model.service.auth;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 
-public class ShiroAuthService implements AuthService{
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Log4j2
+public class ShiroAuthService implements AuthService {
     @Override
     public boolean isAuthenticated() {
         return SecurityUtils.getSubject().isAuthenticated();
     }
+
+    @Override
+    public boolean login(String username, String password) {
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        try {
+            Subject currentUser = SecurityUtils.getSubject();
+            currentUser.login(token);
+            log.info(() -> "after login");
+            return true;
+        } catch (UnknownAccountException | IncorrectCredentialsException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public String getPreviousUrl(HttpServletRequest request, String defaultUrl) {
+        SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+        if(savedRequest !=null)
+            return savedRequest.getRequestUrl();
+        return defaultUrl;
+    }
+
 }
