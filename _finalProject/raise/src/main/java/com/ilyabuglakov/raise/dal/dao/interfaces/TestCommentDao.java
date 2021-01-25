@@ -10,4 +10,6 @@ public interface TestCommentDao extends Dao<TestComment> {
     Integer getCommentsAmount(Integer testId) throws DaoOperationException;
 
     List<TestComment> getComments(Integer testId, int offset, int items) throws DaoOperationException;
+
+    int getUserCommentAmount(String email) throws DaoOperationException;
 }

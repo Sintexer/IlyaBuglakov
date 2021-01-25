@@ -53,4 +53,10 @@ public class TestCommentDatabaseService extends DatabaseService implements TestC
         return ((TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT))
                 .getCommentsAmount(testId);
     }
+
+    @Override
+    public int getCommentsAmount(String email) throws DaoOperationException {
+        return ((TestCommentDao)transaction.createDao(DaoType.TEST_COMMENT))
+                .getUserCommentAmount(email);
+    }
 }

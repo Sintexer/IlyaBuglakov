@@ -9,6 +9,7 @@ import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UserColumns;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import lombok.extern.log4j.Log4j2;
 
@@ -58,12 +59,25 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
             "SELECT COUNT(*) FROM %s",
             Tables.TEST_COMMENT.name());
 
+    public static final String SELECT_COUNT_BY_TEST_ID = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ?",
+            Tables.TEST_COMMENT.name(),
+            TestCommentColumns.TEST_ID.name());
+
     public static final String SELECT_BY_TEST_ID_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestCommentColumns.USER_ID.name(), TestCommentColumns.TEST_ID.name(),
             TestCommentColumns.TIMESTAMP.name(), TestCommentColumns.CONTENT.name(),
             Tables.TEST_COMMENT.name(),
             TestCommentColumns.TEST_ID.name());
+
+    public static final String SELECT_USER_COMMENT_COUNT = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = (SELECT %s FROM %s WHERE %s = ?)",
+            Tables.TEST_COMMENT.name(),
+            TestCommentColumns.USER_ID.name(),
+            EntityColumns.ID.name(),
+            Tables.USR.name(),
+            UserColumns.EMAIL.name());
 
     public TestCommentDatabaseDao(Connection connection) {
         super(connection);
@@ -115,8 +129,8 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
 
     @Override
     public Integer getCommentsAmount(Integer testId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_COUNT);
-
+        PreparedStatement statement = prepareStatement(SELECT_COUNT_BY_TEST_ID);
+        setIdStatementParameters(testId, statement);
         return getCount(createResultSet(statement));
     }
 
@@ -148,6 +162,18 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
         return testComments.stream()
                 .flatMap(Optional::stream)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int getUserCommentAmount(String email) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_USER_COMMENT_COUNT);
+        try {
+            statement.setString(1, email);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        return getCount(createResultSet(statement));
     }
 
     private void setAllStatementParameters(TestComment comment, PreparedStatement statement) throws DaoOperationException {

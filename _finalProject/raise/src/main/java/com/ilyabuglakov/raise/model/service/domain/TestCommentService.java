@@ -13,4 +13,6 @@ public interface TestCommentService extends Service {
     Integer getCommentsAmount(Integer testId) throws DaoOperationException;
 
     List<TestComment> getComments(Integer testId, int pageStart, int itemsPerPage) throws PersistentException;
+
+    int getCommentsAmount(String email) throws DaoOperationException;
 }

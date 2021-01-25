@@ -40,7 +40,7 @@ public class CommentPostCommand extends Command {
 
         int page = CatalogService.getPageNumber(request.getParameter("pageNumber"));
         int itemsPerPage = Integer.parseInt(ApplicationProperties.getProperty("comments.page.items"));
-        Integer maxPage = CatalogService.getMaxPage(testCommentService.getCommentsAmount(testId), itemsPerPage);
+        int maxPage = CatalogService.getMaxPage(testCommentService.getCommentsAmount(testId), itemsPerPage);
         if (page > maxPage || page < 1) {
             response.sendError(404);
             return null;

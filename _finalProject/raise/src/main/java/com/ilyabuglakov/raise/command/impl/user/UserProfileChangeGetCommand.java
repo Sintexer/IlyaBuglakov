@@ -6,6 +6,8 @@ import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
+import com.ilyabuglakov.raise.model.service.auth.AuthService;
+import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
@@ -25,14 +27,14 @@ public class UserProfileChangeGetCommand extends Command {
             throws ServletException, IOException, CommandException, PersistentException {
         log.info("Entered profile change command");
 
-        Subject subject = SecurityUtils.getSubject();
-        if (!subject.isAuthenticated()) {
+        AuthService authService = AuthServiceFactory.getAuthService();
+        if (!authService.isAuthenticated()) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
         UserService userService = (UserService) serviceFactory.createService(ServiceType.USER);
-        UserParametersDto userParametersDto = userService.getUserParameters((String) subject.getPrincipal());
+        UserParametersDto userParametersDto = userService.getUserParameters(authService.getEmail());
 
         ResponseEntity responseEntity = new ResponseEntity();
         responseEntity.setAttribute("userParameters", userParametersDto);

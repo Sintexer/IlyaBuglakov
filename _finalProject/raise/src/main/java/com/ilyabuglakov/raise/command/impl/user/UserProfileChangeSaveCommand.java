@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.command.impl.user;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.model.dto.UserInfoDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
@@ -24,51 +25,21 @@ public class UserProfileChangeSaveCommand extends Command {
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, PersistentException {
         Subject subject = SecurityUtils.getSubject();
-        ResponseEntity responseEntity = new ResponseEntity();
-        //todo dto for change results
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String oldPassword = request.getParameter("oldPassword");
-        String newPassword = request.getParameter("newPassword");
-        String newPasswordRepeat = request.getParameter("newPasswordRepeat");
-        boolean somethingChanged = false;
-        boolean somethingWrong = false;
+
+        UserInfoDto userInfoDto = UserInfoDto.builder()
+                .name(request.getParameter("name"))
+                .surname(request.getParameter("surname"))
+                .oldPassword(request.getParameter("oldPassword"))
+                .newPassword(request.getParameter("newPassword"))
+                .newPasswordRepeat(request.getParameter("newPasswordRepeat"))
+                .build();
 
         UserService userService = (UserService) serviceFactory.createService(ServiceType.USER);
         User user = userService.getUser((String) subject.getPrincipal()).orElseThrow(PersistentException::new);
 
-        UserInfoChangeService userInfoChangeService = new UserInfoChangeService();
-        if (!name.isEmpty()) {
-            responseEntity.setAttribute("nameChanged",
-                    userInfoChangeService.changeName(user, name));
-            somethingChanged = true;
-        }
-        if (!surname.isEmpty()) {
-            responseEntity.setAttribute("surnameChanged",
-                    userInfoChangeService.changeSurname(user, surname));
-            somethingChanged = true;
-        }
+        userInfoDto.setUser(user);
+        ResponseEntity responseEntity = userService.changeUserInfo(userInfoDto);
 
-        if (!oldPassword.isEmpty() && !newPassword.isEmpty() && !newPasswordRepeat.isEmpty()) {
-            UserCredentialsValidator userCredentialsValidator = new UserCredentialsValidator();
-            if (userCredentialsValidator.isCorrectOldPassword(user, oldPassword)) {
-                responseEntity.setAttribute("passwordChanged",
-                        userInfoChangeService.changePassword(user, newPassword, newPasswordRepeat));
-                somethingChanged = true;
-                log.debug("Password changed :" + user.getPassword());
-            } else {
-                somethingWrong = true;
-                responseEntity.setAttribute("incorrectOldPassword", true);
-            }
-        }
-
-        if (somethingChanged) {
-            userService.updateUser(user);
-        }
-
-        responseEntity.setAttribute("userParameters", userService.getUserParameters(user.getId()));
-        responseEntity.setAttribute("somethingChanged", somethingChanged);
-        responseEntity.setAttribute("somethingWrong", somethingWrong);
         responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("user.profile.change"));
         return responseEntity;
     }
