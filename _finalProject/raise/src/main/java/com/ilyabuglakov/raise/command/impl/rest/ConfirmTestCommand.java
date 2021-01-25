@@ -9,7 +9,6 @@ import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.servlet.RequestService;
-import com.ilyabuglakov.raise.model.service.servlet.exception.IllegalRequestParameterException;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +23,7 @@ public class ConfirmTestCommand extends Command {
 
         ResponseEntity responseEntity = new ResponseEntity();
 
-        Optional<Integer> optionalTestId = Optional.empty();
-        try {
-            optionalTestId = RequestService.getInstance().getIntParameter(request, "testId");
-        } catch (IllegalRequestParameterException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-            return null;
-        }
+        Optional<Integer> optionalTestId = RequestService.getInstance().getIntParameter(request, "testId");
         if (!optionalTestId.isPresent()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;

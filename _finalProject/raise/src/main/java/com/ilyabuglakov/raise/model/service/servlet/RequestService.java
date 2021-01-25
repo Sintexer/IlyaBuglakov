@@ -15,15 +15,14 @@ public class RequestService {
         return InstanceHolder.INSTANCE;
     }
 
-    public Optional<Integer> getIntParameter(HttpServletRequest request, String parameterName)
-            throws IllegalRequestParameterException {
+    public Optional<Integer> getIntParameter(HttpServletRequest request, String parameterName){
         Optional<Integer> optionalInteger = Optional.empty();
         String parameter = request.getParameter(parameterName);
         if (parameter != null) {
             try {
                 optionalInteger = Optional.of(Integer.parseInt(parameter));
             } catch (NumberFormatException e) {
-                throw new IllegalRequestParameterException("Illegal integer request parameter " + parameter, e);
+                //Exception ignored because method will return Optional.empty anyway
             }
         }
         return optionalInteger;
