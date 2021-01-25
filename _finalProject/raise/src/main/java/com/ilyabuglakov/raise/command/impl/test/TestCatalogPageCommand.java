@@ -41,7 +41,7 @@ public class TestCatalogPageCommand extends Command {
             testAmount = testReadService.getTestAmount();
 
             maxPage = CatalogService.getMaxPage(testAmount, itemsPerPage);
-            if(page > maxPage || page < 1){
+            if (page > maxPage || page < 1) {
                 response.sendError(404);
                 return null;
             }

@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.model.service.test;
 
 import com.ilyabuglakov.raise.domain.Answer;
-import com.ilyabuglakov.raise.domain.Entity;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.model.dto.QuestionDto;
@@ -13,7 +12,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TestResultService {
 

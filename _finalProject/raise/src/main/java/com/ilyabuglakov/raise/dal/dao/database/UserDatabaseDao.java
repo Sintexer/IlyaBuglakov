@@ -3,19 +3,11 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
-import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.RoleColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.UserColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.UserRolesColumns;
 import com.ilyabuglakov.raise.domain.type.Status;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
@@ -25,10 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * UserDao is the Dao implementation specifically for User class
@@ -67,6 +56,12 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             Tables.USR.name(),
             UserColumns.EMAIL.name());
 
+    public static final String SELECT_USER_INFO_BY_ID = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
+            EntityColumns.ID.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
+            Tables.USR.name(),
+            EntityColumns.ID.name());
+
     public UserDatabaseDao(Connection connection) {
         super(connection);
     }
@@ -86,7 +81,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
 
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<User> user = Optional.empty();
-        if(resultSet.isPresent()) {
+        if (resultSet.isPresent()) {
             user = buildUser(resultSet.get());
             closeResultSet(resultSet.get());
         }
@@ -128,11 +123,32 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
         }
 
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
-        if(optionalResultSet.isPresent())
+        if (optionalResultSet.isPresent())
             return buildUser(optionalResultSet.get());
         return Optional.empty();
     }
 
+
+    @Override
+    public Optional<User> findUserInfo(Integer id) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        setIdStatementParameters(id, statement);
+        Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
+        Optional<User> userOptional = Optional.empty();
+        if (optionalResultSet.isPresent()) {
+            try {
+                ResultSet resultSet = optionalResultSet.get();
+                userOptional = Optional.of(User.builder()
+                        .name(resultSet.getString(UserColumns.NAME.name()))
+                        .surname(resultSet.getString(UserColumns.SURNAME.name()))
+                        .id(resultSet.getInt(EntityColumns.ID.name()))
+                        .build());
+            } catch (SQLException e) {
+                throw new DaoOperationException("Can't build user info from result set by id", e);
+            }
+        }
+        return userOptional;
+    }
 
     private void setAllStatementParameters(User user, PreparedStatement statement) throws DaoOperationException {
         try {
@@ -151,7 +167,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
-     *
+     * <p>
      * Will build Optional-User only if resultSet has values of all User fields,
      * otherwise will return Optional.empty()
      *
@@ -161,13 +177,13 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
     private Optional<User> buildUser(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet, UserColumns.EMAIL.name(),
+            if (validator.hasAllValues(resultSet, UserColumns.EMAIL.name(),
                     UserColumns.NAME.name(),
                     UserColumns.SURNAME.name(),
                     UserColumns.REGISTRATION_DATE.name(),
                     UserColumns.STATUS.name(),
                     UserColumns.PASSWORD.name(),
-                    EntityColumns.ID.name()) ) {
+                    EntityColumns.ID.name())) {
                 User user = User.builder()
                         .email(resultSet.getString(UserColumns.EMAIL.name()))
                         .name(resultSet.getString(UserColumns.NAME.name()))

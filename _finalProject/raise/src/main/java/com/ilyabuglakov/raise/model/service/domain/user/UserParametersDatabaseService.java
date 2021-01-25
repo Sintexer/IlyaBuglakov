@@ -35,7 +35,7 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
                             userTestResult.getTest().getId());
             if (prevResult.isPresent()) {
                 userTestResult.setId(prevResult.get().getId());
-                if(prevResult.get().getResult() < userTestResult.getResult()){
+                if (prevResult.get().getResult() < userTestResult.getResult()) {
                     userTestResultDao.update(userTestResult);
                 }
             } else {

@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +84,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
 
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<TestComment> testComment = Optional.empty();
-        if(resultSet.isPresent()){
+        if (resultSet.isPresent()) {
             testComment = buildTestComment(resultSet.get());
             closeResultSet(resultSet.get());
         }
@@ -124,7 +123,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
     @Override
     public List<TestComment> getComments(Integer testId, int offset, int items) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_BY_TEST_ID_LIMIT_OFFSET);
-        log.debug("offset:" + offset + "; items: "+ items);
+        log.debug("offset:" + offset + "; items: " + items);
         try {
             statement.setInt(1, testId);
             statement.setInt(2, items);

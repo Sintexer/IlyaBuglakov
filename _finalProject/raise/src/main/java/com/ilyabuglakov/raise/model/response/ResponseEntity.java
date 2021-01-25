@@ -15,7 +15,7 @@ public class ResponseEntity {
     private boolean isRedirect;
     private Map<String, Object> attributes = new HashMap<>();
 
-    public Object setAttribute(String key, Object value){
+    public Object setAttribute(String key, Object value) {
         return attributes.put(key, value);
     }
 }

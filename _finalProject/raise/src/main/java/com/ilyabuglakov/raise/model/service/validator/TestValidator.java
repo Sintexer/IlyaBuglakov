@@ -6,7 +6,6 @@ import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -15,7 +14,7 @@ public class TestValidator {
     public static String testNamePattern = "^[^\\d',.-][^\\n_!¡?÷?¿\\/\\\\+=@#$%ˆ&*(){}|~<>;:\\[\\]]{2,}$";
 
     public boolean isValid(Test test) {
-        if(test == null || !isValidTestName(test.getTestName()) || !isValidCharacteristics(test.getCharacteristics()))
+        if (test == null || !isValidTestName(test.getTestName()) || !isValidCharacteristics(test.getCharacteristics()))
             return false;
         return !test.getQuestions().isEmpty()
                 && test.getQuestions().stream().allMatch(this::isValidQuestion);
@@ -41,7 +40,7 @@ public class TestValidator {
                 .allMatch(this::isValidAnswer);
         if (!validAnswers)
             return false;
-        return question.getAnswers().size()>1
+        return question.getAnswers().size() > 1
                 && question.getAnswers().stream().anyMatch(Answer::isCorrect);
     }
 

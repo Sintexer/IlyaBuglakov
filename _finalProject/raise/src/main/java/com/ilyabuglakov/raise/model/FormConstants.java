@@ -11,7 +11,7 @@ public enum FormConstants {
     @Getter
     private final int value;
 
-    FormConstants(int value){
+    FormConstants(int value) {
         this.value = value;
     }
 }

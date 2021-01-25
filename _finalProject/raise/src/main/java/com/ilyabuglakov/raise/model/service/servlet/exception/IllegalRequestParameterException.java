@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.model.service.servlet.exception;
 
-public class IllegalRequestParameterException extends Exception{
+public class IllegalRequestParameterException extends Exception {
     public IllegalRequestParameterException() {
         super();
     }

@@ -6,8 +6,8 @@ import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFa
 import com.ilyabuglakov.raise.model.service.domain.Service;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.database.TestCommentDatabaseService;
-import com.ilyabuglakov.raise.model.service.domain.database.TestDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.UserDatabaseService;
+import com.ilyabuglakov.raise.model.service.domain.database.test.TestDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
 
 import java.util.EnumMap;
@@ -25,7 +25,7 @@ public class DatabaseServiceFactory implements ServiceFactory {
         serviceCreators.put(ServiceType.TEST_COMMENT, TestCommentDatabaseService::new);
     }
 
-    public Service createService(ServiceType serviceType){
+    public Service createService(ServiceType serviceType) {
         return serviceCreators.get(serviceType).create(transactionFactory.createTransaction());
     }
 

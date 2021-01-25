@@ -51,18 +51,18 @@ public class UserProfileChangeSaveCommand extends Command {
 
         if (!oldPassword.isEmpty() && !newPassword.isEmpty() && !newPasswordRepeat.isEmpty()) {
             UserCredentialsValidator userCredentialsValidator = new UserCredentialsValidator();
-            if(userCredentialsValidator.isCorrectOldPassword(user, oldPassword)){
+            if (userCredentialsValidator.isCorrectOldPassword(user, oldPassword)) {
                 responseEntity.setAttribute("passwordChanged",
                         userInfoChangeService.changePassword(user, newPassword, newPasswordRepeat));
                 somethingChanged = true;
                 log.debug("Password changed :" + user.getPassword());
-            } else{
+            } else {
                 somethingWrong = true;
                 responseEntity.setAttribute("incorrectOldPassword", true);
             }
         }
 
-        if(somethingChanged){
+        if (somethingChanged) {
             userService.updateUser(user);
         }
 

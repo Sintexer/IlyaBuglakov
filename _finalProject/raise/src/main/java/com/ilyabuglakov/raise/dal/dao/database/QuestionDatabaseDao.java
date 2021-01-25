@@ -3,25 +3,16 @@ package com.ilyabuglakov.raise.dal.dao.database;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
-import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.structure.Tables;
-import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -93,7 +84,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
         setIdStatementParameters(id, statement);
         Optional<Question> question = Optional.empty();
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
-        if(optionalResultSet.isPresent()){
+        if (optionalResultSet.isPresent()) {
             question = buildQuestion(optionalResultSet.get());
             closeResultSet(optionalResultSet.get());
         }
@@ -105,7 +96,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     public void update(Question question) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
         setAllStatementParameters(question, statement);
-        try{
+        try {
             statement.setInt(4, question.getId());
         } catch (SQLException e) {
             closeStatement(statement);
@@ -127,7 +118,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     public List<String> getQuestionsNames(Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_QUESTION_NAMES_BY_TEST_ID);
 
-        try{
+        try {
             statement.setInt(1, testId);
         } catch (SQLException e) {
             closeStatement(statement);

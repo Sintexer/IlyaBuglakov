@@ -1,9 +1,13 @@
 package com.ilyabuglakov.raise.storage;
 
+import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.impl.admin.NewTestsCatalogGetCommand;
+import com.ilyabuglakov.raise.command.impl.index.IndexGetCommand;
 import com.ilyabuglakov.raise.command.impl.localization.ChangeLocalizationCommand;
 import com.ilyabuglakov.raise.command.impl.login.LoginGetCommand;
 import com.ilyabuglakov.raise.command.impl.login.LoginPostCommand;
+import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
+import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 import com.ilyabuglakov.raise.command.impl.rest.BanTestCommand;
 import com.ilyabuglakov.raise.command.impl.rest.ConfirmTestCommand;
 import com.ilyabuglakov.raise.command.impl.test.CommentPostCommand;
@@ -17,10 +21,6 @@ import com.ilyabuglakov.raise.command.impl.user.UserProfileChangeGetCommand;
 import com.ilyabuglakov.raise.command.impl.user.UserProfileChangeSaveCommand;
 import com.ilyabuglakov.raise.command.impl.user.UserProfileGetCommand;
 import com.ilyabuglakov.raise.model.RequestMethod;
-import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.impl.index.IndexGetCommand;
-import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
-import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 
 import java.util.EnumMap;
 import java.util.HashMap;

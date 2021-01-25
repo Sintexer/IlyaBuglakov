@@ -34,11 +34,11 @@ public class TestCreatorGetCommand extends Command {
 
             Optional<User> user = userSearchService.findByEmail((String) SecurityUtils.getSubject().getPrincipal());
             Integer testAmount = testReadService.getNewTestAmount(user.orElseThrow(TestSaveServiceLimitException::new).getId());
-            if(testAmount>= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests")))
+            if (testAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests")))
                 throw new TestSaveServiceLimitException();
             responseEntity.setAttribute("characteristics", Characteristic.values());
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.creator"));
-        } catch (TestSaveServiceLimitException e){
+        } catch (TestSaveServiceLimitException e) {
             responseEntity.setAttribute("testLimitReached", true);
             responseEntity.setAttribute("testWasntCreated", true);
             responseEntity.setAttribute("testWasntCPosted", true);

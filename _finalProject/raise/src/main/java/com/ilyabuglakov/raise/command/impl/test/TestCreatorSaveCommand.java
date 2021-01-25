@@ -32,7 +32,7 @@ public class TestCreatorSaveCommand extends Command {
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
 
         Subject subject = SecurityUtils.getSubject();
-        if(subject == null){
+        if (subject == null) {
             response.sendError(401);
             return null;
         }
@@ -47,7 +47,7 @@ public class TestCreatorSaveCommand extends Command {
 
         try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
 
-            if(subject.isPermitted("confirm:test")){
+            if (subject.isPermitted("confirm:test")) {
                 test.setStatus(TestStatus.CONFIRMED);
             }
             boolean isValid = ValidationCommands.TEST_VALIDATION.getCommand().execute(test, request);
@@ -59,7 +59,7 @@ public class TestCreatorSaveCommand extends Command {
             TestSaveService testSaveService = new TestDatabaseSaveService(transaction);
             UserSearchService userSearchService = new UserTransactionSearch(transaction);
 
-            User user = userSearchService.findByEmail((String)subject.getPrincipal()).orElse(null);
+            User user = userSearchService.findByEmail((String) subject.getPrincipal()).orElse(null);
             test.setAuthor(user);
             testSaveService.save(test);
             transaction.commit();
@@ -67,7 +67,7 @@ public class TestCreatorSaveCommand extends Command {
             responseEntity.setLink(PropertiesStorage.getInstance()
                     .getPages()
                     .getProperty("test.creator.save.success"));
-        } catch(TestSaveServiceLimitException e) {
+        } catch (TestSaveServiceLimitException e) {
             request.setAttribute("testLimitReached", true);
             request.setAttribute("testWasntCreated", true);
             request.setAttribute("testWasntPosted", true);

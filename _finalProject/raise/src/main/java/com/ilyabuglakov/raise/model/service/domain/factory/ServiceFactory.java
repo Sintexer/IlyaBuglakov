@@ -6,6 +6,7 @@ import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 public interface ServiceFactory {
 
     Service createService(ServiceType serviceType);
+
     void close();
 
 }

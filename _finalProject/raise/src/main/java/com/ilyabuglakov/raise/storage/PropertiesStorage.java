@@ -29,7 +29,7 @@ public class PropertiesStorage {
         return getInstance().pages.getProperty(property);
     }
 
-    private PropertyParser initProperties(String filename){
+    private PropertyParser initProperties(String filename) {
         try {
             return new PropertyParser(filename);
         } catch (PropertyFileException e) {

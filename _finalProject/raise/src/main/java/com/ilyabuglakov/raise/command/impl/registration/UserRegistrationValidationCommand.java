@@ -21,7 +21,7 @@ public class UserRegistrationValidationCommand extends Command {
      * such as invalidEmail, invalidName, invalidSurname, invalidPassword.
      * Also will save previous user fields input in attributes emailPrevVal, namePrevVal, surnamePrevVal
      *
-     * @param request Servlet request
+     * @param request  Servlet request
      * @param response Servlet response
      * @throws UserValidationException if some fields are invalid
      */

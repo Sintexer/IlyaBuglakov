@@ -9,11 +9,8 @@ import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCharacteristicColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.TestCommentColumns;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
@@ -256,7 +253,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             statement.setString(1, test.getTestName());
             statement.setObject(2, test.getStatus(), Types.OTHER);
             statement.setInt(3, test.getAuthor().getId());
-            statement.setInt(4,test.getDifficulty());
+            statement.setInt(4, test.getDifficulty());
         } catch (SQLException e) {
             closeStatement(statement);
             throw new DaoOperationException("Can't set statement parameters", e);

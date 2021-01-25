@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.command.exception;
 
-public class UserEmailUniquenessException extends CommandException{
+public class UserEmailUniquenessException extends CommandException {
     public UserEmailUniquenessException() {
         super();
     }

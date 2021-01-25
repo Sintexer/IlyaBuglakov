@@ -29,11 +29,11 @@ public class UserValidator {
                 password.length() < FormConstants.PASSWORD_MAX.getValue();
     }
 
-    public boolean isValid(User user){
+    public boolean isValid(User user) {
         return isValidUserParameters(user.getEmail(), user.getName(), user.getSurname(), user.getPassword());
     }
 
-    public boolean isValidUserParameters(String email, String name, String surname, String password){
+    public boolean isValidUserParameters(String email, String name, String surname, String password) {
         return isValidEmail(email) &&
                 isValidName(name) &&
                 isValidSurname(surname) &&

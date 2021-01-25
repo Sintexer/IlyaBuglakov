@@ -14,7 +14,7 @@ public class ChangeLocalizationCommand extends Command {
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
         String locale = request.getParameter("userLocale");
-        Cookie cookie =new Cookie("userLocale", locale);
+        Cookie cookie = new Cookie("userLocale", locale);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         response.addCookie(cookie);

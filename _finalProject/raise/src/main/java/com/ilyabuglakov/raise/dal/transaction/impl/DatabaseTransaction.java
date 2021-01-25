@@ -1,7 +1,7 @@
 package com.ilyabuglakov.raise.dal.transaction.impl;
 
-import com.ilyabuglakov.raise.dal.dao.database.AnswerDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
+import com.ilyabuglakov.raise.dal.dao.database.AnswerDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.QuestionDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.RoleDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.TestCommentDatabaseDao;
@@ -25,7 +25,7 @@ public class DatabaseTransaction implements Transaction {
 
     private final Connection connection;
 
-    private  EnumMap<DaoType, DatabaseDao> daoMap;
+    private EnumMap<DaoType, DatabaseDao> daoMap;
 
     public DatabaseTransaction(Connection connection) {
         this.connection = connection;

@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.model.service.domain.test.exception;
 
-public class TestSaveServiceException  extends Exception{
+public class TestSaveServiceException extends Exception {
     public TestSaveServiceException() {
         super();
     }

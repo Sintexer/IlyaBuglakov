@@ -31,13 +31,13 @@ public class TestDatabaseSaveService extends TransactionWebService implements Te
         AnswerDao answerDao = (AnswerDao) transaction.createDao(DaoType.ANSWER);
 
 
-        try{
+        try {
             Integer newTestAmount = testDao.getNewTestAmount(test.getAuthor().getId());
-            if(newTestAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests"))){
+            if (newTestAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests"))) {
                 throw new TestSaveServiceLimitException("User reached new tests limit");
             }
 
-            if(test.getStatus()==null)
+            if (test.getStatus() == null)
                 test.setStatus(TestStatus.NEW);
             Integer testId = testDao.create(test);
 
@@ -47,10 +47,10 @@ public class TestDatabaseSaveService extends TransactionWebService implements Te
             testProxy.setId(testId);
             test.getQuestions().forEach(question -> question.setTest(testProxy));
 
-            for(Question question : test.getQuestions()){
+            for (Question question : test.getQuestions()) {
                 Integer questionId = questionDao.create(question);
                 Question questionProxy = new Question();
-                questionProxy.setId( questionId);
+                questionProxy.setId(questionId);
                 question.getAnswers().forEach(answer -> answer.setQuestion(questionProxy));
                 answerDao.createAll(question.getAnswers());
             }
@@ -60,7 +60,7 @@ public class TestDatabaseSaveService extends TransactionWebService implements Te
             } catch (TransactionException transactionException) {
                 log.error("Can't rollback transaction", e);
             }
-            throw new TestSaveServiceException("Can't save test" , e);
+            throw new TestSaveServiceException("Can't save test", e);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.dal.exception;
 
-public class PersistentException extends Exception{
+public class PersistentException extends Exception {
     public PersistentException() {
         super();
     }

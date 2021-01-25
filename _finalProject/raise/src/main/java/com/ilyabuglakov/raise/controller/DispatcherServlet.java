@@ -1,11 +1,11 @@
 package com.ilyabuglakov.raise.controller;
 
+import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.command.manager.CommandManager;
 import com.ilyabuglakov.raise.command.manager.CommandManagerFactory;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
 import com.ilyabuglakov.raise.config.exception.PoolConfigurationException;
-import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
 import com.ilyabuglakov.raise.model.LocaleType;
@@ -49,7 +49,7 @@ public class DispatcherServlet extends HttpServlet {
         processCommand(req, resp);
     }
 
-    private ServiceFactory getServiceFactory(){
+    private ServiceFactory getServiceFactory() {
         return new DatabaseServiceFactory(new DatabaseTransactionFactory());
     }
 
@@ -57,7 +57,7 @@ public class DispatcherServlet extends HttpServlet {
         return Optional.ofNullable((Command) request.getAttribute("command"));
     }
 
-    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<Command> command = extractCommand(req);
         try {
 
@@ -66,7 +66,7 @@ public class DispatcherServlet extends HttpServlet {
                 CommandManager commandManager = CommandManagerFactory.getCommandManager(getServiceFactory());
                 ResponseEntity responseEntity = commandManager.execute(command.get(), req, resp);
                 commandManager.close();
-                if(responseEntity != null)
+                if (responseEntity != null)
                     processResponseEntity(responseEntity, req, resp);
             } else {
                 resp.sendError(404);
@@ -82,7 +82,7 @@ public class DispatcherServlet extends HttpServlet {
                                        HttpServletRequest request,
                                        HttpServletResponse response)
             throws IOException, ServletException {
-        if(responseEntity.isRedirect()){
+        if (responseEntity.isRedirect()) {
             log.debug("Send redirect");
             response.sendRedirect(responseEntity.getLink());
         } else {

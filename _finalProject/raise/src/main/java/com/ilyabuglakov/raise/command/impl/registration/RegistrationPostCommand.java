@@ -24,7 +24,7 @@ public class RegistrationPostCommand extends Command {
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("posted");
         ResponseEntity responseEntity = new ResponseEntity();
-        try(Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
+        try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
             request.setAttribute("transaction", transaction);
 
             Commands.USER_REG_VALIDATION.getCommand().execute(request, response);

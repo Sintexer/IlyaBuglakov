@@ -38,7 +38,7 @@ public class LoginPostCommand extends Command {
                 currentUser.login(token);
                 log.info("after login");
                 SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-                if(savedRequest!=null){
+                if (savedRequest != null) {
                     log.info("redirect to prev page");
                     WebUtils.redirectToSavedRequest(request, response, savedRequest.getRequestUrl());
                 } else {

@@ -36,7 +36,7 @@ public class CommentPostCommand extends Command {
         }
 
         TestCommentService testCommentService = (TestCommentService) serviceFactory.createService(ServiceType.TEST_COMMENT);
-        testCommentService.saveComment(comment, testId, (String)subject.getPrincipal());
+        testCommentService.saveComment(comment, testId, (String) subject.getPrincipal());
 
         int page = CatalogService.getPageNumber(request.getParameter("pageNumber"));
         int itemsPerPage = Integer.parseInt(ApplicationProperties.getProperty("comments.page.items"));
@@ -46,10 +46,10 @@ public class CommentPostCommand extends Command {
             return null;
         }
 
-        List<TestComment> comments = testCommentService.getComments(testId, page-1, itemsPerPage);
+        List<TestComment> comments = testCommentService.getComments(testId, page - 1, itemsPerPage);
         ResponseEntity responseEntity = new ResponseEntity();
 
-        TestService testService = (TestService)serviceFactory.createService(ServiceType.TEST);
+        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
         Test test = testService.getTest(testId).orElseThrow(PersistentException::new);
 
         responseEntity.setAttribute("comments", comments);

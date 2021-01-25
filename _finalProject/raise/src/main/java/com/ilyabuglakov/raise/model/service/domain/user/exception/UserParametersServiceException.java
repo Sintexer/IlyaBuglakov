@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.model.service.domain.user.exception;
 
-public class UserParametersServiceException extends Exception{
+public class UserParametersServiceException extends Exception {
     public UserParametersServiceException() {
         super();
     }

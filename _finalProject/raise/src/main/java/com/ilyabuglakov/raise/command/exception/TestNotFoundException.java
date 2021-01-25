@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.command.exception;
 
-public class TestNotFoundException extends RuntimeException{
+public class TestNotFoundException extends RuntimeException {
     public TestNotFoundException() {
         super();
     }

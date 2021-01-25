@@ -26,7 +26,7 @@ public class UserProfileChangeGetCommand extends Command {
         log.info("Entered profile change command");
 
         Subject subject = SecurityUtils.getSubject();
-        if(!subject.isAuthenticated()){
+        if (!subject.isAuthenticated()) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }

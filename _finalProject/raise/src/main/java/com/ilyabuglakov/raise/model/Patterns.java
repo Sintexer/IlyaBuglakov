@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Patterns {
-    PASSWORD(".{"+ FormConstants.PASSWORD_MIN.getValue() +"," + FormConstants.PASSWORD_MAX.getValue() + "}"),
+    PASSWORD(".{" + FormConstants.PASSWORD_MIN.getValue() + "," + FormConstants.PASSWORD_MAX.getValue() + "}"),
 
     ;
 

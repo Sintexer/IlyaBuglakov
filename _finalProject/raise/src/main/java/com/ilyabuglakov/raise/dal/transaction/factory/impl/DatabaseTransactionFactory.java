@@ -20,7 +20,7 @@ public class DatabaseTransactionFactory implements TransactionFactory {
 
     @Override
     public Transaction createTransaction() {
-        if(connection == null) {
+        if (connection == null) {
             connection = ConnectionPoolFactory.getConnectionPool().getConnection();
             try {
                 connection.setAutoCommit(false);
@@ -33,7 +33,7 @@ public class DatabaseTransactionFactory implements TransactionFactory {
 
     @Override
     public void close() {
-        if(connection!=null) {
+        if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {

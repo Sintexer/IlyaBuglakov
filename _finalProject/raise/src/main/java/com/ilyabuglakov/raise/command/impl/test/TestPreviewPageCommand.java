@@ -51,7 +51,7 @@ public class TestPreviewPageCommand extends Command {
             return null;
         }
 
-        List<TestComment> comments = testCommentService.getComments(testId, page-1, itemsPerPage);
+        List<TestComment> comments = testCommentService.getComments(testId, page - 1, itemsPerPage);
 
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
         Test test = testService.getTest(testId).orElseThrow(PersistentException::new);

@@ -7,18 +7,12 @@ import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.AnswerColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -76,7 +70,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
         setIdStatementParameters(id, statement);
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<Answer> answer = Optional.empty();
-        if(resultSet.isPresent()){
+        if (resultSet.isPresent()) {
             answer = buildAnswer(resultSet.get());
             closeResultSet(resultSet.get());
         }
@@ -87,7 +81,7 @@ public class AnswerDatabaseDao extends DatabaseDao implements AnswerDao {
     public void update(Answer answer) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
         setAllStatementParameters(answer, statement);
-        try{
+        try {
             statement.setInt(4, answer.getId());
         } catch (SQLException e) {
             closeStatement(statement);

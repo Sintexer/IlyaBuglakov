@@ -3,7 +3,6 @@ package com.ilyabuglakov.raise.domain;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

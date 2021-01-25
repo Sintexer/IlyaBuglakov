@@ -45,14 +45,14 @@ public class UserProfileGetCommand extends Command {
             return null;
         }
 
-        if(userParametersDto == null){
+        if (userParametersDto == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
 
-        if(subject.isAuthenticated()
-                && ((String)subject.getPrincipal())
-                .equals(userParametersDto.getUser().getEmail())){
+        if (subject.isAuthenticated()
+                && ((String) subject.getPrincipal())
+                .equals(userParametersDto.getUser().getEmail())) {
             responseEntity.setAttribute("isOwner", true);
         }
 

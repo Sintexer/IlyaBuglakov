@@ -1,7 +1,7 @@
 package com.ilyabuglakov.raise.model.service.domain.user;
 
-import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
+import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.RoleDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.User;
@@ -27,7 +27,6 @@ public class UserDatabaseRegistrationService extends TransactionWebService imple
 
     /**
      * @param user - User object to save
-     *
      * @throws UserRegistrationServiceException when DaoOperationException happens
      */
     @Override

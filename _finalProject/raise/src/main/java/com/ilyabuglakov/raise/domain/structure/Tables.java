@@ -12,7 +12,7 @@ public enum Tables {
     TEST_COMMENT,
     TEST_CHARACTERISTIC;
 
-    String getName(){
+    String getName() {
         return name().toLowerCase();
     }
 }

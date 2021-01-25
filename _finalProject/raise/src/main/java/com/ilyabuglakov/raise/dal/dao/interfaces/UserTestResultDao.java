@@ -6,10 +6,11 @@ import com.ilyabuglakov.raise.domain.UserTestResult;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public interface UserTestResultDao extends Dao<UserTestResult> {
     Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException;
+
     int getResultAmount(Integer userId) throws DaoOperationException;
+
     List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException;
 }

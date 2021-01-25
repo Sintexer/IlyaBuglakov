@@ -3,14 +3,14 @@ package com.ilyabuglakov.raise.model.dto;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestInfo {
@@ -19,6 +19,4 @@ public class TestInfo {
     private String testName;
     private int difficulty;
     private Set<Characteristic> characteristics;
-    private String questionNames;
-    private int questionsAmount;
 }

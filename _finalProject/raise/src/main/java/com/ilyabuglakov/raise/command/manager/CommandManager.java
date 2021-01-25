@@ -12,5 +12,6 @@ import java.io.IOException;
 
 public interface CommandManager {
     ResponseEntity execute(Command command, HttpServletRequest request, HttpServletResponse response) throws PersistentException, ServletException, CommandException, IOException;
+
     void close();
 }

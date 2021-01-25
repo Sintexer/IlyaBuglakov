@@ -12,10 +12,14 @@ public interface TestReadService {
     Optional<Test> getTest(Integer testId) throws DaoOperationException;
 
     List<TestInfo> getTestInfos(int pageNumber, int testsPerPage) throws DaoOperationException;
+
     List<TestInfo> getNewTestInfos(int pageNumber, int testsPerPage) throws DaoOperationException;
 
     Integer getTestAmount() throws DaoOperationException;
+
     Integer getTestAmount(Integer authorId) throws DaoOperationException;
+
     Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
+
     Integer getNewTestAmount() throws DaoOperationException;
 }

@@ -8,22 +8,13 @@ import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.UserTestResult;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.UserTestResultColumns;
-import com.ilyabuglakov.raise.domain.type.TestStatus;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlDeleteBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlInsertBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlUpdateBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,7 +89,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
 
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<UserTestResult> userTestResult = Optional.empty();
-        if(resultSet.isPresent()){
+        if (resultSet.isPresent()) {
             userTestResult = buildUserTestResult(resultSet.get());
             closeResultSet(resultSet.get());
         }
@@ -140,10 +131,11 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
         }
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<UserTestResult> userTestResult = Optional.empty();
-        if(resultSet.isPresent()){
+        if (resultSet.isPresent()) {
             userTestResult = buildUserTestResult(resultSet.get());
             closeResultSet(resultSet.get());
-        };
+        }
+        ;
         return userTestResult;
     }
 
@@ -191,7 +183,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     /**
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
-     *
+     * <p>
      * Will build Optional-UserTestResult only if resultSet has values of all UserTestResult fields,
      * otherwise will return Optional.empty()
      *
@@ -201,7 +193,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     private Optional<UserTestResult> buildUserTestResult(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
-            if(validator.hasAllValues(resultSet,
+            if (validator.hasAllValues(resultSet,
                     UserTestResultColumns.RESULT.name(),
                     UserTestResultColumns.USER_ID.name(),
                     UserTestResultColumns.TEST_ID.name(),

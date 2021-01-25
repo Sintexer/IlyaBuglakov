@@ -59,7 +59,7 @@ public class TestingGetCommand extends Command {
             log.info(test.get());
             responseEntity.setAttribute("test", test.get());
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.testing"));
-        } else if(!SecurityUtils.getSubject().isPermitted("test:confirm")) {
+        } else if (!SecurityUtils.getSubject().isPermitted("test:confirm")) {
             response.sendError(404);
         }
         return responseEntity;

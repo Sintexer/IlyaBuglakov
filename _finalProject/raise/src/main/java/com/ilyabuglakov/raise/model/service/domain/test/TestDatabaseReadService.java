@@ -72,8 +72,6 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
                     .characteristics(characteristicSet)
                     .difficulty(test.getDifficulty())
                     .id(test.getId())
-                    .questionNames(questionNames)
-                    .questionsAmount(questionsAmount)
                     .build());
         }
         return testInfos;
@@ -99,8 +97,6 @@ public class TestDatabaseReadService extends TransactionWebService implements Te
                     .characteristics(characteristicSet)
                     .difficulty(test.getDifficulty())
                     .id(test.getId())
-                    .questionNames(questionNames)
-                    .questionsAmount(questionsAmount)
                     .build());
         }
         return testInfos;

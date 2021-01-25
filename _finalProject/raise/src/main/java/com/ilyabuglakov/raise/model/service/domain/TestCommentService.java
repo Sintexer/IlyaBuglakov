@@ -7,8 +7,10 @@ import com.ilyabuglakov.raise.domain.TestComment;
 
 import java.util.List;
 
-public interface TestCommentService extends Service{
+public interface TestCommentService extends Service {
     void saveComment(String comment, Integer testId, String authorEmail) throws DaoOperationException, TransactionException;
+
     Integer getCommentsAmount(Integer testId) throws DaoOperationException;
+
     List<TestComment> getComments(Integer testId, int pageStart, int itemsPerPage) throws PersistentException;
 }

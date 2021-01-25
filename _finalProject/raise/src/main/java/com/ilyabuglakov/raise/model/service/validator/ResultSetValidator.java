@@ -23,10 +23,10 @@ public class ResultSetValidator {
 //        return true;
 //    }
 
-    public boolean hasAllValues(ResultSet resultSet, String...values) throws SQLException {
+    public boolean hasAllValues(ResultSet resultSet, String... values) throws SQLException {
         for (String value : values) {
             resultSet.getObject(value);
-            if(resultSet.wasNull())
+            if (resultSet.wasNull())
                 return false;
         }
         return true;

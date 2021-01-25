@@ -1,9 +1,0 @@
-.git
-.idea
-out
-target
-logs
-META-INF
-.env
-docker-compose.yml
-raise.iml

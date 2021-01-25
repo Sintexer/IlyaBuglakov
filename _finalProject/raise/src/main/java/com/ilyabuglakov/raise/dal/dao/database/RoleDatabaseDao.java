@@ -6,14 +6,10 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.RoleDao;
 import com.ilyabuglakov.raise.domain.Role;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
-import com.ilyabuglakov.raise.domain.structure.columns.QuestionColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.RoleColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.RolePermissionsColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.UserRolesColumns;
 import com.ilyabuglakov.raise.domain.type.UserRole;
-import com.ilyabuglakov.raise.model.service.sql.ResultSetService;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlQueryBuilder;
-import com.ilyabuglakov.raise.model.service.sql.builder.SqlSelectBuilder;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.NotImplementedException;
@@ -148,8 +144,9 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
         Set<String> permissions = new HashSet<>();
 
         try {
-            permissions.addAll(new ResultSetService().getAllStringsByName(permissionResultSet,
-                    RolePermissionsColumns.PERMISSION.name()));
+            while (permissionResultSet.next()){
+                permissions.add(permissionResultSet.getString(RolePermissionsColumns.PERMISSION.name()));
+            }
         } catch (SQLException e) {
             throw new DaoOperationException("Can't read role's permissions", e);
         } finally {

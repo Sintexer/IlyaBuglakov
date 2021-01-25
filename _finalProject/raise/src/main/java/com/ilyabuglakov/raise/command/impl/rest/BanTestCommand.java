@@ -30,7 +30,7 @@ public class BanTestCommand extends Command {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
-        if(!optionalTestId.isPresent()){
+        if (!optionalTestId.isPresent()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }

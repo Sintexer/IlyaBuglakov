@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.command.exception;
 
-public class CommandException extends Exception{
+public class CommandException extends Exception {
     public CommandException() {
         super();
     }

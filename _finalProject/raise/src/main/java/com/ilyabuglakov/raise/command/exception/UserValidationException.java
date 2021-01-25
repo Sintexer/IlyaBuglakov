@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.command.exception;
 
-public class UserValidationException extends CommandException{
+public class UserValidationException extends CommandException {
     public UserValidationException() {
         super();
     }

@@ -1,8 +1,7 @@
 package com.ilyabuglakov.raise.model.condition;
 
 public enum CompareType {
-    EQUALS("=")
-    ;
+    EQUALS("=");
 
     private String value;
 

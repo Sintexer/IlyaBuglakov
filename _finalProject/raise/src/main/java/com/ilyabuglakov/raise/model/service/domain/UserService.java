@@ -6,9 +6,12 @@ import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 
 import java.util.Optional;
 
-public interface UserService extends Service{
+public interface UserService extends Service {
     UserParametersDto getUserParameters(Integer userId) throws PersistentException;
+
     UserParametersDto getUserParameters(String email) throws PersistentException;
+
     Optional<User> getUser(String email) throws PersistentException;
+
     void updateUser(User user) throws PersistentException;
 }
