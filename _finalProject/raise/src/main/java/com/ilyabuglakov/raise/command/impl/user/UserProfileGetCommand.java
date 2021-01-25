@@ -4,13 +4,13 @@ import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
+import com.ilyabuglakov.raise.model.service.auth.AuthService;
+import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
 import com.ilyabuglakov.raise.model.service.servlet.RequestService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +22,11 @@ import java.util.Optional;
 public class UserProfileGetCommand extends Command {
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, PersistentException {
-        Subject subject = SecurityUtils.getSubject();
+        AuthService authService = AuthServiceFactory.getAuthService();
         ResponseEntity responseEntity = new ResponseEntity();
 
         Optional<Integer> optionalUserId = RequestService.getInstance().getIntParameter(request, "userId");
-        if(!optionalUserId.isPresent()){
+        if (!optionalUserId.isPresent() && !authService.isAuthenticated()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
@@ -35,8 +35,8 @@ public class UserProfileGetCommand extends Command {
         UserParametersDto userParametersDto;
         if (optionalUserId.isPresent()) {
             userParametersDto = userService.getUserParameters(optionalUserId.get());
-        } else if (subject != null) {
-            userParametersDto = userService.getUserParameters((String) subject.getPrincipal());
+        } else if (authService.isAuthenticated()) {
+            userParametersDto = userService.getUserParameters(authService.getEmail());
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -47,9 +47,8 @@ public class UserProfileGetCommand extends Command {
             return null;
         }
 
-        if (subject.isAuthenticated()
-                && ((String) subject.getPrincipal())
-                .equals(userParametersDto.getUser().getEmail())) {
+        if (authService.isAuthenticated()
+                && authService.getEmail().equals(userParametersDto.getUser().getEmail())) {
             responseEntity.setAttribute("isOwner", true);
         }
 
