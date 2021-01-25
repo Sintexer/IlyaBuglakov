@@ -79,8 +79,9 @@ public class TestDatabaseService extends DatabaseService implements TestService 
 
     @Override
     public Optional<Test> getTest(Integer id) throws DaoOperationException {
-        return ((TestDao) transaction.createDao(DaoType.TEST))
-                .read(id);
+        TestInfoDatabaseService testInfoDatabaseService = new TestInfoDatabaseService(transaction);
+        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+        return testInfoDatabaseService.fillTest(testDao.read(id));
     }
 
     @Override
