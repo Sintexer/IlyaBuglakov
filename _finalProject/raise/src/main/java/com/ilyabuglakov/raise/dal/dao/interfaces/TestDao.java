@@ -15,6 +15,8 @@ public interface TestDao extends Dao<Test> {
 
     Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException;
 
+    Integer getTestAmountByStatus(TestStatus status) throws DaoOperationException;
+
     Integer getTestAmount() throws DaoOperationException;
 
     Integer getTestAmount(Integer authorId) throws DaoOperationException;
@@ -22,6 +24,8 @@ public interface TestDao extends Dao<Test> {
     Integer getNewTestAmount() throws DaoOperationException;
 
     Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
+
+    List<Test> getTestsByStatus(TestStatus status, int startFrom, int itemsAmount) throws DaoOperationException;
 
     List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException;
 

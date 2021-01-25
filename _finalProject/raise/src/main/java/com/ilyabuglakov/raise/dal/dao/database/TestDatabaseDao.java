@@ -58,6 +58,11 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.STATUS.name(),
             EntityColumns.ID.name());
 
+    public static final String SELECT_TEST_COUNT_BY_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ?",
+            Tables.TEST.name(),
+            TestColumns.STATUS.name());
+
     public static final String SELECT_TEST_COUNT = String.format(
             "SELECT COUNT(*) FROM %s",
             Tables.TEST.name());
@@ -88,6 +93,13 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestCharacteristicColumns.CHARACTERISTIC.name(),
             Tables.TEST_CHARACTERISTIC.name(),
             TestCharacteristicColumns.TEST_ID.name());
+
+    public static final String SELECT_TESTS_BY_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            Tables.TEST.name(),
+            TestColumns.STATUS.name());
 
     public static final String SELECT_CONFIRMED_TESTS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
@@ -191,6 +203,18 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
+    public Integer getTestAmountByStatus(TestStatus status) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
+        try {
+            statement.setObject(1, status, Types.OTHER);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        return getCount(createResultSet(statement));
+    }
+
+    @Override
     public Integer getTestAmount() throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
         return getCount(createResultSet(statement));
@@ -214,6 +238,22 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT_BY_AUTHOR);
         setIdStatementParameters(authorId, statement);
         return getCount(createResultSet(statement));
+    }
+
+    @Override
+    public List<Test> getTestsByStatus(TestStatus status, int startFrom, int itemsAmount) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_CONFIRMED_TESTS_LIMIT_OFFSET);
+        try {
+            statement.setObject(1, status);
+            statement.setInt(2, itemsAmount);
+            statement.setInt(3, startFrom);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
     }
 
     @Override
