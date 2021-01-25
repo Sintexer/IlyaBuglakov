@@ -3,6 +3,8 @@ package com.ilyabuglakov.raise.command.impl.admin;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
+import com.ilyabuglakov.raise.domain.type.TestStatus;
+import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.PageInfoDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
@@ -28,8 +30,9 @@ public class NewTestsCatalogGetCommand extends Command {
         ResponseEntity responseEntity = new ResponseEntity();
 
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
-        PageInfoDto pageInfoDto = CatalogService.getPageInfo(request.getParameter("pageNumber"),
-                testService.getNewTestAmount(),
+        PageInfoDto pageInfoDto = CatalogService.getPageInfo(
+                request.getParameter("pageNumber"),
+                testService.getTestAmountByStatus(TestStatus.NEW),
                 Integer.parseInt(ApplicationProperties.getProperty("catalog.page.items")));
         if (pageInfoDto.isIllegal()) {
             log.error(() -> "Illegal page" + pageInfoDto);
@@ -37,8 +40,11 @@ public class NewTestsCatalogGetCommand extends Command {
             return null;
         }
 
-        List<TestInfo> testInfos =
-                testService.getNewTestInfosByPage(pageInfoDto.getItemsPerPage(), pageInfoDto.getCurrentPage());
+        List<AdvancedTestInfo> testInfos =
+                testService.getAdvancedTestInfosByStatusAndPage(
+                        TestStatus.NEW,
+                        pageInfoDto.getItemsPerPage(),
+                        pageInfoDto.getCurrentPageIndex());
 
         log.info(testInfos);
         responseEntity.setAttribute("tests", testInfos);

@@ -6,6 +6,7 @@ import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFa
 import com.ilyabuglakov.raise.model.service.domain.Service;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.database.TestCommentDatabaseService;
+import com.ilyabuglakov.raise.model.service.domain.database.user.UserAccessValidationDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.user.UserDatabaseRegistrationService;
 import com.ilyabuglakov.raise.model.service.domain.database.user.UserDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.test.TestDatabaseService;
@@ -23,6 +24,7 @@ public class DatabaseServiceFactory implements ServiceFactory {
         serviceCreators = new EnumMap<>(ServiceType.class);
         serviceCreators.put(ServiceType.USER, UserDatabaseService::new);
         serviceCreators.put(ServiceType.USER_REGISTRATION, UserDatabaseRegistrationService::new);
+        serviceCreators.put(ServiceType.USER_ACCESS_VALIDATION, UserAccessValidationDatabaseService::new);
         serviceCreators.put(ServiceType.TEST, TestDatabaseService::new);
         serviceCreators.put(ServiceType.TEST_COMMENT, TestCommentDatabaseService::new);
     }

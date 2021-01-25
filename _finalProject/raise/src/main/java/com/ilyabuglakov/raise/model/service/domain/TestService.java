@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.model.service.domain;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
+import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 
 import java.util.List;
@@ -16,6 +17,10 @@ public interface TestService extends Service {
     List<TestInfo> getTestInfosByStatus(TestStatus status, int limit, int from) throws PersistentException;
 
     List<TestInfo> getTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException;
+
+    List<AdvancedTestInfo> getAdvancedTestInfosByStatus(TestStatus status, int limit, int from) throws PersistentException;
+
+    List<AdvancedTestInfo> getAdvancedTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException;
 
     List<TestInfo> getTestInfos(int limit, int from) throws PersistentException;
 

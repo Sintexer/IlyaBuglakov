@@ -40,4 +40,8 @@ public class ShiroAuthService implements AuthService {
         return defaultUrl;
     }
 
+    @Override
+    public String getEmail() {
+        return (String) SecurityUtils.getSubject().getPrincipal();
+    }
 }

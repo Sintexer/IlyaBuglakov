@@ -7,6 +7,7 @@ import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.DaoType;
+import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.database.DatabaseService;
@@ -41,6 +42,18 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     @Override
     public List<TestInfo> getTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException {
         return getTestInfosByStatus(status, limit, from * limit);
+    }
+
+    @Override
+    public List<AdvancedTestInfo> getAdvancedTestInfosByStatus(TestStatus status, int limit, int from) throws PersistentException {
+        TestSearchDatabaseService searchService = new TestSearchDatabaseService(transaction);
+        TestInfoDatabaseService infoService = new TestInfoDatabaseService(transaction);
+        return infoService.getAdvancedTestInfo(searchService.getTests(status, limit, from));
+    }
+
+    @Override
+    public List<AdvancedTestInfo> getAdvancedTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException {
+        return getAdvancedTestInfosByStatus(status, limit, from * limit);
     }
 
     @Override

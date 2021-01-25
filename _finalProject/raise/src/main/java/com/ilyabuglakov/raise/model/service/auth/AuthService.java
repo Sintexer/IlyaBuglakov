@@ -7,4 +7,5 @@ public interface AuthService {
     boolean isAuthenticated();
     boolean login(String username, String password);
     String getPreviousUrl(HttpServletRequest request, String defaultUrl);
+    String getEmail();
 }

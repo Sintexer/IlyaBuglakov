@@ -46,7 +46,7 @@ public class TestInfoDatabaseService extends DatabaseService {
         return testInfos;
     }
 
-    public List<AdvancedTestInfo> getAdminTestInfo(List<Test> tests) throws DaoOperationException {
+    public List<AdvancedTestInfo> getAdvancedTestInfo(List<Test> tests) throws DaoOperationException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
