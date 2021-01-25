@@ -1,11 +1,11 @@
 package com.ilyabuglakov.raise.command.impl.registration;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.Commands;
-import com.ilyabuglakov.raise.command.exception.CommandException;
-import com.ilyabuglakov.raise.dal.transaction.Transaction;
-import com.ilyabuglakov.raise.dal.transaction.factory.impl.DatabaseTransactionFactory;
+import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
+import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
+import com.ilyabuglakov.raise.model.service.domain.ServiceType;
+import com.ilyabuglakov.raise.model.service.domain.UserRegistrationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -21,30 +21,35 @@ import java.io.IOException;
 @Log4j2
 public class RegistrationPostCommand extends Command {
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        log.info("posted");
-        ResponseEntity responseEntity = new ResponseEntity();
-        try (Transaction transaction = new DatabaseTransactionFactory().createTransaction()) {
-            request.setAttribute("transaction", transaction);
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, DaoOperationException {
+        log.debug(() -> "registration from posted");
 
-            Commands.USER_REG_VALIDATION.getCommand().execute(request, response);
-            Commands.USER_REG_UNIQUENESS.getCommand().execute(request, response);
-            Commands.USER_REG.getCommand().execute(request, response);
+        String email = request.getParameter("username");
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String password = request.getParameter("password");
 
-            transaction.commit();
+        User user = User.builder()
+                .email(email.toLowerCase())
+                .name(name)
+                .surname(surname)
+                .password(password)
+                .build();
 
-            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("login"));
+        UserRegistrationService userRegistrationService =
+                (UserRegistrationService) serviceFactory.createService(ServiceType.USER_REGISTRATION);
+
+        ResponseEntity responseEntity = userRegistrationService.registerUser(user);
+        if (!responseEntity.isErrorOccurred()) {
             responseEntity.setRedirect(true);
-
-        } catch (CommandException e) {
-            responseEntity.getAttributes().put("registrationFailed", true);
+            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
+        } else{
+            responseEntity.setAttribute("emailPrevVal", user.getEmail());
+            responseEntity.setAttribute("namePrevVal", user.getName());
+            responseEntity.setAttribute("surnamePrevVal", user.getSurname());
+            responseEntity.setAttribute("registrationFailed", true);
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("registration"));
-        } catch (Exception e) {
-            log.fatal("Error while closing transaction");
-            responseEntity.getAttributes().put("registrationFailed", true);
-            responseEntity.getAttributes().put("errorMessage", "error.db");
-            responseEntity.getAttributes().put("errorCode", "500");
-            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("error"));
         }
         return responseEntity;
     }

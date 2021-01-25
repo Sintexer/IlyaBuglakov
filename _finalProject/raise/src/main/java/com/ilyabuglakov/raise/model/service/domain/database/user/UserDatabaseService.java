@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.database;
+package com.ilyabuglakov.raise.model.service.domain.database.user;
 
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
@@ -8,6 +8,7 @@ import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.UserCharacteristic;
 import com.ilyabuglakov.raise.model.dto.UserParametersDto;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
+import com.ilyabuglakov.raise.model.service.domain.database.DatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.test.TestDatabaseReadService;
 import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
 import com.ilyabuglakov.raise.model.service.domain.user.UserParametersDatabaseService;
