@@ -7,7 +7,6 @@ import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
 import com.ilyabuglakov.raise.model.service.servlet.RequestService;
-import com.ilyabuglakov.raise.model.service.servlet.exception.IllegalRequestParameterException;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
@@ -26,10 +25,8 @@ public class UserProfileGetCommand extends Command {
         Subject subject = SecurityUtils.getSubject();
         ResponseEntity responseEntity = new ResponseEntity();
 
-        Optional<Integer> optionalUserId = Optional.empty();
-        try {
-            optionalUserId = RequestService.getInstance().getIntParameter(request, "userId");
-        } catch (IllegalRequestParameterException e) {
+        Optional<Integer> optionalUserId = RequestService.getInstance().getIntParameter(request, "userId");
+        if(!optionalUserId.isPresent()){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }

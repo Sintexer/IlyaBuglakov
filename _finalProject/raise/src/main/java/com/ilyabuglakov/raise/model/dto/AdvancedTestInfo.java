@@ -11,5 +11,4 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class AdvancedTestInfo extends TestInfo {
     private String questionNames;
-    private int questionsAmount;
 }

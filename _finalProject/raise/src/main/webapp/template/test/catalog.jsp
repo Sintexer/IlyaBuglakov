@@ -31,7 +31,7 @@
                     <c:url value="/template/parts/pagination.jsp" var="topPagination"/>
                     <jsp:include page="${topPagination}"/>
                     <div class="cards">
-                        <c:forEach var="test" items="${testInfos}">
+                        <c:forEach var="test" items="${tests}">
                             <div class="card">
                                 <div class="card-body stack items-gap-vertical">
                                     <h3>${test.testName}</h3>

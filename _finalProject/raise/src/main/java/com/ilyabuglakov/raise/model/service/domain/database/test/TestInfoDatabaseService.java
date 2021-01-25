@@ -29,10 +29,10 @@ public class TestInfoDatabaseService extends DatabaseService {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
-
         List<TestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.getCharacteristics(test.getId());
+            int questionsAmount = questionDao.getQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
             User authorInfo = userDao.findUserInfo(test.getAuthor().getId()).orElse(null);
             testInfos.add(TestInfo.builder()
                     .testName(test.getTestName())
@@ -40,6 +40,7 @@ public class TestInfoDatabaseService extends DatabaseService {
                     .characteristics(characteristicSet)
                     .difficulty(test.getDifficulty())
                     .id(test.getId())
+                    .questionsAmount(questionsAmount)
                     .build());
         }
         return testInfos;

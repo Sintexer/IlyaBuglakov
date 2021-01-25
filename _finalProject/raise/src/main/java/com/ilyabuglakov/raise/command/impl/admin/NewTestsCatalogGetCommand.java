@@ -32,7 +32,7 @@ public class NewTestsCatalogGetCommand extends Command {
                 testService.getNewTestAmount(),
                 Integer.parseInt(ApplicationProperties.getProperty("catalog.page.items")));
         if (pageInfoDto.isIllegal()) {
-            log.error("Illegal page" + pageInfoDto);
+            log.error(() -> "Illegal page" + pageInfoDto);
             response.sendError(404);
             return null;
         }

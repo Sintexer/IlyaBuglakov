@@ -19,6 +19,8 @@ public interface TestDao extends Dao<Test> {
 
     Integer getTestAmount() throws DaoOperationException;
 
+    Integer getTestAmountByStatus(TestStatus status, Integer authorId) throws DaoOperationException;
+
     Integer getTestAmount(Integer authorId) throws DaoOperationException;
 
     Integer getNewTestAmount() throws DaoOperationException;

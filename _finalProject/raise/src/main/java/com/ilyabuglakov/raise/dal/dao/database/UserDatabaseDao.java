@@ -131,7 +131,7 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
 
     @Override
     public Optional<User> findUserInfo(Integer id) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        PreparedStatement statement = prepareStatement(SELECT_USER_INFO_BY_ID);
         setIdStatementParameters(id, statement);
         Optional<ResultSet> optionalResultSet = unpackResultSet(createResultSet(statement));
         Optional<User> userOptional = Optional.empty();

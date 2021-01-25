@@ -19,4 +19,5 @@ public class TestInfo {
     private String testName;
     private int difficulty;
     private Set<Characteristic> characteristics;
+    private int questionsAmount;
 }

@@ -12,4 +12,8 @@ public class PageInfoDto {
     private int maxPage;
     private boolean isIllegal = false;
 
+    public int getCurrentPageIndex(){
+        return currentPage-1;
+    }
+
 }

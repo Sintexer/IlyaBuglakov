@@ -1,7 +1,5 @@
 package com.ilyabuglakov.raise.model.service.servlet;
 
-import com.ilyabuglakov.raise.model.service.servlet.exception.IllegalRequestParameterException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -15,7 +13,7 @@ public class RequestService {
         return InstanceHolder.INSTANCE;
     }
 
-    public Optional<Integer> getIntParameter(HttpServletRequest request, String parameterName){
+    public Optional<Integer> getIntParameter(HttpServletRequest request, String parameterName) {
         Optional<Integer> optionalInteger = Optional.empty();
         String parameter = request.getParameter(parameterName);
         if (parameter != null) {
