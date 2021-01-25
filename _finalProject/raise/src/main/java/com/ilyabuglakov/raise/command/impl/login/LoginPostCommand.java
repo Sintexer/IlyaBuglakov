@@ -43,37 +43,10 @@ public class LoginPostCommand extends Command {
                 responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
             }
         }else {
-            responseEntity.getAttributes().put("alreadyLogged", true);
-            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
+            responseEntity.setRedirect(true);
+            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("root"));
         }
         return responseEntity;
-//        if (!currentUser.isAuthenticated()) {
-//            log.info("login auth");
-//            UsernamePasswordToken token = new UsernamePasswordToken(
-//                    request.getParameter("username"),
-//                    request.getParameter("password"));
-//            try {
-//                currentUser.login(token);
-//                log.info("after login");
-//                SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-//                if (savedRequest != null) {
-//                    log.info("redirect to prev page");
-//                    WebUtils.redirectToSavedRequest(request, response, savedRequest.getRequestUrl());
-//                } else {
-//                    log.info("redirect to home page");
-//                    responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
-//                    responseEntity.setRedirect(true);
-//                    return responseEntity;
-//                }
-//                return null;
-//            } catch (UnknownAccountException | IncorrectCredentialsException e) {
-//                responseEntity.getAttributes().put("loginFailed", true);
-//                responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
-//            }
-//        } else {
-//            responseEntity.getAttributes().put("alreadyLogged", true);
-//            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("login"));
-//        }
 
     }
 }
