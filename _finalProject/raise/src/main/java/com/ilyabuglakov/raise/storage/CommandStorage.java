@@ -10,6 +10,7 @@ import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 import com.ilyabuglakov.raise.command.impl.rest.BanTestCommand;
 import com.ilyabuglakov.raise.command.impl.rest.ConfirmTestCommand;
+import com.ilyabuglakov.raise.command.impl.rest.DeleteCommentCommand;
 import com.ilyabuglakov.raise.command.impl.test.CommentPostCommand;
 import com.ilyabuglakov.raise.command.impl.test.TestCatalogPageCommand;
 import com.ilyabuglakov.raise.command.impl.test.TestCreatorGetCommand;
@@ -64,6 +65,7 @@ public class CommandStorage {
         addCommand(RequestMethod.POST, "rest.confirm.test", new ConfirmTestCommand());
         addCommand(RequestMethod.POST, "rest.ban.test", new BanTestCommand());
         addCommand(RequestMethod.POST, "test.post.comment", new CommentPostCommand());
+        addCommand(RequestMethod.POST, "rest.delete.comment", new DeleteCommentCommand());
 
     }
 

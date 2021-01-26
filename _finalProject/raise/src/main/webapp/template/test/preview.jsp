@@ -16,6 +16,8 @@
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/testing.js"/>"/>
     <script src=<c:url value="/script/testing.js"/>></script>
+    <link type="text/javascript" href="<c:url value="/script/adminActions.js"/>"/>
+    <script src=<c:url value="/script/adminActions.js"/>></script>
 </head>
 
 <body>
@@ -82,17 +84,30 @@
                                 <button class="btn btn-yellow w-100">Send</button>
                             </form>
                         </shiro:authenticated>
-
-                        <c:forEach var="comment" items="${comments}">
-                            <div class="comment">
-                                <div class="card-md box-100">
-                                    <span>${comment.user.name} ${comment.user.surname}</span>
-                                    <span>${comment.timestamp}</span>
-                                    <div class="breakline"></div>
-                                    <span class="m-t-1rem">${comment.content}</span>
+                        <c:choose>
+                            <c:when test="${not empty comments}">
+                                <c:forEach var="comment" items="${comments}">
+                                    <div class="comment">
+                                        <div class="card-md box-100">
+                                            <shiro:hasPermission name="comment:delete:*">
+                                            <button type="button" class="btn" onclick="deleteQuestion(${comment.id},
+                                                '<ct:link key="rest.delete.comment"/>')">&times;</button>
+                                            </shiro:hasPermission>
+                                            <span>${comment.user.name} ${comment.user.surname}</span>
+                                            <span>${comment.timestamp}</span>
+                                            <div class="breakline"></div>
+                                            <span class="m-t-1rem">${comment.content}</span>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="bold centered p-t-8rem">
+                                    <span><fmt:message key="test.search.empty"/></span>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+
 
                     </div>
                 </div>
