@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
 import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -14,7 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * TestCategoryDatabaseDao is the Dao implementation specifically for TestCategory class.
@@ -44,7 +46,12 @@ public class TestCategoryDatabaseDao extends DatabaseDao implements TestCategory
             Tables.TEST_CATEGORY.name(),
             EntityColumns.ID.name());
 
-    protected TestCategoryDatabaseDao(Connection connection) {
+    private static final String SELECT_ALL = String.format(
+            "SELECT %s, %s, %s FROM %s",
+            EntityColumns.ID.name(), TestCategoryColumns.CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(),
+            Tables.TEST_CATEGORY.name());
+
+    public TestCategoryDatabaseDao(Connection connection) {
         super(connection);
     }
 
@@ -62,7 +69,7 @@ public class TestCategoryDatabaseDao extends DatabaseDao implements TestCategory
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
         Optional<TestCategory> testCategory = Optional.empty();
         if (resultSet.isPresent()) {
-            testCategory = buildAnswer(resultSet.get());
+            testCategory = buildTestCategory(resultSet.get());
             closeResultSet(resultSet.get());
         }
         return testCategory;
@@ -90,6 +97,25 @@ public class TestCategoryDatabaseDao extends DatabaseDao implements TestCategory
         executeUpdateQuery(statement);
     }
 
+    @Override
+    public List<TestCategory> findAll() throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_ALL);
+
+        ResultSet resultSet = createResultSet(statement);
+        List<Optional<TestCategory>> testCategories = new ArrayList<>();
+        try {
+            while (resultSet.next()){
+                testCategories.add(buildTestCategory(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't build testCategory", e);
+        }
+
+        return testCategories.stream()
+                .flatMap(Optional::stream)
+                .collect(Collectors.toList());
+    }
+
     private void setAllStatementParameters(TestCategory testCategory, PreparedStatement statement) throws DaoOperationException {
         try {
             statement.setString(1, testCategory.getCategory());
@@ -113,7 +139,7 @@ public class TestCategoryDatabaseDao extends DatabaseDao implements TestCategory
      * @param resultSet input result set parameters, taken from sql query execution
      * @return TestCategory from resultSet
      */
-    private Optional<TestCategory> buildAnswer(ResultSet resultSet) throws DaoOperationException {
+    private Optional<TestCategory> buildTestCategory(ResultSet resultSet) throws DaoOperationException {
         try {
             ResultSetValidator validator = new ResultSetValidator();
             if (validator.hasAllValues(resultSet,

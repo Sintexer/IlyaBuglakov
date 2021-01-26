@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.AnswerDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.QuestionDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.RoleDatabaseDao;
+import com.ilyabuglakov.raise.dal.dao.database.TestCategoryDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.TestCommentDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.TestDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
@@ -37,6 +38,7 @@ public class DatabaseTransaction implements Transaction {
         daoMap.put(DaoType.QUESTION, new QuestionDatabaseDao(connection));
         daoMap.put(DaoType.USER_TEST_RESULT, new UserTestResultDatabaseDao(connection));
         daoMap.put(DaoType.ROLE, new RoleDatabaseDao(connection));
+        daoMap.put(DaoType.TEST_CATEGORY, new TestCategoryDatabaseDao(connection));
     }
 
     @Override

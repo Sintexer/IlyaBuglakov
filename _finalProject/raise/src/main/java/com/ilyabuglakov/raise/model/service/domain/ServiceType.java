@@ -6,5 +6,6 @@ public enum ServiceType {
     USER_ACCESS_VALIDATION,
     USER_TEST_RESULT,
     TEST,
-    TEST_COMMENT
+    TEST_COMMENT,
+    TEST_CATEGORY;
 }
