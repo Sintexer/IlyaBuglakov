@@ -1,6 +1,6 @@
 package com.ilyabuglakov.raise.model.service.domain.database;
 
-import com.ilyabuglakov.raise.dal.dao.database.TestCategoryDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.TestCategory;

@@ -47,8 +47,11 @@
                                             <span>${characteristic}</span>
                                         </c:forEach>
                                     </c:if>
+                                    <div class="breakline"></div>
+                                    <span><fmt:message key="test.category"/>: ${test.category.category}</span>
                                     <div class="flex-11a"></div>
                                     <div class="breakline"></div>
+
                                     <div><a class="btn" href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
 
                                 </div>

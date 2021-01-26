@@ -22,8 +22,9 @@ public class Test extends Entity {
     private TestStatus status;
     private Set<Characteristic> characteristics;
     private Set<Question> questions;
+    private TestCategory category;
 
-    public static int BASE_DIFFICULTY = 1;
+    public static final int BASE_DIFFICULTY = 1;
 
 
     @Override

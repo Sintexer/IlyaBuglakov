@@ -87,7 +87,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
         test.setAuthor(user);
         if (test.getStatus() == null)
             test.setStatus(TestStatus.NEW);
-        test.setDifficulty(1);
+        test.setDifficulty(Test.BASE_DIFFICULTY);
         Integer testId = testDao.create(test);
 
         testDao.saveCharacteristics(test.getCharacteristics(), testId);

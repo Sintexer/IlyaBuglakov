@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
@@ -33,23 +34,23 @@ import java.util.stream.Collectors;
 public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     public static final String INSERT_TEST = String.format(
-            "INSERT INTO %s(%s, %s, %s, %s) VALUES(?, ?, ?, ?)",
+            "INSERT INTO %s(%s, %s, %s, %s, %s) VALUES(?, ?, ?, ?, ?)",
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name());
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name());
 
     public static final String SELECT_BY_ID = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             EntityColumns.ID.name());
 
     public static final String UPDATE_BY_ID = String.format(
-            "UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s = ?",
+            "UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s = ?",
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID,
             EntityColumns.ID.name());
 
     public static final String UPDATE_STATUS_BY_ID = String.format(
@@ -100,23 +101,23 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestCharacteristicColumns.TEST_ID.name());
 
     public static final String SELECT_TESTS_BY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.STATUS.name());
 
     public static final String SELECT_CONFIRMED_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
 
     public static final String SELECT_NEW_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.STATUS, TestStatus.NEW.name());
 
@@ -152,7 +153,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
         setAllStatementParameters(test, statement);
         try {
-            statement.setInt(5, test.getId());
+            statement.setInt(6, test.getId());
         } catch (SQLException e) {
             closeStatement(statement);
             throw new DaoOperationException("Can't set statement parameters", e);
@@ -312,6 +313,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             statement.setObject(2, test.getStatus(), Types.OTHER);
             statement.setInt(3, test.getAuthor().getId());
             statement.setInt(4, test.getDifficulty());
+            statement.setInt(5, test.getCategory().getId());
         } catch (SQLException e) {
             closeStatement(statement);
             throw new DaoOperationException("Can't set statement parameters", e);
@@ -354,6 +356,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
                     TestColumns.STATUS.name(),
                     TestColumns.AUTHOR_ID.name(),
                     TestColumns.DIFFICULTY.name(),
+                    TestColumns.CATEGORY_ID.name(),
                     EntityColumns.ID.name())) {
                 User user = new User();
                 user.setId(resultSet.getInt(TestColumns.AUTHOR_ID.name()));
@@ -362,6 +365,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
                         .status(TestStatus.valueOf(resultSet.getString(TestColumns.STATUS.name())))
                         .author(user)
                         .difficulty(Integer.parseInt(resultSet.getString(TestColumns.DIFFICULTY.name())))
+                        .category(TestCategory.builder().id(resultSet.getInt(TestColumns.CATEGORY_ID.name())).build())
                         .build();
                 test.setId(resultSet.getInt(EntityColumns.ID.name()));
                 return Optional.of(test);

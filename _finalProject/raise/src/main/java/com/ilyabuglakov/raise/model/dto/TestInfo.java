@@ -1,5 +1,6 @@
 package com.ilyabuglakov.raise.model.dto;
 
+import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class TestInfo {
     private Integer id;
     private User author;
     private String testName;
+    private TestCategory category;
     private int difficulty;
     private Set<Characteristic> characteristics;
     private int questionsAmount;
