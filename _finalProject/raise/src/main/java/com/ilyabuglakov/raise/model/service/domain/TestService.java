@@ -7,6 +7,7 @@ import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.TestDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.dto.TestResultDto;
+import com.ilyabuglakov.raise.model.dto.TestSearchParametersDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public interface TestService extends Service {
     void changeTestStatus(Integer testId, TestStatus status) throws PersistentException;
 
     Optional<Test> getTest(Integer id) throws PersistentException;
+
+    List<TestInfo> findBySearchParameters(TestSearchParametersDto searchParametersDto) throws PersistentException;
 
     List<TestInfo> getTestInfosByStatus(TestStatus status, int limit, int from) throws PersistentException;
 

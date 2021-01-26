@@ -9,6 +9,7 @@ import com.ilyabuglakov.raise.model.service.domain.TestCategoryService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,5 +30,11 @@ public class TestCategoryDatabaseService extends DatabaseService implements Test
                 .collect(Collectors.groupingBy(tc -> tc.getParent().getId()));
         return parentCategories.stream()
                 .collect(Collectors.toMap(Function.identity(), pc -> testCategoryMap.get(pc.getId())));
+    }
+
+    @Override
+    public Optional<TestCategory> getCategory(Integer id) throws PersistentException {
+        return ((TestCategoryDao)transaction.createDao(DaoType.TEST_CATEGORY))
+                .read(id);
     }
 }

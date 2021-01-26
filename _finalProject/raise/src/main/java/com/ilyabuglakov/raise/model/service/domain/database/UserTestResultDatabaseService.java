@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.model.service.domain.database;
 
-import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
+import com.ilyabuglakov.raise.dal.dao.database.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;

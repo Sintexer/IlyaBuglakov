@@ -5,27 +5,28 @@ import com.google.gson.JsonParseException;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
+import com.ilyabuglakov.raise.dal.dao.database.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
+import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.User;
-import com.ilyabuglakov.raise.domain.UserTestResult;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.TestDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.dto.TestResultDto;
+import com.ilyabuglakov.raise.model.dto.TestSearchParametersDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.database.DatabaseService;
 import com.ilyabuglakov.raise.model.service.test.TestResultService;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +119,34 @@ public class TestDatabaseService extends DatabaseService implements TestService 
         TestInfoDatabaseService testInfoDatabaseService = new TestInfoDatabaseService(transaction);
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         return testInfoDatabaseService.fillTest(testDao.read(id));
+    }
+
+    @Override
+    public List<TestInfo> findBySearchParameters(TestSearchParametersDto dto) throws PersistentException {
+        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
+        TestInfoDatabaseService infoService = new TestInfoDatabaseService(transaction);
+        TestCategoryDao categoryDao = (TestCategoryDao) transaction.createDao(DaoType.TEST_CATEGORY);
+        List<Test> tests;
+        if(!dto.getTestName().isEmpty() && dto.getCategory()!=null){
+            TestCategory testCategory = categoryDao.read(dto.getCategory().getId()).orElseThrow(PersistentException::new);
+            if(testCategory.getParent()==null)
+                tests =  testDao.findByNameAndParentCategoryAndStatus(
+                        dto.getTestName(),dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getPage());
+            else
+                tests = testDao.findByNameAndCategoryAndStatus(
+                        dto.getTestName(),dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getPage());
+        } else if(!dto.getTestName().isEmpty()){
+            tests = testDao.findByNameAndStatus(dto.getTestName(), dto.getStatus(), dto.getLimit(), dto.getPage());
+        } else {
+            TestCategory testCategory = categoryDao.read(dto.getCategory().getId()).orElseThrow(PersistentException::new);
+            if(testCategory.getParent()==null)
+                tests =  testDao.findByParentCategoryAndStatus(
+                        dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getPage());
+            else
+                tests = testDao.findByCategoryAndStatus(
+                        dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getPage());
+        }
+        return infoService.getTestInfos(tests);
     }
 
     @Override

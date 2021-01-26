@@ -28,44 +28,91 @@
                 <div class="section block centered padding-0">
                     <h1 class="page-title"><fmt:message key="title.test.catalog"/></h1>
                     <div class="breakline"></div>
-                    <c:url value="/template/parts/pagination.jsp" var="topPagination"/>
-                    <jsp:include page="${topPagination}"/>
-                    <div class="cards">
-                        <c:forEach var="test" items="${tests}">
-                            <div class="card">
-                                <div class="card-body stack items-gap-vertical">
-                                    <h3>${test.testName}</h3>
-                                    <div class="breakline"></div>
-                                    <span><fmt:message key="test.card.difficulty"/>: </span>
-                                    <span class="bold">${test.difficulty}</span>
-                                    <span><fmt:message key="test.card.questions.amount"/>:</span>
-                                    <span class="bold">${test.questionsAmount}</span>
-                                    <c:if test="${not empty test.characteristics}">
-                                        <div class="breakline"></div>
-                                        <span><fmt:message key="test.characteristics"/>:</span>
-                                        <c:forEach var="characteristic" items="${test.characteristics}">
-                                            <span>${characteristic}</span>
-                                        </c:forEach>
-                                    </c:if>
-                                    <div class="breakline"></div>
-                                    <span><fmt:message key="test.category"/>: ${test.category.category}</span>
-                                    <div class="flex-11a"></div>
-                                    <div class="breakline"></div>
-
-                                    <div><a class="btn" href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message key="test.card.button.view"/></a></div>
-
-                                </div>
-                                <div class="card-footer">
-                                    <span>author:</span>
-                                    <a href="<ct:link key="user.profile"/>?userId=${test.author.id}">
-                                            ${test.author.name} ${test.author.surname}
-                                    </a>
-                                </div>
+                    <form>
+                        <div class="card-md stack margin-t-2rem items-gap-vertical">
+                            <div class="flex">
+                                <span><fmt:message key="test.search.testname"/>: </span>
+                                <input name="testName" type="text" maxlength=256 value="${stashedTestName}"
+                                       pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{$">
                             </div>
-                        </c:forEach>
-                    </div>
-                    <c:url value="/template/parts/pagination.jsp" var="bottomPagination"/>
-                    <jsp:include page="${bottomPagination}"/>
+                            <div class="flex">
+                                <span><fmt:message key="test.search.testname"/>: </span>
+                                <select name="category">
+                                    <c:choose>
+                                        <c:when test="${not empty stashedCategory}">
+                                            <option value=""></option>
+                                            <option value="${stashedCategory.id}" selected>${stashedCategory.category}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="" selected></option>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <c:forEach var="parentCategory" items="${categories.keySet()}">
+                                        <option id="optionId${parentCategory.id}" class="bold" value="${parentCategory.id}">${parentCategory.category}</option>
+                                        <c:forEach var="childCategory" items="${categories.get(parentCategory)}">
+                                            <option id="optionId${childCategory.id}" value="${childCategory.id}">${childCategory.category}</option>
+                                        </c:forEach>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <input type="hidden" value="${currentPage}" name="currentPage">
+                            <button class="btn w-fit"><fmt:message key="button.search"/></button>
+                        </div>
+
+
+                        <c:choose>
+                            <c:when test="${not empty tests}">
+                                <c:url value="/template/parts/buttonPagination.jsp" var="topPagination"/>
+                                <jsp:include page="${topPagination}"/>
+                                <div class="cards">
+                                    <c:forEach var="test" items="${tests}">
+                                        <div class="card">
+                                            <div class="card-body stack items-gap-vertical">
+                                                <h3>${test.testName}</h3>
+                                                <div class="breakline"></div>
+                                                <span><fmt:message key="test.card.difficulty"/>: </span>
+                                                <span class="bold">${test.difficulty}</span>
+                                                <span><fmt:message key="test.card.questions.amount"/>:</span>
+                                                <span class="bold">${test.questionsAmount}</span>
+                                                <c:if test="${not empty test.characteristics}">
+                                                    <div class="breakline"></div>
+                                                    <span><fmt:message key="test.characteristics"/>:</span>
+                                                    <c:forEach var="characteristic" items="${test.characteristics}">
+                                                        <span>${characteristic}</span>
+                                                    </c:forEach>
+                                                </c:if>
+                                                <div class="breakline"></div>
+                                                <span><fmt:message key="test.category"/>: ${test.category.category}</span>
+                                                <div class="flex-11a"></div>
+                                                <div class="breakline"></div>
+
+                                                <div><a class="btn"
+                                                        href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message
+                                                        key="test.card.button.view"/></a></div>
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <span>author:</span>
+                                                <a href="<ct:link key="user.profile"/>?userId=${test.author.id}">
+                                                        ${test.author.name} ${test.author.surname}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                                <c:url value="/template/parts/buttonPagination.jsp" var="bottomPagination"/>
+                                <jsp:include page="${bottomPagination}"/>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="bold centered p-t-8rem">
+                                    <span><fmt:message key="test.search.empty"/></span>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
+
+                    </form>
                 </div>
             </div>
         </div>

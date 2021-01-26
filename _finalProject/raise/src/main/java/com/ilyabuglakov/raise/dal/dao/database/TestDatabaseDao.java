@@ -2,12 +2,12 @@ package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.TestCategoryColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestCharacteristicColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.TestColumns;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
@@ -52,6 +52,48 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID,
             EntityColumns.ID.name());
+
+    public static final String DELETE_BY_ID = String.format(
+            "DELETE FROM %s WHERE %s = ?",
+            Tables.TEST.name(),
+            EntityColumns.ID.name());
+
+    public static final String SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
+            Tables.TEST.name(),
+            TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
+            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
+            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
+            Tables.TEST.name(),
+            TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name());
 
     public static final String UPDATE_STATUS_BY_ID = String.format(
             "UPDATE %s SET %s=? WHERE %s = ?",
@@ -164,10 +206,97 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
 
     @Override
     public void delete(Test test) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(UPDATE_BY_ID);
+        PreparedStatement statement = prepareStatement(DELETE_BY_ID);
         setIdStatementParameters(test.getId(), statement);
 
         executeUpdateQuery(statement);
+    }
+
+    @Override
+    public List<Test> findByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET);
+        try {
+            statement.setString(1, name+"%");
+            statement.setInt(2, category.getId());
+            statement.setObject(3, status, Types.OTHER);
+            statement.setInt(4, limit);
+            statement.setInt(5, from);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
+    }
+
+    @Override
+    public List<Test> findByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
+        try {
+            statement.setString(1, name+"%");
+            statement.setInt(2, category.getId());
+            statement.setObject(3, status, Types.OTHER);
+            statement.setInt(4, limit);
+            statement.setInt(5, from);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
+    }
+
+    @Override
+    public List<Test> findByNameAndStatus(String name, TestStatus status, int limit, int from) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET);
+        try {
+            statement.setString(1, name+"%");
+            statement.setObject(2, status, Types.OTHER);
+            statement.setInt(3, limit);
+            statement.setInt(4, from);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
+    }
+
+    @Override
+    public List<Test> findByCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET);
+        try {
+            statement.setInt(1, category.getId());
+            statement.setObject(2, status, Types.OTHER);
+            statement.setInt(3, limit);
+            statement.setInt(4, from);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
+    }
+
+    @Override
+    public List<Test> findByParentCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
+        try {
+            statement.setInt(1, category.getId());
+            statement.setObject(2, status, Types.OTHER);
+            statement.setInt(3, limit);
+            statement.setInt(4, from);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+
+        ResultSet resultSet = createResultSet(statement);
+        return buildTestList(resultSet);
     }
 
     @Override
