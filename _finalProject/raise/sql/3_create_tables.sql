@@ -9,14 +9,11 @@ CREATE TABLE usr
     name              varchar(40)  NOT NULL,
     surname           varchar(80)  NOT NULL,
     password          varchar(64)  NOT NULL,
---     role              role         NOT NULL,
     status            status       NOT NULL,
     registration_date DATE         NOT NULL
 );
 
---
---
---
+
 CREATE TABLE role
 (
   id SERIAL PRIMARY KEY,
@@ -36,9 +33,6 @@ CREATE TABLE role_permissions
     role_id BIGINT NOT NULL REFERENCES role(id),
     permission VARCHAR(50) NOT NULL
 );
---
---
---
 
 create table test
 (
@@ -46,7 +40,8 @@ create table test
     author_id INTEGER NOT NULL REFERENCES usr(id),
     status test_status NOT NULL,
     test_name  varchar(256) NOT NULL,
-    difficulty INTEGER          NOT NULL
+    difficulty INTEGER          NOT NULL,
+    category_id INTEGER NOT NULL REFERENCES test_category(id)
 );
 
 create table question
@@ -90,4 +85,10 @@ create table user_test_result
     UNIQUE(user_id, test_id)
 );
 
+CREATE TABLE test_category
+(
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(60) NOT NULL UNIQUE,
+    parent_id INTEGER REFERENCES test_category(id)
+);
 

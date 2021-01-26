@@ -10,7 +10,8 @@ public enum Tables {
     ROLE_PERMISSIONS,
     USER_TEST_RESULT,
     TEST_COMMENT,
-    TEST_CHARACTERISTIC;
+    TEST_CHARACTERISTIC,
+    TEST_CATEGORY;
 
     String getName() {
         return name().toLowerCase();
