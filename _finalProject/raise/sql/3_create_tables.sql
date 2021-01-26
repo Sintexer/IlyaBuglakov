@@ -34,6 +34,14 @@ CREATE TABLE role_permissions
     permission VARCHAR(50) NOT NULL
 );
 
+
+CREATE TABLE test_category
+(
+    id SERIAL PRIMARY KEY,
+    category VARCHAR(60) NOT NULL UNIQUE,
+    parent_id INTEGER REFERENCES test_category(id)
+);
+
 create table test
 (
     id         SERIAL PRIMARY KEY,
@@ -43,6 +51,7 @@ create table test
     difficulty INTEGER          NOT NULL,
     category_id INTEGER NOT NULL REFERENCES test_category(id)
 );
+
 
 create table question
 (
@@ -83,12 +92,5 @@ create table user_test_result
     test_id INTEGER  not null references test (id),
     result  INTEGER not null,
     UNIQUE(user_id, test_id)
-);
-
-CREATE TABLE test_category
-(
-    id SERIAL PRIMARY KEY,
-    category VARCHAR(60) NOT NULL UNIQUE,
-    parent_id INTEGER REFERENCES test_category(id)
 );
 

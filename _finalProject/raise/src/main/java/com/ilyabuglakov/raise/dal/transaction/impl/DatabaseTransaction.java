@@ -47,30 +47,30 @@ public class DatabaseTransaction implements Transaction {
     }
 
     @Override
-    public void commit() throws TransactionException {
+    public void commit() {
         try {
             connection.commit();
         } catch (SQLException e) {
-            throw new TransactionException("Can't commit transaction", e);
+            log.error("Can't commit transaction", e);
         }
     }
 
     @Override
-    public void rollback() throws TransactionException {
+    public void rollback() {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            throw new TransactionException("Can't rollback transaction", e);
+            log.error("Can't rollback transaction", e);
         }
     }
 
     @Override
-    public void close() throws TransactionException {
+    public void close() {
         try {
             connection.setAutoCommit(true);
             connection.close();
         } catch (SQLException e) {
-            throw new TransactionException("Can't close transaction", e);
+            log.error("Can't close transaction", e);
         }
     }
 }

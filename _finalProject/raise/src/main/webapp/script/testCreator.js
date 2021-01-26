@@ -14,6 +14,29 @@ const ALERT_STYLE = "background-color: #f44336; color: white;";
 let locales = {};
 let formParameters = {};
 
+function showSubCategories(select){
+    console.log(select.value);
+    deleteDefaultOption(select);
+    let subSelectHidden = document.getElementById("subByParent"+select.value);
+    let options = subSelectHidden.querySelectorAll(".childCharacteristic");
+    let subSelect = document.getElementById("childCategories");
+    let node = subSelect.firstChild;
+    while (node){
+        subSelect.removeChild(node);
+        node = subSelect.firstChild;
+    }
+    for(let child of options)
+        subSelect.appendChild(child);
+    subSelect.removeAttribute("disabled");
+    console.log(options);
+}
+
+function deleteDefaultOption(select){
+    if(document.getElementById("defaultSelectOption")!=null){
+        select.removeChild(document.getElementById("defaultSelectOption"));
+    }
+}
+
 function initScript(testNameLength, questionTitleLength, questionContentLength, answerContentLength, minFieldLength) {
     formParameters["testNameLength"] = testNameLength;
     formParameters["questionTitleLength"] = questionTitleLength;
@@ -40,9 +63,20 @@ async function sendResult() {
 
 function validate() {
     let validTestNode = validateTestNode();
+    let validCategory = validateCategory();
     let validQuestionsNode = validateQuestionsNode();
 
-    return validTestNode && validQuestionsNode;
+    return validTestNode && validCategory && validQuestionsNode;
+}
+
+function validateCategory(){
+    let subSelect = document.getElementById("childCategories");
+    if(!subSelect.value){
+        subSelect.parentNode.setAttribute("style", ALERT_STYLE);
+        return false;
+    } else
+        subSelect.parentNode.removeAttribute("style");
+    return true;
 }
 
 function validateTestNode() {
@@ -134,6 +168,7 @@ function validateQuestion(question) {
 
 function createTestObj() {
     let testName = document.getElementsByName("testName")[0].value;
+    let categoryId = document.getElementById("childCategories").value;
     let characteristics = document.getElementsByName("characteristic");
     let checkedCharacteristics = [];
     for (let characteristic of characteristics) {
@@ -150,6 +185,7 @@ function createTestObj() {
     obj["testName"] = testName;
     obj["characteristics"] = checkedCharacteristics;
     obj["questions"] = questionJsons;
+    obj["category"] = {"id":categoryId};
     return obj;
 }
 

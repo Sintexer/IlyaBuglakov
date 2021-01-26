@@ -103,12 +103,14 @@ public class TestDatabaseService extends DatabaseService implements TestService 
             question.getAnswers().forEach(answer -> answer.setQuestion(questionProxy));
             answerDao.createAll(question.getAnswers());
         }
+        transaction.commit();
     }
 
     @Override
     public void changeTestStatus(Integer testId, TestStatus status) throws PersistentException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         testDao.updateStatus(testId, status);
+        transaction.commit();
     }
 
     @Override

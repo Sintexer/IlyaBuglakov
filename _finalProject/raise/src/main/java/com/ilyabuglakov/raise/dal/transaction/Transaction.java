@@ -13,9 +13,9 @@ public interface Transaction extends AutoCloseable {
 
     DatabaseDao createDao(DaoType daoType);
 
-    void commit() throws TransactionException;
+    void commit();
 
-    void rollback() throws TransactionException;
+    void rollback();
 
-    void close() throws TransactionException;
+    void close();
 }

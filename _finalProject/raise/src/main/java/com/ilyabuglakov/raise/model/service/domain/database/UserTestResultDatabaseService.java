@@ -52,6 +52,7 @@ public class UserTestResultDatabaseService extends DatabaseService implements Us
         } else {
             userTestResultDao.create(userTestResult);
         }
+        transaction.commit();
     }
 
     @Override

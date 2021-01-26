@@ -55,11 +55,7 @@ public class TestDatabaseSaveService extends TransactionWebService implements Te
                 answerDao.createAll(question.getAnswers());
             }
         } catch (DaoOperationException e) {
-            try {
-                transaction.rollback();
-            } catch (TransactionException transactionException) {
-                log.error("Can't rollback transaction", e);
-            }
+            transaction.rollback();
             throw new TestSaveServiceException("Can't save test", e);
         }
     }

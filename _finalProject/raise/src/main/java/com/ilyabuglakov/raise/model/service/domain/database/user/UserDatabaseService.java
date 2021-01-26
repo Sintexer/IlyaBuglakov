@@ -129,6 +129,7 @@ public class UserDatabaseService extends DatabaseService implements UserService 
 
         if (somethingChanged) {
             updateUser(userInfoDto.getUser());
+            transaction.commit();
         }
 
         responseEntity.setAttribute("userParameters", getUserParameters(userInfoDto.getUser().getId()));

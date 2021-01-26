@@ -58,6 +58,32 @@
                                 </c:forEach>
                             </div>
                             <div class="breakline"></div>
+                            <div class="flex padding-2rem">
+                                <span><fmt:message key="test.creator.choose.category"/>: </span>
+                                <select name="parentCategories" class="w-fit" onchange="showSubCategories(this)">
+                                    <option id="defaultSelectOption" selected value=""></option>
+                                    <c:forEach var="parentCategory" items="${categories.keySet()}">
+                                        <option value="${parentCategory.id}">
+                                                ${parentCategory.category}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <select id="childCategories" class="w-fit" name="childCategories" disabled>
+
+                                </select>
+                                <div hidden>
+                                    <c:forEach var="parentCategory" items="${categories.keySet()}">
+                                        <select hidden id="subByParent${parentCategory.id}">
+                                            <c:forEach var="childCategory" items="${categories.get(parentCategory)}">
+                                                <option class="childCharacteristic"
+                                                        value="${childCategory.id}">${childCategory.category}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:forEach>
+                                </div>
+                            </div>
+
+                            <div class="breakline"></div>
                             <div class="stack items-gap-vertical" id="questions">
                             </div>
                             <button class="btn btn-yellow margin-b-2rem" type="button"
