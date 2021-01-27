@@ -17,7 +17,6 @@ public class LinkTag extends SimpleTagSupport {
 
     @Override
     public void doTag() throws JspException, IOException {
-//        log.info(key);
         JspWriter out = getJspContext().getOut();
         out.print(PropertiesStorage.getInstance().getLinks().getProperty(key));
     }

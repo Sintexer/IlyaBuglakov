@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.test.interfaces;
+package com.ilyabuglakov.raise.model.service.domain.utils.test.interfaces;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.domain.Test;

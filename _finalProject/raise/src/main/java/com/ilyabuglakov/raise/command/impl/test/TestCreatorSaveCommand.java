@@ -1,7 +1,5 @@
 package com.ilyabuglakov.raise.command.impl.test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
@@ -13,7 +11,7 @@ import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.UserAccessValidationService;
-import com.ilyabuglakov.raise.model.service.domain.test.TestValidationService;
+import com.ilyabuglakov.raise.model.service.domain.utils.test.TestValidationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 

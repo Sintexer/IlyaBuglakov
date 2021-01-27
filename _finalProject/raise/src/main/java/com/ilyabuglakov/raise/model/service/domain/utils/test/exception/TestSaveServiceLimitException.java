@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.test.exception;
+package com.ilyabuglakov.raise.model.service.domain.utils.test.exception;
 
 public class TestSaveServiceLimitException extends TestSaveServiceException {
     public TestSaveServiceLimitException() {

@@ -15,7 +15,7 @@ public class StandardConnectionPoolTest {
 
     ConnectionPool connectionPool = ConnectionPoolFactory.getConnectionPool();
     private static final String driver = "org.postgresql.Driver";
-    private static final String url = "jdbc:postgresql://localhost:5432/raise_db";
+    private static final String url = "jdbc:postgresql://localhost:5432/raise_db_test";
     private static final String username = "postgres";
     private static final String password = "admin";
 

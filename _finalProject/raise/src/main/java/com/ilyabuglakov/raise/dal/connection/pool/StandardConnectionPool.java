@@ -22,12 +22,11 @@ public class StandardConnectionPool implements ConnectionPool {
     private String user;
     private String password;
     private int maxPoolSize;
-    private int checkConnectionTimeout;
 
     private BlockingQueue<ConnectionProxy> connections;
     private Set<ConnectionProxy> busyConnections;
 
-    private Lock lock = new ReentrantLock();
+    private final Lock lock = new ReentrantLock();
 
     @Override
     public void init(String driverClass, String url, String user, String password, int initPoolSize, int maxPoolSize,
@@ -40,7 +39,6 @@ public class StandardConnectionPool implements ConnectionPool {
             this.user = user;
             this.password = password;
             this.maxPoolSize = maxPoolSize;
-            this.checkConnectionTimeout = checkConnectionTimeout;
             connections = new ArrayBlockingQueue<>(maxPoolSize);
             busyConnections = new CopyOnWriteArraySet<>();
             for (int i = 0; i < initPoolSize; ++i) {

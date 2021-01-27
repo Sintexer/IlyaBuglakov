@@ -13,13 +13,6 @@ public class TestValidator {
 
     public static String testNamePattern = "^[^\\d',.-][^\\n_!¡?÷?¿\\/\\\\+=@#$%ˆ&*(){}|~<>;:\\[\\]]{2,}$";
 
-    public boolean isValid(Test test) {
-        if (test == null || !isValidTestName(test.getTestName()) || !isValidCharacteristics(test.getCharacteristics()))
-            return false;
-        return !test.getQuestions().isEmpty()
-                && test.getQuestions().stream().allMatch(this::isValidQuestion);
-    }
-
     public boolean isValidTestName(String testName) {
         if (testName == null)
             return false;

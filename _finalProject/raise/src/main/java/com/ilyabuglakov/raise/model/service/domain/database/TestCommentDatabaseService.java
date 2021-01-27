@@ -11,8 +11,8 @@ import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.service.domain.TestCommentService;
-import com.ilyabuglakov.raise.model.service.domain.user.UserTransactionSearch;
-import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserSearchService;
+import com.ilyabuglakov.raise.model.service.domain.utils.user.UserTransactionSearch;
+import com.ilyabuglakov.raise.model.service.domain.utils.user.interfaces.UserSearchService;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,27 +1,26 @@
 package com.ilyabuglakov.raise.model.service.path;
 
 public class PathService {
-
-    private static PathService instance = new PathService();
-    private String RESOURCE_PATH = "config";
-    private String FULL_PATH;
-    private ClassLoader classLoader = this.getClass().getClassLoader();
+    private final String FULL_PATH;
 
     private PathService() {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        String RESOURCE_PATH = "config";
         FULL_PATH = classLoader.getResource(RESOURCE_PATH).getPath();
     }
 
+    private static class InstanceHolder{
+        public static final PathService INSTANCE = new PathService();
+    }
+
     public static PathService getInstance() {
-        return instance;
+        return InstanceHolder.INSTANCE;
     }
 
     public String getResourcePath(String fileName) {
         return FULL_PATH + "/" + fileName;
     }
 
-//    public String getResourcePath(String resourceName){
-//        return classLoader.getResource(resourceName).getPath();
-//    }
 
 
 }

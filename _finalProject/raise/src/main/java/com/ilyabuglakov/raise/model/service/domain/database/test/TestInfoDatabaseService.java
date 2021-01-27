@@ -4,7 +4,7 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
-import com.ilyabuglakov.raise.dal.dao.database.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Question;

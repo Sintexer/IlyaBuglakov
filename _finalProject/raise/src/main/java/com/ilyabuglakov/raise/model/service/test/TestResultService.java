@@ -25,8 +25,6 @@ public class TestResultService {
 
     public TestResultDto createResult(TestDto userAnswer, Test test) {
         TestResultDto resultDto = new TestResultDto();
-        //TODO add Test author
-
         Map<Question, QuestionDto> questionMap = getQuestionMap(userAnswer.getQuestions(), test.getQuestions());
         Set<Question> failedQuestions = new HashSet<>(test.getQuestions());
         failedQuestions.removeAll(questionMap.keySet());

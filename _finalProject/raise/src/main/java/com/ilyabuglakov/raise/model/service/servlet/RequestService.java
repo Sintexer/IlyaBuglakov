@@ -26,10 +26,4 @@ public class RequestService {
         return optionalInteger;
     }
 
-    public void setRequestErrorAttributes(HttpServletRequest request, String messagePropertyKey, int errorCode) {
-        request.setAttribute("errorMessage", messagePropertyKey);
-        request.setAttribute("errorCode", errorCode);
-    }
-
-
 }

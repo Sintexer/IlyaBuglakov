@@ -1,18 +1,18 @@
-package com.ilyabuglakov.raise.model.service.domain.test;
+package com.ilyabuglakov.raise.model.service.domain.utils.test;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
-import com.ilyabuglakov.raise.dal.dao.database.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
-import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceException;
-import com.ilyabuglakov.raise.model.service.domain.test.exception.TestSaveServiceLimitException;
-import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestSaveService;
+import com.ilyabuglakov.raise.model.service.domain.utils.test.exception.TestSaveServiceException;
+import com.ilyabuglakov.raise.model.service.domain.utils.test.exception.TestSaveServiceLimitException;
+import com.ilyabuglakov.raise.model.service.domain.utils.test.interfaces.TestSaveService;
 import com.ilyabuglakov.raise.model.service.property.ApplicationProperties;
 import lombok.extern.log4j.Log4j2;
 

@@ -2,6 +2,7 @@ package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestCategory;
 import com.ilyabuglakov.raise.domain.User;

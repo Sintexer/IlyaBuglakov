@@ -25,10 +25,6 @@ public class PropertiesStorage {
         links = initProperties("links.properties");
     }
 
-    public static String getPagePath(String property) {
-        return getInstance().pages.getProperty(property);
-    }
-
     private PropertyParser initProperties(String filename) {
         try {
             return new PropertyParser(filename);

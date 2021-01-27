@@ -1,9 +1,9 @@
-package com.ilyabuglakov.raise.model.service.domain.test;
+package com.ilyabuglakov.raise.model.service.domain.utils.test;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
-import com.ilyabuglakov.raise.dal.dao.database.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
 import com.ilyabuglakov.raise.domain.Answer;
@@ -14,7 +14,7 @@ import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
-import com.ilyabuglakov.raise.model.service.domain.test.interfaces.TestReadService;
+import com.ilyabuglakov.raise.model.service.domain.utils.test.interfaces.TestReadService;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;

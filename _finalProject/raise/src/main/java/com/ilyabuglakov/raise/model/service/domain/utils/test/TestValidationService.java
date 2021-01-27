@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.test;
+package com.ilyabuglakov.raise.model.service.domain.utils.test;
 
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;

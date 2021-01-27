@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.user.exception;
+package com.ilyabuglakov.raise.model.service.domain.utils.user.exception;
 
 public class UserSearchServiceException extends Exception {
     public UserSearchServiceException() {

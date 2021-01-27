@@ -1,7 +1,7 @@
-package com.ilyabuglakov.raise.model.service.domain.user;
+package com.ilyabuglakov.raise.model.service.domain.utils.user;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
-import com.ilyabuglakov.raise.dal.dao.database.TestDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserTestResultDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
@@ -10,7 +10,7 @@ import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.dto.UserCharacteristic;
 import com.ilyabuglakov.raise.model.service.domain.TransactionWebService;
-import com.ilyabuglakov.raise.model.service.domain.user.interfaces.UserParametersService;
+import com.ilyabuglakov.raise.model.service.domain.utils.user.interfaces.UserParametersService;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;

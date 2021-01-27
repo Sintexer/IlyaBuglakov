@@ -1,4 +1,4 @@
-package com.ilyabuglakov.raise.model.service.domain.user.interfaces;
+package com.ilyabuglakov.raise.model.service.domain.utils.user.interfaces;
 
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;

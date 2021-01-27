@@ -13,6 +13,7 @@ import java.util.Properties;
 public class PropertyParser {
 
     private Properties properties;
+
     @Getter
     @Setter
     private String prefix = "";
