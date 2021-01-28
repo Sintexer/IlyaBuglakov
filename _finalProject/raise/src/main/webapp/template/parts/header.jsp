@@ -16,13 +16,13 @@
 <script src="<c:url value="/script/modal.js" />"></script>
 <script src="<c:url value="/script/changeLocale.js"/>"></script>
 
-<header id="page-header" class="page-header">
-    <div>
-        <nav class="dec-pancake section bg-none">
-            <div class="dec-pancake items-gap-right bold">
+<header id="page-header" class="page-header header text-black">
+    <div class="section bg-none">
+        <nav class="dec-pancake">
+            <div class="dec-pancake items-gap-sm-right bold">
                 <div class="font-xl">
-                    <a href="<ct:link key="root"/>">
-                        <h3 class="font-xl">Raise</h3>
+                    <a class="dec-pancake" href="<ct:link key="root"/>">
+                        <img class="logo p-y-1rem" src="<c:url value="/img/logo.svg"/> "/>
                     </a>
                 </div>
 
@@ -37,10 +37,10 @@
                 </shiro:hasPermission>
 
             </div>
-            <div class="header-right-side dec-pancake items-gap-sm">
+            <div class="header-right-side items-gap-sm-right dec-pancake">
                 <shiro:guest>
-                    <a class="btn" href="<ct:link key="login"/>"><fmt:message key="link.login"/></a>
-                    <a class="btn" href="<ct:link key="registration"/>"><fmt:message key="link.registration"/></a>
+                    <a class="link" href="<ct:link key="login"/>"><fmt:message key="link.login"/></a>
+                    <a class="btn btn-black" href="<ct:link key="registration"/>"><fmt:message key="link.registration"/></a>
                 </shiro:guest>
                 <h:locale/>
             </div>
