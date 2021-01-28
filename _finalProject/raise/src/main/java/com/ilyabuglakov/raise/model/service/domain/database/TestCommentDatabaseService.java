@@ -41,7 +41,7 @@ public class TestCommentDatabaseService extends DatabaseService implements TestC
     public List<TestComment> getComments(Integer testId, int pageStart, int itemsPerPage) throws PersistentException {
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
         List<TestComment> testComments = ((TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT))
-                .getComments(testId, pageStart * itemsPerPage, itemsPerPage);
+                .findComments(testId, pageStart * itemsPerPage, itemsPerPage);
         for (TestComment testComment : testComments) {
             testComment.setUser(userDao.read(testComment.getUser().getId()).orElseThrow(PersistentException::new));
         }
@@ -51,13 +51,13 @@ public class TestCommentDatabaseService extends DatabaseService implements TestC
     @Override
     public Integer getCommentsAmount(Integer testId) throws DaoOperationException {
         return ((TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT))
-                .getCommentsAmount(testId);
+                .findCommentsAmount(testId);
     }
 
     @Override
     public int getCommentsAmount(String email) throws DaoOperationException {
         return ((TestCommentDao)transaction.createDao(DaoType.TEST_COMMENT))
-                .getUserCommentAmount(email);
+                .findUserCommentAmount(email);
     }
 
     @Override

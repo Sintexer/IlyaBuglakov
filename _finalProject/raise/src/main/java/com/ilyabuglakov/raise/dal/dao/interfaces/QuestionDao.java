@@ -12,11 +12,9 @@ import java.util.Set;
 public interface QuestionDao extends Dao<Question> {
     void createAll(Collection<Question> questions) throws DaoOperationException;
 
-    Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException;
+    Optional<Integer> findQuestionAmount(Integer testId) throws DaoOperationException;
 
     Set<Question> findByTestId(Integer testId) throws DaoOperationException;
 
-    List<String> getQuestionsNames(Integer testId) throws DaoOperationException;
-
-//    Optional<Integer> getId(String content)
+    List<String> findQuestionsNames(Integer testId) throws DaoOperationException;
 }

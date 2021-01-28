@@ -79,7 +79,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
         if (optionalResultSet.isPresent()) {
             ResultSet resultSet = optionalResultSet.get();
 
-            Set<String> permissions = getPermissions(id);
+            Set<String> permissions = findPermissions(id);
             optionalRole = buildRole(resultSet, permissions);
         }
         return optionalRole;
@@ -98,7 +98,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public Set<UserRole> getUserRoles(Integer userId) throws DaoOperationException {
+    public Set<UserRole> findUserRoles(Integer userId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_ROLE_BY_USER_ID);
         setIdStatementParameters(userId, statement);
 
@@ -136,7 +136,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     @Override
-    public Set<String> getPermissions(Integer id) throws DaoOperationException {
+    public Set<String> findPermissions(Integer id) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_PERMISSIONS_BY_ROLE_ID);
         setIdStatementParameters(id, statement);
 

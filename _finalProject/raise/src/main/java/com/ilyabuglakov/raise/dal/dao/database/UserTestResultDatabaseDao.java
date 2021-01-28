@@ -121,7 +121,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     }
 
     @Override
-    public Optional<UserTestResult> getByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException {
+    public Optional<UserTestResult> findByUserIdAndTestId(Integer userId, Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_BY_USER_ID_TEST_ID);
         try {
             statement.setInt(1, userId);
@@ -141,7 +141,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     }
 
     @Override
-    public int getResultAmount(Integer userId) throws DaoOperationException {
+    public int findResultAmount(Integer userId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_RESULT_COUNT_BY_USER_ID);
         setIdStatementParameters(userId, statement);
 
@@ -149,7 +149,7 @@ public class UserTestResultDatabaseDao extends DatabaseDao implements UserTestRe
     }
 
     @Override
-    public List<UserTestResult> getUserTestResults(Integer userId) throws DaoOperationException {
+    public List<UserTestResult> findUserTestResults(Integer userId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_BY_USER_ID);
         setIdStatementParameters(userId, statement);
 

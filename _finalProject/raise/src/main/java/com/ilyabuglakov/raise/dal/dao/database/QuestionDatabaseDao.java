@@ -115,7 +115,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
-    public List<String> getQuestionsNames(Integer testId) throws DaoOperationException {
+    public List<String> findQuestionsNames(Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_QUESTION_NAMES_BY_TEST_ID);
 
         try {
@@ -140,7 +140,7 @@ public class QuestionDatabaseDao extends DatabaseDao implements QuestionDao {
     }
 
     @Override
-    public Optional<Integer> getQuestionAmount(Integer testId) throws DaoOperationException {
+    public Optional<Integer> findQuestionAmount(Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_QUESTION_COUNT_BY_TEST_ID);
         setIdStatementParameters(testId, statement);
         Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));

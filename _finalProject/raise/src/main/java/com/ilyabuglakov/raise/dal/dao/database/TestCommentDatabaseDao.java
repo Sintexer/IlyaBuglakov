@@ -128,14 +128,14 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
     }
 
     @Override
-    public Integer getCommentsAmount(Integer testId) throws DaoOperationException {
+    public Integer findCommentsAmount(Integer testId) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_COUNT_BY_TEST_ID);
         setIdStatementParameters(testId, statement);
         return getCount(createResultSet(statement));
     }
 
     @Override
-    public List<TestComment> getComments(Integer testId, int offset, int items) throws DaoOperationException {
+    public List<TestComment> findComments(Integer testId, int offset, int items) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_BY_TEST_ID_LIMIT_OFFSET);
         log.debug("offset:" + offset + "; items: " + items);
         try {
@@ -165,7 +165,7 @@ public class TestCommentDatabaseDao extends DatabaseDao implements TestCommentDa
     }
 
     @Override
-    public int getUserCommentAmount(String email) throws DaoOperationException {
+    public int findUserCommentAmount(String email) throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_USER_COMMENT_COUNT);
         try {
             statement.setString(1, email);

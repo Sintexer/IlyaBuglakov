@@ -51,7 +51,7 @@ public class TestInfoDatabaseService extends DatabaseService {
         List<TestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.findCharacteristics(test.getId());
-            int questionsAmount = questionDao.getQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
+            int questionsAmount = questionDao.findQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
             TestCategory testCategory = testCategoryDao.read(test.getCategory().getId()).orElseThrow(DaoOperationException::new);
             User authorInfo = userDao.findUserInfo(test.getAuthor().getId()).orElse(null);
             testInfos.add(TestInfo.builder()
@@ -76,9 +76,9 @@ public class TestInfoDatabaseService extends DatabaseService {
         List<AdvancedTestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.findCharacteristics(test.getId());
-            int questionsAmount = questionDao.getQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
+            int questionsAmount = questionDao.findQuestionAmount(test.getId()).orElseThrow(DaoOperationException::new);
             User author = userDao.read(test.getAuthor().getId()).orElse(null);
-            String questionNames = String.join("; ", questionDao.getQuestionsNames(test.getId()));
+            String questionNames = String.join("; ", questionDao.findQuestionsNames(test.getId()));
             TestCategory testCategory = testCategoryDao.read(test.getCategory().getId()).orElseThrow(DaoOperationException::new);
             log.debug(test.getAuthor().getId() + ": " + author);
             testInfos.add(AdvancedTestInfo.builder()

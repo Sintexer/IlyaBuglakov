@@ -41,7 +41,7 @@ public class UserTestResultDatabaseService extends DatabaseService implements Us
                 .build();
         UserTestResultDao userTestResultDao = (UserTestResultDao) transaction.createDao(DaoType.USER_TEST_RESULT);
         Optional<UserTestResult> prevResult =
-                userTestResultDao.getByUserIdAndTestId(userTestResult.getUser().getId(),
+                userTestResultDao.findByUserIdAndTestId(userTestResult.getUser().getId(),
                         userTestResult.getTest().getId());
         if (prevResult.isPresent()) {
             userTestResult.setId(prevResult.get().getId());
@@ -57,7 +57,7 @@ public class UserTestResultDatabaseService extends DatabaseService implements Us
     @Override
     public int getResultsAmount(Integer userId) throws PersistentException {
         UserTestResultDao userTestResultDao = (UserTestResultDao) transaction.createDao(DaoType.USER_TEST_RESULT);
-        return userTestResultDao.getResultAmount(userId);
+        return userTestResultDao.findResultAmount(userId);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserTestResultDatabaseService extends DatabaseService implements Us
         UserTestResultDao userTestResultDao = (UserTestResultDao) transaction.createDao(DaoType.USER_TEST_RESULT);
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
 
-        List<UserTestResult> userTestResults = userTestResultDao.getUserTestResults(userId);
+        List<UserTestResult> userTestResults = userTestResultDao.findUserTestResults(userId);
         Map<Characteristic, Double> characteristicResults = Stream.of(Characteristic.values())
                 .collect(Collectors.toMap(Function.identity(), characteristic -> 0.0));
 
