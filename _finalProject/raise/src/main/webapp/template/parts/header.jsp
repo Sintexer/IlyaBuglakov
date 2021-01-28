@@ -22,7 +22,7 @@
             <div class="dec-pancake items-gap-sm-right bold">
                 <div class="font-xl">
                     <a class="dec-pancake" href="<ct:link key="root"/>">
-                        <img class="logo p-y-1rem" src="<c:url value="/img/logo.svg"/> "/>
+                        <img class="logo p-y-1rem" src="<c:url value="/img/logo-bold.svg"/> "/>
                     </a>
                 </div>
 
@@ -42,6 +42,9 @@
                     <a class="link" href="<ct:link key="login"/>"><fmt:message key="link.login"/></a>
                     <a class="btn btn-black" href="<ct:link key="registration"/>"><fmt:message key="link.registration"/></a>
                 </shiro:guest>
+                <shiro:authenticated>
+                    <a class="link" href="<ct:link key="logout"/>"><fmt:message key="link.logout"/></a>
+                </shiro:authenticated>
                 <h:locale/>
             </div>
         </nav>

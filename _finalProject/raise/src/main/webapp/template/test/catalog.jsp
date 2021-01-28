@@ -29,37 +29,50 @@
                     <h1 class="page-title"><fmt:message key="title.test.catalog"/></h1>
                     <div class="breakline"></div>
                     <form>
-                        <div class="card-md stack margin-t-2rem items-gap-vertical">
-                            <div class="flex">
-                                <span><fmt:message key="test.search.testname"/>: </span>
-                                <input name="testName" type="text" maxlength=256 value="${stashedTestName}"
-                                       pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{$">
-                            </div>
-                            <div class="flex">
-                                <span><fmt:message key="test.search.testname"/>: </span>
-                                <select name="category">
-                                    <c:choose>
-                                        <c:when test="${not empty stashedCategory}">
-                                            <option value=""></option>
-                                            <option value="${stashedCategory.id}" selected>${stashedCategory.category}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option value="" selected></option>
-                                        </c:otherwise>
-                                    </c:choose>
+                        <div class="land-card p-y-1rem box-100">
+                            <div class="centered">
+                                <div class="box-100 card-md stack margin-t-2rem items-gap-vertical">
+                                    <div>
+                                        <span><fmt:message key="test.search.testname"/>: </span>
+                                        <input class="form-input" name="testName" type="text" maxlength=256
+                                               value="${stashedTestName}"
+                                               pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{$">
+                                    </div>
+                                    <div>
+                                        <span><fmt:message key="test.search.category"/>: </span>
+                                        <select class="form-input" name="category">
+                                            <c:choose>
+                                                <c:when test="${not empty stashedCategory}">
+                                                    <option value=""></option>
+                                                    <option value="${stashedCategory.id}"
+                                                            selected>${stashedCategory.category}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="" selected></option>
+                                                </c:otherwise>
+                                            </c:choose>
 
-                                    <c:forEach var="parentCategory" items="${categories.keySet()}">
-                                        <option id="optionId${parentCategory.id}" class="bold" value="${parentCategory.id}">${parentCategory.category}</option>
-                                        <c:forEach var="childCategory" items="${categories.get(parentCategory)}">
-                                            <option id="optionId${childCategory.id}" value="${childCategory.id}">${childCategory.category}</option>
-                                        </c:forEach>
-                                    </c:forEach>
-                                </select>
+                                            <c:forEach var="parentCategory" items="${categories.keySet()}">
+                                                <option id="optionId${parentCategory.id}" class="bold"
+                                                        value="${parentCategory.id}">${parentCategory.category}</option>
+                                                <c:forEach var="childCategory"
+                                                           items="${categories.get(parentCategory)}">
+                                                    <option id="optionId${childCategory.id}"
+                                                            value="${childCategory.id}">${childCategory.category}</option>
+                                                </c:forEach>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <button class="m-0 btn btn-black w-fit"><fmt:message key="button.search"/></button>
+                                </div>
                             </div>
-                            <input type="hidden" value="${currentPage}" name="currentPage">
-                            <button class="btn w-fit"><fmt:message key="button.search"/></button>
+                            <div class="info">
+                                <h3 class="title"><fmt:message key="test.catalog.search"/></h3>
+                                <span><fmt:message key="test.catalog.search.info"/></span>
+                            </div>
                         </div>
 
+                        <div class="breakline"></div>
 
                         <c:choose>
                             <c:when test="${not empty tests}">
@@ -69,7 +82,7 @@
                                     <c:forEach var="test" items="${tests}">
                                         <div class="card">
                                             <div class="card-body stack items-gap-vertical">
-                                                <h3>${test.testName}</h3>
+                                                <a href="<ct:link key="test.preview"/>?testId=${test.id}">${test.testName}</a>
                                                 <div class="breakline"></div>
                                                 <span><fmt:message key="test.card.difficulty"/>: </span>
                                                 <span class="bold">${test.difficulty}</span>
@@ -83,11 +96,12 @@
                                                     </c:forEach>
                                                 </c:if>
                                                 <div class="breakline"></div>
-                                                <span><fmt:message key="test.category"/>: ${test.category.category}</span>
+                                                <span><fmt:message
+                                                        key="test.category"/>: ${test.category.category}</span>
                                                 <div class="flex-11a"></div>
                                                 <div class="breakline"></div>
 
-                                                <div><a class="btn"
+                                                <div><a class="btn btn-black"
                                                         href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message
                                                         key="test.card.button.view"/></a></div>
 

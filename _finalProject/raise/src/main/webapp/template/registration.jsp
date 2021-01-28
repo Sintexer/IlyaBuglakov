@@ -44,8 +44,8 @@
 
     <div class="centered">
 
-            <form class="form-card card-md bg-lightcyan" method="post" action="<ct:link key="registration"/>">
-                <div class="text-break-all text-center">
+            <form class="w-auto form-card card-md items-gap-vertical" method="post" action="<ct:link key="registration"/>">
+                <div class="text-center font-mdd">
                     <h2 class="form-sign-in-heading"><fmt:message key="signup" bundle="${page}"/></h2>
                 </div>
                 <c:if test="${registrationFailed}">
@@ -119,7 +119,7 @@
                                    required>
                 </div>
 
-                <button class="btn mg-top-2rem" type="submit"><fmt:message key="button.signup"
+                <button class="btn btn-black mg-top-2rem" type="submit"><fmt:message key="button.signup"
                                                                            bundle="${page}"/></button>
             </form>
     </div>
