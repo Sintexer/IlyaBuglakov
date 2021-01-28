@@ -22,27 +22,17 @@ public interface TestDao extends Dao<Test> {
 
     List<Test> findByParentCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException;
 
+    List<Test> findTests(TestStatus status, int limit, int from) throws DaoOperationException;
+
     void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException;
 
-    Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException;
+    Set<Characteristic> findCharacteristics(Integer testId) throws DaoOperationException;
 
-    Integer getTestAmountByStatus(TestStatus status) throws DaoOperationException;
+    int findTestAmountByStatus(TestStatus status) throws DaoOperationException;
 
-    Integer getTestAmount() throws DaoOperationException;
+    int findTestAmountByStatus(TestStatus status, Integer authorId) throws DaoOperationException;
 
-    Integer getTestAmountByStatus(TestStatus status, Integer authorId) throws DaoOperationException;
-
-    Integer getTestAmount(Integer authorId) throws DaoOperationException;
-
-    Integer getNewTestAmount() throws DaoOperationException;
-
-    Integer getNewTestAmount(Integer authorId) throws DaoOperationException;
-
-    List<Test> getTestsByStatus(TestStatus status, int startFrom, int itemsAmount) throws DaoOperationException;
-
-    List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException;
-
-    List<Test> getNewTests(int startFrom, int itemsAmount) throws DaoOperationException;
+    int findTestAmount(Integer authorId) throws DaoOperationException;
 
     void updateStatus(Integer testId, TestStatus status) throws DaoOperationException;
 }

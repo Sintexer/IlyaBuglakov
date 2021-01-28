@@ -36,23 +36,6 @@ public interface TestService extends Service {
 
     List<AdvancedTestInfo> getAdvancedTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException;
 
-    List<TestInfo> getTestInfos(int limit, int from) throws PersistentException;
-
-    List<TestInfo> getTestInfosByPage(int limit, int from) throws PersistentException;
-
-    List<TestInfo> getNewTestInfos(int limit, int from) throws PersistentException;
-
-    List<TestInfo> getNewTestInfosByPage(int limit, int from) throws PersistentException;
-
     int getTestAmountByStatus(TestStatus status) throws PersistentException;
 
-    int getTestAmount() throws PersistentException;
-
-    int getNewTestAmount() throws PersistentException;
-
-    int getTestAmountByStatus(TestStatus status, Integer authorId) throws PersistentException;
-
-    int getTestAmount(Integer authorId) throws PersistentException;
-
-    int getNewTestAmount(Integer authorId) throws PersistentException;
 }

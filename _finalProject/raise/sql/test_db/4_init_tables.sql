@@ -17,7 +17,6 @@ SELECT setval('role_permissions_id_seq', (SELECT MAX(id) from role_permissions))
 INSERT INTO test_category(id, category, parent_id) VALUES (1, 'Programming', NULL),
                                                           (2, 'Math', NULL),
                                                           (3, 'Nature', NULL),
-
                                                           (4, 'Java', 1),
                                                           (5, 'C++', 1),
                                                           (6, 'Algebra', 2),
@@ -45,8 +44,15 @@ VALUES (8, 1, 'CONFIRMED', 'Test test', 1, 9),
        (3, 1, 'CONFIRMED', 'Math test 3', 1, 6),
        (4, 1, 'CONFIRMED', 'Animals 1', 1, 8),
        (5, 1, 'CONFIRMED', 'Java 1', 1, 4),
-       (6, 1, 'CONFIRMED', 'C++ 1', 1, 5),
-       (7, 1, 'NEW', 'Java 2', 1, 4);
+       (7, 1, 'NEW', 'Java 2', 1, 4),
+       (9, 1, 'CONFIRMED', 'For delete test', 1, 9),
+       (10, 1, 'CONFIRMED', 'For delete test', 1, 9),
+       (11, 1, 'CONFIRMED', 'For delete test', 1, 9),
+       (12, 1, 'CONFIRMED', 'For delete test', 1, 9),
+       (13, 1, 'CONFIRMED', 'For update test', 1, 9),
+       (14, 1, 'CONFIRMED', 'For update test', 1, 9)
+       ;
+
 
 SELECT setval('test_id_seq', (SELECT MAX(id) from test));
 
@@ -69,10 +75,10 @@ VALUES (22, 'QUESTION FOR INSERT ANSWER', '', 5),
        (15, 'Is the statement true?', 'C++ is a dynamic type language', 6),
        (16, 'Answer question:', 'Do Java have a String pool?', 7),
            (17, 'Java is good', 'This statement is true or false>', 7),
-           (18, 'For delete test', 'For delete test', 9),
-           (19, 'For delete test', 'For delete test', 9),
-           (20, 'For delete test', 'For delete test', 9),
-           (21, 'For delete test', 'For delete test', 9);
+           (18, 'For delete test', 'For delete test', 8),
+           (19, 'For delete test', 'For delete test', 8),
+           (20, 'For delete test', 'For delete test', 8),
+           (21, 'For delete test', 'For delete test', 8);
 
 SELECT setval('question_id_seq', (SELECT MAX(id) from question));
 

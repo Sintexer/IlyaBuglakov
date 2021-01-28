@@ -29,7 +29,7 @@ public class UserAccessValidationDatabaseService extends DatabaseService impleme
             return responseEntity;
         }
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
-        int testAmount = testDao.getTestAmountByStatus(TestStatus.NEW, userOptional.get().getId());
+        int testAmount = testDao.findTestAmountByStatus(TestStatus.NEW, userOptional.get().getId());
         if(testAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests"))){
             return responseEntity;
         }

@@ -63,7 +63,7 @@ public class UserParametersDatabaseService extends TransactionWebService impleme
                 .collect(Collectors.toMap(Function.identity(), characteristic -> 0.0));
 
         for (UserTestResult utr : userTestResults) {
-            testDao.getCharacteristics(utr.getTest().getId())
+            testDao.findCharacteristics(utr.getTest().getId())
                     .forEach(characteristic ->
                             characteristicResults.merge(characteristic, (double) utr.getResult(), Double::sum));
         }

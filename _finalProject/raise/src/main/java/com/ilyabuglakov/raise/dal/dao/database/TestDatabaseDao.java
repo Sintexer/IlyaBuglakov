@@ -1,6 +1,7 @@
 package com.ilyabuglakov.raise.dal.dao.database;
 
 import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
+import com.ilyabuglakov.raise.dal.dao.StatementPreparer;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.domain.Test;
@@ -107,16 +108,6 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST.name(),
             TestColumns.STATUS.name());
 
-    public static final String SELECT_TEST_COUNT = String.format(
-            "SELECT COUNT(*) FROM %s",
-            Tables.TEST.name());
-
-    public static final String SELECT_NEW_TEST_COUNT = String.format(
-            "SELECT COUNT(*) FROM %s WHERE %s='%s'",
-            Tables.TEST.name(),
-            TestColumns.STATUS.name(),
-            TestStatus.NEW.name());
-
     public static final String SELECT_TEST_COUNT_BY_STATUS_AND_AUTHOR = String.format(
             "SELECT COUNT(*) FROM %s WHERE %s=? AND %s=?",
             Tables.TEST.name(),
@@ -126,11 +117,6 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             "SELECT COUNT(*) FROM %s WHERE %s=?",
             Tables.TEST.name(),
             TestColumns.AUTHOR_ID.name());
-
-    public static final String SELECT_NEW_TEST_COUNT_BY_AUTHOR = String.format(
-            "SELECT COUNT(*) FROM %s WHERE %s='%s' AND %s=?",
-            Tables.TEST.name(),
-            TestColumns.STATUS.name(), TestStatus.NEW.name(), TestColumns.AUTHOR_ID);
 
     public static final String INSERT_CHARACTERISTIC = String.format(
             "INSERT INTO %s(%s, %s) VALUES(?, ?)",
@@ -143,19 +129,12 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST_CHARACTERISTIC.name(),
             TestCharacteristicColumns.TEST_ID.name());
 
-    public static final String SELECT_TESTS_BY_STATUS_LIMIT_OFFSET = String.format(
+    public static final String SELECT_TESTS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.STATUS.name());
-
-    public static final String SELECT_CONFIRMED_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
-            EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(),TestColumns.CATEGORY_ID.name(),
-            Tables.TEST.name(),
-            TestColumns.STATUS.name(), TestStatus.CONFIRMED.name());
 
     public static final String SELECT_NEW_TESTS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = '%s' LIMIT ? OFFSET ?",
@@ -214,94 +193,101 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public List<Test> findByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET);
-        try {
-            statement.setString(1, name+"%");
+    public List<Test> findByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status,
+                                                     int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+                    PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET);
+                    statement.setString(1, name + "%");
+                    statement.setInt(2, category.getId());
+                    statement.setObject(3, status, Types.OTHER);
+                    statement.setInt(4, limit);
+                    statement.setInt(5, from);
+                    return statement;
+                });
+    }
+
+    @Override
+    public List<Test> findByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status,
+                                                           int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+            PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
+            statement.setString(1, name + "%");
             statement.setInt(2, category.getId());
             statement.setObject(3, status, Types.OTHER);
             statement.setInt(4, limit);
             statement.setInt(5, from);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
+            return statement;
+        });
     }
 
     @Override
-    public List<Test> findByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
-        try {
-            statement.setString(1, name+"%");
-            statement.setInt(2, category.getId());
-            statement.setObject(3, status, Types.OTHER);
-            statement.setInt(4, limit);
-            statement.setInt(5, from);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
-    }
-
-    @Override
-    public List<Test> findByNameAndStatus(String name, TestStatus status, int limit, int from) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET);
-        try {
-            statement.setString(1, name+"%");
+    public List<Test> findByNameAndStatus(String name, TestStatus status, int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+            PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET);
+            statement.setString(1, name + "%");
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
+            return statement;
+        });
     }
 
     @Override
-    public List<Test> findByCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET);
-        try {
+    public List<Test> findByCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+            PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
+            return statement;
+        });
     }
 
     @Override
-    public List<Test> findByParentCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
-        try {
+    public List<Test> findByParentCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+            PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
+            return statement;
+        });
+    }
+
+    @Override
+    public List<Test> findTests(TestStatus status, int limit, int from)
+            throws DaoOperationException {
+        return findByStatement(() -> {
+            PreparedStatement preparedStatement = prepareStatement(SELECT_TESTS_LIMIT_OFFSET);
+            preparedStatement.setObject(1, status, Types.OTHER);
+            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(3, from);
+            return preparedStatement;
+        });
+    }
+
+    private List<Test> findByStatement(StatementPreparer statementPreparer)
+            throws DaoOperationException {
+        PreparedStatement statement;
+        try {
+            statement = statementPreparer.prepareStatement();
         } catch (SQLException e) {
-            closeStatement(statement);
             throw new DaoOperationException("Can't set statement parameters", e);
         }
-
         ResultSet resultSet = createResultSet(statement);
         return buildTestList(resultSet);
     }
 
     @Override
-    public void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId) throws DaoOperationException {
+    public void saveCharacteristics(Collection<Characteristic> characteristics, Integer testId)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(INSERT_CHARACTERISTIC);
         try {
             for (Characteristic characteristic : characteristics) {
@@ -319,7 +305,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public Set<Characteristic> getCharacteristics(Integer testId) throws DaoOperationException {
+    public Set<Characteristic> findCharacteristics(Integer testId)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_CHARACTERISTICS);
         setIdStatementParameters(testId, statement);
 
@@ -339,7 +326,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public Integer getTestAmountByStatus(TestStatus status) throws DaoOperationException {
+    public int findTestAmountByStatus(TestStatus status)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_STATUS);
         try {
             statement.setObject(1, status, Types.OTHER);
@@ -351,13 +339,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public Integer getTestAmount() throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public Integer getTestAmountByStatus(TestStatus status, Integer authorId) throws DaoOperationException {
+    public int findTestAmountByStatus(TestStatus status, Integer authorId)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_STATUS_AND_AUTHOR);
         try {
             statement.setObject(1, status, Types.OTHER);
@@ -370,61 +353,16 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     }
 
     @Override
-    public Integer getTestAmount(Integer authorId) throws DaoOperationException {
+    public int findTestAmount(Integer authorId)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_AUTHOR);
         setIdStatementParameters(authorId, statement);
         return getCount(createResultSet(statement));
     }
 
     @Override
-    public Integer getNewTestAmount() throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public Integer getNewTestAmount(Integer authorId) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_NEW_TEST_COUNT_BY_AUTHOR);
-        setIdStatementParameters(authorId, statement);
-        return getCount(createResultSet(statement));
-    }
-
-    @Override
-    public List<Test> getTestsByStatus(TestStatus status, int startFrom, int itemsAmount) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_STATUS_LIMIT_OFFSET);
-        try {
-            statement.setObject(1, status, Types.OTHER);
-            statement.setInt(2, itemsAmount);
-            statement.setInt(3, startFrom);
-        } catch (SQLException e) {
-            closeStatement(statement);
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
-    }
-
-    @Override
-    public List<Test> getTests(int startFrom, int itemsAmount) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_CONFIRMED_TESTS_LIMIT_OFFSET);
-        setAllIntStatementParameters(statement, itemsAmount, startFrom);
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
-    }
-
-    @Override
-    public List<Test> getNewTests(int startFrom, int itemsAmount) throws DaoOperationException {
-        PreparedStatement statement = prepareStatement(SELECT_NEW_TESTS_LIMIT_OFFSET);
-        setAllIntStatementParameters(statement, itemsAmount, startFrom);
-
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
-    }
-
-    @Override
-    public void updateStatus(Integer testId, TestStatus status) throws DaoOperationException {
+    public void updateStatus(Integer testId, TestStatus status)
+            throws DaoOperationException {
         PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
         try {
             statement.setObject(1, status, Types.OTHER);
@@ -437,7 +375,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         executeUpdateQuery(statement);
     }
 
-    private void setAllStatementParameters(Test test, PreparedStatement statement) throws DaoOperationException {
+    private void setAllStatementParameters(Test test, PreparedStatement statement)
+            throws DaoOperationException {
         try {
             statement.setString(1, test.getTestName());
             statement.setObject(2, test.getStatus(), Types.OTHER);
@@ -450,7 +389,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         }
     }
 
-    private List<Test> buildTestList(ResultSet resultSet) throws DaoOperationException {
+    private List<Test> buildTestList(ResultSet resultSet)
+            throws DaoOperationException {
         List<Optional<Test>> tests = new ArrayList<>();
         try {
             while (resultSet.next()) {
@@ -465,7 +405,6 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         return tests.stream()
                 .flatMap(Optional::stream)
                 .collect(Collectors.toList());
-
     }
 
     /**

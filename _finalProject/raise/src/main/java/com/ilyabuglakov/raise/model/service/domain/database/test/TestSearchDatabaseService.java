@@ -23,10 +23,7 @@ public class TestSearchDatabaseService extends DatabaseService {
             throws DaoOperationException {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         List<Test> tests;
-        if (status.equals(TestStatus.NEW))
-            tests = testDao.getNewTests(from, limit);
-        else
-            tests = testDao.getTests(from, limit);
+        tests = testDao.findTests(status, limit, from);
         return tests;
     }
 
