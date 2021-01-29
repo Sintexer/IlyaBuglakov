@@ -17,18 +17,14 @@ let formParameters = {};
 function showSubCategories(select){
     console.log(select.value);
     deleteDefaultOption(select);
-    let subSelectHidden = document.getElementById("subByParent"+select.value);
-    let options = subSelectHidden.querySelectorAll(".childCharacteristic");
-    let subSelect = document.getElementById("childCategories");
-    let node = subSelect.firstChild;
-    while (node){
-        subSelect.removeChild(node);
-        node = subSelect.firstChild;
+    let subSelects = document.querySelectorAll(".subCategorySelect");
+    for(let subSelect of subSelects){
+        subSelect.setAttribute("hidden", "hidden");
     }
-    for(let child of options)
-        subSelect.appendChild(child);
-    subSelect.removeAttribute("disabled");
-    console.log(options);
+    let subSelectHidden = document.getElementById("subByParent"+select.value);
+    // let options = subSelectHidden.querySelectorAll(".childCharacteristic");
+    subSelectHidden.removeAttribute("hidden");
+    console.log(subSelectHidden);
 }
 
 function deleteDefaultOption(select){
@@ -70,13 +66,25 @@ function validate() {
 }
 
 function validateCategory(){
-    let subSelect = document.getElementById("childCategories");
-    if(!subSelect.value){
-        subSelect.parentNode.setAttribute("style", ALERT_STYLE);
-        return false;
-    } else
-        subSelect.parentNode.removeAttribute("style");
-    return true;
+    // let subSelect = document.getElementById("childCategories");
+    let subSelects = document.querySelectorAll(".subCategorySelect");
+    for(let subSelect of subSelects){
+        if(!subSelect.hasAttribute("hidden"))
+            if(subSelect.value){
+                subSelects[0].parentNode.parentNode.removeAttribute("style");
+                console.log(subSelect);
+                return true;
+            }
+
+    }
+    subSelects[0].parentNode.parentNode.setAttribute("style", ALERT_STYLE);
+    return false;
+    // if(!subSelect.value){
+    //     subSelect.parentNode.setAttribute("style", ALERT_STYLE);
+    //     return false;
+    // } else
+    //     subSelect.parentNode.removeAttribute("style");
+    // return true;
 }
 
 function validateTestNode() {
@@ -168,7 +176,7 @@ function validateQuestion(question) {
 
 function createTestObj() {
     let testName = document.getElementsByName("testName")[0].value;
-    let categoryId = document.getElementById("childCategories").value;
+    // let categoryId = document.getElementById("childCategories").value;
     let characteristics = document.getElementsByName("characteristic");
     let checkedCharacteristics = [];
     for (let characteristic of characteristics) {
@@ -185,7 +193,14 @@ function createTestObj() {
     obj["testName"] = testName;
     obj["characteristics"] = checkedCharacteristics;
     obj["questions"] = questionJsons;
-    obj["category"] = {"id":categoryId};
+    let subSelects = document.querySelectorAll(".subCategorySelect");
+    for(let subSelect of subSelects){
+        if(!subSelect.hasAttribute("hidden")){
+            obj["category"] = {"id":subSelect.value};
+            break;
+        }
+    }
+
     return obj;
 }
 

@@ -37,15 +37,18 @@
                     <div class="margin-b-2rem padding-2rem">
                         <span class="font-md"><fmt:message key="test.creator.guide"/></span>
                     </div>
-                    <div class="card-md-resizable items-gap-vertical margin-b-2rem">
+                    <div class="card-md-resizable min-width-45 items-gap-vertical margin-b-2rem">
                         <form class="stack items-gap-vertical">
-                            <span class="flex align-items-center padding-1rem">
-                                <fmt:message key="test.creator.testname"/>:
+                            <div class="padding-1rem">
+                                <span class="flex align-items-center">
+                                    <fmt:message key="test.creator.testname"/>:
+                                </span>
                                 <input class="flex-auto form-input w-auto" type="text" name="testName"
                                        onchange="validateTestNode()"
                                        pattern="^[^\d',.-][^\n_!¡?÷¿\/\\+=@#$%ˆ&*(){}|~<>;:\[\]]{2,}$" required/>
-                            </span>
-                            <div class="items-middle flex flex-wrap padding-1rem" id="characteristics">
+                            </div>
+                            <div class="breakline"></div>
+                            <div class="items-middle flex-wrap padding-1rem" id="characteristics">
                                 <span><fmt:message key="test.creator.characteristics.title"/>: </span>
                                 <c:forEach var="characteristic" items="${characteristics}">
                                     <div>
@@ -68,12 +71,12 @@
                                         </option>
                                     </c:forEach>
                                 </select>
-                                <select id="childCategories" class="w-fit" name="childCategories" disabled>
+                                <%--                                <select id="childCategories" class="w-fit" name="childCategories" disabled>--%>
 
                                 </select>
-                                <div hidden>
+                                <div>
                                     <c:forEach var="parentCategory" items="${categories.keySet()}">
-                                        <select hidden id="subByParent${parentCategory.id}">
+                                        <select class="subCategorySelect" hidden id="subByParent${parentCategory.id}">
                                             <c:forEach var="childCategory" items="${categories.get(parentCategory)}">
                                                 <option class="childCharacteristic"
                                                         value="${childCategory.id}">${childCategory.category}</option>

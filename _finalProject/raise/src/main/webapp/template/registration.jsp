@@ -16,6 +16,8 @@
 <head>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
+    <link type="text/javascript" href="<c:url value="/script/validation.js"/>"/>
+    <script src=<c:url value="/script/validation.js"/>></script>
     <title>Registration</title>
 </head>
 <body>
@@ -43,8 +45,8 @@
     <jsp:include page="${headerPath}"/>
 
     <div class="centered">
-
-            <form class="w-auto form-card card-md items-gap-vertical" method="post" action="<ct:link key="registration"/>">
+        <div class="stack align-items-center">
+            <form class="form-card card-md items-gap-vertical margin-b-2rem" method="post" action="<ct:link key="registration"/>">
                 <div class="text-center font-mdd">
                     <h2 class="form-sign-in-heading"><fmt:message key="signup" bundle="${page}"/></h2>
                 </div>
@@ -119,9 +121,28 @@
                                    required>
                 </div>
 
+                <div class="tooltip rounded-10">
+                    <span class="tooltip-text rounded-10">${passwordTooltipFormatted}</span>
+                    <input onchange="validatePassword('<fmt:message key="error.password.not.match" bundle="${form}"/>')"
+                           type="password"
+                           minlength="${passwordMin}"
+                           maxlength="${passwordMax}"
+                           id="passwordR"
+                           name="passwordR"
+                           class="form-input rounded-10"
+                           placeholder=
+                           <fmt:message key="placeholder.password" bundle="${form}"/>
+                                   required>
+                </div>
+
                 <button class="btn btn-black mg-top-2rem" type="submit"><fmt:message key="button.signup"
-                                                                           bundle="${page}"/></button>
+                                                                                     bundle="${page}"/></button>
             </form>
+            <div class="flex-initial card-md stack jc-center w-100 flex align-items-center items-gap">
+                <h2><fmt:message key="tip.already.signed" bundle="${form}"/></h2>
+                <a class="btn btn-black"><fmt:message key="button.login" bundle="${page}"/></a>
+            </div>
+        </div>
     </div>
 
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>

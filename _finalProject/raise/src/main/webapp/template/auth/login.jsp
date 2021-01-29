@@ -28,6 +28,7 @@
     <jsp:include page="${headerPath}"/>
 
     <div class="centered">
+        <div class="stack">
 
             <form class="w-auto form-card card-md items-gap-vertical" method="post" action="">
                 <div class="text-center font-mdd">
@@ -70,8 +71,13 @@
                 </div>
 
                 <button class="btn btn-black mg-top-2rem" type="submit"><fmt:message key="button.login"
-                                                                           bundle="${page}"/></button>
+                                                                                     bundle="${page}"/></button>
             </form>
+            <div class="flex-initial card-md stack jc-center w-100 flex align-items-center items-gap">
+                <h2><fmt:message key="tip.new.here" bundle="${form}"/></h2>
+                <a class="btn btn-black"><fmt:message key="button.register" bundle="${page}"/></a>
+            </div>
+        </div>
     </div>
 
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>

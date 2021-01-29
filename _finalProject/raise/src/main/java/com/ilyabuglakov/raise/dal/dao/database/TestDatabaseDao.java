@@ -61,46 +61,46 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             EntityColumns.ID.name());
 
     public static final String SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ? LIMIT ? OFFSET ? ORDER BY %s DESC",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
-            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name(),
-            EntityColumns.ID.name());
+            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name()
+            );
 
     public static final String SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?  ORDER BY %s DESC",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
-            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name(),
-            EntityColumns.ID.name());
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name()
+            );
 
     public static final String SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? LIMIT ? OFFSET ?  ORDER BY %s DESC",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
-            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
-            EntityColumns.ID.name());
+            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name()
+            );
 
     public static final String SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? LIMIT ? OFFSET ?  ORDER BY %s DESC",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
-            TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name(),
-            EntityColumns.ID.name());
+            TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name()
+            );
 
     public static final String SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?  ORDER BY %s DESC",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
-            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name(),
-            EntityColumns.ID.name());
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name()
+            );
 
     public static final String UPDATE_STATUS_BY_ID = String.format(
             "UPDATE %s SET %s=? WHERE %s = ?",

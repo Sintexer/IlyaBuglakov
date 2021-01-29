@@ -4,13 +4,20 @@ CREATE TYPE test_status AS ENUM ('NEW', 'CONFIRMED', 'BANNED');
 
 CREATE TABLE usr
 (
-    id                bigserial PRIMARY KEY,
+    id                serial PRIMARY KEY,
     email             varchar(256) NOT NULL UNIQUE,
     name              varchar(40)  NOT NULL,
     surname           varchar(80)  NOT NULL,
     password          varchar(64)  NOT NULL,
     status            status       NOT NULL,
     registration_date DATE         NOT NULL
+);
+
+CREATE TABLE usr_keys
+(
+    id SERIAL PRIMARY KEY,
+    key VARCHAR(256) NOT NULL UNIQUE,
+    user_id INTEGER NOT NULL UNIQUE
 );
 
 

@@ -157,7 +157,7 @@ button {
 
 
 .card-md {
-    width: clamp(23ch, 50%, 46ch);
+    width: 42ch;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -1321,4 +1321,16 @@ button:disabled, button:disabled:hover, button:disabled:active {
 
 .fw-300 {
     font-weight: 300;
+}
+
+.alert * {
+    color: white;
+}
+
+.flex-initial {
+    flex-direction: initial;
+}
+
+.min-width-45 {
+    min-width: 45%;
 }
