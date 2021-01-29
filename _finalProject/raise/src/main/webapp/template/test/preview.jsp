@@ -5,7 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ct" uri="/WEB-INF/customlib.tld" %>
 
-<fmt:setLocale value="${cookie.userLocale.value}" scope="application"/>
+<c:set var="pageLocale" value="${cookie.userLocale.value}" scope="page"/>
+<fmt:setLocale value="${pageLocale}" scope="application"/>
 <fmt:setBundle basename="/locale/page"/>
 <fmt:setBundle basename="/locale/form" var="form"/>
 
@@ -46,7 +47,7 @@
                                 <div class="breakline"></div>
                                 <span><fmt:message key="test.questions.amount"/>: ${fn:length(test.questions)}</span>
                                 <div class="breakline"></div>
-                                <a href="<ct:link key="test.testing"/>?testId=${test.id}" class="btn">
+                                <a href="<ct:link key="test.testing"/>?testId=${test.id}" class="btn btn-black">
                                     <fmt:message key="test.button.testing"/>
                                 </a>
                             </div>
@@ -73,7 +74,7 @@
                         </h2>
 
                         <shiro:authenticated>
-                            <form class="items-gap-vertical" action="<ct:link key="test.post.comment"/>" method="post">
+                            <form class="items-gap-vertical" action="<ct:link key="test.preview"/>" method="post">
                                 <input hidden name="testId" value="${test.id}">
                                 <textarea minlength="5"
                                           maxlength="512"
@@ -81,7 +82,7 @@
                                           class="form-input unresize w-100"
                                           rows="5"
                                           name="comment"></textarea>
-                                <button class="btn btn-yellow w-100">Send</button>
+                                <button class="btn btn-black w-100"><fmt:message key="button.save" /></button>
                             </form>
                         </shiro:authenticated>
                         <c:choose>
@@ -90,11 +91,13 @@
                                     <div class="comment">
                                         <div class="card-md box-100">
                                             <shiro:hasPermission name="comment:delete:*">
-                                            <button type="button" class="btn" onclick="deleteQuestion(${comment.id},
+                                            <button type="button" class="btn btn-black btn-com-del" onclick="deleteQuestion(${comment.id},
                                                 '<ct:link key="rest.delete.comment"/>')">&times;</button>
                                             </shiro:hasPermission>
-                                            <span>${comment.user.name} ${comment.user.surname}</span>
-                                            <span>${comment.timestamp}</span>
+                                            <span class="font-md">${comment.user.name} ${comment.user.surname}</span>
+                                            <span><ct:timestamp locale="${pageLocale}"  timestamp="${comment.timestamp}"/></span>
+                                            <span>
+<%--                                           --%>
                                             <div class="breakline"></div>
                                             <span class="m-t-1rem">${comment.content}</span>
                                         </div>

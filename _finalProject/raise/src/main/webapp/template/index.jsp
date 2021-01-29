@@ -194,8 +194,47 @@
 
 
                 </div>
-                <div class="box-100 centered">
-                    <h3 class="font-mdd">Новые тесты</h3>
+                <div class="box-100 centered margin-b-1rem">
+                    <h3 class="font-mdd"><fmt:message key="landing.new.tests"/></h3>
+                </div>
+                <div class="section bg-none text-black margin-b-2rem">
+                <div class="cards-3">
+                    <c:forEach var="test" items="${newTests}">
+                        <div class="card">
+                            <div class="card-body stack items-gap-vertical">
+                                <a href="<ct:link key="test.preview"/>?testId=${test.id}">${test.testName}</a>
+                                <div class="breakline"></div>
+                                <span><fmt:message key="test.card.difficulty"/>: </span>
+                                <span class="bold">${test.difficulty}</span>
+                                <span><fmt:message key="test.card.questions.amount"/>:</span>
+                                <span class="bold">${test.questionsAmount}</span>
+                                <c:if test="${not empty test.characteristics}">
+                                    <div class="breakline"></div>
+                                    <span><fmt:message key="test.characteristics"/>:</span>
+                                    <c:forEach var="characteristic" items="${test.characteristics}">
+                                        <span>${characteristic}</span>
+                                    </c:forEach>
+                                </c:if>
+                                <div class="breakline"></div>
+                                <span><fmt:message
+                                        key="test.category"/>: ${test.category.category}</span>
+                                <div class="flex-11a"></div>
+                                <div class="breakline"></div>
+
+                                <div><a class="btn btn-black"
+                                        href="<ct:link key="test.preview"/>?testId=${test.id}"><fmt:message
+                                        key="test.card.button.view"/></a></div>
+
+                            </div>
+                            <div class="card-footer">
+                                <span>author:</span>
+                                <a href="<ct:link key="user.profile"/>?userId=${test.author.id}">
+                                        ${test.author.name} ${test.author.surname}
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
                 </div>
             </div>
             <div class="breakline"></div>

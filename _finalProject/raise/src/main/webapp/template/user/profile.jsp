@@ -21,7 +21,7 @@
 
 
     <main class="main">
-        <div class="main-head">
+        <div class="main-head bg-black">
             <div class="section bg-none block">
                 <div class="head-info">
                     <h2 class="bold font-lg">${userParameters.user.name} ${userParameters.user.surname}</h2>
@@ -45,7 +45,7 @@
         </div>
         <c:if test="${isOwner}">
             <div>
-                <div class="user-profile-actions section">
+                <div class="user-profile-actions section bg-primary-dark">
                     <a href="<ct:link key="user.profile.change"/>" class="btn"><fmt:message key="button.profile.edit"/></a>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                         <div class="font-mdd margin-b-1rem">
                             <span>${userCharacteristic.characteristic}: </span><span class="bold">${userCharacteristic.score}</span>
                         </div>
-                        <span>Mem memwemr mfmw mfmgkdm kmk mfghmgfmhi mfih dfihmdfihm idfmhi dfih fihm fihmdifhm idfmh </span>
+                        <span><fmt:message key="${userCharacteristic.characteristic}" /></span>
                     </div>
                 </c:forEach>
             </div>

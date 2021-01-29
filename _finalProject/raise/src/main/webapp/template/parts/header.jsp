@@ -33,7 +33,7 @@
                     <a href="<ct:link key="profile"/>"><fmt:message key="link.profile"/></a>
                 </shiro:authenticated>
                 <shiro:hasPermission name="admin:*">
-                    <a class="btn btn-yellow" href="<ct:link key="admin.test.catalog"/>"><fmt:message key="link.admin.catalog"/></a>
+                    <a class="btn btn-black" href="<ct:link key="admin.test.catalog"/>"><fmt:message key="link.admin.catalog"/></a>
                 </shiro:hasPermission>
 
             </div>
@@ -55,7 +55,7 @@
 
     <div class="modal-content card-mk">
         <div class="modal-header bold">
-            <h2 class="margin-right-auto"><fmt:message key="title.modal.lang"/></h2>
+            <h2 class="margin-right-auto font-weight: 300;"><fmt:message key="title.modal.lang"/></h2>
             <span class="close-btn" onclick="closeModal('langModal')">&times;</span>
         </div>
         <div class="items-gap dec-pancake bold">

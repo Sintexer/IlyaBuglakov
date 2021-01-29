@@ -86,7 +86,7 @@
                             <div class="breakline"></div>
                             <div class="stack items-gap-vertical" id="questions">
                             </div>
-                            <button class="btn btn-yellow margin-b-2rem" type="button"
+                            <button class="btn btn-black margin-b-2rem" type="button"
                                     onclick="addQuestion(this, '<fmt:message key="test.creator.question.title"/>',
                                             '<fmt:message key="test.creator.button.add.answer"/>',
                                             '<fmt:message key="test.creator.button.correct"/>',
@@ -96,7 +96,7 @@
                                 <fmt:message key="test.creator.button.add.question"/>
                             </button>
                             <div class="breakline"></div>
-                            <button class="btn margin-y-1rem" type="button" onclick="sendResult()">
+                            <button class="btn btn-black margin-y-1rem" type="button" onclick="sendResult()">
                                 <fmt:message key="test.creator.button.save.test"/>
                             </button>
                         </form>
@@ -120,7 +120,7 @@
             <div class="items-gap dec-pancake bold">
                 <form method="post" class="flex" action="/test/save">
                     <input type="hidden" name="testJson" id="testJson">
-                    <button type="submit" class="btn"><fmt:message key="button.save"/></button>
+                    <button type="submit" class="btn btn-black"><fmt:message key="button.save"/></button>
                     <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testPostModal')">
                         <fmt:message key="button.cancel"/></button>
                 </form>

@@ -64,7 +64,7 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "admin.test.catalog", new NewTestsCatalogGetCommand());
         addCommand(RequestMethod.POST, "rest.confirm.test", new ConfirmTestCommand());
         addCommand(RequestMethod.POST, "rest.ban.test", new BanTestCommand());
-        addCommand(RequestMethod.POST, "test.post.comment", new CommentPostCommand());
+        addCommand(RequestMethod.POST, "test.preview", new CommentPostCommand());
         addCommand(RequestMethod.POST, "rest.delete.comment", new DeleteCommentCommand());
 
     }

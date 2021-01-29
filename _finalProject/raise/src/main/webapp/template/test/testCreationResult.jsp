@@ -58,9 +58,9 @@
                                 <fmt:message key="error.test.limit"/>
                             </c:if>
                         </div>
-                        <a class="btn" href="<ct:link key="test.creator"/>"><fmt:message key="link.back.test.creator"/></a>
+                        <a class="btn btn-black" href="<ct:link key="test.creator"/>"><fmt:message key="link.back.test.creator"/></a>
                     </c:if>
-                    <a class="btn" href="<ct:link key="test.catalog"/>"><fmt:message key="link.back.test.catalog"/></a>
+                    <a class="btn btn-black" href="<ct:link key="test.catalog"/>"><fmt:message key="link.back.test.catalog"/></a>
                 </div>
             </div>
         </div>

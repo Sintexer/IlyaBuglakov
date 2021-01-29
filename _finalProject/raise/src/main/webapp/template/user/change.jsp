@@ -59,7 +59,7 @@
             </div>
         </c:if>
 
-        <div class="main-head">
+        <div class="main-head bg-black">
             <div class="section bg-none block">
                 <div class="head-info">
                     <h2 class="bold font-lg">${userParameters.user.name} ${userParameters.user.surname}</h2>
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="section padding-0">
-            <div class="user-profile-form user-profile-actions section centered">
+            <div class="user-profile-form bg-none text-black user-profile-actions section centered">
                 <form class="stack w-fit" action="<ct:link key="user.profile.change.save"/>" method="post">
                     <span class="margin-b-1rem font-md color-white"><fmt:message key="user.info" bundle="${form}"/></span>
                     <div class="dec-pancake items-gap items-gap-vertical margin-b-1rem jc-left">
@@ -145,7 +145,7 @@
                             <fmt:message key="placeholder.password.repeat" bundle="${form}"/>>
                         </div>
                     </div>
-                    <button class="btn w-auto m-x-1rem"><fmt:message key="button.save.changes" bundle="${form}"/></button>
+                    <button class="btn btn-black w-auto m-x-1rem"><fmt:message key="button.save.changes" bundle="${form}"/></button>
                 </form>
 
             </div>

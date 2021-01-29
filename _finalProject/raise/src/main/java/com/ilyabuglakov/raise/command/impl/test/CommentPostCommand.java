@@ -79,7 +79,8 @@ public class CommentPostCommand extends Command {
             response.sendError(404);
             return null;
         }
-        responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.preview"));
+        responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("test.preview") + "?testId="+test.getId());
+        responseEntity.setRedirect(true);
         return responseEntity;
     }
 }

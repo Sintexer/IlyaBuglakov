@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-//TODO add  objects
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)

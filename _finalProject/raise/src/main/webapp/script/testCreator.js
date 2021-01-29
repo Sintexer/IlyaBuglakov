@@ -390,7 +390,7 @@ function createQuestionHeader(deleteQuestionText) {
 
 function createAddAnswerButton(addAnswerButtonName) {
     let addAnswerButton = document.createElement("button");
-    addAnswerButton.setAttribute("class", "btn btn-yellow margin-auto add-answer-button");
+    addAnswerButton.setAttribute("class", "btn btn-black margin-auto add-answer-button");
     addAnswerButton.setAttribute("type", "button");
     addAnswerButton.setAttribute("onclick", "addAnswer(this, 'correct')")
     addAnswerButton.innerHTML = addAnswerButtonName;

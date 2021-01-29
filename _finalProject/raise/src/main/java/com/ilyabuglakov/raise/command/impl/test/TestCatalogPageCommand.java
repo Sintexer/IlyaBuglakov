@@ -34,7 +34,7 @@ public class TestCatalogPageCommand extends Command {
         ResponseEntity responseEntity = new ResponseEntity();
 
         String pageNumber = request.getParameter("pageNumber");
-        
+
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
         TestCategoryService testCategoryService = (TestCategoryService) serviceFactory.createService(ServiceType.TEST_CATEGORY);
         PageInfoDto pageInfoDto = CatalogService.getPageInfo(
