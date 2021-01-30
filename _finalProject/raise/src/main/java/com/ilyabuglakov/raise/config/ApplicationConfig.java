@@ -84,4 +84,8 @@ public class ApplicationConfig {
         }
     }
 
+    public static void closeConnectionPool(){
+        ConnectionPoolFactory.close();
+    }
+
 }

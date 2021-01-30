@@ -7,4 +7,5 @@ public interface TransactionFactory {
     Transaction createTransaction() throws TransactionCreationException;
 
     void close();
+    void rollback();
 }

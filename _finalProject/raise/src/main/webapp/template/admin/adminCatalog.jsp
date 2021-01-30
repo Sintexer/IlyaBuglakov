@@ -11,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raise</title>
+    <title><fmt:message key="title.admin.pane"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 
 </head>

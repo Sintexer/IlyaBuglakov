@@ -18,7 +18,7 @@
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/validation.js"/>"/>
     <script src=<c:url value="/script/validation.js"/>></script>
-    <title>Registration</title>
+    <title><fmt:message key="title.registration"/></title>
 </head>
 <body>
 

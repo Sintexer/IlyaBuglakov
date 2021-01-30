@@ -15,7 +15,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head onload="initScript(256, 256, 512, 512, 3)">
-    <title>Raise</title>
+    <title><fmt:message key="title.test.creator"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/testCreator.js"/>"/>
     <script src=<c:url value="/script/testCreator.js"/>></script>

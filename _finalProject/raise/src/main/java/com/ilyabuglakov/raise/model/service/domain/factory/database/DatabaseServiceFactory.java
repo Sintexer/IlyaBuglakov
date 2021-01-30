@@ -42,6 +42,11 @@ public class DatabaseServiceFactory implements ServiceFactory {
         transactionFactory.close();
     }
 
+    @Override
+    public void rollback() {
+        transactionFactory.rollback();
+    }
+
     @FunctionalInterface
     private interface DatabaseServiceProducer {
         Service create(Transaction transaction);

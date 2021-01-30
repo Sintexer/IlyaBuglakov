@@ -30,4 +30,9 @@ public class DatabaseCommandManager implements CommandManager {
     public void close() {
         serviceFactory.close();
     }
+
+    @Override
+    public void rollback() {
+        serviceFactory.rollback();
+    }
 }

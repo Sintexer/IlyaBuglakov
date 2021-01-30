@@ -12,7 +12,7 @@
 <head>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <meta charset="UTF-8">
-    <title><fmt:message key="error.title"/></title>
+    <title>Error <fmt:message key="error.title"/></title>
 </head>
 <body>
 <div class="page">
@@ -35,7 +35,7 @@
                         ${errorMessage}
                     </h2>
                     </c:if>
-                    <a class="btn" href='<ct:link key="root"/>'><fmt:message key="link.home"/></a>
+                    <a class="btn btn-black" href='<ct:link key="root"/>'><fmt:message key="link.home"/></a>
                 </div>
 
             </div>

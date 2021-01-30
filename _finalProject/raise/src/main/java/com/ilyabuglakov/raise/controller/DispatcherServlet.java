@@ -38,6 +38,11 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        ApplicationConfig.closeConnectionPool();
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("Entered get");
         processCommand(req, resp);
@@ -59,21 +64,22 @@ public class DispatcherServlet extends HttpServlet {
 
     private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<Command> command = extractCommand(req);
+        CommandManager commandManager= CommandManagerFactory.getCommandManager(getServiceFactory());
         try {
-
             if (command.isPresent()) {
                 req.setAttribute("locales", Arrays.asList(LocaleType.values()));
-                CommandManager commandManager = CommandManagerFactory.getCommandManager(getServiceFactory());
                 ResponseEntity responseEntity = commandManager.execute(command.get(), req, resp);
                 commandManager.close();
                 if (responseEntity != null)
                     processResponseEntity(responseEntity, req, resp);
             } else {
+                commandManager.rollback();
                 resp.sendError(404);
             }
 
         } catch (CommandException | PersistentException e) {
             log.error(e);
+            commandManager.rollback();
             resp.sendError(500);
         }
     }

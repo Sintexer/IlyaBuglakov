@@ -11,7 +11,8 @@ public enum Tables {
     USER_TEST_RESULT,
     TEST_COMMENT,
     TEST_CHARACTERISTIC,
-    TEST_CATEGORY;
+    TEST_CATEGORY,
+    USR_KEY;
 
     String getName() {
         return name().toLowerCase();

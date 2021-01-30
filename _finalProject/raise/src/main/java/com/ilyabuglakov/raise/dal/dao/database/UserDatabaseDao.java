@@ -4,9 +4,11 @@ import com.ilyabuglakov.raise.dal.dao.DatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.domain.User;
+import com.ilyabuglakov.raise.domain.UsrKey;
 import com.ilyabuglakov.raise.domain.structure.Tables;
 import com.ilyabuglakov.raise.domain.structure.columns.EntityColumns;
 import com.ilyabuglakov.raise.domain.structure.columns.UserColumns;
+import com.ilyabuglakov.raise.domain.structure.columns.UsrKeyColumns;
 import com.ilyabuglakov.raise.domain.type.Status;
 import com.ilyabuglakov.raise.model.service.validator.ResultSetValidator;
 
@@ -15,8 +17,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -61,6 +65,28 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             EntityColumns.ID.name(), UserColumns.NAME.name(), UserColumns.SURNAME.name(),
             Tables.USR.name(),
             EntityColumns.ID.name());
+
+    public static final String INSERT_KEY = String.format(
+            "INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+            Tables.USR_KEY.name(),
+            UsrKeyColumns.KEY.name(), UsrKeyColumns.USER_ID.name(), UsrKeyColumns.TIMESTAMP.name());
+
+    public static final String SELECT_KEY = String.format(
+            "SELECT %s, %s, %s FROM %s WHERE %s = ?",
+            UsrKeyColumns.KEY.name(), UsrKeyColumns.USER_ID.name(), UsrKeyColumns.TIMESTAMP.name(),
+            Tables.USR_KEY.name(),
+            UsrKeyColumns.KEY.name());
+
+    public static final String UPDATE_STATUS_BY_ID = String.format(
+            "UPDATE %s SET %s = ? WHERE %s = ?",
+            Tables.USR.name(),
+            UserColumns.STATUS.name(),
+            EntityColumns.ID.name());
+
+    public static final String DELETE_KEY = String.format(
+            "DELETE FROM %s WHERE %s = ?",
+            Tables.USR_KEY.name(),
+            UsrKeyColumns.KEY.name());
 
     public UserDatabaseDao(Connection connection) {
         super(connection);
@@ -148,6 +174,70 @@ public class UserDatabaseDao extends DatabaseDao implements UserDao {
             }
         }
         return userOptional;
+    }
+
+    @Override
+    public void createKey(String key, Integer userId, LocalDateTime timestamp) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(INSERT_KEY);
+        try {
+            statement.setString(1, key);
+            statement.setInt(2, userId);
+            statement.setTimestamp(3, Timestamp.valueOf(timestamp));
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public Optional<UsrKey> findKey(String key) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(SELECT_KEY);
+        try {
+            statement.setString(1, key);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        Optional<ResultSet> resultSet = unpackResultSet(createResultSet(statement));
+        Optional<UsrKey> optionalKey = Optional.empty();
+        try {
+            if (resultSet.isPresent()) {
+                optionalKey = Optional.of(UsrKey.builder()
+                        .key(resultSet.get().getString(UsrKeyColumns.KEY.name()))
+                        .userId(resultSet.get().getInt(UsrKeyColumns.USER_ID.name()))
+                        .timestamp(resultSet.get().getTimestamp(UsrKeyColumns.TIMESTAMP.name()).toLocalDateTime())
+                        .build());
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't get key", e);
+        }
+        return optionalKey;
+    }
+
+    @Override
+    public void updateStatus(Integer id, Status status) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(UPDATE_STATUS_BY_ID);
+        try {
+            statement.setObject(1, status, Types.OTHER);
+            statement.setInt(2, id);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        executeUpdateQuery(statement);
+    }
+
+    @Override
+    public void deleteKey(String key) throws DaoOperationException {
+        PreparedStatement statement = prepareStatement(DELETE_KEY);
+        try {
+            statement.setString(1, key);
+        } catch (SQLException e) {
+            closeStatement(statement);
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        executeUpdateQuery(statement);
     }
 
     private void setAllStatementParameters(User user, PreparedStatement statement) throws DaoOperationException {

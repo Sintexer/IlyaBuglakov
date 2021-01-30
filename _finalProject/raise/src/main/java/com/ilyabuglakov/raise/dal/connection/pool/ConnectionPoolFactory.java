@@ -20,4 +20,8 @@ public class ConnectionPoolFactory {
         return getInstance().connectionPool;
     }
 
+    public static void close(){
+        getConnectionPool().destroy();
+    }
+
 }

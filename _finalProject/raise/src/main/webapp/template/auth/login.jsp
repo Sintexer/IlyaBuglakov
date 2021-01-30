@@ -16,7 +16,7 @@
 <head>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
-    <title>Registration</title>
+    <title><fmt:message key="title.login"/></title>
 </head>
 <body>
 

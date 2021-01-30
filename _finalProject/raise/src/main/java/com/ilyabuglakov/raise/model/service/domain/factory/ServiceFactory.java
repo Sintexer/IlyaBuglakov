@@ -9,4 +9,5 @@ public interface ServiceFactory {
 
     void close();
 
+    void rollback();
 }

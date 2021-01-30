@@ -13,11 +13,11 @@ CREATE TABLE usr
     registration_date DATE         NOT NULL
 );
 
-CREATE TABLE usr_keys
+CREATE TABLE usr_key
 (
-    id SERIAL PRIMARY KEY,
-    key VARCHAR(256) NOT NULL UNIQUE,
-    user_id INTEGER NOT NULL UNIQUE
+    key VARCHAR(64) PRIMARY KEY,
+    user_id INTEGER NOT NULL UNIQUE,
+    timestamp TIMESTAMP NOT NULL
 );
 
 

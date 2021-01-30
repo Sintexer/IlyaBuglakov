@@ -41,4 +41,15 @@ public class DatabaseTransactionFactory implements TransactionFactory {
             }
         }
     }
+
+    @Override
+    public void rollback() {
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error("Error while closing transaction", e);
+            }
+        }
+    }
 }

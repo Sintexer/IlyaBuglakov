@@ -9,6 +9,7 @@ import com.ilyabuglakov.raise.model.service.domain.UserRegistrationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,10 +41,17 @@ public class RegistrationPostCommand extends Command {
         UserRegistrationService userRegistrationService =
                 (UserRegistrationService) serviceFactory.createService(ServiceType.USER_REGISTRATION);
 
-        ResponseEntity responseEntity = userRegistrationService.registerUser(user);
+        ResponseEntity responseEntity = null;
+        try {
+            responseEntity = userRegistrationService.registerUser(user);
+        } catch (MessagingException e) {
+            response.sendError(500);
+            return null;
+        }
+
         if (!responseEntity.isErrorOccurred()) {
             responseEntity.setRedirect(true);
-            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
+            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("auth.confirm.email"));
         } else{
             responseEntity.setAttribute("emailPrevVal", user.getEmail());
             responseEntity.setAttribute("namePrevVal", user.getName());

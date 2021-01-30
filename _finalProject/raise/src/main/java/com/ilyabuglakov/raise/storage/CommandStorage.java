@@ -6,6 +6,8 @@ import com.ilyabuglakov.raise.command.impl.index.IndexGetCommand;
 import com.ilyabuglakov.raise.command.impl.localization.ChangeLocalizationCommand;
 import com.ilyabuglakov.raise.command.impl.login.LoginGetCommand;
 import com.ilyabuglakov.raise.command.impl.login.LoginPostCommand;
+import com.ilyabuglakov.raise.command.impl.registration.ConfirmAccountCommand;
+import com.ilyabuglakov.raise.command.impl.registration.ConfirmCheckEmailGetCommand;
 import com.ilyabuglakov.raise.command.impl.registration.RegistrationGetCommand;
 import com.ilyabuglakov.raise.command.impl.registration.RegistrationPostCommand;
 import com.ilyabuglakov.raise.command.impl.rest.BanTestCommand;
@@ -66,6 +68,8 @@ public class CommandStorage {
         addCommand(RequestMethod.POST, "rest.ban.test", new BanTestCommand());
         addCommand(RequestMethod.POST, "test.preview", new CommentPostCommand());
         addCommand(RequestMethod.POST, "rest.delete.comment", new DeleteCommentCommand());
+        addCommand(RequestMethod.GET, "auth.confirm", new ConfirmAccountCommand());
+        addCommand(RequestMethod.GET, "auth.confirm.email", new ConfirmCheckEmailGetCommand());
 
     }
 
