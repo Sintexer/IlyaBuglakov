@@ -22,7 +22,7 @@ user profile.
 
 ___
 
-### General info
+## General info
 
 Time for passing the test is not limited. After the end of testing user will see its result and 
 questions, where he made a mistake. Even semi-correct answers can bring points.
@@ -51,3 +51,21 @@ is known from subjects roles set. Each role has specified suite of permissions.
     see all new tests and confirm or ban them. 
   - Status of test created by an admin
     is 'CONFIRMED' by default. 
+
+## Technologies
+
+There is list of technologies used in project:
+- [Java 14]()
+- [Maven]() - Project build tool
+- [Java EE]() - Java Servlet, JSP(Java server pages)
+- [Tomcat]() - Servlet container
+- [PostgreSQL]() - OpenSource SQL database
+- [JDBC]() - Java Database Connectivity API
+- [JSTL]() - Library for JSP
+- [TestNG]() - Test framework
+- [Mockito]() - Mocks framework, useful for testing
+- [Apache Shiro]() - Simple permission-based authentication framework
+- [JavaMail]() - Java mail API
+- [GSON]() - Google JSON parser
+- [Lombock]() - 
+- [Log4j2]() - Logging library
