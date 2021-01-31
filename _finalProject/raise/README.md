@@ -95,7 +95,8 @@ from `/sql` folder:
 For build, you should start maven in project root directory and build `war` file 
 using maven war plugin. This plugin dependency is specified in `pom.xml`: `<packaging>war</packaging>`.
 
-`mvn war:war`
+`mvn compile war:war
+`
 
 Now `raise.war` will appear in project target directory. You should move that
 archive to the Tomcat `/webapps` folder.
@@ -174,5 +175,5 @@ There is list of technologies used in project:
 - [Apache Shiro]() - Simple permission-based authentication framework
 - [JavaMail]() - Java mail API
 - [GSON]() - Google JSON parser
-- [Lombock]() - 
+- [Lombock]() - Library for data class simplification and more
 - [Log4j2]() - Logging library
