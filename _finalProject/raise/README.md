@@ -4,6 +4,21 @@ Raise is a service aimed to improve everyday user experience in the sphere of st
 knowledge acquisition.
 
 ## Table of contents
+1. [Introduction](#Introduction)
+2. [General info](#General-info)
+    - [Roles](#Roles)
+3. [Showcase](#Showcase)
+4. [Requirements](#Requirements)
+5. [Build](#Build)
+6. [Testing](#Testing)
+7. [Usage](#Usage)
+    - [Prepared accounts](#Prepared-accounts)
+    - [Changing the locale](#Changing-locale)
+    - [Passing test](#Passing-test)
+    - [Creating test](#Creating-test)
+    - [Administrating the application](#Administrating-the-application)
+7. [Database structure](#Database-structure)
+7. [Technologies](#Technologies)
 ___
 ## Introduction
 Raise is a service where you can either create or pass tests. Community created content
@@ -31,7 +46,7 @@ Subject rights in applications are specified by the set of permissions. For exam
 to confirm the test, you must have "confirm:test" permission. Subject permissions set
 is known from subjects roles set. Each role has specified suite of permissions. 
 
-#### Roles:
+#### Roles
 - Guest 
     - Can pass tests, but result won't be saved. 
     - Can view comments and user profiles.
@@ -77,18 +92,18 @@ from `/sql` folder:
 - `4_fill_tables.sql` - will fill raise_db tables with some content, such as superuser,
   test categories and directly by tests.
 
-For build, you should start maven in project root directory and build `war` file.
+For build, you should start maven in project root directory and build `war` file 
+using maven war plugin. This plugin dependency is specified in `pom.xml`: `<packaging>war</packaging>`.
 
-`mvn clean install`
+`mvn war:war`
 
 Now `raise.war` will appear in project target directory. You should move that
 archive to the Tomcat `/webapps` folder.
 
 After that, you need to start application server using Tomcat and access it through
 web browser.
-
-## Testing
 ___
+## Testing
 
 Some tests require test database. So, if you need to run project tests, create
 raise_test_db by scripts from `/sql/test_db` folder.
@@ -97,15 +112,52 @@ After creating and filling this database, nothing can stop you from running test
 
 ___
 ## Usage
+After running webapp in Tomcat container, you can start using application. 
+To start, you can register or try to pass tests without authorization. If you choose
+to register, then click on `Sign up` button at the top-right corner and fill up the
+registration form. After sending a form, you must confirm your email. Todo so, follow
+the link from your email inbox. Maybe check spam folder. After that, simply login in 
+to your new account.
 
+If you don't want to register, you can log in to any of prepared accounts. 
 
+### Prepared accounts
+To log in 
+as **admin** try email: `admin@gmail.com` with password: `121212`.
 
+To log in as simple user, 
+try email:`user@gmail.com` and password:`121212`.
+
+### Changing locale
+Raise application is localized to **English US**, **Russian** and **Swedish**. You can 
+change locale anytime by clicking on the globe button at right side of navbar. Then choose 
+preferred language in the modal window.
+
+### Passing test
+To past the test you first need to choose it. You can view all the tests in the catalog.
+Link to catalog is signed as `Tests` at the navbar. When choose a test, 
+first you will see test preview there are described some test parameters and comment 
+section also will be here. To start testing, click `Start testing` button.
+
+After finishing the test, you will see test result page. If you are authenticated, your
+results also will be saved.
+
+### Creating test
+To create test, follow to the constructor by clicking `Constructor` link at the navbar.
+There you can dynamically form test. When test is complete, submit it and wait until 
+an admin confirm it.
+
+### Administrating the application
+If you have admin permissions, then `Admin panel` button will appear at your nav. At the
+admin panel page you can confirm or ban new tests. Admin panel provides some information
+about each test, such as questions amount and questions names. 
+You also can view each test to check all the information.
 
 
 
 ___
 ## Database structure
-
+![db_structure.png](readme/db_structure.png)
 ___
 ## Technologies
 
