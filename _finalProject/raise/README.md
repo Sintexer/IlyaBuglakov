@@ -70,8 +70,8 @@ is known from subjects roles set. Each role has specified suite of permissions.
 ___
 ## Showcase
 
-![landing.png](readme/landing-sm.png)
 ![landing.png](readme/admin-sm.png)
+![landing.png](readme/landing-sm.png)
 ![landing.png](readme/catalog-sm.png)
 ![landing.png](readme/profile-sm.png)
 ![landing.png](readme/creator-sm.png)
