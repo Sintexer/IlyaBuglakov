@@ -50,8 +50,63 @@ is known from subjects roles set. Each role has specified suite of permissions.
   - Has access to 'admin panel', where he can
     see all new tests and confirm or ban them. 
   - Status of test created by an admin
-    is 'CONFIRMED' by default. 
+    is 'CONFIRMED' by default.
+    
+___
+## Showcase
 
+
+___
+## Requirements
+
+To run this project you will need:
+- Java 14 or higher
+- PostgreSQL database
+- Maven - for building sources
+- Tomcat - for starting server
+
+Other dependencies will be downloaded by maven
+___
+## Build
+
+First you need to install and start PostgreSQL server. Then you should run sql scripts
+from `/sql` folder:
+- `1_drop_database.sql` - will drop raise_db if it exists
+- `2_create_database.sql` - will create the raise_db and its user
+- `3_create_tables.sql` - will fill raise_db with tables and enums
+- `4_fill_tables.sql` - will fill raise_db tables with some content, such as superuser,
+  test categories and directly by tests.
+
+For build, you should start maven in project root directory and build `war` file.
+
+`mvn clean install`
+
+Now `raise.war` will appear in project target directory. You should move that
+archive to the Tomcat `/webapps` folder.
+
+After that, you need to start application server using Tomcat and access it through
+web browser.
+
+## Testing
+___
+
+Some tests require test database. So, if you need to run project tests, create
+raise_test_db by scripts from `/sql/test_db` folder.
+
+After creating and filling this database, nothing can stop you from running tests.
+
+___
+## Usage
+
+
+
+
+
+
+___
+## Database structure
+
+___
 ## Technologies
 
 There is list of technologies used in project:
