@@ -4,6 +4,7 @@ import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
+import com.ilyabuglakov.raise.model.dto.CatalogTestsDto;
 import com.ilyabuglakov.raise.model.dto.TestDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
 import com.ilyabuglakov.raise.model.dto.TestResultDto;
@@ -26,7 +27,7 @@ public interface TestService extends Service {
 
     Optional<Test> getTest(Integer id) throws PersistentException;
 
-    List<TestInfo> findBySearchParameters(TestSearchParametersDto searchParametersDto) throws PersistentException;
+    CatalogTestsDto findBySearchParameters(TestSearchParametersDto searchParametersDto) throws PersistentException;
 
     List<TestInfo> getTestInfosByStatus(TestStatus status, int limit, int from) throws PersistentException;
 

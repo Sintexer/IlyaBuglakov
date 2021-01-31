@@ -5,6 +5,7 @@ import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 
 public interface UserRegistrationService {
 

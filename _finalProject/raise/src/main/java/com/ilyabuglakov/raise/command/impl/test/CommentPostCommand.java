@@ -50,36 +50,39 @@ public class CommentPostCommand extends Command {
         TestCommentService testCommentService = (TestCommentService) serviceFactory.createService(ServiceType.TEST_COMMENT);
         testCommentService.saveComment(comment, testId.get(), authService.getEmail());
 
-        PageInfoDto pageInfoDto = CatalogService.getPageInfo(
-                request.getParameter("pageNumber"),
-                testCommentService.getCommentsAmount(testId.get()),
-                Integer.parseInt(ApplicationProperties.getProperty("comments.page.items")));
-        if(pageInfoDto.isIllegal()){
-            log.debug(() ->"Illegal page " + pageInfoDto);
-            response.sendError(404);
-            return null;
-        }
-
-        List<TestComment> comments = testCommentService.getComments(
-                testId.get(),
-                pageInfoDto.getCurrentPageIndex(),
-                pageInfoDto.getItemsPerPage());
+//        PageInfoDto pageInfoDto = CatalogService.getPageInfo(
+//                request.getParameter("pageNumber"),
+//                testCommentService.getCommentsAmount(testId.get()),
+//                Integer.parseInt(ApplicationProperties.getProperty("comments.page.items")));
+//        if(pageInfoDto.isIllegal()){
+//            log.debug(() ->"Illegal page " + pageInfoDto);
+//            response.sendError(404);
+//            return null;
+//        }
+//
+//        List<TestComment> comments = testCommentService.getComments(
+//                testId.get(),
+//                pageInfoDto.getCurrentPageIndex(),
+//                pageInfoDto.getItemsPerPage());
+//        ResponseEntity responseEntity = new ResponseEntity();
+//
+//        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
+//        Test test = testService.getTest(testId.get()).orElseThrow(PersistentException::new);
+//
+//        responseEntity.setAttribute("comments", comments);
+//        responseEntity.setAttribute("test", test);
+//        responseEntity.setAttribute("currentPage", pageInfoDto.getCurrentPage());
+//        responseEntity.setAttribute("maxPage", pageInfoDto.getMaxPage());
+//
+//        if (test.getStatus() != TestStatus.CONFIRMED
+//                && !SecurityUtils.getSubject().isPermitted("test:confirm")) {
+//            response.sendError(404);
+//            return null;
+//        }
         ResponseEntity responseEntity = new ResponseEntity();
-
-        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
-        Test test = testService.getTest(testId.get()).orElseThrow(PersistentException::new);
-
-        responseEntity.setAttribute("comments", comments);
-        responseEntity.setAttribute("test", test);
-        responseEntity.setAttribute("currentPage", pageInfoDto.getCurrentPage());
-        responseEntity.setAttribute("maxPage", pageInfoDto.getMaxPage());
-
-        if (test.getStatus() != TestStatus.CONFIRMED
-                && !SecurityUtils.getSubject().isPermitted("test:confirm")) {
-            response.sendError(404);
-            return null;
-        }
-        responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("test.preview") + "?testId="+test.getId());
+        responseEntity.setLink(
+                PropertiesStorage.getInstance().getLinks().getProperty("test.preview")
+                + "?testId="+testId.get());
         responseEntity.setRedirect(true);
         return responseEntity;
     }

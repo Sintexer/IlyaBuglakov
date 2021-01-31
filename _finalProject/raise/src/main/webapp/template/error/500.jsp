@@ -21,7 +21,7 @@
         <div class="centered error-msg">
             <h2 class="error-code">500</h2>
             <h2><fmt:message key="error.500"/></h2>
-            <a class="btn black" href="<ct:link key="root"/>"><fmt:message key="link.back.main"/></a>
+            <a class="btn btn-black" href="<ct:link key="root"/>"><fmt:message key="link.back.main"/></a>
         </div>
     </main>
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>

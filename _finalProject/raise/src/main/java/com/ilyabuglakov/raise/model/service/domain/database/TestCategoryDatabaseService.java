@@ -29,6 +29,7 @@ public class TestCategoryDatabaseService extends DatabaseService implements Test
                 .filter(tc -> tc.getParent()!=null)
                 .collect(Collectors.groupingBy(tc -> tc.getParent().getId()));
         return parentCategories.stream()
+                .filter(pc -> testCategoryMap.get(pc.getId()) != null)
                 .collect(Collectors.toMap(Function.identity(), pc -> testCategoryMap.get(pc.getId())));
     }
 

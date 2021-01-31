@@ -14,6 +14,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
+    <link rel="favicon" href="<c:url value="/favicon.ico"/>" />
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/validation.js"/>"/>

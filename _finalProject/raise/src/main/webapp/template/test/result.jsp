@@ -28,7 +28,7 @@
                     <h1 class="page-title"><fmt:message key="test.testing.result.title"/></h1>
                     <div class="breakline"></div>
                     <div class="w-fit items-gap-vertical">
-                        <a href="<ct:link key="test.catalog"/>" class="btn"><fmt:message key="button.go.test.catalog"/></a>
+                        <a href="<ct:link key="test.catalog"/>" class="btn btn-black"><fmt:message key="button.go.test.catalog"/></a>
                     </div>
                     <div class="card-lg items-gap-vertical margin-b-2rem m-x-auto">
                         <div class="stack">

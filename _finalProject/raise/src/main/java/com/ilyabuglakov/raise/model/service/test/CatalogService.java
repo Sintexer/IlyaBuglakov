@@ -6,10 +6,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CatalogService {
 
-    private static boolean isIllegalPage(int currentPage, int maxPage) {
-        return currentPage <= 0 && currentPage > maxPage;
-    }
-
     public static int getMaxPage(int testAmount, int itemsPerPage) {
         testAmount = Math.max(testAmount, 1);
         return (int) Math.ceil((double) (testAmount) / itemsPerPage);
@@ -29,7 +25,7 @@ public class CatalogService {
         try {
             return getPageInfo(getPageNumber(currentPage), itemsAmount, itemsPerPage);
         } catch (NumberFormatException e) {
-            return PageInfoDto.builder().isIllegal(true).build();
+            return PageInfoDto.builder().build();
         }
     }
 
@@ -40,7 +36,6 @@ public class CatalogService {
                 .itemsAmount(itemsAmount)
                 .itemsPerPage(itemsPerPage)
                 .maxPage(maxPage)
-                .isIllegal(isIllegalPage(currentPage, maxPage))
                 .build();
     }
 }

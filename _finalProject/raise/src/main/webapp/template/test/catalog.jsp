@@ -74,10 +74,11 @@
 
                         <div class="breakline"></div>
 
+                        <c:url value="/template/parts/buttonPagination.jsp" var="topPagination"/>
+                        <jsp:include page="${topPagination}"/>
                         <c:choose>
                             <c:when test="${not empty tests}">
-                                <c:url value="/template/parts/buttonPagination.jsp" var="topPagination"/>
-                                <jsp:include page="${topPagination}"/>
+
                                 <div class="cards">
                                     <c:forEach var="test" items="${tests}">
                                         <div class="card">
@@ -115,8 +116,7 @@
                                         </div>
                                     </c:forEach>
                                 </div>
-                                <c:url value="/template/parts/buttonPagination.jsp" var="bottomPagination"/>
-                                <jsp:include page="${bottomPagination}"/>
+
                             </c:when>
                             <c:otherwise>
                                 <div class="bold centered p-t-8rem">
@@ -124,6 +124,8 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
+                        <c:url value="/template/parts/buttonPagination.jsp" var="bottomPagination"/>
+                        <jsp:include page="${bottomPagination}"/>
 
 
                     </form>

@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="breakline"></div>
-                            <button type="button" class="btn margin-t-2rem" onclick="postResult()"><fmt:message
+                            <button type="button" class="btn btn-black margin-t-2rem" onclick="postResult()"><fmt:message
                                     key="test.testing.finish"/></button>
                         </form>
                     </div>
@@ -98,7 +98,7 @@
             <div class="items-gap dec-pancake bold">
                 <form method="post" class="flex" action="<ct:link key="test.testing.result"/>">
                     <input type="hidden" name="testJson" id="testJson">
-                    <button type="submit" class="btn"><fmt:message key="button.finish"/></button>
+                    <button type="submit" class="btn btn-black"><fmt:message key="button.finish"/></button>
                     <button type="button" class="btn btn-red margin-l-2rem" onclick="closeModal('testingPostModal')"><fmt:message key="button.cancel"/></button>
                 </form>
             </div>

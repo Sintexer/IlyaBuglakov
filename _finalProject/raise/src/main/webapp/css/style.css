@@ -808,8 +808,7 @@ button {
 }
 
 .next, .prev {
-    min-width: 1.7rem;
-    min-height: 1.7rem;
+    padding: 0.3rem 0.6rem !important;
     display: block;
 }
 

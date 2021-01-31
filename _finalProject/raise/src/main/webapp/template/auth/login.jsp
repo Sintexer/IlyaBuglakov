@@ -30,7 +30,7 @@
     <div class="centered">
         <div class="stack">
 
-            <form class="w-auto form-card card-md items-gap-vertical" method="post" action="">
+            <form class="w-auto form-card card-md items-gap-vertical margin-b-2rem" method="post" action="">
                 <div class="text-center font-mdd">
                     <h2 class="form-sign-in-heading"><fmt:message key="login" bundle="${page}"/></h2>
                 </div>

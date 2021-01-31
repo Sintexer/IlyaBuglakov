@@ -55,9 +55,9 @@
                                         </form>
                                         <form action="<ct:link key="rest.confirm.test"/>" method="post">
                                             <input hidden name="testId" value="${test.id}">
-                                            <button class="btn btn-yellow m-y-0">Confirm</button>
+                                            <button class="btn btn-black m-y-0">Confirm</button>
                                         </form>
-                                        <a href="<ct:link key="test.preview"/>?testId=${test.id}" class="btn m-y-0">View test</a>
+                                        <a href="<ct:link key="test.preview"/>?testId=${test.id}" class="btn btn-black m-y-0">View test</a>
                                     </td>
                                 </tr>
                             </c:forEach>

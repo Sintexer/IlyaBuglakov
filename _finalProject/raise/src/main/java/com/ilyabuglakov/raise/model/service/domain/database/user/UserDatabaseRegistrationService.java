@@ -18,6 +18,7 @@ import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,7 +41,7 @@ public class UserDatabaseRegistrationService extends DatabaseService implements 
             responseEntity.setAttribute("userEmailAlreadyExist", true);
             return responseEntity;
         }
-        //TODO hash password
+        user.setPassword(new Sha256Hash(user.getPassword()).toHex());
         user.setStatus(Status.UNCONFIRMED);
         user.setRegistrationDate(LocalDate.now());
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);

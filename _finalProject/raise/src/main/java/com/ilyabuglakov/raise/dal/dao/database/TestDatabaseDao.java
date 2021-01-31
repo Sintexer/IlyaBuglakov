@@ -141,6 +141,33 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST.name(),
             TestColumns.STATUS.name());
 
+    public static final String SELECT_TEST_COUNT_BY_NAME_CATEGORY_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ?",
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TEST_COUNT_BY_NAME_PARENT_CATEGORY_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ?",
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TEST_COUNT_BY_NAME_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s LIKE ? AND %s = ?",
+            Tables.TEST.name(),
+            TestColumns.TEST_NAME.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TEST_COUNT_BY_CATEGORY_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ? AND %s = ?",
+            Tables.TEST.name(),
+            TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name());
+
+    public static final String SELECT_TEST_COUNT_BY_PARENT_CATEGORY_STATUS = String.format(
+            "SELECT COUNT(*) FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ?",
+            Tables.TEST.name(),
+            TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
+            Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name());
+
 
     public TestDatabaseDao(Connection connection) {
         super(connection);
@@ -194,7 +221,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     public List<Test> findByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status,
                                                      int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setString(1, name + "%");
             statement.setInt(2, category.getId());
@@ -202,14 +229,14 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             statement.setInt(4, limit);
             statement.setInt(5, from);
             return statement;
-        });
+        }));
     }
 
     @Override
     public List<Test> findByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status,
                                                            int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setString(1, name + "%");
             statement.setInt(2, category.getId());
@@ -217,70 +244,58 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             statement.setInt(4, limit);
             statement.setInt(5, from);
             return statement;
-        });
+        }));
     }
 
     @Override
     public List<Test> findByNameAndStatus(String name, TestStatus status, int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET);
             statement.setString(1, name + "%");
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
             return statement;
-        });
+        }));
     }
 
     @Override
     public List<Test> findByCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
             return statement;
-        });
+        }));
     }
 
     @Override
     public List<Test> findByParentCategoryAndStatus(TestCategory category, TestStatus status, int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);
             statement.setInt(3, limit);
             statement.setInt(4, from);
             return statement;
-        });
+        }));
     }
 
     @Override
     public List<Test> findTests(TestStatus status, int limit, int from)
             throws DaoOperationException {
-        return findByStatement(() -> {
+        return buildTestList(findByStatement(() -> {
             PreparedStatement preparedStatement = prepareStatement(SELECT_TESTS_LIMIT_OFFSET);
             preparedStatement.setObject(1, status, Types.OTHER);
             preparedStatement.setInt(2, limit);
             preparedStatement.setInt(3, from);
             return preparedStatement;
-        });
-    }
-
-    private List<Test> findByStatement(StatementPreparer statementPreparer)
-            throws DaoOperationException {
-        PreparedStatement statement;
-        try {
-            statement = statementPreparer.prepareStatement();
-        } catch (SQLException e) {
-            throw new DaoOperationException("Can't set statement parameters", e);
-        }
-        ResultSet resultSet = createResultSet(statement);
-        return buildTestList(resultSet);
+        }));
     }
 
     @Override
@@ -371,6 +386,74 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
         }
 
         executeUpdateQuery(statement);
+    }
+
+    @Override
+    public int findAmountByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status)
+            throws DaoOperationException {
+        return getCount(findByStatement(() ->{
+            PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_CATEGORY_STATUS);
+            statement.setString(1, name);
+            statement.setInt(2, category.getId());
+            statement.setObject(3, status, Types.OTHER);
+            return statement;
+        }));
+    }
+
+    @Override
+    public int findAmountByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status)
+            throws DaoOperationException {
+        return getCount(findByStatement(() ->{
+            PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_PARENT_CATEGORY_STATUS);
+            statement.setString(1, name);
+            statement.setInt(2, category.getId());
+            statement.setObject(3, status, Types.OTHER);
+            return statement;
+        }));
+    }
+
+    @Override
+    public int findAmountByNameAndStatus(String name, TestStatus status)
+            throws DaoOperationException {
+        return getCount(findByStatement(() ->{
+            PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_STATUS);
+            statement.setString(1, name);
+            statement.setObject(2, status, Types.OTHER);
+            return statement;
+        }));
+    }
+
+    @Override
+    public int findAmountByCategoryAndStatus(TestCategory category, TestStatus status)
+            throws DaoOperationException {
+        return getCount(findByStatement(() ->{
+            PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_CATEGORY_STATUS);
+            statement.setInt(1, category.getId());
+            statement.setObject(2, status, Types.OTHER);
+            return statement;
+        }));
+    }
+
+    @Override
+    public int findAmountByParentCategoryAndStatus(TestCategory category, TestStatus status)
+            throws DaoOperationException {
+        return getCount(findByStatement(() ->{
+            PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_PARENT_CATEGORY_STATUS);
+            statement.setInt(1, category.getId());
+            statement.setObject(2, status, Types.OTHER);
+            return statement;
+        }));
+    }
+
+    private ResultSet findByStatement(StatementPreparer statementPreparer)
+            throws DaoOperationException {
+        PreparedStatement statement;
+        try {
+            statement = statementPreparer.prepareStatement();
+        } catch (SQLException e) {
+            throw new DaoOperationException("Can't set statement parameters", e);
+        }
+        return createResultSet(statement);
     }
 
     private void setAllStatementParameters(Test test, PreparedStatement statement)

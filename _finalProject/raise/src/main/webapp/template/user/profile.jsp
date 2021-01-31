@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="favicon" href="<c:url value="/favicon.ico"/>" />
     <title><fmt:message key="title.user.profile"/></title>
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
 </head>

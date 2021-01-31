@@ -17,6 +17,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="favicon" href="<c:url value="/favicon.ico"/>" />
     <title><fmt:message key="title.root"/></title>
     <c:url value="/template/parts/head-static.jsp" var="headPath"/>
     <jsp:include page='${headPath}'/>

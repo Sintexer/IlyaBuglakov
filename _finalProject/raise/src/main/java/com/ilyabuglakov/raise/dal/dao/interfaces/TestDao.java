@@ -35,4 +35,10 @@ public interface TestDao extends Dao<Test> {
     int findTestAmount(Integer authorId) throws DaoOperationException;
 
     void updateStatus(Integer testId, TestStatus status) throws DaoOperationException;
+
+    int findAmountByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status) throws DaoOperationException;
+    int findAmountByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status) throws DaoOperationException;
+    int findAmountByNameAndStatus(String name, TestStatus status) throws DaoOperationException;
+    int findAmountByCategoryAndStatus(TestCategory category, TestStatus status) throws DaoOperationException;
+    int findAmountByParentCategoryAndStatus(TestCategory category, TestStatus status) throws DaoOperationException;
 }

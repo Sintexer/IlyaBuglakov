@@ -18,7 +18,6 @@ public class DeleteCommentCommand extends Command {
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, CommandException, PersistentException {
-        ResponseEntity responseEntity = new ResponseEntity();
 
         Optional<Integer> commentId = RequestService.getInstance().getIntParameter(request, "commentId");
         if (!commentId.isPresent()) {

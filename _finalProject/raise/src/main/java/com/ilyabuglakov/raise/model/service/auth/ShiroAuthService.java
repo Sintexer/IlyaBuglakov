@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -21,6 +22,7 @@ public class ShiroAuthService implements AuthService {
 
     @Override
     public boolean login(String username, String password) {
+        password = new Sha256Hash(password).toHex();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             Subject currentUser = SecurityUtils.getSubject();

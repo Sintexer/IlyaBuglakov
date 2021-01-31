@@ -6,6 +6,7 @@ import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserRegistrationService;
+import com.ilyabuglakov.raise.model.service.request.extractor.UserExtractor;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -26,17 +27,7 @@ public class RegistrationPostCommand extends Command {
             throws ServletException, IOException, DaoOperationException {
         log.debug(() -> "registration from posted");
 
-        String email = request.getParameter("username");
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String password = request.getParameter("password");
-
-        User user = User.builder()
-                .email(email.toLowerCase())
-                .name(name)
-                .surname(surname)
-                .password(password)
-                .build();
+        User user = new UserExtractor().extractFrom(request);
 
         UserRegistrationService userRegistrationService =
                 (UserRegistrationService) serviceFactory.createService(ServiceType.USER_REGISTRATION);

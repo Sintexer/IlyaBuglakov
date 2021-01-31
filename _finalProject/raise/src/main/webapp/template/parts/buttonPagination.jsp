@@ -3,7 +3,7 @@
 <div class="pagination-wrap jc-center m-y-3rem">
     <ul class="pagination">
         <c:if test="${currentPage>1}">
-            <li><button value="${currentPage-1}" name="pageNumber" class=" prev link-type pg-button" >&#10094;</button></li>
+            <li><button value="${currentPage-1}" name="pageNumber" class=" link-type pg-button prev" >&#10094;</button></li>
         </c:if>
         <c:if test="${currentPage>2}">
             <li>

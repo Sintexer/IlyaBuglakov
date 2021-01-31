@@ -26,10 +26,10 @@ INSERT INTO test_category(id, category, parent_id) VALUES (1, 'Programming', NUL
 SELECT setval('test_category_id_seq', (SELECT MAX(id) from test_category));
 
 INSERT INTO usr(id, email, name, surname, password, status, registration_date)
-VALUES (1, 'ilboogl@gmail.com', 'Ilya', 'Buglakov', '121212', 'ACTIVE', TO_DATE('17/12/2021', 'DD/MM/YYYY')),
-       (2, 'st@gmail.com', 'Jack', 'Nickles', '121212', 'ACTIVE', TO_DATE('17/12/2021', 'DD/MM/YYYY'));
+VALUES (1, 'ilboogl@gmail.com', 'Ilya', 'Buglakov', '3ea87a56da3844b420ec2925ae922bc731ec16a4fc44dcbeafdad49b0e61d39c', 'ACTIVE', TO_DATE('17/12/2021', 'DD/MM/YYYY')),
+       (2, 'st@gmail.com', 'Jack', 'Nickles', '3ea87a56da3844b420ec2925ae922bc731ec16a4fc44dcbeafdad49b0e61d39c', 'ACTIVE', TO_DATE('17/12/2021', 'DD/MM/YYYY'));
 
-SELECT setval('usr_id_seq', (SELECT MAX(id) from usr));
+SELECT setval('user_id_seq', (SELECT MAX(id) from usr));
 
 INSERT INTO usr_roles(id, user_id, role_id)
 VALUES (1, 1, 1),

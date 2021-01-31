@@ -70,12 +70,17 @@ is known from subjects roles set. Each role has specified suite of permissions.
 ___
 ## Showcase
 
+![landing.png](readme/landing.png)
+![creator.png](readme/creator.png)
+![catalog.png](readme/catalog.png)
+![profile.png](readme/profile.png)
+![admin.png](readme/admin.png)
 
 ___
 ## Requirements
 
 To run this project you will need:
-- Java 14 or higher
+- JDK 14 or higher
 - PostgreSQL database
 - Maven - for building sources
 - Tomcat - for starting server
@@ -89,7 +94,7 @@ from `/sql` folder:
 - `1_drop_database.sql` - will drop raise_db if it exists
 - `2_create_database.sql` - will create the raise_db and its user
 - `3_create_tables.sql` - will fill raise_db with tables and enums
-- `4_fill_tables.sql` - will fill raise_db tables with some content, such as superuser,
+- `4_init_tables.sql` - will fill raise_db tables with some content, such as superuser,
   test categories and directly by tests.
 
 For build, you should start maven in project root directory and build `war` file 
@@ -163,17 +168,17 @@ ___
 ## Technologies
 
 There is list of technologies used in project:
-- [Java 14]()
-- [Maven]() - Project build tool
-- [Java EE]() - Java Servlet, JSP(Java server pages)
-- [Tomcat]() - Servlet container
-- [PostgreSQL]() - OpenSource SQL database
-- [JDBC]() - Java Database Connectivity API
-- [JSTL]() - Library for JSP
-- [TestNG]() - Test framework
-- [Mockito]() - Mocks framework, useful for testing
-- [Apache Shiro]() - Simple permission-based authentication framework
-- [JavaMail]() - Java mail API
-- [GSON]() - Google JSON parser
-- [Lombock]() - Library for data class simplification and more
-- [Log4j2]() - Logging library
+- [JDK 14](https://www.oracle.com/java/technologies/javase/jdk14-archive-downloads.html)
+- [Maven](https://maven.apache.org/) - Project build tool
+- [Java EE](https://www.oracle.com/java/technologies/java-ee-glance.html) - Java Servlet, JSP(Java server pages)
+- [Tomcat](http://tomcat.apache.org/) - Servlet container
+- [PostgreSQL](https://www.postgresql.org/) - OpenSource SQL database
+- [JDBC](https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/) - Java Database Connectivity API
+- [JSTL](https://docs.oracle.com/javaee/5/tutorial/doc/bnake.html) - Library for JSP
+- [TestNG](https://testng.org/doc/) - Test framework
+- [Mockito](https://site.mockito.org/) - Mocks framework, useful for testing
+- [Apache Shiro](https://shiro.apache.org/) - Simple permission-based authentication framework
+- [JavaMail](https://www.oracle.com/java/technologies/javamail.html) - Java mail API
+- [GSON](https://www.oracle.com/java/technologies/javamail.html) - Google JSON parser
+- [Lombock](https://projectlombok.org/) - Library for data class simplification and more
+- [Log4j2](https://logging.apache.org/log4j/2.x/) - Logging library
