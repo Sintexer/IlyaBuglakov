@@ -71,13 +71,20 @@ ___
 ## Showcase
 
 ![landing.png](readme/landing-sm.png)
+![landing.png](readme/admin-sm.png)
 ![landing.png](readme/catalog-sm.png)
 ![landing.png](readme/profile-sm.png)
-![landing.png](readme/landing.png)
-![creator.png](readme/creator.png)
-![catalog.png](readme/catalog.png)
-![profile.png](readme/profile.png)
-![admin.png](readme/admin.png)
+![landing.png](readme/creator-sm.png)
+
+[comment]: <> (![landing.png]&#40;readme/landing.png&#41;)
+
+[comment]: <> (![creator.png]&#40;readme/creator.png&#41;)
+
+[comment]: <> (![catalog.png]&#40;readme/catalog.png&#41;)
+
+[comment]: <> (![profile.png]&#40;readme/profile.png&#41;)
+
+[comment]: <> (![admin.png]&#40;readme/admin.png&#41;)
 
 ___
 ## Requirements
