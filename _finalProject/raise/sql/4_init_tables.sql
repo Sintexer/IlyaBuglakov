@@ -73,7 +73,7 @@ SELECT setval('question_id_seq', (SELECT MAX(id) from question));
 
 INSERT INTO answer(id, content, correct, question_id)
 VALUES (1, 'int', true, 1), (2, 'String', true, 1), (3, 'Tuple', false, 1), (4, 'varchar', false, 1),
-       (5, 'boolean', true, 2), (6, 'Boolean', true, 2), (7, 'Integer', true, 2), (8, 'double', true, 2),
+       (5, 'boolean', true, 2), (6, 'Boolean', true, 2), (7, 'Integer', false, 2), (8, 'double', false, 2),
        (9, 'True', false, 3), (10, 'False', true, 3),
        (11, '6', true, 4), (12, '7', false, 4), (13, '8', false, 4), (14, '4', false, 4), (15, '12', false, 4),
        (16, '6', false, 5), (17, '7', false, 5), (18, '8', true, 5), (19, '4', false, 5), (20, '12', false, 5),
@@ -90,7 +90,7 @@ VALUES (1, 'int', true, 1), (2, 'String', true, 1), (3, 'Tuple', false, 1), (4, 
        (62, 'Yes', true, 16), (63, 'No', false, 16),
        (64, 'True', true, 17), (65, 'False', false, 17);
 
-SELECT setval('answer_id_seq', (SELECT MAX(id) from usr));
+SELECT setval('answer_id_seq', (SELECT MAX(id) from answer));
 
 INSERT INTO test_characteristic(id, characteristic, test_id)
 VALUES (1, 'MEMORY', 1),

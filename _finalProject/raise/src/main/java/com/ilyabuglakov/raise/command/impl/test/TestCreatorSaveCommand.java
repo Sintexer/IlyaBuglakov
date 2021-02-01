@@ -11,7 +11,6 @@ import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.UserAccessValidationService;
-import com.ilyabuglakov.raise.model.service.domain.utils.test.TestValidationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
@@ -46,11 +45,10 @@ public class TestCreatorSaveCommand extends Command {
             test.setStatus(TestStatus.CONFIRMED);
         }
 
-        TestValidationService testValidationService = new TestValidationService();
         UserAccessValidationService userAccessValidationService =
                 (UserAccessValidationService) serviceFactory.createService(ServiceType.USER_ACCESS_VALIDATION);
         ResponseEntity accessResponse = userAccessValidationService.isAllowedToCreateTest(authService.getEmail());
-        ResponseEntity responseEntity = testValidationService.validateTest(test);
+        ResponseEntity responseEntity = testService.validateTest(test);
         if (responseEntity.isErrorOccurred() || accessResponse.isErrorOccurred()) {
             responseEntity.setAttribute("testWasntCreated", true);
             responseEntity.setAttribute("testWasntPosted", true);

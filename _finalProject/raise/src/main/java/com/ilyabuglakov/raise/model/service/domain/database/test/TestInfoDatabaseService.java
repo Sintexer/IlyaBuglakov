@@ -7,6 +7,7 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
+import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestCategory;
@@ -37,6 +38,7 @@ public class TestInfoDatabaseService extends DatabaseService {
             Set<Question> questions = questionDao.findByTestId(test.get().getId());
             for (Question question : questions) {
                 question.setAnswers(answerDao.findByQuestionId(question.getId()));
+                question.setCorrectAmount((int)question.getAnswers().stream().filter(Answer::isCorrect).count());
             }
             test.get().setQuestions(questions);
         }

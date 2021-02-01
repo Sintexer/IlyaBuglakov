@@ -26,6 +26,7 @@ import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.TestService;
 import com.ilyabuglakov.raise.model.service.domain.database.DatabaseService;
 import com.ilyabuglakov.raise.model.service.test.TestResultService;
+import com.ilyabuglakov.raise.model.service.validator.TestValidator;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
@@ -38,8 +39,27 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     }
 
     @Override
+    public ResponseEntity validateTest(Test test){
+        TestValidator validator = new TestValidator();
+        ResponseEntity responseEntity = new ResponseEntity();
+
+        if (test == null) {
+            responseEntity.setAttribute("wrongTestFormat", true);
+            responseEntity.setErrorOccurred(true);
+        } else if (!validator.isValidTestName(test.getTestName())) {
+            responseEntity.setAttribute("invalidTestName", true);
+            responseEntity.setErrorOccurred(true);
+        } else if (test.getQuestions() == null
+                || !test.getQuestions().stream().allMatch(validator::isValidQuestion)
+                || test.getQuestions().isEmpty()) {
+            responseEntity.setAttribute("invalidQuestions", true);
+            responseEntity.setErrorOccurred(true);
+        }
+        return responseEntity;
+    }
+
+    @Override
     public ResponseEntity createResult(TestDto testDto) throws PersistentException {
-        TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         Optional<Test> test = getTest(testDto.getId());
         ResponseEntity responseEntity = new ResponseEntity();
         if(test.isPresent()){
@@ -209,4 +229,9 @@ public class TestDatabaseService extends DatabaseService implements TestService 
                 .findTestAmountByStatus(status);
     }
 
+    @Override
+    public int getTestAmountByUser(Integer userId) throws PersistentException {
+        return ((TestDao) transaction.createDao(DaoType.TEST))
+                .findTestAmount(userId);
+    }
 }

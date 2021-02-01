@@ -76,16 +76,6 @@ ___
 ![landing.png](readme/profile-sm.png)
 ![landing.png](readme/creator-sm.png)
 
-[comment]: <> (![landing.png]&#40;readme/landing.png&#41;)
-
-[comment]: <> (![creator.png]&#40;readme/creator.png&#41;)
-
-[comment]: <> (![catalog.png]&#40;readme/catalog.png&#41;)
-
-[comment]: <> (![profile.png]&#40;readme/profile.png&#41;)
-
-[comment]: <> (![admin.png]&#40;readme/admin.png&#41;)
-
 ___
 ## Requirements
 

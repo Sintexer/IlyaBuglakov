@@ -5,14 +5,13 @@ import com.ilyabuglakov.raise.dal.dao.interfaces.TestCommentDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
-import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.TestComment;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.DaoType;
 import com.ilyabuglakov.raise.model.service.domain.TestCommentService;
-import com.ilyabuglakov.raise.model.service.domain.utils.user.UserTransactionSearch;
-import com.ilyabuglakov.raise.model.service.domain.utils.user.interfaces.UserSearchService;
+import com.ilyabuglakov.raise.model.service.domain.UserService;
+import com.ilyabuglakov.raise.model.service.domain.database.user.UserDatabaseService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,10 +23,10 @@ public class TestCommentDatabaseService extends DatabaseService implements TestC
 
     @Override
     public void saveComment(String comment, Integer testId, String authorEmail)
-            throws DaoOperationException, TransactionException {
+            throws PersistentException {
         TestCommentDao testCommentDao = (TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT);
-        UserSearchService userSearchService = new UserTransactionSearch(transaction);
-        User user = userSearchService.findByEmail(authorEmail).orElseThrow(DaoOperationException::new);
+        UserService userService = new UserDatabaseService(transaction);
+        User user = userService.getUser(authorEmail).orElseThrow(DaoOperationException::new);
         testCommentDao.create(TestComment.builder()
                 .test(Test.builder().id(testId).build())
                 .user(user)

@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TestService extends Service {
+
+    ResponseEntity validateTest(Test test);
+
     ResponseEntity createResult(TestDto testDto) throws PersistentException;
 
     Optional<Test> createFromJson(String json);
@@ -38,5 +41,7 @@ public interface TestService extends Service {
     List<AdvancedTestInfo> getAdvancedTestInfosByStatusAndPage(TestStatus status, int limit, int from) throws PersistentException;
 
     int getTestAmountByStatus(TestStatus status) throws PersistentException;
+
+    int getTestAmountByUser(Integer userId) throws PersistentException;
 
 }
