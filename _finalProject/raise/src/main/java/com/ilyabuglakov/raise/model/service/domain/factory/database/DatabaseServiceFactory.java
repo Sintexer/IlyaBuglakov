@@ -16,11 +16,19 @@ import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
 
 import java.util.EnumMap;
 
+/**
+ * The type Database service factory.
+ */
 public class DatabaseServiceFactory implements ServiceFactory {
 
     private final EnumMap<ServiceType, DatabaseServiceProducer> serviceCreators;
     private final TransactionFactory transactionFactory;
 
+    /**
+     * Instantiates a new Database service factory.
+     *
+     * @param databaseTransactionFactory the database transaction factory
+     */
     public DatabaseServiceFactory(DatabaseTransactionFactory databaseTransactionFactory) {
         this.transactionFactory = databaseTransactionFactory;
         serviceCreators = new EnumMap<>(ServiceType.class);
@@ -49,6 +57,12 @@ public class DatabaseServiceFactory implements ServiceFactory {
 
     @FunctionalInterface
     private interface DatabaseServiceProducer {
+        /**
+         * Create service.
+         *
+         * @param transaction the transaction
+         * @return the service
+         */
         Service create(Transaction transaction);
     }
 }

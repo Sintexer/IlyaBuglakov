@@ -13,6 +13,9 @@ import org.apache.shiro.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Shiro based Auth service implementation
+ */
 @Log4j2
 public class ShiroAuthService implements AuthService {
     @Override

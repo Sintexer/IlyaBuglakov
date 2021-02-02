@@ -20,7 +20,7 @@ import java.util.Optional;
 public interface TestService extends Service {
 
     /**
-     * Validate test response entity.
+     * Validate test.
      *
      * @param test the test
      * @return the response entity
@@ -28,7 +28,7 @@ public interface TestService extends Service {
     ResponseEntity validateTest(Test test);
 
     /**
-     * Create result response entity.
+     * Create result.
      *
      * @param testDto the test dto
      * @return the response entity
@@ -80,7 +80,7 @@ public interface TestService extends Service {
     Optional<Test> getTest(Integer id) throws PersistentException;
 
     /**
-     * Find by search parameters catalog tests dto.
+     * Find by search parameters.
      *
      * @param searchParametersDto the search parameters dto
      * @return the catalog tests dto
