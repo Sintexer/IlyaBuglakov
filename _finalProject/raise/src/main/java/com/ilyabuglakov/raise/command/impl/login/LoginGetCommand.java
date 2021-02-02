@@ -1,26 +1,24 @@
 package com.ilyabuglakov.raise.command.impl.login;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.model.FormConstants;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Login get command.
- *
- * Collects all data needed for login page and returns it in ResponseEntity attributes */
+ * <p>
+ * Collects all data needed for login page and returns it in ResponseEntity attributes
+ */
 @Log4j2
 public class LoginGetCommand extends Command {
     /**
-     * @param request http request
+     * @param request  http request
      * @param response http response
      * @return ResponseEntity of login page with attributes
      */
@@ -29,7 +27,7 @@ public class LoginGetCommand extends Command {
         log.info(() -> "Entered login command");
 
         ResponseEntity responseEntity = new ResponseEntity();
-        if(AuthServiceFactory.getAuthService().isAuthenticated()){
+        if (AuthServiceFactory.getAuthService().isAuthenticated()) {
             responseEntity.setRedirect(true);
             responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
         } else {

@@ -7,14 +7,12 @@ import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * The type Registration get command.
- *
+ * <p>
  * Returns the registration page with specified attributes
  */
 @Log4j2
@@ -28,7 +26,7 @@ public class RegistrationGetCommand extends Command {
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) {
         log.info(() -> "Entered registration command");
         ResponseEntity responseEntity = new ResponseEntity();
-        if(AuthServiceFactory.getAuthService().isAuthenticated()){
+        if (AuthServiceFactory.getAuthService().isAuthenticated()) {
             responseEntity.setRedirect(true);
             responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("root"));
         } else {

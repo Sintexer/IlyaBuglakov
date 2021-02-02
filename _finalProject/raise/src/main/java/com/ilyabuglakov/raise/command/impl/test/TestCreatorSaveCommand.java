@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.command.impl.test;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
@@ -14,7 +13,6 @@ import com.ilyabuglakov.raise.model.service.domain.UserAccessValidationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +20,7 @@ import java.util.Optional;
 
 /**
  * The type Test creator save command.
- *
+ * <p>
  * Saves test to storage
  */
 @Log4j2
@@ -46,7 +44,7 @@ public class TestCreatorSaveCommand extends Command {
 
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
         Optional<Test> optionalTest = testService.createFromJson(request.getParameter("testJson"));
-        if(!optionalTest.isPresent()){
+        if (!optionalTest.isPresent()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);//400
             return null;
         }

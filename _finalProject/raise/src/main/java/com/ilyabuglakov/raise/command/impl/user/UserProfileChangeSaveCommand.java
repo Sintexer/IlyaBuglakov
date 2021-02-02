@@ -12,14 +12,13 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * The type User profile change save command.
- *
+ * <p>
  * Saves user info changes to storage
  */
 @Log4j2
@@ -52,7 +51,7 @@ public class UserProfileChangeSaveCommand extends Command {
 
         if (responseEntity.isErrorOccurred()) {
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("user.profile.change"));
-        }else{
+        } else {
             responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("user.profile.change"));
             responseEntity.setRedirect(true);
         }

@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.command.impl.rest;
 
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.type.TestStatus;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
@@ -18,7 +17,7 @@ import java.util.Optional;
 
 /**
  * The type Confirm test command.
- *
+ * <p>
  * Changes test status to confirmed
  */
 public class ConfirmTestCommand extends Command {

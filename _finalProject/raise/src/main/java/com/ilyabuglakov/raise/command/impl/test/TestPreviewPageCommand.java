@@ -17,7 +17,6 @@ import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,7 +25,7 @@ import java.util.Optional;
 
 /**
  * The type Test preview page command.
- *
+ * <p>
  * Returns the test preview page with comments and test info
  */
 @Log4j2
@@ -50,7 +49,7 @@ public class TestPreviewPageCommand extends Command {
 
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
         Optional<Test> testOptional = testService.getTest(testId.get());
-        if(!testOptional.isPresent()){
+        if (!testOptional.isPresent()) {
             log.debug(() -> "testId is not present");
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -64,8 +63,8 @@ public class TestPreviewPageCommand extends Command {
                 request.getParameter("pageNumber"),
                 testCommentService.getCommentsAmount(testId.get()),
                 Integer.parseInt(ApplicationProperties.getProperty("comments.page.items")));
-        if(pageInfoDto.isIllegal()){
-            log.debug(() ->"Illegal page " + pageInfoDto);
+        if (pageInfoDto.isIllegal()) {
+            log.debug(() -> "Illegal page " + pageInfoDto);
             response.sendError(404);
             return null;
         }

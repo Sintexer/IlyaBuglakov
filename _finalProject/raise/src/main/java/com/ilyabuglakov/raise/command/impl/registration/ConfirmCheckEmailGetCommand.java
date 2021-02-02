@@ -6,14 +6,12 @@ import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * The type Confirm check email get command.
- *
+ * <p>
  * Command returns page with invitation to check email for confirm url. Used for redirect after login
  */
 @Log4j2

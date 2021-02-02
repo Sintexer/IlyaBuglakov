@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.command.impl.test;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
@@ -11,14 +10,13 @@ import com.ilyabuglakov.raise.model.service.domain.TestCategoryService;
 import com.ilyabuglakov.raise.model.service.domain.UserAccessValidationService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * The type Test creator get command.
- *
+ * <p>
  * Returns the page with test creator
  */
 public class TestCreatorGetCommand extends Command {
@@ -37,7 +35,7 @@ public class TestCreatorGetCommand extends Command {
                 (UserAccessValidationService) serviceFactory.createService(ServiceType.USER_ACCESS_VALIDATION);
         ResponseEntity responseEntity =
                 accessValidationService.isAllowedToCreateTest(AuthServiceFactory.getAuthService().getEmail());
-        if(responseEntity.isErrorOccurred()){
+        if (responseEntity.isErrorOccurred()) {
             responseEntity.setAttribute("testLimitReached", true);
             responseEntity.setAttribute("testWasntCreated", true);
             responseEntity.setAttribute("testWasntPosted", true);
@@ -45,7 +43,7 @@ public class TestCreatorGetCommand extends Command {
             return responseEntity;
         }
         responseEntity.setAttribute("characteristics", Characteristic.values());
-        TestCategoryService testCategoryService = (TestCategoryService)serviceFactory.createService(ServiceType.TEST_CATEGORY);
+        TestCategoryService testCategoryService = (TestCategoryService) serviceFactory.createService(ServiceType.TEST_CATEGORY);
         responseEntity.setAttribute("categories", testCategoryService.getCategoryMap());
         responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.creator"));
 

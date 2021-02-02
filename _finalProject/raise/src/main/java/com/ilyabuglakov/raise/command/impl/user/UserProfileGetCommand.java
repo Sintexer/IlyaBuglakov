@@ -12,7 +12,6 @@ import com.ilyabuglakov.raise.model.service.servlet.RequestService;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 /**
  * The type User profile get command.
- *
+ * <p>
  * Returns the user profile page with user statistic info
  */
 @Log4j2

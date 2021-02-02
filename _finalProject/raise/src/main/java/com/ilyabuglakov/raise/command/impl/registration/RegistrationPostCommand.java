@@ -11,7 +11,6 @@ import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 
 import javax.mail.MessagingException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.io.IOException;
 
 /**
  * The type Registration post command.
- *
+ * <p>
  * Validates registration parameters and saves user if they are valid
  * Else will return registration page with alert messages
  */
@@ -53,7 +52,7 @@ public class RegistrationPostCommand extends Command {
         if (!responseEntity.isErrorOccurred()) {
             responseEntity.setRedirect(true);
             responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("auth.confirm.email"));
-        } else{
+        } else {
             responseEntity.setAttribute("emailPrevVal", user.getEmail());
             responseEntity.setAttribute("namePrevVal", user.getName());
             responseEntity.setAttribute("surnamePrevVal", user.getSurname());
