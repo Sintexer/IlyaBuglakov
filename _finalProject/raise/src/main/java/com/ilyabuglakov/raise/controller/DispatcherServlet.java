@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.controller;
 
 import com.ilyabuglakov.raise.command.Command;
-import com.ilyabuglakov.raise.command.exception.CommandException;
 import com.ilyabuglakov.raise.command.manager.CommandManager;
 import com.ilyabuglakov.raise.command.manager.CommandManagerFactory;
 import com.ilyabuglakov.raise.config.ApplicationConfig;
@@ -23,6 +22,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * The type Dispatcher servlet.
+ * <p>
+ * Controls application requests and runs commands
+ */
 @Log4j2
 @WebServlet("/controller")
 public class DispatcherServlet extends HttpServlet {
@@ -64,7 +68,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private void processCommand(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Optional<Command> command = extractCommand(req);
-        CommandManager commandManager= CommandManagerFactory.getCommandManager(getServiceFactory());
+        CommandManager commandManager = CommandManagerFactory.getCommandManager(getServiceFactory());
         try {
             if (command.isPresent()) {
                 req.setAttribute("locales", Arrays.asList(LocaleType.values()));
@@ -77,7 +81,7 @@ public class DispatcherServlet extends HttpServlet {
                 resp.sendError(404);
             }
 
-        } catch (CommandException | PersistentException e) {
+        } catch (PersistentException e) {
             log.error(e);
             commandManager.rollback();
             resp.sendError(500);
@@ -89,7 +93,7 @@ public class DispatcherServlet extends HttpServlet {
                                        HttpServletResponse response)
             throws IOException, ServletException {
         if (responseEntity.isRedirect()) {
-            log.debug("Send redirect "  + responseEntity.getLink());
+            log.debug("Send redirect " + responseEntity.getLink());
             response.sendRedirect(responseEntity.getLink());
         } else {
             responseEntity.getAttributes().forEach(request::setAttribute);

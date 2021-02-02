@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Access filter.
+ *
+ * Manages access to application pages
+ */
 @WebFilter(filterName = "accessFilter")
 @Log4j2
 public class AccessFilter extends AbstractAccessFilter {
