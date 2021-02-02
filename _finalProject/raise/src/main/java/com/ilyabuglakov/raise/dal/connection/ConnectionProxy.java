@@ -21,16 +21,36 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * The type Connection proxy.
+ *
+ * This proxy class changes behaviour of close() method to not close connection, but to make it free in ConnectionPool.
+ */
 public class ConnectionProxy implements Connection {
 
-    private Connection connection;
+    private final Connection connection;
 
+    /**
+     * Instantiates a new Connection proxy.
+     *
+     * @param connection the connection
+     */
     public ConnectionProxy(Connection connection) {
         this.connection = connection;
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         return connection;
+    }
+
+    @Override
+    public void close() throws SQLException {
+        ConnectionPoolFactory.getConnectionPool().releaseConnection(this);
     }
 
     @Override
@@ -51,11 +71,6 @@ public class ConnectionProxy implements Connection {
     @Override
     public void clearWarnings() throws SQLException {
         connection.clearWarnings();
-    }
-
-    @Override
-    public void close() throws SQLException {
-        ConnectionPoolFactory.getConnectionPool().releaseConnection(this);
     }
 
     @Override

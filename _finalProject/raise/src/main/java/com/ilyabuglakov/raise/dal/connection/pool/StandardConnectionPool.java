@@ -14,6 +14,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The type Standard connection pool.
+ */
 public class StandardConnectionPool implements ConnectionPool {
 
     private static Logger logger = LogManager.getLogger(StandardConnectionPool.class);
@@ -83,7 +86,7 @@ public class StandardConnectionPool implements ConnectionPool {
     }
 
     @Override
-    public boolean releaseConnection(ConnectionProxy connection) {
+    public void releaseConnection(ConnectionProxy connection) {
         lock.lock();
         try {
             connection.clearWarnings();
@@ -101,7 +104,6 @@ public class StandardConnectionPool implements ConnectionPool {
             }
         }
         lock.unlock();
-        return true;
     }
 
     @Override
