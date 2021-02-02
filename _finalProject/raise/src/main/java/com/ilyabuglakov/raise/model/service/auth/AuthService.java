@@ -1,7 +1,6 @@
 package com.ilyabuglakov.raise.model.service.auth;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * The interface Auth service. Auth service operates authorization.

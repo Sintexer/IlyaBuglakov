@@ -2,7 +2,6 @@ package com.ilyabuglakov.raise.model.service.validator;
 
 import com.ilyabuglakov.raise.domain.Answer;
 import com.ilyabuglakov.raise.domain.Question;
-import com.ilyabuglakov.raise.domain.Test;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
 import org.apache.commons.lang3.ObjectUtils;
 

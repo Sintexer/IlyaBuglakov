@@ -8,10 +8,10 @@ import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.database.TestCategoryDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.TestCommentDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.UserTestResultDatabaseService;
+import com.ilyabuglakov.raise.model.service.domain.database.test.TestDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.user.UserAccessValidationDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.database.user.UserDatabaseRegistrationService;
 import com.ilyabuglakov.raise.model.service.domain.database.user.UserDatabaseService;
-import com.ilyabuglakov.raise.model.service.domain.database.test.TestDatabaseService;
 import com.ilyabuglakov.raise.model.service.domain.factory.ServiceFactory;
 
 import java.util.EnumMap;

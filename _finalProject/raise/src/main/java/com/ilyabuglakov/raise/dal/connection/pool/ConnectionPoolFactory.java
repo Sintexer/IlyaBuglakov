@@ -5,7 +5,7 @@ package com.ilyabuglakov.raise.dal.connection.pool;
  */
 public class ConnectionPoolFactory {
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     private ConnectionPoolFactory() {
         connectionPool = new StandardConnectionPool();
@@ -39,7 +39,7 @@ public class ConnectionPoolFactory {
     /**
      * Close. Will destroy connection pool
      */
-    public static void close(){
+    public static void close() {
         getConnectionPool().destroy();
     }
 

@@ -20,13 +20,13 @@ public class TestCategoryDatabaseService extends DatabaseService implements Test
 
     @Override
     public Map<TestCategory, List<TestCategory>> getCategoryMap() throws PersistentException {
-        TestCategoryDao testCategoryDao = (TestCategoryDao)transaction.createDao(DaoType.TEST_CATEGORY);
+        TestCategoryDao testCategoryDao = (TestCategoryDao) transaction.createDao(DaoType.TEST_CATEGORY);
         List<TestCategory> testCategories = testCategoryDao.findAll();
         List<TestCategory> parentCategories = testCategories.stream()
                 .filter(tc -> tc.getParent() == null)
                 .collect(Collectors.toList());
         Map<Integer, List<TestCategory>> testCategoryMap = testCategories.stream()
-                .filter(tc -> tc.getParent()!=null)
+                .filter(tc -> tc.getParent() != null)
                 .collect(Collectors.groupingBy(tc -> tc.getParent().getId()));
         return parentCategories.stream()
                 .filter(pc -> testCategoryMap.get(pc.getId()) != null)
@@ -35,7 +35,7 @@ public class TestCategoryDatabaseService extends DatabaseService implements Test
 
     @Override
     public Optional<TestCategory> getCategory(Integer id) throws PersistentException {
-        return ((TestCategoryDao)transaction.createDao(DaoType.TEST_CATEGORY))
+        return ((TestCategoryDao) transaction.createDao(DaoType.TEST_CATEGORY))
                 .read(id);
     }
 }

@@ -16,7 +16,7 @@
 <head>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
-    <title><fmt:message key="title.login"/></title>
+    <title><fmt:message key="title.login" bundle="${page}"/></title>
 </head>
 <body>
 
@@ -75,7 +75,7 @@
             </form>
             <div class="flex-initial card-md stack jc-center w-100 flex align-items-center items-gap">
                 <h2><fmt:message key="tip.new.here" bundle="${form}"/></h2>
-                <a class="btn btn-black"><fmt:message key="button.register" bundle="${page}"/></a>
+                <a href="<ct:link key="registration"/>" class="btn btn-black"><fmt:message key="button.register" bundle="${page}"/></a>
             </div>
         </div>
     </div>

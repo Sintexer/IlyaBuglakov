@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class StandardConnectionPool implements ConnectionPool {
 
-    private static Logger logger = LogManager.getLogger(StandardConnectionPool.class);
+    private static final Logger logger = LogManager.getLogger(StandardConnectionPool.class);
 
     private String url;
     private String user;

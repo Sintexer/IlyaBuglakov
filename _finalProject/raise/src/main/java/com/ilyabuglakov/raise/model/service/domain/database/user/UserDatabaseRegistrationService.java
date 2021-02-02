@@ -18,7 +18,6 @@ import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -68,7 +67,7 @@ public class UserDatabaseRegistrationService extends DatabaseService implements 
     public boolean tryConfirm(String key) throws DaoOperationException {
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
         Optional<UsrKey> usrKeyOptional = userDao.findKey(key);
-        if(!usrKeyOptional.isPresent()){
+        if (!usrKeyOptional.isPresent()) {
             return false;
         }
         UsrKey usrKey = usrKeyOptional.get();
@@ -80,7 +79,7 @@ public class UserDatabaseRegistrationService extends DatabaseService implements 
 
     private void sendKeyMail(String userEmail, String key) throws MessagingException {
         MailSender mailSender = new MailSenderFactory().createMailSender();
-        String body = "To confirm tour account, please, follow the link bellow:\n"+
+        String body = "To confirm tour account, please, follow the link bellow:\n" +
                 "http://localhost:8080" +
                 PropertiesStorage.getInstance().getLinks().getProperty("auth.confirm") +
                 "?key=" + key;

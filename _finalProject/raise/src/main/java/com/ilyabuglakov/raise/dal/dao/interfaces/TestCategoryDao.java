@@ -16,5 +16,5 @@ public interface TestCategoryDao extends Dao<TestCategory> {
      * @return the list
      * @throws DaoOperationException the dao operation exception
      */
-    List<TestCategory> findAll()throws DaoOperationException;
+    List<TestCategory> findAll() throws DaoOperationException;
 }

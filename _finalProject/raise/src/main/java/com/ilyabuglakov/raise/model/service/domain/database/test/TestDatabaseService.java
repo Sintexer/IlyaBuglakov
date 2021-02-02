@@ -5,8 +5,8 @@ import com.google.gson.JsonParseException;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.dao.interfaces.AnswerDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.QuestionDao;
-import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.TestCategoryDao;
+import com.ilyabuglakov.raise.dal.dao.interfaces.TestDao;
 import com.ilyabuglakov.raise.dal.dao.interfaces.UserDao;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
@@ -39,7 +39,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     }
 
     @Override
-    public ResponseEntity validateTest(Test test){
+    public ResponseEntity validateTest(Test test) {
         TestValidator validator = new TestValidator();
         ResponseEntity responseEntity = new ResponseEntity();
 
@@ -62,7 +62,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     public ResponseEntity createResult(TestDto testDto) throws PersistentException {
         Optional<Test> test = getTest(testDto.getId());
         ResponseEntity responseEntity = new ResponseEntity();
-        if(test.isPresent()){
+        if (test.isPresent()) {
             TestResultDto testResultDto = TestResultService.getInstance().createResult(testDto, test.get());
             responseEntity.setAttribute("testName", test.get().getTestName());
             responseEntity.setAttribute("testResult", testResultDto);
@@ -144,7 +144,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
 
     @Override
     public CatalogTestsDto findBySearchParameters(TestSearchParametersDto dto) throws PersistentException {
-        if(!dto.hasSearchParameters())
+        if (!dto.hasSearchParameters())
             return findByStatusLimitOffset(dto.getStatus(), dto.getLimit(), dto.getFrom());
 
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
@@ -154,27 +154,27 @@ public class TestDatabaseService extends DatabaseService implements TestService 
         List<Test> tests;
         int itemsAmount;
 
-        if(!dto.getTestName().isEmpty() && dto.getCategory()!=null){
+        if (!dto.getTestName().isEmpty() && dto.getCategory() != null) {
             TestCategory testCategory = categoryDao.read(dto.getCategory().getId()).orElseThrow(PersistentException::new);
-            if(testCategory.getParent()==null) {
+            if (testCategory.getParent() == null) {
                 tests = testDao.findByNameAndParentCategoryAndStatus(
                         dto.getTestName(), dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getFrom());
                 itemsAmount = testDao.findAmountByNameAndParentCategoryAndStatus(
                         dto.getTestName(), dto.getCategory(), dto.getStatus());
-            }else{
+            } else {
                 tests = testDao.findByNameAndCategoryAndStatus(
-                        dto.getTestName(),dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getFrom());
+                        dto.getTestName(), dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getFrom());
                 itemsAmount = testDao.findAmountByNameAndCategoryAndStatus(
                         dto.getTestName(), dto.getCategory(), dto.getStatus());
             }
-        } else if(!dto.getTestName().isEmpty()){
+        } else if (!dto.getTestName().isEmpty()) {
             tests = testDao.findByNameAndStatus(
                     dto.getTestName(), dto.getStatus(), dto.getLimit(), dto.getFrom());
             itemsAmount = testDao.findAmountByNameAndStatus(
                     dto.getTestName(), dto.getStatus());
         } else {
             TestCategory testCategory = categoryDao.read(dto.getCategory().getId()).orElseThrow(PersistentException::new);
-            if(testCategory.getParent()==null) {
+            if (testCategory.getParent() == null) {
                 tests = testDao.findByParentCategoryAndStatus(
                         dto.getCategory(), dto.getStatus(), dto.getLimit(), dto.getFrom());
                 itemsAmount = testDao.findAmountByParentCategoryAndStatus(
@@ -195,7 +195,7 @@ public class TestDatabaseService extends DatabaseService implements TestService 
     private CatalogTestsDto findByStatusLimitOffset(TestStatus status, int limit, int offset) throws PersistentException {
         return CatalogTestsDto.builder()
                 .tests(getTestInfosByStatusAndPage(status, limit, offset))
-                .itemsAmount(((TestDao)transaction.createDao(DaoType.TEST)).findTestAmountByStatus(status))
+                .itemsAmount(((TestDao) transaction.createDao(DaoType.TEST)).findTestAmountByStatus(status))
                 .build();
     }
 

@@ -23,7 +23,7 @@ import java.util.concurrent.Executor;
 
 /**
  * The type Connection proxy.
- *
+ * <p>
  * This proxy class changes behaviour of close() method to not close connection, but to make it free in ConnectionPool.
  */
 public class ConnectionProxy implements Connection {

@@ -18,7 +18,7 @@ public class TestSearchParametersExtractor implements RequestDataExtractor<TestS
         String testName = request.getParameter("testName");
         TestStatus status = TestStatus.CONFIRMED;
         Optional<Integer> categoryId = RequestService.getInstance().getIntParameter(request, "category");
-        if(!categoryId.isPresent())
+        if (!categoryId.isPresent())
             categoryId = RequestService.getInstance().getIntParameter(request, "stashedCategory");
         return TestSearchParametersDto.builder()
                 .testName(testName)

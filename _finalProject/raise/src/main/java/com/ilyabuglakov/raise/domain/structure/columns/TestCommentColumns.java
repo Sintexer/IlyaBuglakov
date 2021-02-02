@@ -4,5 +4,5 @@ public enum TestCommentColumns {
     USER_ID,
     TEST_ID,
     CONTENT,
-    TIMESTAMP;
+    TIMESTAMP
 }

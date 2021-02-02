@@ -7,7 +7,6 @@ import com.ilyabuglakov.raise.model.dto.AdvancedTestInfo;
 import com.ilyabuglakov.raise.model.dto.CatalogTestsDto;
 import com.ilyabuglakov.raise.model.dto.TestDto;
 import com.ilyabuglakov.raise.model.dto.TestInfo;
-import com.ilyabuglakov.raise.model.dto.TestResultDto;
 import com.ilyabuglakov.raise.model.dto.TestSearchParametersDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 

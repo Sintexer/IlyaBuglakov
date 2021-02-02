@@ -13,7 +13,7 @@ public class CookieService {
      * @param locale the locale
      * @return the cookie
      */
-    public static Cookie createLocaleCookie(String locale){
+    public static Cookie createLocaleCookie(String locale) {
         Cookie cookie = new Cookie("userLocale", locale);
         cookie.setPath("/");
         cookie.setHttpOnly(true);

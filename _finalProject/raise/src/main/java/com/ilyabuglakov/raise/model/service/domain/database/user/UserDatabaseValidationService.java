@@ -1,6 +1,5 @@
 package com.ilyabuglakov.raise.model.service.domain.database.user;
 
-import com.ilyabuglakov.raise.command.exception.UserEmailUniquenessException;
 import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
@@ -14,7 +13,7 @@ import java.util.Optional;
 
 public class UserDatabaseValidationService extends DatabaseService {
     public UserDatabaseValidationService(Transaction transaction) {
-            super(transaction);
+        super(transaction);
     }
 
     public ResponseEntity validateUser(User user) {

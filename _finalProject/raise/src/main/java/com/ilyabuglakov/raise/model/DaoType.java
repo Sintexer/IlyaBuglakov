@@ -35,5 +35,5 @@ public enum DaoType {
     /**
      * Test category dao type.
      */
-    TEST_CATEGORY;
+    TEST_CATEGORY
 }

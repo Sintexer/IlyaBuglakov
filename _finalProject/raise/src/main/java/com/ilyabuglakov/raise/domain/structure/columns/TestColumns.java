@@ -5,5 +5,5 @@ public enum TestColumns {
     AUTHOR_ID,
     STATUS,
     DIFFICULTY,
-    CATEGORY_ID;
+    CATEGORY_ID
 }

@@ -15,7 +15,7 @@ public enum Patterns {
     ;
 
 
-    private String pattern;
+    private final String pattern;
 
     Patterns(String pattern) {
         this.pattern = pattern;

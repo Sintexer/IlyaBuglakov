@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * The type User extractor.
  */
-public class UserExtractor implements RequestDataExtractor<User>{
+public class UserExtractor implements RequestDataExtractor<User> {
     @Override
     public User extractFrom(HttpServletRequest request) {
         String email = request.getParameter("username");

@@ -6,5 +6,5 @@ public enum UserColumns {
     NAME,
     PASSWORD,
     REGISTRATION_DATE,
-    STATUS;
+    STATUS
 }

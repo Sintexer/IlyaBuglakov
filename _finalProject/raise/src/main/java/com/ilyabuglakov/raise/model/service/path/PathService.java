@@ -12,7 +12,7 @@ public class PathService {
         FULL_PATH = classLoader.getResource(RESOURCE_PATH).getPath();
     }
 
-    private static class InstanceHolder{
+    private static class InstanceHolder {
         /**
          * The constant INSTANCE.
          */
@@ -37,7 +37,6 @@ public class PathService {
     public String getResourcePath(String fileName) {
         return FULL_PATH + "/" + fileName;
     }
-
 
 
 }

@@ -35,7 +35,7 @@ public class CatalogService {
         if (stringPageNumber != null && !stringPageNumber.isEmpty()) {
             try {
                 page = Integer.parseInt(stringPageNumber);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 return -1;
             }
         }

@@ -4,7 +4,6 @@ import com.ilyabuglakov.raise.dal.dao.exception.DaoOperationException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * The interface Statement preparer.

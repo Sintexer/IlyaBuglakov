@@ -10,7 +10,6 @@ import com.ilyabuglakov.raise.dal.dao.database.TestDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.UserDatabaseDao;
 import com.ilyabuglakov.raise.dal.dao.database.UserTestResultDatabaseDao;
 import com.ilyabuglakov.raise.dal.transaction.Transaction;
-import com.ilyabuglakov.raise.dal.transaction.exception.TransactionException;
 import com.ilyabuglakov.raise.model.DaoType;
 import lombok.extern.log4j.Log4j2;
 
@@ -26,7 +25,7 @@ public class DatabaseTransaction implements Transaction {
 
     private final Connection connection;
 
-    private EnumMap<DaoType, DatabaseDao> daoMap;
+    private final EnumMap<DaoType, DatabaseDao> daoMap;
 
     /**
      * Instantiates a new Database transaction.

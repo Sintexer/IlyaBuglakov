@@ -31,14 +31,14 @@ public class TestInfoDatabaseService extends DatabaseService {
         super(transaction);
     }
 
-    public Optional<Test> fillTest(Optional<Test> test) throws DaoOperationException{
-        if(test.isPresent()) {
+    public Optional<Test> fillTest(Optional<Test> test) throws DaoOperationException {
+        if (test.isPresent()) {
             QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
             AnswerDao answerDao = (AnswerDao) transaction.createDao(DaoType.ANSWER);
             Set<Question> questions = questionDao.findByTestId(test.get().getId());
             for (Question question : questions) {
                 question.setAnswers(answerDao.findByQuestionId(question.getId()));
-                question.setCorrectAmount((int)question.getAnswers().stream().filter(Answer::isCorrect).count());
+                question.setCorrectAmount((int) question.getAnswers().stream().filter(Answer::isCorrect).count());
             }
             test.get().setQuestions(questions);
         }
@@ -49,7 +49,7 @@ public class TestInfoDatabaseService extends DatabaseService {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
-        TestCategoryDao testCategoryDao = (TestCategoryDao)transaction.createDao(DaoType.TEST_CATEGORY);
+        TestCategoryDao testCategoryDao = (TestCategoryDao) transaction.createDao(DaoType.TEST_CATEGORY);
         List<TestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {
             Set<Characteristic> characteristicSet = testDao.findCharacteristics(test.getId());
@@ -73,7 +73,7 @@ public class TestInfoDatabaseService extends DatabaseService {
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         QuestionDao questionDao = (QuestionDao) transaction.createDao(DaoType.QUESTION);
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
-        TestCategoryDao testCategoryDao = (TestCategoryDao)transaction.createDao(DaoType.TEST_CATEGORY);
+        TestCategoryDao testCategoryDao = (TestCategoryDao) transaction.createDao(DaoType.TEST_CATEGORY);
 
         List<AdvancedTestInfo> testInfos = new ArrayList<>();
         for (Test test : tests) {

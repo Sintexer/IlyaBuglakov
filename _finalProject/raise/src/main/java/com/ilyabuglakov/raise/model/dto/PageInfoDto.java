@@ -12,13 +12,13 @@ public class PageInfoDto {
     private Integer itemsPerPage;
     private Integer maxPage;
 
-    public int getCurrentPageIndex(){
-        return currentPage-1;
+    public int getCurrentPageIndex() {
+        return currentPage - 1;
     }
 
-    public boolean isIllegal(){
+    public boolean isIllegal() {
         return ObjectUtils.anyNull(currentPage, maxPage)
-                || currentPage <= 0 || maxPage<=0 || currentPage > maxPage;
+                || currentPage <= 0 || maxPage <= 0 || currentPage > maxPage;
     }
 
 }

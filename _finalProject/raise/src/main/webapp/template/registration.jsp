@@ -19,7 +19,7 @@
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/validation.js"/>"/>
     <script src=<c:url value="/script/validation.js"/>></script>
-    <title><fmt:message key="title.registration"/></title>
+    <title><fmt:message key="title.registration" bundle="${page}"/></title>
 </head>
 <body>
 
@@ -141,7 +141,7 @@
             </form>
             <div class="flex-initial card-md stack jc-center w-100 flex align-items-center items-gap">
                 <h2><fmt:message key="tip.already.signed" bundle="${form}"/></h2>
-                <a class="btn btn-black"><fmt:message key="button.login" bundle="${page}"/></a>
+                <a href="<ct:link key="login" />" class="btn btn-black"><fmt:message key="button.login" bundle="${page}"/></a>
             </div>
         </div>
     </div>

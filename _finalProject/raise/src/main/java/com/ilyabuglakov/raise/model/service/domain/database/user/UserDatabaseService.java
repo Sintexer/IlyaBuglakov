@@ -118,15 +118,15 @@ public class UserDatabaseService extends DatabaseService implements UserService 
             UserCredentialsValidator userCredentialsValidator = new UserCredentialsValidator();
             if (userCredentialsValidator.isCorrectOldPassword(userInfoDto.getUser(), userInfoDto.getOldPassword())) {
                 boolean changed = userInfoChangeService.changePassword(
-                                userInfoDto.getUser(),
-                                userInfoDto.getNewPassword(),
-                                userInfoDto.getNewPasswordRepeat());
-                if(changed){
+                        userInfoDto.getUser(),
+                        userInfoDto.getNewPassword(),
+                        userInfoDto.getNewPasswordRepeat());
+                if (changed) {
                     responseEntity.setAttribute("passwordChanged", true);
                     somethingChanged = true;
-                } else{
+                } else {
                     responseEntity.setAttribute("incorrectNewPassword", true);
-                    somethingWrong=true;
+                    somethingWrong = true;
                 }
             } else {
                 somethingWrong = true;
@@ -140,7 +140,7 @@ public class UserDatabaseService extends DatabaseService implements UserService 
             updateUser(userInfoDto.getUser());
             transaction.commit();
         }
-        if(somethingWrong){
+        if (somethingWrong) {
             responseEntity.setErrorOccurred(true);
         }
 

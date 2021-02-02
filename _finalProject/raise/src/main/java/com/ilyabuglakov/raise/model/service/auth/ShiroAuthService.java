@@ -11,7 +11,6 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Shiro based Auth service implementation
@@ -40,7 +39,7 @@ public class ShiroAuthService implements AuthService {
     @Override
     public String getPreviousUrl(HttpServletRequest request, String defaultUrl) {
         SavedRequest savedRequest = WebUtils.getSavedRequest(request);
-        if(savedRequest !=null)
+        if (savedRequest != null)
             return savedRequest.getRequestUrl();
         return defaultUrl;
     }

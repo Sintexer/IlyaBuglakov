@@ -105,7 +105,7 @@ public class TestCategoryDatabaseDao extends DatabaseDao implements TestCategory
         ResultSet resultSet = createResultSet(statement);
         List<Optional<TestCategory>> testCategories = new ArrayList<>();
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 testCategories.add(buildTestCategory(resultSet));
             }
         } catch (SQLException e) {

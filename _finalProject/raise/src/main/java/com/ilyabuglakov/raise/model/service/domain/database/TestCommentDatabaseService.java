@@ -55,13 +55,13 @@ public class TestCommentDatabaseService extends DatabaseService implements TestC
 
     @Override
     public int getCommentsAmount(String email) throws DaoOperationException {
-        return ((TestCommentDao)transaction.createDao(DaoType.TEST_COMMENT))
+        return ((TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT))
                 .findUserCommentAmount(email);
     }
 
     @Override
     public void deleteComment(Integer commentId) throws PersistentException {
-        ((TestCommentDao)transaction.createDao(DaoType.TEST_COMMENT))
+        ((TestCommentDao) transaction.createDao(DaoType.TEST_COMMENT))
                 .delete(TestComment.builder().id(commentId).build());
     }
 }

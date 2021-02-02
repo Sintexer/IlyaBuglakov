@@ -144,7 +144,7 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
         Set<String> permissions = new HashSet<>();
 
         try {
-            while (permissionResultSet.next()){
+            while (permissionResultSet.next()) {
                 permissions.add(permissionResultSet.getString(RolePermissionsColumns.PERMISSION.name()));
             }
         } catch (SQLException e) {

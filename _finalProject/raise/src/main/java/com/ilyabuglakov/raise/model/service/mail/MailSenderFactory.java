@@ -10,7 +10,7 @@ public class MailSenderFactory {
      *
      * @return the mail sender
      */
-    public MailSender createMailSender(){
+    public MailSender createMailSender() {
         return new UserMailSender();
     }
 

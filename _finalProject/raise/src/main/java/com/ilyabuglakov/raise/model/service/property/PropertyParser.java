@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class PropertyParser {
 
-    private Properties properties;
+    private final Properties properties;
 
     @Getter
     @Setter

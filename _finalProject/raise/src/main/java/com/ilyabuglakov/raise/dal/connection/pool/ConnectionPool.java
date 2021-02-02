@@ -4,9 +4,9 @@ import com.ilyabuglakov.raise.dal.connection.ConnectionProxy;
 
 /**
  * The interface Connection pool.
- *
- *  Connection pool creates connections and manages access to them. It helps not to create new connections every time,
- *  but reuse already created connections. <p>Thread safe</p>
+ * <p>
+ * Connection pool creates connections and manages access to them. It helps not to create new connections every time,
+ * but reuse already created connections. <p>Thread safe</p>
  */
 public interface ConnectionPool {
 

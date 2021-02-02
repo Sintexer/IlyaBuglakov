@@ -11,14 +11,14 @@ import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * The type Application config.
- *
+ * <p>
  * Configures main application classes.
  */
 @Log4j2
 public class ApplicationConfig {
 
     @Getter
-    private PropertyParser linksProperties;
+    private final PropertyParser linksProperties;
 
     private ApplicationConfig() throws PropertyFileException {
         linksProperties = new PropertyParser("pages.properties");
@@ -105,7 +105,7 @@ public class ApplicationConfig {
     /**
      * Close connection pool.
      */
-    public static void closeConnectionPool(){
+    public static void closeConnectionPool() {
         ConnectionPoolFactory.close();
     }
 

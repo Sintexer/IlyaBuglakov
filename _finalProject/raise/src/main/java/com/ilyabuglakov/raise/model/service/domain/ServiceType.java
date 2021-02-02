@@ -31,5 +31,5 @@ public enum ServiceType {
     /**
      * Test category service type.
      */
-    TEST_CATEGORY;
+    TEST_CATEGORY
 }

@@ -66,7 +66,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name()
-            );
+    );
 
     public static final String SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
@@ -75,7 +75,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
             Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name()
-            );
+    );
 
     public static final String SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? LIMIT ? OFFSET ?",
@@ -83,7 +83,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.TEST_NAME.name(), TestColumns.STATUS.name()
-            );
+    );
 
     public static final String SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? LIMIT ? OFFSET ?",
@@ -91,7 +91,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
             TestColumns.CATEGORY_ID.name(), TestColumns.STATUS.name()
-            );
+    );
 
     public static final String SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
             "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
@@ -100,7 +100,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             Tables.TEST.name(),
             TestColumns.CATEGORY_ID.name(), EntityColumns.ID.name(),
             Tables.TEST_CATEGORY.name(), TestCategoryColumns.PARENT_ID.name(), TestColumns.STATUS.name()
-            );
+    );
 
     public static final String UPDATE_STATUS_BY_ID = String.format(
             "UPDATE %s SET %s=? WHERE %s = ?",
@@ -391,7 +391,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public int findAmountByNameAndCategoryAndStatus(String name, TestCategory category, TestStatus status)
             throws DaoOperationException {
-        return getCount(findByStatement(() ->{
+        return getCount(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_CATEGORY_STATUS);
             statement.setString(1, name);
             statement.setInt(2, category.getId());
@@ -403,7 +403,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public int findAmountByNameAndParentCategoryAndStatus(String name, TestCategory category, TestStatus status)
             throws DaoOperationException {
-        return getCount(findByStatement(() ->{
+        return getCount(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_PARENT_CATEGORY_STATUS);
             statement.setString(1, name);
             statement.setInt(2, category.getId());
@@ -415,7 +415,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public int findAmountByNameAndStatus(String name, TestStatus status)
             throws DaoOperationException {
-        return getCount(findByStatement(() ->{
+        return getCount(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_NAME_STATUS);
             statement.setString(1, name);
             statement.setObject(2, status, Types.OTHER);
@@ -426,7 +426,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public int findAmountByCategoryAndStatus(TestCategory category, TestStatus status)
             throws DaoOperationException {
-        return getCount(findByStatement(() ->{
+        return getCount(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_CATEGORY_STATUS);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);
@@ -437,7 +437,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     @Override
     public int findAmountByParentCategoryAndStatus(TestCategory category, TestStatus status)
             throws DaoOperationException {
-        return getCount(findByStatement(() ->{
+        return getCount(findByStatement(() -> {
             PreparedStatement statement = prepareStatement(SELECT_TEST_COUNT_BY_PARENT_CATEGORY_STATUS);
             statement.setInt(1, category.getId());
             statement.setObject(2, status, Types.OTHER);

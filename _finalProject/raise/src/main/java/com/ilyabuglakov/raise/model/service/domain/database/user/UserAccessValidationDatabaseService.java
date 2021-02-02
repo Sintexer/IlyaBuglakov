@@ -25,12 +25,12 @@ public class UserAccessValidationDatabaseService extends DatabaseService impleme
         responseEntity.setErrorOccurred(true);
         UserDao userDao = (UserDao) transaction.createDao(DaoType.USER);
         Optional<User> userOptional = userDao.findByEmail(email);
-        if(!userOptional.isPresent()){
+        if (!userOptional.isPresent()) {
             return responseEntity;
         }
         TestDao testDao = (TestDao) transaction.createDao(DaoType.TEST);
         int testAmount = testDao.findTestAmountByStatus(TestStatus.NEW, userOptional.get().getId());
-        if(testAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests"))){
+        if (testAmount >= Integer.parseInt(ApplicationProperties.getProperty("user.max.new.tests"))) {
             return responseEntity;
         }
         responseEntity.setErrorOccurred(false);

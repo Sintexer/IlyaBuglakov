@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Optional;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -25,14 +23,14 @@ public class TestSearchParametersDto {
     private Integer categoryId;
 
     public boolean hasSearchParameters() {
-        return category != null || testName!=null && !testName.isEmpty() ;
+        return category != null || testName != null && !testName.isEmpty();
     }
 
-    public int getFrom(){
-        return (page-1)*limit;
+    public int getFrom() {
+        return (page - 1) * limit;
     }
 
-    public PageInfoDto getPageInfoDto(){
+    public PageInfoDto getPageInfoDto() {
         return PageInfoDto.builder()
                 .currentPage(page)
                 .itemsPerPage(limit)
