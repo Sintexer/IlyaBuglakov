@@ -28,6 +28,11 @@ public class DatabaseTransaction implements Transaction {
 
     private EnumMap<DaoType, DatabaseDao> daoMap;
 
+    /**
+     * Instantiates a new Database transaction.
+     *
+     * @param connection the connection
+     */
     public DatabaseTransaction(Connection connection) {
         this.connection = connection;
         daoMap = new EnumMap<>(DaoType.class);
