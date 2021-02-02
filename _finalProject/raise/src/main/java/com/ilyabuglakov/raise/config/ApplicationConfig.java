@@ -9,6 +9,11 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 
+/**
+ * The type Application config.
+ *
+ * Configures main application classes.
+ */
 @Log4j2
 public class ApplicationConfig {
 
@@ -20,6 +25,9 @@ public class ApplicationConfig {
     }
 
     private static class InstanceHolder {
+        /**
+         * The constant INSTANCE.
+         */
         public static ApplicationConfig INSTANCE;
 
         static {
@@ -31,10 +39,20 @@ public class ApplicationConfig {
         }
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static ApplicationConfig getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
+    /**
+     * Init connection pool by parameters from application.properties.
+     *
+     * @throws PoolConfigurationException the pool configuration exception
+     */
     public static void initConnectionPool() throws PoolConfigurationException {
         try {
             String dbDriver = ApplicationProperties.getProperty("db.driver.name");
@@ -84,6 +102,9 @@ public class ApplicationConfig {
         }
     }
 
+    /**
+     * Close connection pool.
+     */
     public static void closeConnectionPool(){
         ConnectionPoolFactory.close();
     }
