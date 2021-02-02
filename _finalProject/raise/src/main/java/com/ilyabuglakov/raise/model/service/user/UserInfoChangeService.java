@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.model.service.user;
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.service.validator.UserCredentialsValidator;
 import com.ilyabuglakov.raise.model.service.validator.UserValidator;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 
 public class UserInfoChangeService {
 
@@ -27,8 +28,7 @@ public class UserInfoChangeService {
     public boolean changePassword(User user, String newPassword, String newPasswordRepeat) {
         UserCredentialsValidator userCredentialsValidator = new UserCredentialsValidator();
         if (userCredentialsValidator.isValidNewPassword(newPassword, newPasswordRepeat)) {
-            //todo hashing
-            user.setPassword(newPassword);
+            user.setPassword(new Sha256Hash(newPassword).toHex());
             return true;
         }
         return false;

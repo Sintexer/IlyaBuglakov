@@ -14,9 +14,11 @@ public class CatalogService {
     public static int getPageNumber(String stringPageNumber) {
         int page = 1;
         if (stringPageNumber != null && !stringPageNumber.isEmpty()) {
-            int tempPageNumber = Integer.parseInt(stringPageNumber);
-            if (tempPageNumber > 0)
-                page = tempPageNumber;
+            try {
+                page = Integer.parseInt(stringPageNumber);
+            }catch (NumberFormatException e){
+                return -1;
+            }
         }
         return page;
     }

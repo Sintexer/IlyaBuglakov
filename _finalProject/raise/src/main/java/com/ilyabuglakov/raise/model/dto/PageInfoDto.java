@@ -18,7 +18,7 @@ public class PageInfoDto {
 
     public boolean isIllegal(){
         return ObjectUtils.anyNull(currentPage, maxPage)
-                || currentPage <= 0 || currentPage > maxPage;
+                || currentPage <= 0 || maxPage<=0 || currentPage > maxPage;
     }
 
 }

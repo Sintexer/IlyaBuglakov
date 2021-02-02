@@ -7,8 +7,6 @@ import com.ilyabuglakov.raise.model.dto.UserInfoDto;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
 import com.ilyabuglakov.raise.model.service.domain.UserService;
-import com.ilyabuglakov.raise.model.service.user.UserInfoChangeService;
-import com.ilyabuglakov.raise.model.service.validator.UserCredentialsValidator;
 import com.ilyabuglakov.raise.storage.PropertiesStorage;
 import lombok.extern.log4j.Log4j2;
 import org.apache.shiro.SecurityUtils;
@@ -40,7 +38,12 @@ public class UserProfileChangeSaveCommand extends Command {
         userInfoDto.setUser(user);
         ResponseEntity responseEntity = userService.changeUserInfo(userInfoDto);
 
-        responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("user.profile.change"));
+        if (responseEntity.isErrorOccurred()) {
+            responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("user.profile.change"));
+        }else{
+            responseEntity.setLink(PropertiesStorage.getInstance().getLinks().getProperty("user.profile.change"));
+            responseEntity.setRedirect(true);
+        }
         return responseEntity;
     }
 }

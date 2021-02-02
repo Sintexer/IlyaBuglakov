@@ -41,7 +41,7 @@
 
     <main class="main">
         <c:if test="${somethingChanged}">
-            <div class="alert font-heavy m-y-0 bg-lightcyan stack items-gap-vertical">
+            <div class="text-black alert font-heavy m-y-0 bg-lightcyan stack items-gap-vertical">
                 <c:if test="${nameChanged}">
                     <span class="m-y-0"> Name changed </span>
                 </c:if>
@@ -56,6 +56,9 @@
         <c:if test="${somethingWrong}">
             <div class="alert m-y-0 stack items-gap-vertical">
                 <span><fmt:message key="error.wrong.password"/></span>
+            </div>
+            <div class="alert m-y-0 stack items-gap-vertical">
+                <span><fmt:message key="error.wrong.new.password"/></span>
             </div>
         </c:if>
 

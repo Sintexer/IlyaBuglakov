@@ -77,7 +77,7 @@
                             <div>
                             <span class="info-text"><fmt:message key="landing.creator.info" /></span>
                             </div>
-                            <a class="btn btn-black"><fmt:message key="button.create.test" /></a>
+                            <a href="<ct:link key="test.creator"/>" class="btn btn-black"><fmt:message key="button.create.test" /></a>
                         </div>
                     </div>
                 </div>

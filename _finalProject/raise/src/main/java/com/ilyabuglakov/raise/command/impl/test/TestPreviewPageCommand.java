@@ -36,6 +36,15 @@ public class TestPreviewPageCommand extends Command {
             return null;
         }
 
+        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
+        Optional<Test> testOptional = testService.getTest(testId.get());
+        if(!testOptional.isPresent()){
+            log.debug(() -> "testId is not present");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+        Test test = testOptional.get();
+
         TestCommentService testCommentService = (TestCommentService) serviceFactory.createService(ServiceType.TEST_COMMENT);
         ResponseEntity responseEntity = new ResponseEntity();
 
@@ -54,8 +63,6 @@ public class TestPreviewPageCommand extends Command {
                 pageInfoDto.getCurrentPageIndex(),
                 pageInfoDto.getItemsPerPage());
 
-        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
-        Test test = testService.getTest(testId.get()).orElseThrow(PersistentException::new);
 
         responseEntity.setAttribute("comments", comments);
         responseEntity.setAttribute("test", test);

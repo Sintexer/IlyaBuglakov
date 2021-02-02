@@ -2,12 +2,13 @@ package com.ilyabuglakov.raise.model.service.validator;
 
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.Patterns;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 
 public class UserCredentialsValidator {
 
     public boolean isCorrectOldPassword(User user, String oldPassword) {
         //todo hashing
-        return user.getPassword().equals(oldPassword);
+        return user.getPassword().equals(new Sha256Hash(oldPassword).toHex());
 
     }
 
