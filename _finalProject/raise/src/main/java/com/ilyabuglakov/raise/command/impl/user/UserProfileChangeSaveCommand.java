@@ -17,11 +17,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type User profile change save command.
+ *
+ * Saves user info changes to storage
+ */
 @Log4j2
 public class UserProfileChangeSaveCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, PersistentException {
+            throws IOException, PersistentException {
         Subject subject = SecurityUtils.getSubject();
 
         UserInfoDto userInfoDto = UserInfoDto.builder()

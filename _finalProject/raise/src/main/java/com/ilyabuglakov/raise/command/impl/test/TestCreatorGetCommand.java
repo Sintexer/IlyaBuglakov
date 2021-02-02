@@ -27,8 +27,8 @@ public class TestCreatorGetCommand extends Command {
      * @param request  http request
      * @param response http response
      * @return the response entity with attributes and error messages if they happened
-     * @throws IOException         the io exception
-     * @throws PersistentException the persistent exception
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
      */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)

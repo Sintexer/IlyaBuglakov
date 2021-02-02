@@ -24,11 +24,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Test preview page command.
+ *
+ * Returns the test preview page with comments and test info
+ */
 @Log4j2
 public class TestPreviewPageCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, PersistentException {
+            throws IOException, PersistentException {
         Optional<Integer> testId = RequestService.getInstance().getIntParameter(request, "testId");
         if (!testId.isPresent()) {
             log.debug(() -> "testId is not present");

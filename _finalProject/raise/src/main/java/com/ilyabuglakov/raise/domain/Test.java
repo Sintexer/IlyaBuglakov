@@ -36,5 +36,5 @@ public class Test extends Entity {
                 ", questions=" + questions +
                 '}';
     }
-}//TODO add dao method getCharacteristics
+}
 

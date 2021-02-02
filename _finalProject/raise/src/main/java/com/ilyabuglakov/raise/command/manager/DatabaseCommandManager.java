@@ -11,17 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Database command manager.
+ *
+ * Creates Command manager with Database service factory
+ */
 public class DatabaseCommandManager implements CommandManager {
 
     private final ServiceFactory serviceFactory;
 
+    /**
+     * Instantiates a new Database command manager.
+     *
+     * @param serviceFactory the service factory
+     */
     public DatabaseCommandManager(ServiceFactory serviceFactory) {
         this.serviceFactory = serviceFactory;
     }
 
     @Override
     public ResponseEntity execute(Command command, HttpServletRequest request, HttpServletResponse response)
-            throws PersistentException, ServletException, CommandException, IOException {
+            throws PersistentException, IOException {
         command.setServiceFactory(serviceFactory);
         return command.execute(request, response);
     }

@@ -724,7 +724,7 @@ button {
     .cards-3 { grid-template-columns: repeat(3, 1fr);}
 }
 
-@media (max-width: 900px) {/*TODO*/
+@media (max-width: 900px) {
     .nav-menu{display: none}
 }
 

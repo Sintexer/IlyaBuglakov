@@ -7,7 +7,6 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 public class UserCredentialsValidator {
 
     public boolean isCorrectOldPassword(User user, String oldPassword) {
-        //todo hashing
         return user.getPassword().equals(new Sha256Hash(oldPassword).toHex());
 
     }

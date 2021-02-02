@@ -18,10 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type User profile get command.
+ *
+ * Returns the user profile page with user statistic info
+ */
 @Log4j2
 public class UserProfileGetCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request or page not found
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, PersistentException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, PersistentException {
         AuthService authService = AuthServiceFactory.getAuthService();
         ResponseEntity responseEntity = new ResponseEntity();
 

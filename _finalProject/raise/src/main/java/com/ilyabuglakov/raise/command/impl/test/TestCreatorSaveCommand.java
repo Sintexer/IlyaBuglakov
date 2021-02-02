@@ -20,12 +20,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-//TODO
+/**
+ * The type Test creator save command.
+ *
+ * Saves test to storage
+ */
 @Log4j2
 public class TestCreatorSaveCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
 
         AuthService authService = AuthServiceFactory.getAuthService();
         if (!authService.isAuthenticated()) {

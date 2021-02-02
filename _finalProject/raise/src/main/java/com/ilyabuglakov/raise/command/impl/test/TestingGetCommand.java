@@ -19,10 +19,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Testing get command.
+ *
+ * Returns the page with test
+ */
 @Log4j2
 public class TestingGetCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request or page not found
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource exception
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException, PersistentException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, PersistentException {
 
         Optional<Integer> testId = RequestService.getInstance().getIntParameter(request, "testId");
         if (!testId.isPresent()) {

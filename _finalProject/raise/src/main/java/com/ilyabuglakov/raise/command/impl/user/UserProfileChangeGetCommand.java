@@ -20,11 +20,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type User profile change get command.
+ *
+ * Returns the user profile change page and results of user info change
+ */
 @Log4j2
 public class UserProfileChangeGetCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if page not found
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
         log.info("Entered profile change command");
 
         AuthService authService = AuthServiceFactory.getAuthService();

@@ -11,10 +11,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Command.
+ *
+ * Base class for servlet commands
+ */
 public abstract class Command {
+    /**
+     * The Service factory.
+     */
     @Setter
     protected ServiceFactory serviceFactory;
 
+    /**
+     * Execute command.
+     *
+     * @param request  http request
+     * @param response http response
+     * @return the response entity
+     * @throws IOException         the io exception
+     * @throws PersistentException datasource
+     */
     public abstract ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException;
+            throws IOException, PersistentException;
 }
