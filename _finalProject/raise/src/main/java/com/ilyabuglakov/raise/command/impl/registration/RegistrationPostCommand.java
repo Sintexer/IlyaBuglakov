@@ -16,15 +16,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 /**
- * Any command, tht use transaction from request attributes should rollback transaction
- * before throwing an exception.
+ * The type Registration post command.
+ *
+ * Validates registration parameters and saves user if they are valid
+ * Else will return registration page with alert messages
  */
 @Log4j2
 public class RegistrationPostCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if email exception
+     * @throws IOException           by request/response
+     * @throws DaoOperationException the dao operation exception
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, DaoOperationException {
+            throws IOException, DaoOperationException {
         log.debug(() -> "registration from posted");
 
         User user = new UserExtractor().extractFrom(request);

@@ -27,11 +27,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Comment post command.
+ *
+ * Saves comment to storage.
+ */
 @Log4j2
 public class CommentPostCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
         AuthService authService = AuthServiceFactory.getAuthService();
         String comment = request.getParameter("comment");
 
@@ -50,35 +62,6 @@ public class CommentPostCommand extends Command {
         TestCommentService testCommentService = (TestCommentService) serviceFactory.createService(ServiceType.TEST_COMMENT);
         testCommentService.saveComment(comment, testId.get(), authService.getEmail());
 
-//        PageInfoDto pageInfoDto = CatalogService.getPageInfo(
-//                request.getParameter("pageNumber"),
-//                testCommentService.getCommentsAmount(testId.get()),
-//                Integer.parseInt(ApplicationProperties.getProperty("comments.page.items")));
-//        if(pageInfoDto.isIllegal()){
-//            log.debug(() ->"Illegal page " + pageInfoDto);
-//            response.sendError(404);
-//            return null;
-//        }
-//
-//        List<TestComment> comments = testCommentService.getComments(
-//                testId.get(),
-//                pageInfoDto.getCurrentPageIndex(),
-//                pageInfoDto.getItemsPerPage());
-//        ResponseEntity responseEntity = new ResponseEntity();
-//
-//        TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);
-//        Test test = testService.getTest(testId.get()).orElseThrow(PersistentException::new);
-//
-//        responseEntity.setAttribute("comments", comments);
-//        responseEntity.setAttribute("test", test);
-//        responseEntity.setAttribute("currentPage", pageInfoDto.getCurrentPage());
-//        responseEntity.setAttribute("maxPage", pageInfoDto.getMaxPage());
-//
-//        if (test.getStatus() != TestStatus.CONFIRMED
-//                && !SecurityUtils.getSubject().isPermitted("test:confirm")) {
-//            response.sendError(404);
-//            return null;
-//        }
         ResponseEntity responseEntity = new ResponseEntity();
         responseEntity.setLink(
                 PropertiesStorage.getInstance().getLinks().getProperty("test.preview")

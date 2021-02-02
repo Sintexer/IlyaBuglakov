@@ -156,7 +156,6 @@ public class RoleDatabaseDao extends DatabaseDao implements RoleDao {
     }
 
     /**
-     * TODO
      * This operation won't close resultSet in success case, but will
      * in case of exception thrown
      * <p>

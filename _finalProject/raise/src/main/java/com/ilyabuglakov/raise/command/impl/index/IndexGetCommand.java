@@ -19,11 +19,22 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Index get command.
+ *
+ * Command adds all needed for index jsp page to request attributes
+ */
 @Log4j2
 public class IndexGetCommand extends Command {
+    /**
+     * @param request http request
+     * @param response http response
+     * @return Index page
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, PersistentException {
+            throws PersistentException {
         log.info("Entered index command");
         TestService testService = (TestService)serviceFactory.createService(ServiceType.TEST);
         List<TestInfo> tests = testService.getTestInfosByStatus(TestStatus.CONFIRMED, 3, 0);

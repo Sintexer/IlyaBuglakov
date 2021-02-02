@@ -12,11 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Registration get command.
+ *
+ * Returns the registration page with specified attributes
+ */
 @Log4j2
 public class RegistrationGetCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) {
         log.info(() -> "Entered registration command");
         ResponseEntity responseEntity = new ResponseEntity();
         if(AuthServiceFactory.getAuthService().isAuthenticated()){

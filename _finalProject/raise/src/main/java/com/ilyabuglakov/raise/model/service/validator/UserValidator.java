@@ -9,7 +9,7 @@ import com.ilyabuglakov.raise.model.FormConstants;
  */
 public class UserValidator {
 
-    private static final String INVALID_NAME_PATTERN = "([- ]){2,}";
+    private static final String INVALID_NAME_PATTERN = "([- ]){0,2}";
     private static final String VALID_EMAIL_PATTERN = ".+@.+\\..+";
 
     public boolean isValidEmail(String email) {

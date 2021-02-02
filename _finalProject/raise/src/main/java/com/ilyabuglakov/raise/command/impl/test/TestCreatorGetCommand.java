@@ -16,10 +16,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Test creator get command.
+ *
+ * Returns the page with test creator
+ */
 public class TestCreatorGetCommand extends Command {
 
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity with attributes and error messages if they happened
+     * @throws IOException         the io exception
+     * @throws PersistentException the persistent exception
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException, PersistentException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, PersistentException {
         UserAccessValidationService accessValidationService =
                 (UserAccessValidationService) serviceFactory.createService(ServiceType.USER_ACCESS_VALIDATION);
         ResponseEntity responseEntity =

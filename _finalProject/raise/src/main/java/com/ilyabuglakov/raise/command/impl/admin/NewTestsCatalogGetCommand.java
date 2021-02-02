@@ -21,11 +21,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * New tests catalog get command.
+ *
+ * Returns page of admin test catalog
+ * Adds test objects to request attributes for jsp page
+ */
 @Log4j2
 public class NewTestsCatalogGetCommand extends Command {
+    /**
+     * @param request http request
+     * @param response http response
+     * @return ResponseEntity with attributes and page path
+     * @throws IOException by request/response
+     * @throws PersistentException when exception in dao
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws PersistentException, IOException {
 
         ResponseEntity responseEntity = new ResponseEntity();
 

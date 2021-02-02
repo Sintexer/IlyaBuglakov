@@ -16,10 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Confirm test command.
+ *
+ * Changes test status to confirmed
+ */
 public class ConfirmTestCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
 
         ResponseEntity responseEntity = new ResponseEntity();
 

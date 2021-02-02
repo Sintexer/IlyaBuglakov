@@ -13,10 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Login get command.
+ *
+ * Collects all data needed for login page and returns it in ResponseEntity attributes */
 @Log4j2
 public class LoginGetCommand extends Command {
+    /**
+     * @param request http request
+     * @param response http response
+     * @return ResponseEntity of login page with attributes
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) {
         log.info(() -> "Entered login command");
 
         ResponseEntity responseEntity = new ResponseEntity();

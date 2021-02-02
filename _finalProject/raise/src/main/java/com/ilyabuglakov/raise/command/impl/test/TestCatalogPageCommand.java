@@ -24,11 +24,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The type Test catalog page command.
+ *
+ * Returns the test catalog to user
+ */
 @Log4j2
 public class TestCatalogPageCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity with tests or null if 404
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
 
         ResponseEntity responseEntity = new ResponseEntity();
         TestService testService = (TestService) serviceFactory.createService(ServiceType.TEST);

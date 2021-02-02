@@ -15,10 +15,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Ban test command.
+ * Changes test status to BANNED
+ */
 public class BanTestCommand extends Command {
+    /**
+     * Execute response entity.
+     *
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null, if bad request
+     * @throws IOException         by request/response
+     * @throws PersistentException the persistent exception
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws IOException, CommandException, PersistentException {
+            throws PersistentException, IOException {
 
         ResponseEntity responseEntity = new ResponseEntity();
 

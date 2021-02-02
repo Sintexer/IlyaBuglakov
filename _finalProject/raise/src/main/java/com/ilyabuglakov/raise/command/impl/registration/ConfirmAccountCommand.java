@@ -13,10 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Confirm account command.
+ *
+ * Confirms account by link from email. Will change user status to ACTIVE.
+ * User will be found by associated key.
+ */
 public class ConfirmAccountCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity with attributes
+     * @throws PersistentException by datasource
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws PersistentException {
         String key = request.getParameter("key");
         UserRegistrationService registrationService =
                 (UserRegistrationService)serviceFactory.createService(ServiceType.USER_REGISTRATION);

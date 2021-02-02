@@ -14,10 +14,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Delete comment command.
+ *
+ * Deletes comment from storage
+ */
 public class DeleteCommentCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity or null if bad request
+     * @throws IOException         by request/response
+     * @throws PersistentException datasource error
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, CommandException, PersistentException {
+            throws IOException, PersistentException {
 
         Optional<Integer> commentId = RequestService.getInstance().getIntParameter(request, "commentId");
         if (!commentId.isPresent()) {

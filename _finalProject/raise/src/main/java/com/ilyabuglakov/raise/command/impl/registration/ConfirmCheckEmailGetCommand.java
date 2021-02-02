@@ -11,11 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Confirm check email get command.
+ *
+ * Command returns page with invitation to check email for confirm url. Used for redirect after login
+ */
 @Log4j2
 public class ConfirmCheckEmailGetCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity
+     * @throws PersistentException by datasource
+     */
     @Override
     public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, PersistentException {
+            throws PersistentException {
         log.info("Entered checkEmailGet command");
 
         ResponseEntity responseEntity = new ResponseEntity();

@@ -20,10 +20,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Login post command.
+ *
+ * Checks provided credentials and logs subject if they are correct, or returns login page with alert
+ * Will redirect to previous url, or to home page
+ */
 @Log4j2
 public class LoginPostCommand extends Command {
+    /**
+     * @param request  http request
+     * @param response http response
+     * @return the response entity with redirect link or with login page
+     */
     @Override
-    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CommandException {
+    public ResponseEntity execute(HttpServletRequest request, HttpServletResponse response) {
         log.info("posted to Login");
 
         Subject currentUser = SecurityUtils.getSubject();
