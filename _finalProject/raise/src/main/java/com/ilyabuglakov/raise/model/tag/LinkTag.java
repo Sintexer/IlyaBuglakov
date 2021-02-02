@@ -9,6 +9,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
+/**
+ * The type Link tag. Returns link by property key.
+ */
 @Log4j2
 public class LinkTag extends SimpleTagSupport {
 

@@ -5,16 +5,27 @@ import com.ilyabuglakov.raise.model.service.property.exception.PropertyCantInitE
 import com.ilyabuglakov.raise.model.service.property.exception.PropertyFileException;
 import lombok.Getter;
 
+/**
+ * The type Properties storage. Stores information from properties files
+ */
 @Getter
 public class PropertiesStorage {
 
-    private PropertyParser pages;
-    private PropertyParser links;
+    private final PropertyParser pages;
+    private final PropertyParser links;
 
     private static class InstanceHolder {
+        /**
+         * The constant INSTANCE.
+         */
         public static PropertiesStorage INSTANCE = new PropertiesStorage();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static PropertiesStorage getInstance() {
         return PropertiesStorage.InstanceHolder.INSTANCE;
     }

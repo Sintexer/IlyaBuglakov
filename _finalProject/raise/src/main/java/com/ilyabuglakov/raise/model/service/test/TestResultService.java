@@ -13,16 +13,34 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * The type Test result service.
+ */
 public class TestResultService {
 
     private static class InstanceHolder {
+        /**
+         * The constant INSTANCE.
+         */
         public static TestResultService INSTANCE = new TestResultService();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TestResultService getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
+    /**
+     * Create test result dto.
+     *
+     * @param userAnswer the user answer
+     * @param test       the test
+     * @return the test result dto
+     */
     public TestResultDto createResult(TestDto userAnswer, Test test) {
         TestResultDto resultDto = new TestResultDto();
         Map<Question, QuestionDto> questionMap = getQuestionMap(userAnswer.getQuestions(), test.getQuestions());

@@ -29,14 +29,25 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Command storage. Stores command instances by request methods.
+ */
 public class CommandStorage {
 
     private final EnumMap<RequestMethod, Map<String, Command>> methodMap;
 
     private static class InstanceHolder {
+        /**
+         * The constant INSTANCE.
+         */
         public static final CommandStorage INSTANCE = new CommandStorage();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CommandStorage getInstance() {
         return InstanceHolder.INSTANCE;
     }
@@ -50,26 +61,27 @@ public class CommandStorage {
         addCommand(RequestMethod.GET, "root", new IndexGetCommand());
         addCommand(RequestMethod.GET, "index", new IndexGetCommand());
         addCommand(RequestMethod.GET, "registration", new RegistrationGetCommand());
-        addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
         addCommand(RequestMethod.GET, "changeLocale", new ChangeLocalizationCommand());
         addCommand(RequestMethod.GET, "test.creator", new TestCreatorGetCommand());
-        addCommand(RequestMethod.POST, "test.creator.save", new TestCreatorSaveCommand());
         addCommand(RequestMethod.GET, "test.catalog", new TestCatalogPageCommand());
         addCommand(RequestMethod.GET, "test.testing", new TestingGetCommand());
         addCommand(RequestMethod.GET, "test.preview", new TestPreviewPageCommand());
-        addCommand(RequestMethod.POST, "test.testing.result", new TestResultCommand());
         addCommand(RequestMethod.GET, "login", new LoginGetCommand());
-        addCommand(RequestMethod.POST, "login", new LoginPostCommand());
         addCommand(RequestMethod.GET, "profile", new UserProfileGetCommand());
         addCommand(RequestMethod.GET, "user.profile.change", new UserProfileChangeGetCommand());
-        addCommand(RequestMethod.POST, "user.profile.change.save", new UserProfileChangeSaveCommand());
         addCommand(RequestMethod.GET, "admin.test.catalog", new NewTestsCatalogGetCommand());
+        addCommand(RequestMethod.GET, "auth.confirm", new ConfirmAccountCommand());
+        addCommand(RequestMethod.GET, "auth.confirm.email", new ConfirmCheckEmailGetCommand());
+
+        addCommand(RequestMethod.POST, "registration", new RegistrationPostCommand());
+        addCommand(RequestMethod.POST, "test.creator.save", new TestCreatorSaveCommand());
+        addCommand(RequestMethod.POST, "test.testing.result", new TestResultCommand());
+        addCommand(RequestMethod.POST, "login", new LoginPostCommand());
+        addCommand(RequestMethod.POST, "user.profile.change.save", new UserProfileChangeSaveCommand());
         addCommand(RequestMethod.POST, "rest.confirm.test", new ConfirmTestCommand());
         addCommand(RequestMethod.POST, "rest.ban.test", new BanTestCommand());
         addCommand(RequestMethod.POST, "test.preview", new CommentPostCommand());
         addCommand(RequestMethod.POST, "rest.delete.comment", new DeleteCommentCommand());
-        addCommand(RequestMethod.GET, "auth.confirm", new ConfirmAccountCommand());
-        addCommand(RequestMethod.GET, "auth.confirm.email", new ConfirmCheckEmailGetCommand());
 
     }
 
@@ -78,6 +90,13 @@ public class CommandStorage {
         methodMap.get(method).put(uri, command);
     }
 
+    /**
+     * Gets command.
+     *
+     * @param link   the link
+     * @param method the method
+     * @return the command
+     */
     public Command getCommand(String link, RequestMethod method) {
         return methodMap.get(method).get(link);
     }

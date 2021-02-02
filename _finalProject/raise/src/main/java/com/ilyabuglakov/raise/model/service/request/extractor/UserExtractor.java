@@ -4,6 +4,9 @@ import com.ilyabuglakov.raise.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * The type User extractor.
+ */
 public class UserExtractor implements RequestDataExtractor<User>{
     @Override
     public User extractFrom(HttpServletRequest request) {
@@ -12,12 +15,11 @@ public class UserExtractor implements RequestDataExtractor<User>{
         String surname = request.getParameter("surname");
         String password = request.getParameter("password");
 
-        User user = User.builder()
+        return User.builder()
                 .email(email.toLowerCase())
                 .name(name)
                 .surname(surname)
                 .password(password)
                 .build();
-        return user;
     }
 }

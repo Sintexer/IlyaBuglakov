@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * The type Property parser.
+ */
 public class PropertyParser {
 
     private Properties properties;
@@ -18,6 +21,12 @@ public class PropertyParser {
     @Setter
     private String prefix = "";
 
+    /**
+     * Instantiates a new Property parser.
+     *
+     * @param propertyFileName the property file name
+     * @throws PropertyFileException the property file exception
+     */
     public PropertyParser(String propertyFileName) throws PropertyFileException {
         try (InputStream inputStream =
                      new FileInputStream(PathService.getInstance().getResourcePath(propertyFileName))) {
@@ -28,6 +37,12 @@ public class PropertyParser {
         }
     }
 
+    /**
+     * Gets property.
+     *
+     * @param propertyName the property name
+     * @return the property
+     */
     public String getProperty(String propertyName) {
         return prefix + properties.getProperty(propertyName);
     }

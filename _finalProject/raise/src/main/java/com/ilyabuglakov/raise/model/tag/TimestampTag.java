@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ * The type Timestamp tag. Formats timestamp.
+ */
 @Setter
 @Log4j2
 public class TimestampTag extends SimpleTagSupport {

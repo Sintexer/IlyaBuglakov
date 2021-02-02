@@ -8,6 +8,9 @@ import com.ilyabuglakov.raise.model.service.test.CatalogService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * The type Test search parameters extractor.
+ */
 public class TestSearchParametersExtractor implements RequestDataExtractor<TestSearchParametersDto> {
     @Override
     public TestSearchParametersDto extractFrom(HttpServletRequest request) {

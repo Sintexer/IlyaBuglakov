@@ -10,13 +10,19 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ * The type User mail sender.
+ */
 public class UserMailSender implements MailSender {
 
-    private Properties properties;
-    private String serverEmail;
-    private String password;
+    private final Properties properties;
+    private final String serverEmail;
+    private final String password;
 
 
+    /**
+     * Instantiates a new User mail sender.
+     */
     public UserMailSender() {
         properties = new Properties();
         properties.setProperty("mail.smtp.auth", "true");
