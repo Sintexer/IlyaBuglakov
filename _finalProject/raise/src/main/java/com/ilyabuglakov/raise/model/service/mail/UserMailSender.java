@@ -30,7 +30,7 @@ public class UserMailSender implements MailSender {
         properties.setProperty("mail.smtp.host", "smtp.gmail.com");
         properties.setProperty("mail.smtp.port", "587");
         serverEmail = "ilboogl@gmail.com";
-        password = "bdjsnacsvixcdrzt";
+        password = "qgohxlvmzttydhlq";
     }
 
     private Message prepareMessage(Session session, String userEmail, String title, String messageBody) throws MessagingException {
