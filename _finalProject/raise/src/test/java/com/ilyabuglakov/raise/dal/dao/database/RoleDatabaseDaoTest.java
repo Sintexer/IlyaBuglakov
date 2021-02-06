@@ -66,7 +66,7 @@ public class RoleDatabaseDaoTest {
         when(resultSet.getString(RoleColumns.NAME.name())).thenReturn(UserRole.USER.name());
 
         Set<UserRole> roles = roleDatabaseDao.findUserRoles(1);
-        assertTrue(roles.containsAll(Set.of(UserRole.USER)));
+        assertTrue(roles.contains(UserRole.USER));
     }
 
     @Test
