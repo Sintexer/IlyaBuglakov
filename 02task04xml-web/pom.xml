@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <log4j2.version>2.7</log4j2.version>
+        <log4j2.version>2.14</log4j2.version>
         <disruptor.version>3.3.6</disruptor.version>
     </properties>
 
