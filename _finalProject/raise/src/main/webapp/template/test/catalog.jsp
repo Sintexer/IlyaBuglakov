@@ -83,22 +83,23 @@
                                     <c:forEach var="test" items="${tests}">
                                         <div class="card">
                                             <div class="card-body stack items-gap-vertical">
-                                                <a href="<ct:link key="test.preview"/>?testId=${test.id}">${test.testName}</a>
+                                                <a class="font-md" href="<ct:link key="test.preview"/>?testId=${test.id}">${test.testName}</a>
                                                 <div class="breakline"></div>
-                                                <span><fmt:message key="test.card.difficulty"/>: </span>
+                                                <span class="property"><fmt:message key="test.card.difficulty"/>: </span>
                                                 <span class="bold">${test.difficulty}</span>
-                                                <span><fmt:message key="test.card.questions.amount"/>:</span>
+                                                <span class="property"><fmt:message key="test.card.questions.amount"/>:</span>
                                                 <span class="bold">${test.questionsAmount}</span>
                                                 <c:if test="${not empty test.characteristics}">
                                                     <div class="breakline"></div>
-                                                    <span><fmt:message key="test.characteristics"/>:</span>
+                                                    <span class="property"><fmt:message key="test.characteristics"/>:</span>
                                                     <c:forEach var="characteristic" items="${test.characteristics}">
-                                                        <span>${characteristic}</span>
+                                                        <span class="bold">${characteristic}</span>
                                                     </c:forEach>
                                                 </c:if>
                                                 <div class="breakline"></div>
-                                                <span><fmt:message
-                                                        key="test.category"/>: ${test.category.category}</span>
+                                                <span class="property"><fmt:message
+                                                        key="test.category"/>: </span>
+                                                    <span class="bold">${test.category.category}</span>
                                                 <div class="flex-11a"></div>
                                                 <div class="breakline"></div>
 
