@@ -8,3 +8,16 @@ function validatePassword(msg) {
     else
         pass2.setCustomValidity('');
 }
+
+function blockScreen(){
+    let form = document.getElementById("reg-form");
+    let inputs = form.querySelectorAll("input");
+    console.log(inputs)
+    for(let input of inputs){
+        console.log(input)
+        if(!input.checkValidity())
+            return;
+    }
+
+    document.getElementById('loading-modal').setAttribute('style', 'display: grid;')
+}

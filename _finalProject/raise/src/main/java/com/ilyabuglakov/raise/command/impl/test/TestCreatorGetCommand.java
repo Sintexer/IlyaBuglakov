@@ -3,6 +3,7 @@ package com.ilyabuglakov.raise.command.impl.test;
 import com.ilyabuglakov.raise.command.Command;
 import com.ilyabuglakov.raise.dal.exception.PersistentException;
 import com.ilyabuglakov.raise.domain.type.Characteristic;
+import com.ilyabuglakov.raise.model.Patterns;
 import com.ilyabuglakov.raise.model.response.ResponseEntity;
 import com.ilyabuglakov.raise.model.service.auth.AuthServiceFactory;
 import com.ilyabuglakov.raise.model.service.domain.ServiceType;
@@ -42,6 +43,8 @@ public class TestCreatorGetCommand extends Command {
             responseEntity.setLink(PropertiesStorage.getInstance().getPages().getProperty("test.creator.save.failure"));
             return responseEntity;
         }
+        responseEntity.setAttribute("namePattern", Patterns.NAME.getPattern());
+        responseEntity.setAttribute("passwordPattern", Patterns.PASSWORD.getPattern());
         responseEntity.setAttribute("characteristics", Characteristic.values());
         TestCategoryService testCategoryService = (TestCategoryService) serviceFactory.createService(ServiceType.TEST_CATEGORY);
         responseEntity.setAttribute("categories", testCategoryService.getCategoryMap());

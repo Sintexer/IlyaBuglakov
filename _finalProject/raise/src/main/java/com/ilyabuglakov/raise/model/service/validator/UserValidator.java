@@ -2,15 +2,13 @@ package com.ilyabuglakov.raise.model.service.validator;
 
 import com.ilyabuglakov.raise.domain.User;
 import com.ilyabuglakov.raise.model.FormConstants;
+import com.ilyabuglakov.raise.model.Patterns;
 
 /**
  * UserValidator can validate email, name and surname by regex and check if password length is in bounds.
  * Can validate whole User object by separate fields
  */
 public class UserValidator {
-
-    private static final String INVALID_NAME_PATTERN = "([- ]){0,2}";
-    private static final String VALID_EMAIL_PATTERN = ".+@.+\\..+";
 
     /**
      * Is valid email boolean.
@@ -19,7 +17,7 @@ public class UserValidator {
      * @return the boolean
      */
     public boolean isValidEmail(String email) {
-        return email.matches(VALID_EMAIL_PATTERN);
+        return email.matches(Patterns.EMAIL.getPattern());
     }
 
     /**
@@ -29,7 +27,7 @@ public class UserValidator {
      * @return the boolean
      */
     public boolean isValidName(String name) {
-        return !name.matches(INVALID_NAME_PATTERN);
+        return !name.matches(Patterns.NAME.getPattern());
     }
 
     /**
@@ -39,7 +37,7 @@ public class UserValidator {
      * @return the boolean
      */
     public boolean isValidSurname(String surname) {
-        return !surname.matches(INVALID_NAME_PATTERN);
+        return surname.matches(Patterns.NAME.getPattern());
     }
 
     /**

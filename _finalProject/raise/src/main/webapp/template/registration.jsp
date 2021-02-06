@@ -14,7 +14,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <link rel="favicon" href="<c:url value="/favicon.ico"/>" />
+    <link rel="favicon" href="<c:url value="/favicon.ico"/>"/>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="<c:url value="/css/style.css"/>"/>
     <link type="text/javascript" href="<c:url value="/script/validation.js"/>"/>
@@ -47,7 +47,8 @@
 
     <div class="centered">
         <div class="stack align-items-center">
-            <form class="form-card card-md items-gap-vertical margin-b-2rem" method="post" action="<ct:link key="registration"/>">
+            <form id="reg-form" class="form-card card-md items-gap-vertical margin-b-2rem" method="post"
+                  action="<ct:link key="registration"/>">
                 <div class="text-center font-mdd">
                     <h2 class="form-sign-in-heading"><fmt:message key="signup" bundle="${page}"/></h2>
                 </div>
@@ -87,7 +88,8 @@
 
                 <div class="tooltip rounded-10">
                     <span class="tooltip-text rounded-10">${nameTooltipFormatted}</span>
-                    <input type="name"
+                    <input
+                           pattern="${namePattern}"
                            maxlength="${nameLength}"
                            id="name"
                            name="name"
@@ -99,7 +101,8 @@
 
                 <div class="tooltip rounded-10">
                     <span class="tooltip-text rounded-10">${surnameTooltipFormatted}</span>
-                    <input type="surname"
+                    <input
+                           pattern="${namePattern}"
                            maxlength="${surnameLength}"
                            id="surname"
                            name="surname"
@@ -112,6 +115,7 @@
                 <div class="tooltip rounded-10">
                     <span class="tooltip-text rounded-10">${passwordTooltipFormatted}</span>
                     <input type="password"
+                           pattern="${passwordPattern}"
                            minlength="${passwordMin}"
                            maxlength="${passwordMax}"
                            id="password"
@@ -136,12 +140,15 @@
                                    required>
                 </div>
 
-                <button class="btn btn-black mg-top-2rem" type="submit"><fmt:message key="button.signup"
-                                                                                     bundle="${page}"/></button>
+                <button class="btn btn-black mg-top-2rem" type="submit"
+                        onclick="blockScreen()">
+                        <fmt:message key="button.signup" bundle="${page}"/>
+                        </button>
             </form>
             <div class="flex-initial card-md stack jc-center w-100 flex align-items-center items-gap">
                 <h2><fmt:message key="tip.already.signed" bundle="${form}"/></h2>
-                <a href="<ct:link key="login" />" class="btn btn-black"><fmt:message key="button.login" bundle="${page}"/></a>
+                <a href="<ct:link key="login" />" class="btn btn-black">
+                    <fmt:message key="button.login" bundle="${page}"/></a>
             </div>
         </div>
     </div>
@@ -149,6 +156,15 @@
     <c:url value="/template/parts/footer.jsp" var="footerPath"/>
     <jsp:include page="${footerPath}"/>
 
+
+
+</div>
+<div id="loading-modal" class="modal centered" hidden>
+    <div class="loading-container">
+        <div class="loading-circle">
+            <div></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
