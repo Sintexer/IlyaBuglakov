@@ -61,7 +61,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             EntityColumns.ID.name());
 
     public static final String SELECT_TESTS_BY_NAME_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? AND %s = ? ORDER BY ID DESC LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
@@ -69,7 +69,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     );
 
     public static final String SELECT_TESTS_BY_NAME_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ANY (SELECT %s FROM %s WHERE %s = ?) " +
+                    "AND %s = ? ORDER BY ID DESC  LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
@@ -78,7 +79,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     );
 
     public static final String SELECT_TESTS_BY_NAME_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s LIKE ? AND %s = ? ORDER BY ID DESC  LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
@@ -86,7 +87,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     );
 
     public static final String SELECT_TESTS_BY_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? AND %s = ? ORDER BY ID DESC  LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
@@ -94,7 +95,8 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
     );
 
     public static final String SELECT_TESTS_BY_PARENT_CATEGORY_STATUS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ANY (SELECT %s FROM %s WHERE %s = ?) AND %s = ? " +
+                    "ORDER BY ID DESC  LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
@@ -135,7 +137,7 @@ public class TestDatabaseDao extends DatabaseDao implements TestDao {
             TestCharacteristicColumns.TEST_ID.name());
 
     public static final String SELECT_TESTS_LIMIT_OFFSET = String.format(
-            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? LIMIT ? OFFSET ?",
+            "SELECT %s, %s, %s, %s, %s, %s FROM %s WHERE %s = ? ORDER BY ID DESC LIMIT ? OFFSET ?",
             EntityColumns.ID.name(), TestColumns.TEST_NAME.name(), TestColumns.STATUS.name(),
             TestColumns.AUTHOR_ID.name(), TestColumns.DIFFICULTY.name(), TestColumns.CATEGORY_ID.name(),
             Tables.TEST.name(),
