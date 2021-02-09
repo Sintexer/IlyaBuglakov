@@ -71,9 +71,13 @@ ___
 ## Showcase
 
 ![landing.png](readme/admin-sm.png)
+
 ![landing.png](readme/landing-sm.png)
+
 ![landing.png](readme/catalog-sm.png)
+
 ![landing.png](readme/profile-sm.png)
+
 ![landing.png](readme/creator-sm.png)
 
 ___
@@ -91,11 +95,12 @@ ___
 
 First you need to install and start PostgreSQL server. Then you should run sql scripts
 from `/sql` folder:
-- `1_drop_database.sql` - will drop raise_db if it exists
-- `2_create_database.sql` - will create the raise_db and its user
-- `3_create_tables.sql` - will fill raise_db with tables and enums
-- `4_init_tables.sql` - will fill raise_db tables with some content, such as superuser,
+- `1_drop_database.sql` - will drop `raise_db` if it exists
+- `2_create_database.sql` - will create the `raise_db`
+- `3_create_tables.sql` - will fill `raise_db` with tables and enums
+- `4_init_tables.sql` - will fill `raise_db` tables with some content, such as superuser,
   test categories and directly by tests.
+- `5_create_user.sql` - will create `raise_user` and grant permissions to it
 
 For build, you should start maven in project root directory and build `war` file 
 using maven war plugin. This plugin dependency is specified in `pom.xml`: `<packaging>war</packaging>`.
@@ -108,11 +113,27 @@ archive to the Tomcat `/webapps` folder.
 
 After that, you need to start application server using Tomcat and access it through
 web browser.
+
+### Building at the Intellij IDEA
+
+After clone from github, create `Tomcat 9.0.40` configuration. 
+Click `fix` button and choose `raise_war_exploded`. 
+
+Note that application path should be `/`. To do so in IntelliJ IDEA go to `Edit configuration`
+And at then, in deployment, change application context.
+
+![app-context1](readme/app-context1.png)
+![app-context2](readme/app-context2.png)
+
+If application can't run, check if all dependencies are downloaded and libraries are added to `lib` folder. 
+You can check that at `Project structure -> Artifacts -> raise:war exploded -> Available Elements (on the right)`
+
+![project-structure](readme/project-structure.png)
 ___
 ## Testing
 
 Some tests require test database. So, if you need to run project tests, create
-raise_test_db by scripts from `/sql/test_db` folder.
+`raise_test_db` by scripts from `/sql/test_db` folder. Run them in order of their names.
 
 After creating and filling this database, nothing can stop you from running tests.
 
